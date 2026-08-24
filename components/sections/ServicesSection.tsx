@@ -4,9 +4,9 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { FadeIn } from "@/components/ui/fade-in";
-import { 
-  TrendingUp, 
-  ShieldCheck, 
+import {
+  TrendingUp,
+  ShieldCheck,
   Target,
   CheckCircle2,
   ArrowRight
@@ -17,7 +17,7 @@ const services = [
     icon: TrendingUp,
     title: "Mutual Funds\nInvestments",
     desc: "Smart investment solutions to grow your wealth and achieve your long-term financial goals.",
-    image: "/images/service-1.png",
+    image: "/images/service-2.png",
     points: [
       "Equity Mutual Funds",
       "Debt Mutual Funds",
@@ -30,7 +30,7 @@ const services = [
     icon: ShieldCheck,
     title: "All Kind\nInsurances",
     desc: "Comprehensive insurance plans to protect what matters most – your family, health, and future.",
-    image: "/images/service-2.png",
+    image: "/images/service-1.png",
     points: [
       "Life Insurance",
       "Health Insurance",
@@ -57,7 +57,7 @@ const services = [
 export function ServicesSection() {
   return (
     <section className="relative bg-white pt-8 pb-10 overflow-hidden z-20">
-      
+
       {/* ── Background Decorative Elements ── */}
       {/* Top Left Dots */}
       <div className="absolute top-10 left-10 opacity-20 pointer-events-none hidden lg:block">
@@ -67,7 +67,7 @@ export function ServicesSection() {
           ))}
         </svg>
       </div>
-      
+
       {/* Bottom Right Dots */}
       <div className="absolute bottom-10 right-10 opacity-20 pointer-events-none hidden lg:block">
         <svg width="120" height="120" viewBox="0 0 120 120">
@@ -76,7 +76,7 @@ export function ServicesSection() {
           ))}
         </svg>
       </div>
-      
+
       {/* Subtle sweeping background curve */}
       <svg className="absolute top-0 left-0 w-full h-full pointer-events-none opacity-20 -z-10" viewBox="0 0 1440 800" preserveAspectRatio="none">
         <path d="M0,0 C300,200 800,-100 1440,300 L1440,800 L0,800 Z" fill="url(#servicesBgGrad)" />
@@ -89,7 +89,7 @@ export function ServicesSection() {
       </svg>
 
       <div className="container mx-auto max-w-[1200px] px-4 xl:px-0 relative z-10">
-        
+
         {/* ── Header ── */}
         <div className="text-center max-w-3xl mx-auto mb-14">
           <FadeIn direction="up">
@@ -109,7 +109,7 @@ export function ServicesSection() {
               Smart Financial Solutions,<br className="hidden sm:block" />
               Built Around <span className="text-lime">You.</span>
             </h2>
-            
+
             <p className="text-text-body text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
               Comprehensive financial services to help you grow, protect, and manage your wealth with confidence.
             </p>
@@ -118,16 +118,16 @@ export function ServicesSection() {
 
         {/* ── 3 Column Card Grid ── */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16 lg:gap-y-0 relative">
-          
+
           {services.map((service, i) => (
             <FadeIn key={i} delay={0.1 * i} direction="up" className="relative h-full flex flex-col">
               <div className="bg-white rounded-[24px] border border-border-sage/20 shadow-[0_4px_25px_rgb(0,0,0,0.03)] hover:shadow-[0_12px_40px_rgb(0,0,0,0.08)] transition-all duration-300 hover:-translate-y-1 relative flex-1 flex flex-col pt-12 p-6 sm:p-8">
-                
+
                 {/* Overlapping Top Icon */}
                 <div className="absolute -top-8 left-1/2 -translate-x-1/2 w-16 h-16 rounded-full bg-navy flex items-center justify-center border-[4px] border-white shadow-sm z-10 transition-transform duration-300 hover:scale-105">
                   <service.icon className="w-6 h-6 text-lime" strokeWidth={2.5} />
                 </div>
-                
+
                 {/* Title & Desc */}
                 <div className="text-center mb-6">
                   <h3 className="text-xl sm:text-2xl font-bold text-navy font-heading leading-tight whitespace-pre-line mb-3">
@@ -137,17 +137,17 @@ export function ServicesSection() {
                     {service.desc}
                   </p>
                 </div>
-                
+
                 {/* Image / Illustration Container */}
                 <div className="relative w-full aspect-[16/9] sm:aspect-[4/3] lg:aspect-video mb-6 bg-[#F8FAF5] rounded-xl overflow-hidden flex items-center justify-center">
-                  <Image 
-                    src={service.image} 
+                  <Image
+                    src={service.image}
                     alt={service.title.replace('\n', ' ')}
                     fill
                     className="object-contain p-4"
                   />
                 </div>
-                
+
                 {/* Bullet Points */}
                 <div className="space-y-3 mb-5 flex-1">
                   {service.points.map((point, idx) => (
@@ -161,10 +161,10 @@ export function ServicesSection() {
                     </div>
                   ))}
                 </div>
-                
+
                 {/* Bottom Link */}
                 <div className="mt-auto">
-                  <Link 
+                  <Link
                     href={service.href}
                     className="inline-flex items-center text-sm font-bold text-navy hover:text-accent-purple transition-colors group"
                   >
@@ -172,18 +172,18 @@ export function ServicesSection() {
                     <ArrowRight className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" />
                   </Link>
                 </div>
-                
+
               </div>
             </FadeIn>
           ))}
-          
+
         </div>
 
         {/* ── Bottom CTA ── */}
         <div className="mt-10 text-center">
           <FadeIn direction="up" delay={0.4}>
-            <Link 
-              href="/services" 
+            <Link
+              href="/services"
               className="inline-flex items-center justify-center rounded-full bg-lime hover:bg-cta-green text-white px-8 py-3.5 text-[15px] font-bold transition-all shadow-md hover:shadow-lg group"
             >
               Explore All Services
