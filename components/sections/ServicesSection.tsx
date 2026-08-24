@@ -43,7 +43,7 @@ const services = [
     icon: Target,
     title: "Personal Finance\nPlanning",
     desc: "Personalized financial planning to help you manage money better and build a secure future.",
-    image: "/images/service-3.png",
+    image: "/images/image.png",
     points: [
       "Goal-Based Planning",
       "Retirement Planning",
