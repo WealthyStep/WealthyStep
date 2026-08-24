@@ -1,26 +1,77 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@theme {
+  --font-sans: var(--font-inter);
+  --font-heading: var(--font-poppins);
+  
+  --color-navy: #180D45;
+  --color-navy-card: #1B0F4D;
+  --color-navy-alt: #281475;
+  --color-accent-purple: #240C7A;
+  --color-lime: #84BD3C;
+  --color-cta-green: #83C120;
+  --color-gold: #F5B921;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --color-cream: #FFFDF9;
+  --color-text-dark: #141414;
+  --color-text-body: #4A4A4A;
+  --color-border-sage: #C7D9A8;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  --color-positive: #4CAF50;
+  --color-negative: #E53935;
+
+  --radius-card: 16px;
+  --radius-pill: 9999px;
+
+  --animate-marquee: marquee 40s linear infinite;
+  --animate-float: float 4s ease-in-out infinite;
+  --animate-float-slow: float 6s ease-in-out infinite;
+
+  @keyframes marquee {
+    0% { transform: translateX(0%); }
+    100% { transform: translateX(-50%); }
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
   }
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-white, #FFFFFF);
+  color: var(--color-text-body);
+  font-family: var(--font-sans);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+}
+
+@layer utilities {
+  .section-navy {
+    background-color: var(--color-navy);
+    color: var(--color-cream);
+  }
+  
+  .section-navy h1, .section-navy h2, .section-navy h3, .section-navy h4, .section-navy h5, .section-navy h6 {
+    color: var(--color-white, #FFFFFF);
+  }
+  
+  .section-white {
+    background-color: var(--color-white, #FFFFFF);
+    color: var(--color-text-body);
+  }
+  
+  .section-white h1, .section-white h2, .section-white h3, .section-white h4, .section-white h5, .section-white h6 {
+    color: var(--color-text-dark);
+  }
+}
+
+@layer base {
+  img {
+    -webkit-user-drag: none;
+    user-select: none;
+    -webkit-user-select: none;
+  }
 }
