@@ -3,7 +3,6 @@ import { InsuranceHero } from "@/components/sections/insurance/InsuranceHero";
 import { InsurancePlans } from "@/components/sections/insurance/InsurancePlans";
 import { InsuranceStats } from "@/components/sections/insurance/InsuranceStats";
 import { WhyChooseWealthyStep } from "@/components/sections/insurance/WhyChooseWealthyStep";
-import { RegulatedTrusted } from "@/components/sections/insurance/RegulatedTrusted";
 import { InsuranceCTA } from "@/components/sections/insurance/InsuranceCTA";
 
 export const metadata: Metadata = {
@@ -18,7 +17,6 @@ export default function InsurancePage() {
       <InsurancePlans />
       <InsuranceStats />
       <WhyChooseWealthyStep />
-      <RegulatedTrusted />
       <InsuranceCTA />
     </>
   );
