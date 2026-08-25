@@ -32,6 +32,7 @@ export function Navbar() {
             { name: "Insurance", href: "/insurance" },
             { name: "Calculators", href: "/goal-calculators" },
             { name: "NRI Services", href: "/nri-services" },
+            { name: "Blogs", href: "/blogs" },
           ].map((item) => (
             <Link
               key={item.name}
@@ -82,6 +83,7 @@ export function Navbar() {
               { name: "Insurance", href: "/insurance" },
               { name: "Calculators", href: "/goal-calculators" },
               { name: "NRI Services", href: "/nri-services" },
+              { name: "Blogs", href: "/blogs" },
               { name: "Contact Us", href: "/contact" },
             ].map((item) => (
               <Link

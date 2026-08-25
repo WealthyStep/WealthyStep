@@ -22,7 +22,7 @@ export function InnerHero({
   bgImage,
 }: InnerHeroProps) {
   return (
-    <section className={cn("relative section-navy py-16 md:py-24 text-center overflow-hidden", className)}>
+    <section className={cn("relative section-navy py-8 md:py-10 text-center overflow-hidden", className)}>
       {bgImage && (
         <>
           <div className="absolute inset-0 z-0">
@@ -40,20 +40,20 @@ export function InnerHero({
       <FadeInStagger className="relative z-10 container mx-auto max-w-[800px] px-4 xl:px-0 flex flex-col items-center">
         {Icon && (
           <FadeInStaggerItem>
-            <div className="mb-6 inline-flex h-16 w-16 items-center justify-center rounded-full bg-lime/20 text-lime">
-              <Icon className="h-8 w-8" />
+            <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full bg-lime/20 text-lime">
+              <Icon className="h-6 w-6" />
             </div>
           </FadeInStaggerItem>
         )}
         {subtitle && (
           <FadeInStaggerItem>
-            <span className="text-sm font-semibold tracking-widest text-lime uppercase mb-4 block">
+            <span className="text-xs font-semibold tracking-widest text-lime uppercase mb-2 block">
               {subtitle}
             </span>
           </FadeInStaggerItem>
         )}
         <FadeInStaggerItem>
-          <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-6 text-white drop-shadow-md">
+          <h1 className="text-3xl md:text-4xl font-bold leading-tight mb-3 text-white drop-shadow-md">
             {title}
           </h1>
         </FadeInStaggerItem>

@@ -44,13 +44,13 @@ export function formatCurrency(value: number): string {
 
 // --- Validation Helpers ---
 
-function safePositive(val: number, fallback: number = 0): number {
-  if (!isFinite(val) || isNaN(val) || val < 0) return fallback;
+function requirePositive(val: number, name: string): number {
+  if (!isFinite(val) || isNaN(val) || val <= 0) throw new Error(`${name} must be greater than 0.`);
   return val;
 }
 
-function safeRate(val: number): number {
-  if (!isFinite(val) || isNaN(val) || val < 0) return 0;
+function requireNonNegative(val: number, name: string): number {
+  if (!isFinite(val) || isNaN(val) || val < 0) throw new Error(`${name} cannot be negative.`);
   return val;
 }
 
@@ -73,10 +73,10 @@ export function calculateSIP(
   years: number,
   stepUpPercent: number = 0
 ): SIPResult {
-  const P = safePositive(monthlyInvestment, 500);
-  const rate = safeRate(annualReturnRate);
-  const Y = Math.max(1, Math.round(safePositive(years, 1)));
-  const stepUp = safeRate(stepUpPercent);
+  const P = requirePositive(monthlyInvestment, "Monthly Investment");
+  const rate = requireNonNegative(annualReturnRate, "Return Rate");
+  const Y = Math.round(requirePositive(years, "Duration"));
+  const stepUp = requireNonNegative(stepUpPercent, "Step-Up");
 
   const r = rate / 100 / 12; // monthly rate
   let totalInvestment = 0;
@@ -144,9 +144,9 @@ export function calculateLumpsum(
   annualReturnRate: number,
   years: number
 ): LumpsumResult {
-  const P = safePositive(initialInvestment, 1000);
-  const rate = safeRate(annualReturnRate);
-  const Y = Math.max(1, Math.round(safePositive(years, 1)));
+  const P = requirePositive(initialInvestment, "Initial Investment");
+  const rate = requireNonNegative(annualReturnRate, "Return Rate");
+  const Y = Math.round(requirePositive(years, "Duration"));
 
   const r = rate / 100;
   const yearlyData: YearlyDataPoint[] = [
@@ -202,14 +202,16 @@ export function calculateRetirement(
   postRetirementReturn: number = 7,
   lifeExpectancy: number = 85
 ): RetirementResult {
-  const age = Math.max(18, Math.round(safePositive(currentAge, 30)));
-  const retAge = Math.max(age + 1, Math.round(safePositive(retirementAge, 60)));
-  const expense = safePositive(currentMonthlyExpense, 10000);
-  const savings = safePositive(currentSavings, 0);
-  const preReturn = safeRate(preRetirementReturn);
-  const inflation = safeRate(inflationRate);
-  const postReturn = safeRate(postRetirementReturn);
-  const lifeExp = Math.max(retAge + 1, Math.round(safePositive(lifeExpectancy, 85)));
+  const age = Math.round(requireNonNegative(currentAge, "Current Age"));
+  const retAge = Math.round(requirePositive(retirementAge, "Retirement Age"));
+  if (retAge <= age) throw new Error("Retirement age must be greater than current age.");
+  const expense = requireNonNegative(currentMonthlyExpense, "Current Monthly Expense");
+  const savings = requireNonNegative(currentSavings, "Current Savings");
+  const preReturn = requireNonNegative(preRetirementReturn, "Pre-Retirement Return");
+  const inflation = requireNonNegative(inflationRate, "Inflation Rate");
+  const postReturn = requireNonNegative(postRetirementReturn, "Post-Retirement Return");
+  const lifeExp = Math.round(requirePositive(lifeExpectancy, "Life Expectancy"));
+  if (lifeExp <= retAge) throw new Error("Life expectancy must be greater than retirement age.");
 
   const yearsToRetirement = retAge - age;
   const retirementDuration = lifeExp - retAge;
@@ -218,10 +220,9 @@ export function calculateRetirement(
   const futureMonthlyExpense =
     expense * Math.pow(1 + inflation / 100, yearsToRetirement);
 
-  // 2. Required retirement corpus using PV of inflation-adjusted annuity
-  // Real monthly return = ((1 + postReturn) / (1 + inflation)) ^ (1/12) - 1
+  // Real monthly return via simple division
   const realAnnualReturn = (1 + postReturn / 100) / (1 + inflation / 100) - 1;
-  const realMonthlyReturn = Math.pow(1 + realAnnualReturn, 1 / 12) - 1;
+  const realMonthlyReturn = realAnnualReturn / 12;
   const n_retirement = retirementDuration * 12;
 
   let corpusRequired: number;
@@ -328,12 +329,13 @@ export function calculateEducation(
   annualReturnRate: number = 12,
   educationInflationRate: number = 8
 ): EducationResult {
-  const age = Math.max(0, Math.round(safePositive(currentAge, 5)));
-  const colAge = Math.max(age + 1, Math.round(safePositive(collegeAge, 18)));
-  const cost = safePositive(currentCost, 100000);
-  const savings = safePositive(currentSavings, 0);
-  const returnRate = safeRate(annualReturnRate);
-  const inflationRate = safeRate(educationInflationRate);
+  const age = Math.round(requireNonNegative(currentAge, "Current Age"));
+  const colAge = Math.round(requirePositive(collegeAge, "Education Start Age"));
+  if (colAge <= age) throw new Error("Education start age must be greater than current age.");
+  const cost = requirePositive(currentCost, "Current Education Cost");
+  const savings = requireNonNegative(currentSavings, "Current Savings");
+  const returnRate = requireNonNegative(annualReturnRate, "Return Rate");
+  const inflationRate = requireNonNegative(educationInflationRate, "Inflation Rate");
 
   const yearsToCollege = colAge - age;
 
@@ -427,9 +429,9 @@ export function calculateEMI(
   annualRate: number,
   years: number
 ): EMIResult {
-  const P = safePositive(principal, 100000);
-  const rate = safeRate(annualRate);
-  const Y = Math.max(1, Math.round(safePositive(years, 1)));
+  const P = requirePositive(principal, "Loan Amount");
+  const rate = requireNonNegative(annualRate, "Interest Rate");
+  const Y = Math.round(requirePositive(years, "Duration"));
   const n = Y * 12;
 
   // 0% interest edge case
@@ -515,10 +517,10 @@ export function calculateStepUpSIP(
   annualReturnRate: number,
   years: number
 ): StepUpSIPResult {
-  const P = safePositive(initialMonthly, 500);
-  const stepUp = safeRate(stepUpPercent);
-  const rate = safeRate(annualReturnRate);
-  const Y = Math.max(1, Math.round(safePositive(years, 1)));
+  const P = requirePositive(initialMonthly, "Starting Monthly Investment");
+  const stepUp = requireNonNegative(stepUpPercent, "Step-Up Percent");
+  const rate = requireNonNegative(annualReturnRate, "Return Rate");
+  const Y = Math.round(requirePositive(years, "Duration"));
 
   const r = rate / 100 / 12;
   let balance = 0;
@@ -589,13 +591,13 @@ export function calculateSWP(
   annualRate: number,
   years: number
 ): SWPResult {
-  const investment = safePositive(totalInvestment, 100000);
-  const withdrawal = safePositive(monthlyWithdrawal, 1000);
-  const rate = safeRate(annualRate);
-  const Y = Math.max(1, Math.round(safePositive(years, 1)));
+  const investment = requirePositive(totalInvestment, "Total Investment");
+  const withdrawal = requireNonNegative(monthlyWithdrawal, "Monthly Withdrawal");
+  const rate = requireNonNegative(annualRate, "Interest Rate");
+  const Y = Math.round(requirePositive(years, "Duration"));
 
-  // Monthly rate via compounding: (1 + annualRate)^(1/12) - 1
-  const monthlyRate = rate === 0 ? 0 : Math.pow(1 + rate / 100, 1 / 12) - 1;
+  // Monthly rate via simple division
+  const monthlyRate = rate / 100 / 12;
   const totalMonths = Y * 12;
 
   let balance = investment;

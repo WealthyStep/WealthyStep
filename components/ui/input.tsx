@@ -6,7 +6,7 @@ export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {}
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, type, ...props }, ref) => {
+  ({ className, type, onKeyDown, ...props }, ref) => {
     return (
       <input
         type={type}
@@ -15,6 +15,12 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           className
         )}
         ref={ref}
+        onKeyDown={(e) => {
+          if (type === "number" && ["e", "E", "+", "-"].includes(e.key)) {
+            e.preventDefault();
+          }
+          if (onKeyDown) onKeyDown(e);
+        }}
         {...props}
       />
     )

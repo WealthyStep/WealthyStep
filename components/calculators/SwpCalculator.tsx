@@ -44,7 +44,14 @@ export function SwpCalculator() {
   const [returnRate, setReturnRate] = useAtom(swpReturnRateAtom);
   const [duration, setDuration] = useAtom(swpDurationAtom);
 
-  const results = calculateSWP(totalInvestment, monthlyWithdrawal, returnRate, duration);
+  let results: any = null;
+  let calculationError: string | null = null;
+  try {
+    results = calculateSWP(totalInvestment, monthlyWithdrawal, returnRate, duration);
+  } catch (err: any) {
+    calculationError = err.message;
+  }
+  const safeResults = results || {};
 
   const formatYAxis = (tickItem: number) => {
     if (tickItem === 0) return "₹0";
@@ -170,7 +177,17 @@ export function SwpCalculator() {
           </div>
         </div>
 
-        {/* MIDDLE COLUMN: RESULTS & CHART */}
+        {calculationError ? (
+          <div className="md:col-span-8 lg:col-span-9 bg-white p-8 rounded-[20px] shadow-sm border border-gray-100 flex flex-col items-center justify-center text-center min-h-[400px]">
+            <div className="w-16 h-16 bg-lime/10 rounded-full flex items-center justify-center mb-4">
+              <span className="text-lime text-2xl font-bold font-heading">?</span>
+            </div>
+            <h3 className="text-lg font-bold text-navy mb-2 font-heading">Waiting for valid input</h3>
+            <p className="text-sm text-text-body max-w-[250px]">{calculationError}</p>
+          </div>
+        ) : (
+          <React.Fragment>
+{/* MIDDLE COLUMN: RESULTS & CHART */}
         <div className="md:col-span-8 lg:col-span-6 bg-white p-4 md:p-6 rounded-[20px] shadow-sm border border-gray-100 flex flex-col">
           
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-gray-100 pb-4 mb-4">
@@ -370,7 +387,10 @@ export function SwpCalculator() {
           </div>
 
         </div>
-      </div>
+      
+          </React.Fragment>
+        )}
+</div>
 
       {/* BOTTOM CTA BANNER */}
       <div className="w-full bg-[#0F172A] rounded-[20px] p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl relative overflow-hidden mt-4">
