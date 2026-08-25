@@ -11,9 +11,32 @@ import {
 import { calculateSWP, formatCurrencyExact } from "@/lib/finance-math";
 import { Slider } from "@/components/ui/slider";
 import { Input } from "@/components/ui/input";
-import { ResultBar } from "./ResultBar";
-import { Button } from "@/components/ui/button";
-import { ArrowDownUp } from "lucide-react";
+import { User, TrendingUp, Info, Wallet, Calculator, Coins, ShieldCheck, PieChart as PieChartIcon, ArrowRight, Download, Crown, LineChart, Target, ArrowDownUp, AlertTriangle } from "lucide-react";
+import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
+import Link from "next/link";
+
+const PIE_COLORS = ['#1B0F4D', '#84BD3C', '#7C3AED', '#F59E0B'];
+
+const CustomTooltip = ({ active, payload, label }: any) => {
+  if (active && payload && payload.length) {
+    return (
+      <div className="bg-white p-3 rounded-lg shadow-lg border border-gray-100 text-[11px]">
+        <p className="font-bold text-navy mb-2">Year {label}</p>
+        <div className="flex items-center gap-2 mb-1">
+          <div className="w-2 h-2 rounded-full bg-navy"></div>
+          <span className="text-text-body">Balance Remaining</span>
+          <span className="font-bold text-navy ml-auto">₹{(payload[0]?.value / 100000).toFixed(2)}L</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <div className="w-2 h-2 rounded-full bg-lime"></div>
+          <span className="text-text-body">Total Withdrawn</span>
+          <span className="font-bold text-navy ml-auto">₹{(payload[1]?.value / 100000).toFixed(2)}L</span>
+        </div>
+      </div>
+    );
+  }
+  return null;
+};
 
 export function SwpCalculator() {
   const [totalInvestment, setTotalInvestment] = useAtom(swpTotalInvestmentAtom);
@@ -22,172 +45,368 @@ export function SwpCalculator() {
   const [duration, setDuration] = useAtom(swpDurationAtom);
 
   const results = calculateSWP(totalInvestment, monthlyWithdrawal, returnRate, duration);
-  const withdrawnPercent = Math.min((results.totalWithdrawn / (results.totalWithdrawn + results.finalBalance)) * 100, 100);
+
+  const formatYAxis = (tickItem: number) => {
+    if (tickItem === 0) return "₹0";
+    if (tickItem >= 100000) return `₹${(tickItem / 100000).toFixed(0)}L`;
+    return `₹${tickItem}`;
+  };
 
   return (
-    <div className="grid lg:grid-cols-2 gap-6 items-start">
-      {/* Inputs Panel */}
-      <div className="bg-white p-6 md:p-8 rounded-2xl border border-border-sage/30 shadow-sm space-y-8">
-        <div className="flex items-center gap-2 mb-6 text-navy">
-          <ArrowDownUp className="h-6 w-6 text-gold" />
-          <h2 className="text-xl font-bold font-heading">SWP Calculator</h2>
-        </div>
-        <p className="text-sm text-text-body mb-8">Systematic Withdrawal Plan for regular income</p>
+    <div className="w-full flex flex-col gap-6">
+      
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-6 items-start">
+        
+        {/* LEFT COLUMN: INPUTS */}
+        <div className="md:col-span-4 lg:col-span-3 bg-white p-4 md:p-5 rounded-[20px] shadow-sm border border-gray-100 flex flex-col gap-5 md:gap-6">
+          <div className="flex items-center gap-2 text-navy border-b border-gray-100 pb-4">
+            <ArrowDownUp className="h-5 w-5 text-lime" />
+            <h2 className="text-[15px] font-bold font-heading">SWP Details</h2>
+          </div>
+          <p className="text-[11px] text-text-body -mt-4">Adjust the sliders to see real-time results</p>
 
-        {/* Total Investment */}
-        <div className="space-y-4">
-          <div className="flex justify-between items-center">
-            <label className="text-sm font-semibold text-text-dark">Total Investment</label>
-            <div className="relative w-36">
-              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-text-body font-medium">₹</span>
-              <Input 
-                type="number" 
-                value={totalInvestment} 
-                onChange={(e) => setTotalInvestment(Number(e.target.value))}
-                className="pl-7 text-right font-semibold text-navy"
-                min={100000}
-                max={100000000}
-              />
+          <div className="space-y-3">
+            <div className="flex justify-between items-center">
+              <label className="text-[12px] font-bold text-navy">Total Investment</label>
+              <div className="relative w-28">
+                <span className="absolute left-2 top-1/2 -translate-y-1/2 text-text-body text-[12px] font-medium">₹</span>
+                <Input 
+                  type="number" 
+                  value={totalInvestment} 
+                  onChange={(e) => setTotalInvestment(Number(e.target.value))}
+                  className="pl-5 pr-2 h-8 text-right font-bold text-[13px] text-navy rounded-md"
+                  min={100000}
+                />
+              </div>
+            </div>
+            <Slider 
+              value={[totalInvestment]} 
+              onValueChange={([val]) => setTotalInvestment(val)} 
+              min={100000} max={100000000} step={100000}
+              className="[&>.relative>.absolute]:bg-navy [&>.relative]:bg-gray-200"
+            />
+            <div className="flex justify-between text-[10px] font-medium text-text-body/70">
+              <span>₹1 Lakh</span>
+              <span>₹10 Cr</span>
             </div>
           </div>
-          <Slider 
-            value={[totalInvestment]} 
-            onValueChange={([val]) => setTotalInvestment(val)} 
-            min={100000} 
-            max={100000000} 
-            step={100000}
-          />
-          <div className="flex justify-between text-xs text-text-body/70">
-            <span>₹1 Lakh</span>
-            <span>₹10 Cr</span>
+
+          <div className="space-y-3">
+            <div className="flex justify-between items-center">
+              <label className="text-[12px] font-bold text-navy">Monthly Withdrawal</label>
+              <div className="relative w-24">
+                <span className="absolute left-2 top-1/2 -translate-y-1/2 text-text-body text-[12px] font-medium">₹</span>
+                <Input 
+                  type="number" 
+                  value={monthlyWithdrawal} 
+                  onChange={(e) => setMonthlyWithdrawal(Number(e.target.value))}
+                  className="pl-5 pr-2 h-8 text-right font-bold text-[13px] text-navy rounded-md"
+                  min={5000}
+                />
+              </div>
+            </div>
+            <Slider 
+              value={[monthlyWithdrawal]} 
+              onValueChange={([val]) => setMonthlyWithdrawal(val)} 
+              min={5000} max={500000} step={1000}
+              className="[&>.relative>.absolute]:bg-navy [&>.relative]:bg-gray-200"
+            />
+            <div className="flex justify-between text-[10px] font-medium text-text-body/70">
+              <span>₹5,000</span>
+              <span>₹5,00,000</span>
+            </div>
+          </div>
+
+          <div className="space-y-3">
+            <div className="flex justify-between items-center">
+              <label className="text-[12px] font-bold text-navy">Expected Return (p.a.)</label>
+              <div className="relative w-20">
+                <Input 
+                  type="number" 
+                  value={returnRate} 
+                  onChange={(e) => setReturnRate(Number(e.target.value))}
+                  className="pr-6 h-8 text-right font-bold text-[13px] text-navy rounded-md"
+                  min={1} max={20} step={0.5}
+                />
+                <span className="absolute right-2 top-1/2 -translate-y-1/2 text-text-body text-[11px] font-medium">%</span>
+              </div>
+            </div>
+            <Slider 
+              value={[returnRate]} 
+              onValueChange={([val]) => setReturnRate(val)} 
+              min={1} max={20} step={0.5}
+              className="[&>.relative>.absolute]:bg-navy [&>.relative]:bg-gray-200"
+            />
+            <div className="flex justify-between text-[10px] font-medium text-text-body/70">
+              <span>1%</span>
+              <span>20%</span>
+            </div>
+          </div>
+
+          <div className="space-y-3">
+            <div className="flex justify-between items-center">
+              <label className="text-[12px] font-bold text-navy">Time Period</label>
+              <div className="relative w-20">
+                <Input 
+                  type="number" 
+                  value={duration} 
+                  onChange={(e) => setDuration(Number(e.target.value))}
+                  className="pr-6 h-8 text-right font-bold text-[13px] text-navy rounded-md"
+                  min={1} max={40}
+                />
+                <span className="absolute right-2 top-1/2 -translate-y-1/2 text-text-body text-[11px] font-medium">yrs</span>
+              </div>
+            </div>
+            <Slider 
+              value={[duration]} 
+              onValueChange={([val]) => setDuration(val)} 
+              min={1} max={40} step={1}
+              className="[&>.relative>.absolute]:bg-navy [&>.relative]:bg-gray-200"
+            />
+            <div className="flex justify-between text-[10px] font-medium text-text-body/70">
+              <span>1 yr</span>
+              <span>40 yrs</span>
+            </div>
           </div>
         </div>
 
-        {/* Monthly Withdrawal */}
-        <div className="space-y-4">
-          <div className="flex justify-between items-center">
-            <label className="text-sm font-semibold text-text-dark">Monthly Withdrawal</label>
-            <div className="relative w-32">
-              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-text-body font-medium">₹</span>
-              <Input 
-                type="number" 
-                value={monthlyWithdrawal} 
-                onChange={(e) => setMonthlyWithdrawal(Number(e.target.value))}
-                className="pl-7 text-right font-semibold text-navy"
-                min={5000}
-                max={500000}
-              />
+        {/* MIDDLE COLUMN: RESULTS & CHART */}
+        <div className="md:col-span-8 lg:col-span-6 bg-white p-4 md:p-6 rounded-[20px] shadow-sm border border-gray-100 flex flex-col">
+          
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-gray-100 pb-4 mb-4">
+            <div>
+              <div className="flex items-center gap-2 text-navy mb-1">
+                <PieChartIcon className="h-5 w-5 text-lime" />
+                <h2 className="text-[15px] font-bold font-heading">SWP Summary</h2>
+              </div>
+              <p className="text-[11px] text-text-body">Results update in real-time based on your inputs</p>
+            </div>
+            <div className="bg-lime/10 text-lime px-3 py-1 rounded-full text-[11px] font-bold self-start sm:self-auto">
+              Over {duration} Years
             </div>
           </div>
-          <Slider 
-            value={[monthlyWithdrawal]} 
-            onValueChange={([val]) => setMonthlyWithdrawal(val)} 
-            min={5000} 
-            max={500000} 
-            step={1000}
-          />
-          <div className="flex justify-between text-xs text-text-body/70">
-            <span>₹5,000</span>
-            <span>₹5,00,000</span>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+            <div className="border border-gray-100 p-3 rounded-xl min-w-0">
+              <div className="flex items-center gap-1 mb-2">
+                <Wallet className="w-3 h-3 text-lime shrink-0" />
+                <span className="text-[10px] font-bold text-text-body truncate">Total Investment</span>
+              </div>
+              <div className="text-[14px] md:text-[16px] font-bold text-navy overflow-x-auto whitespace-nowrap hide-scrollbar" title={formatCurrencyExact(results.initialInvestment)}>{formatCurrencyExact(results.initialInvestment)}</div>
+            </div>
+            <div className="border border-gray-100 p-3 rounded-xl bg-orange-50/50 min-w-0">
+              <div className="flex items-center gap-1 mb-2">
+                <ArrowDownUp className="w-3 h-3 text-orange-500 shrink-0" />
+                <span className="text-[10px] font-bold text-orange-700 truncate">Total Withdrawn</span>
+              </div>
+              <div className="text-[14px] md:text-[16px] font-bold text-orange-900 overflow-x-auto whitespace-nowrap hide-scrollbar" title={formatCurrencyExact(results.totalWithdrawn)}>{formatCurrencyExact(results.totalWithdrawn)}</div>
+            </div>
+            <div className="border border-gray-100 p-3 rounded-xl bg-purple-50/50 min-w-0">
+              <div className="flex items-center gap-1 mb-2">
+                <Target className="w-3 h-3 text-purple-500 shrink-0" />
+                <span className="text-[10px] font-bold text-purple-700 truncate">Final Balance</span>
+              </div>
+              <div className="text-[14px] md:text-[16px] font-bold text-purple-900 overflow-x-auto whitespace-nowrap hide-scrollbar" title={formatCurrencyExact(results.finalBalance)}>{formatCurrencyExact(results.finalBalance)}</div>
+            </div>
+            <div className="border border-gray-100 p-3 rounded-xl min-w-0">
+              <div className="flex items-center gap-1 mb-2">
+                <TrendingUp className="w-3 h-3 text-lime shrink-0" />
+                <span className="text-[10px] font-bold text-text-body truncate">Return Generated</span>
+              </div>
+              <div className="text-[14px] md:text-[16px] font-bold text-navy overflow-x-auto whitespace-nowrap hide-scrollbar" title={formatCurrencyExact(results.totalReturnsGenerated)}>{formatCurrencyExact(results.totalReturnsGenerated)}</div>
+            </div>
           </div>
+
+          {/* Exhaustion Warning */}
+          {results.isExhausted && (
+            <div className="bg-red-50 border border-red-200 rounded-xl p-3 mb-4 flex items-start gap-2">
+              <AlertTriangle className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />
+              <div>
+                <p className="text-[12px] font-bold text-red-700">Corpus Exhausted Early</p>
+                <p className="text-[11px] text-red-600">Your corpus may be exhausted in {Math.floor(results.corpusSurvivalMonths / 12)} years {results.corpusSurvivalMonths % 12} months — before the selected {duration}-year period.</p>
+              </div>
+            </div>
+          )}
+
+          <div className="text-[13px] font-bold text-navy mb-4">Investment Balance vs Withdrawal</div>
+          
+          <div className="flex items-center gap-4 mb-4">
+            <div className="flex items-center gap-1.5">
+              <div className="w-2.5 h-2.5 rounded-full bg-navy"></div>
+              <span className="text-[10px] font-medium text-text-body">Remaining Balance</span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <div className="w-2.5 h-2.5 rounded-full bg-lime"></div>
+              <span className="text-[10px] font-medium text-text-body">Total Withdrawn</span>
+            </div>
+          </div>
+
+          <div className="h-[200px] sm:h-[250px] w-full mt-auto">
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart data={results.yearlyData} margin={{ top: 5, right: 0, left: -20, bottom: 0 }}>
+                <defs>
+                  <linearGradient id="colorWithdrawn" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#84BD3C" stopOpacity={0.8}/>
+                    <stop offset="95%" stopColor="#84BD3C" stopOpacity={0}/>
+                  </linearGradient>
+                  <linearGradient id="colorBalance" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#180D45" stopOpacity={0.8}/>
+                    <stop offset="95%" stopColor="#180D45" stopOpacity={0}/>
+                  </linearGradient>
+                </defs>
+                <XAxis 
+                  dataKey="year" 
+                  tickFormatter={(val) => val === 0 ? "0" : `${val}Y`} 
+                  axisLine={false} 
+                  tickLine={false} 
+                  tick={{ fontSize: 10, fill: '#888' }}
+                  dy={10}
+                />
+                <YAxis 
+                  tickFormatter={formatYAxis} 
+                  axisLine={false} 
+                  tickLine={false}
+                  tick={{ fontSize: 10, fill: '#888' }}
+                />
+                <Tooltip content={<CustomTooltip />} />
+                <Area type="monotone" dataKey="balance" stroke="#180D45" strokeWidth={2} fillOpacity={1} fill="url(#colorBalance)" />
+                <Area type="monotone" dataKey="withdrawn" stroke="#84BD3C" strokeWidth={2} fillOpacity={1} fill="url(#colorWithdrawn)" />
+              </AreaChart>
+            </ResponsiveContainer>
+          </div>
+          <div className="text-[9px] text-text-body/60 mt-4">* The values are estimated and for illustration purpose only.</div>
+
         </div>
 
-        {/* Expected Return Rate */}
-        <div className="space-y-4">
-          <div className="flex justify-between items-center">
-            <label className="text-sm font-semibold text-text-dark">Expected Return Rate</label>
-            <div className="relative w-24">
-              <Input 
-                type="number" 
-                value={returnRate} 
-                onChange={(e) => setReturnRate(Number(e.target.value))}
-                className="pr-6 text-right font-semibold text-navy"
-                min={1}
-                max={20}
-              />
-              <span className="absolute right-3 top-1/2 -translate-y-1/2 text-text-body font-medium">%</span>
+        {/* RIGHT COLUMN: INSIGHTS */}
+        <div className="md:col-span-12 lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4 md:gap-6">
+          
+          <div className="bg-white p-5 rounded-[20px] shadow-sm border border-gray-100 flex-1">
+            <h3 className="text-[14px] font-bold text-navy font-heading mb-4 pb-3 border-b border-gray-100">Key Insights</h3>
+            
+            <div className="space-y-4">
+              <div className="flex items-start gap-3">
+                <div className="w-6 h-6 rounded-md bg-lime/10 flex items-center justify-center shrink-0 mt-0.5">
+                  <TrendingUp className="w-3 h-3 text-lime" />
+                </div>
+                <p className="text-[11px] text-navy/90 leading-relaxed font-medium">Your investment is actively growing even while you withdraw.</p>
+              </div>
+              <div className="flex items-start gap-3">
+                <div className="w-6 h-6 rounded-md bg-lime/10 flex items-center justify-center shrink-0 mt-0.5">
+                  <Target className="w-3 h-3 text-lime" />
+                </div>
+                <p className="text-[11px] text-navy/90 leading-relaxed font-medium">Keeping withdrawal rate below the return rate prevents fund depletion.</p>
+              </div>
+              <div className="flex items-start gap-3">
+                <div className="w-6 h-6 rounded-md bg-lime/10 flex items-center justify-center shrink-0 mt-0.5">
+                  <ShieldCheck className="w-3 h-3 text-lime" />
+                </div>
+                <p className="text-[11px] text-navy/90 leading-relaxed font-medium">SWP is highly tax-efficient compared to traditional dividends.</p>
+              </div>
+              <div className="flex items-start gap-3">
+                <div className="w-6 h-6 rounded-md bg-lime/10 flex items-center justify-center shrink-0 mt-0.5">
+                  <Wallet className="w-3 h-3 text-lime" />
+                </div>
+                <p className="text-[11px] text-navy/90 leading-relaxed font-medium">Adjust your withdrawal amount yearly to combat inflation.</p>
+              </div>
             </div>
           </div>
-          <Slider 
-            value={[returnRate]} 
-            onValueChange={([val]) => setReturnRate(val)} 
-            min={1} 
-            max={20} 
-            step={0.5}
-          />
-          <div className="flex justify-between text-xs text-text-body/70">
-            <span>1%</span>
-            <span>20%</span>
-          </div>
-        </div>
 
-        {/* Withdrawal Period */}
-        <div className="space-y-4">
-          <div className="flex justify-between items-center">
-            <label className="text-sm font-semibold text-text-dark">Withdrawal Period</label>
-            <div className="relative w-28">
-              <Input 
-                type="number" 
-                value={duration} 
-                onChange={(e) => setDuration(Number(e.target.value))}
-                className="pr-12 text-right font-semibold text-navy"
-                min={1}
-                max={40}
-              />
-              <span className="absolute right-3 top-1/2 -translate-y-1/2 text-text-body text-xs font-medium">years</span>
+          <div className="bg-white p-5 rounded-[20px] shadow-sm border border-gray-100 flex-1">
+            <h3 className="text-[14px] font-bold text-navy font-heading mb-4 pb-3 border-b border-gray-100">Suggested Allocation</h3>
+            
+            <div className="flex items-center justify-between">
+              <div className="w-[100px] h-[100px] relative">
+                <ResponsiveContainer width="100%" height="100%">
+                  <PieChart>
+                    <Pie
+                      data={[
+                        { name: 'Equity', value: 30 },
+                        { name: 'Debt', value: 60 },
+                        { name: 'Hybrid', value: 10 },
+                      ]}
+                      innerRadius={30}
+                      outerRadius={45}
+                      paddingAngle={2}
+                      dataKey="value"
+                      stroke="none"
+                    >
+                      {PIE_COLORS.map((color, index) => (
+                        <Cell key={`cell-${index}`} fill={color} />
+                      ))}
+                    </Pie>
+                  </PieChart>
+                </ResponsiveContainer>
+                {/* Center Icon */}
+                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                  <PieChartIcon className="w-4 h-4 text-navy" />
+                </div>
+              </div>
+
+              <div className="flex-1 pl-4 space-y-2">
+                <div className="flex items-center justify-between text-[10px]">
+                  <div className="flex items-center gap-1.5">
+                    <div className="w-2 h-2 rounded-full" style={{ backgroundColor: PIE_COLORS[1] }}></div>
+                    <span className="font-bold text-navy">Debt Funds</span>
+                  </div>
+                  <span className="text-text-body font-medium">60%</span>
+                </div>
+                <div className="flex items-center justify-between text-[10px]">
+                  <div className="flex items-center gap-1.5">
+                    <div className="w-2 h-2 rounded-full" style={{ backgroundColor: PIE_COLORS[0] }}></div>
+                    <span className="font-bold text-navy">Equity Funds</span>
+                  </div>
+                  <span className="text-text-body font-medium">30%</span>
+                </div>
+                <div className="flex items-center justify-between text-[10px]">
+                  <div className="flex items-center gap-1.5">
+                    <div className="w-2 h-2 rounded-full" style={{ backgroundColor: PIE_COLORS[2] }}></div>
+                    <span className="font-bold text-navy">Hybrid Funds</span>
+                  </div>
+                  <span className="text-text-body font-medium">10%</span>
+                </div>
+              </div>
             </div>
           </div>
-          <Slider 
-            value={[duration]} 
-            onValueChange={([val]) => setDuration(val)} 
-            min={1} 
-            max={40} 
-            step={1}
-          />
-          <div className="flex justify-between text-xs text-text-body/70">
-            <span>1 year</span>
-            <span>40 years</span>
-          </div>
+
         </div>
       </div>
 
-      {/* Results Panel */}
-      <div className="bg-cream p-6 md:p-8 rounded-2xl border border-border-sage/20 shadow-sm h-full flex flex-col">
-        <h3 className="text-xl font-bold font-heading text-navy mb-2">SWP Results</h3>
-        <p className="text-sm text-text-body mb-8">Your withdrawal plan summary</p>
-
-        <div className="bg-white rounded-xl p-6 border border-border-sage/30 shadow-sm mb-4">
-          <ResultBar 
-            labelLeft="Withdrawn" 
-            labelRight="Balance" 
-            percentLeft={withdrawnPercent} 
-          />
-        </div>
-
-        <div className="bg-white rounded-xl p-4 md:p-6 border border-border-sage/30 shadow-sm mb-4">
-          <p className="text-sm text-text-body mb-1">Initial Investment</p>
-          <p className="text-2xl font-bold text-navy">{formatCurrencyExact(results.initialInvestment)}</p>
-        </div>
-
-        <div className="bg-white rounded-xl p-4 md:p-6 border border-border-sage/30 shadow-sm mb-4">
-          <p className="text-sm text-text-body mb-1">Total Amount Withdrawn</p>
-          <p className="text-2xl font-bold text-gold">{formatCurrencyExact(results.totalWithdrawn)}</p>
-        </div>
-
-        <div className="bg-white rounded-xl p-4 md:p-6 border border-gold shadow-sm mb-4">
-          <p className="text-sm text-text-body mb-1">Final Balance</p>
-          <p className="text-3xl font-bold text-navy">{formatCurrencyExact(results.finalBalance)}</p>
+      {/* BOTTOM CTA BANNER */}
+      <div className="w-full bg-[#0F172A] rounded-[20px] p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl relative overflow-hidden mt-4">
+        <div className="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-lime/10 to-transparent pointer-events-none" />
+        
+        <div className="flex items-center gap-4 relative z-10 w-full md:w-auto">
+          <div className="w-12 h-12 rounded-xl bg-gold/10 flex items-center justify-center shrink-0">
+            <Crown className="w-6 h-6 text-gold" fill="currentColor" />
+          </div>
+          <div className="text-left flex-1">
+            <h2 className="text-lg md:text-xl font-bold text-white font-heading leading-tight mb-1">
+              Need Expert Guidance?
+            </h2>
+            <p className="text-white/60 text-[11px] max-w-sm leading-relaxed">
+              Talk to our experts to design a sustainable withdrawal plan for your needs.
+            </p>
+          </div>
         </div>
         
-        <div className="bg-white rounded-xl p-4 md:p-6 border border-border-sage/30 shadow-sm mb-auto">
-          <p className="text-sm text-text-body mb-1">Withdrawal Duration</p>
-          <p className="text-2xl font-bold text-navy">{duration} years</p>
-        </div>
-
-        <div className="mt-6 flex items-center justify-between pt-6 border-t border-border-sage/30">
-          <Button variant="gold" className="w-full font-heading">Start SWP</Button>
+        <div className="flex items-center gap-4 relative z-10 w-full md:w-auto justify-end sm:justify-start">
+          <Link 
+            href="/contact"
+            className="inline-flex items-center justify-center rounded-full bg-lime hover:bg-cta-green text-white px-6 py-2.5 text-sm font-bold transition-all shadow-md hover:shadow-lg whitespace-nowrap"
+          >
+            Talk to an Expert
+            <ArrowRight className="ml-2 w-4 h-4" />
+          </Link>
+          <button
+            className="inline-flex items-center justify-center rounded-full border border-white/20 hover:border-white text-white px-6 py-2.5 text-sm font-bold transition-all whitespace-nowrap"
+          >
+            Download Report
+            <Download className="ml-2 w-4 h-4" />
+          </button>
         </div>
       </div>
+
     </div>
   );
 }
