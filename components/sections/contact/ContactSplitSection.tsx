@@ -21,7 +21,7 @@ export function ContactSplitSection() {
     <section className="bg-white pt-8 pb-16 md:pt-12 md:pb-20 relative z-10" id="contact-form-section">
       <div className="container mx-auto max-w-[1100px] px-4 xl:px-0">
         <div className="grid lg:grid-cols-2 gap-12 items-start">
-          
+
           {/* Left Column: Form */}
           <div className="bg-[#0F172A] rounded-[24px] p-8 md:p-10 shadow-xl">
             <h2 className="text-white text-2xl font-bold font-heading mb-2">Send Us A Message</h2>
@@ -38,17 +38,17 @@ export function ContactSplitSection() {
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <input 
-                      type="text" 
-                      placeholder="Full Name" 
+                    <input
+                      type="text"
+                      placeholder="Full Name"
                       required
                       className="w-full bg-[#1E293B] border border-white/10 rounded-lg px-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:border-lime transition-colors text-sm"
                     />
                   </div>
                   <div>
-                    <input 
-                      type="email" 
-                      placeholder="Email Address" 
+                    <input
+                      type="email"
+                      placeholder="Email Address"
                       required
                       className="w-full bg-[#1E293B] border border-white/10 rounded-lg px-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:border-lime transition-colors text-sm"
                     />
@@ -56,15 +56,15 @@ export function ContactSplitSection() {
                 </div>
 
                 <div>
-                  <input 
-                    type="tel" 
-                    placeholder="Phone Number" 
+                  <input
+                    type="tel"
+                    placeholder="Phone Number"
                     className="w-full bg-[#1E293B] border border-white/10 rounded-lg px-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:border-lime transition-colors text-sm"
                   />
                 </div>
 
                 <div>
-                  <select 
+                  <select
                     className="w-full bg-[#1E293B] border border-white/10 rounded-lg px-4 py-3 text-white/40 focus:outline-none focus:border-lime transition-colors text-sm appearance-none"
                     defaultValue=""
                   >
@@ -77,8 +77,8 @@ export function ContactSplitSection() {
                 </div>
 
                 <div>
-                  <textarea 
-                    placeholder="Your Message" 
+                  <textarea
+                    placeholder="Your Message"
                     rows={3}
                     required
                     className="w-full bg-[#1E293B] border border-white/10 rounded-lg px-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:border-lime transition-colors text-sm resize-y min-h-[100px] max-h-[300px]"
@@ -90,8 +90,8 @@ export function ContactSplitSection() {
                   Your information is secure and confidential.
                 </div>
 
-                <button 
-                  type="submit" 
+                <button
+                  type="submit"
                   disabled={isSubmitting}
                   className="w-full bg-lime hover:bg-cta-green text-navy font-bold rounded-lg px-4 py-4 transition-colors disabled:opacity-70"
                 >
@@ -117,7 +117,7 @@ export function ContactSplitSection() {
                   <h4 className="font-bold text-navy text-sm mb-1">Office Address</h4>
                   <p className="text-xs text-text-body leading-relaxed">
                     Wealthy Step<br />
-                    Pranava Business Part, 7th Floor, Kondapur,<br />
+                    Pranava Business Park, 7th Floor, Kondapur,<br />
                     Hyderabad, Telangana 500081<br />
                     India
                   </p>

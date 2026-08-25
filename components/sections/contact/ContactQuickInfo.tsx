@@ -10,7 +10,7 @@ export function ContactQuickInfo() {
       <div className="container mx-auto max-w-[1100px] px-4 xl:px-0">
         <FadeIn direction="up">
           <div className="bg-white rounded-2xl shadow-[0_10px_40px_rgb(0,0,0,0.08)] p-6 md:p-8 flex flex-col md:flex-row justify-between gap-6 md:gap-4 border border-gray-100">
-            
+
             <div className="flex items-center gap-4 flex-1">
               <div className="w-12 h-12 bg-navy rounded-full flex items-center justify-center shrink-0">
                 <Phone className="w-5 h-5 text-lime" />
@@ -43,7 +43,7 @@ export function ContactQuickInfo() {
               </div>
               <div>
                 <h4 className="text-navy font-bold text-sm mb-1">Visit Us</h4>
-                <p className="text-xs text-text-body">Pranava Business Part,</p>
+                <p className="text-xs text-text-body">Pranava Business Park,</p>
                 <p className="text-[10px] text-text-body/70 mt-0.5">Kondapur, Hyderabad</p>
               </div>
             </div>
