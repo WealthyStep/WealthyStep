@@ -81,6 +81,7 @@ export function InsuranceHero() {
                   maskImage: 'radial-gradient(circle at 50% 50%, black 30%, transparent 70%)',
                   WebkitMaskImage: 'radial-gradient(circle at 50% 50%, black 30%, transparent 70%)'
                 }}
+                sizes="(max-width: 1024px) 100vw, 50vw"
                 priority
               />
             </FadeIn>
