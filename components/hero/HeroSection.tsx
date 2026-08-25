@@ -158,14 +158,14 @@ export function HeroSection() {
             <motion.div {...fadeUp(3)} className="flex flex-wrap gap-4 pt-2">
               <Link
                 href="/contact"
-                className="group inline-flex items-center gap-2 rounded-full bg-cta-green hover:bg-lime text-white px-8 py-4 text-[15px] font-semibold transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-cta-green/25"
+                className="group inline-flex items-center gap-2 rounded-full bg-cta-green hover:bg-lime text-white px-8 py-4 text-sm md:text-base font-semibold transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-cta-green/25"
               >
                 Start Your Journey
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
               </Link>
               <Link
                 href="/investments"
-                className="group inline-flex items-center gap-2 rounded-full border border-navy text-navy hover:bg-navy hover:text-white px-8 py-4 text-[15px] font-semibold transition-all duration-200 hover:-translate-y-0.5"
+                className="group inline-flex items-center gap-2 rounded-full border border-navy text-navy hover:bg-navy hover:text-white px-8 py-4 text-sm md:text-base font-semibold transition-all duration-200 hover:-translate-y-0.5"
               >
                 Explore Services
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
@@ -181,7 +181,7 @@ export function HeroSection() {
                 <div className="w-10 h-10 rounded-full bg-lime/15 flex items-center justify-center">
                   <Users className="h-5 w-5 text-lime" />
                 </div>
-                <span className="font-medium text-text-dark text-[13px] leading-snug">
+                <span className="font-medium text-text-dark text-xs sm:text-sm leading-snug">
                   Personalized
                   <br />
                   Guidance
@@ -191,7 +191,7 @@ export function HeroSection() {
                 <div className="w-10 h-10 rounded-full bg-lime/15 flex items-center justify-center">
                   <Target className="h-5 w-5 text-lime" />
                 </div>
-                <span className="font-medium text-text-dark text-[13px] leading-snug">
+                <span className="font-medium text-text-dark text-xs sm:text-sm leading-snug">
                   Goal-Based
                   <br />
                   Planning
@@ -201,7 +201,7 @@ export function HeroSection() {
                 <div className="w-10 h-10 rounded-full bg-lime/15 flex items-center justify-center">
                   <ShieldCheck className="h-5 w-5 text-lime" />
                 </div>
-                <span className="font-medium text-text-dark text-[13px] leading-snug">
+                <span className="font-medium text-text-dark text-xs sm:text-sm leading-snug">
                   Expert
                   <br />
                   Support
@@ -233,6 +233,7 @@ export function HeroSection() {
                   alt="Professional Wealth Advisor"
                   fill
                   className="object-cover object-top lg:object-[60%_top]"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
                   priority
                 />
               </div>

@@ -169,22 +169,22 @@ export function Footer() {
         </div>
 
         {/* Bottom Links Bar */}
-        <div className="mt-8 flex flex-col items-center justify-between border-t border-white/10 pt-6 pb-4 text-[13px] text-cream/70 md:flex-row gap-4">
-          <p className="whitespace-nowrap">© {new Date().getFullYear()} Wealthy Step. All rights reserved.</p>
+        <div className="mt-8 flex flex-col items-center justify-between border-t border-white/10 pt-6 pb-4 text-xs md:text-sm text-cream/70 md:flex-row gap-4">
+          <p className="whitespace-nowrap text-center">© {new Date().getFullYear()} Wealthy Step. All rights reserved.</p>
           <div className="flex flex-wrap justify-center gap-x-3 gap-y-2">
-            <Link href="/risk-factors" className="hover:text-white transition-colors">Risk Factors</Link>
-            <span className="hidden md:inline">|</span>
-            <Link href="/terms-conditions" className="hover:text-white transition-colors">Terms & Conditions</Link>
-            <span className="hidden md:inline">|</span>
-            <a href="https://www.sebi.gov.in/filings/mutual-funds.html" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">SID/SAI/KIM</a>
-            <span className="hidden md:inline">|</span>
-            <a href="/AMFI_Code-of-Conduct.pdf" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">Code of Conduct</a>
-            <span className="hidden md:inline">|</span>
-            <Link href="/investor-grievance" className="hover:text-white transition-colors">Investor Grievance Redressal</Link>
-            <span className="hidden md:inline">|</span>
-            <Link href="/important-links" className="hover:text-white transition-colors">Important links</Link>
-            <span className="hidden md:inline">|</span>
-            <a href="https://www.sebi.gov.in/sebiweb/home/HomeAction.do?doListingAll=yes&search=Mutual+Funds" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">SEBI Circulars</a>
+            <Link href="/risk-factors" className="py-1 hover:text-white transition-colors">Risk Factors</Link>
+            <span className="hidden md:inline py-1">|</span>
+            <Link href="/terms-conditions" className="py-1 hover:text-white transition-colors">Terms & Conditions</Link>
+            <span className="hidden md:inline py-1">|</span>
+            <a href="https://www.sebi.gov.in/filings/mutual-funds.html" target="_blank" rel="noreferrer" className="py-1 hover:text-white transition-colors">SID/SAI/KIM</a>
+            <span className="hidden md:inline py-1">|</span>
+            <a href="/AMFI_Code-of-Conduct.pdf" target="_blank" rel="noreferrer" className="py-1 hover:text-white transition-colors">Code of Conduct</a>
+            <span className="hidden md:inline py-1">|</span>
+            <Link href="/investor-grievance" className="py-1 hover:text-white transition-colors">Investor Grievance Redressal</Link>
+            <span className="hidden md:inline py-1">|</span>
+            <Link href="/important-links" className="py-1 hover:text-white transition-colors">Important links</Link>
+            <span className="hidden md:inline py-1">|</span>
+            <a href="https://www.sebi.gov.in/sebiweb/home/HomeAction.do?doListingAll=yes&search=Mutual+Funds" target="_blank" rel="noreferrer" className="py-1 hover:text-white transition-colors">SEBI Circulars</a>
           </div>
         </div>
       </div>

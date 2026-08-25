@@ -63,10 +63,10 @@ export function WhyInvestWithUs() {
                 <div className="w-10 h-10 rounded-full border border-lime flex items-center justify-center mb-3 group-hover:bg-lime/10 transition-colors group-hover:animate-bounce">
                   <reason.icon className="w-5 h-5 text-lime" strokeWidth={1.5} />
                 </div>
-                <h3 className="text-[14px] font-bold text-navy font-heading mb-1">
+                <h3 className="text-sm font-bold text-navy font-heading mb-1">
                   {reason.title}
                 </h3>
-                <p className="text-[11px] text-text-body leading-relaxed max-w-[200px] mx-auto">
+                <p className="text-xs text-text-body leading-relaxed max-w-[200px] mx-auto">
                   {reason.desc}
                 </p>
               </div>
@@ -82,8 +82,8 @@ export function WhyInvestWithUs() {
                 <Shield className="w-5 h-5 text-lime" />
               </div>
               <div>
-                <h3 className="text-base font-bold text-navy font-heading mb-1">Regulated & Compliant</h3>
-                <p className="text-[12px] text-text-body max-w-xl leading-relaxed">
+                <h3 className="text-sm md:text-base font-bold text-navy font-heading mb-1">Regulated & Compliant</h3>
+                <p className="text-xs md:text-sm text-text-body max-w-xl leading-relaxed">
                   Wealthy Step is a SEBI Registered Investment Advisor. All investments are subject to market risks. Please read all scheme related documents carefully before investing.
                 </p>
               </div>
@@ -94,9 +94,9 @@ export function WhyInvestWithUs() {
                 S<span className="text-lime">B</span>I
               </div>
               <div className="text-left">
-                <div className="text-[11px] font-bold text-navy">SEBI REGISTERED</div>
-                <div className="text-[11px] text-text-body">INA0000XXXXX</div>
-                <div className="text-[10px] text-text-body">Investment Advisor</div>
+                <div className="text-[11px] md:text-xs font-bold text-navy">SEBI REGISTERED</div>
+                <div className="text-[11px] md:text-xs text-text-body">INA0000XXXXX</div>
+                <div className="text-[10px] md:text-xs text-text-body">Investment Advisor</div>
               </div>
             </div>
           </div>

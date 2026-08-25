@@ -20,6 +20,7 @@ export function MissionVision() {
                   alt="Our Mission" 
                   fill 
                   className="object-cover transition-transform duration-700 group-hover:scale-105"
+                  sizes="(max-width: 768px) 100vw, 50vw"
                 />
               </div>
               <div className="absolute inset-0 bg-navy/90 group-hover:bg-navy/85 transition-colors z-10"></div>
@@ -36,7 +37,7 @@ export function MissionVision() {
                   Bridging the Gap Between People and Financial Success
                 </h3>
                 
-                <div className="space-y-4 text-cream/80 text-[15px] leading-relaxed">
+                <div className="space-y-4 text-cream/80 text-sm md:text-base leading-relaxed">
                   <p>
                     Our mission is to help individuals and families across India move closer to financial confidence and long-term success.
                   </p>
@@ -61,6 +62,7 @@ export function MissionVision() {
                   alt="Our Vision" 
                   fill 
                   className="object-cover transition-transform duration-700 group-hover:scale-105"
+                  sizes="(max-width: 768px) 100vw, 50vw"
                 />
               </div>
               <div className="absolute inset-0 bg-lime/90 group-hover:bg-lime/85 transition-colors z-10"></div>
@@ -77,7 +79,7 @@ export function MissionVision() {
                   Towards a Financially Secure and Financially Aware India
                 </h3>
                 
-                <div className="space-y-4 text-navy/80 text-[15px] leading-relaxed font-medium">
+                <div className="space-y-4 text-navy/80 text-sm md:text-base leading-relaxed font-medium">
                   <p>
                     We envision an India where more individuals and families have the knowledge, confidence, and support needed to make better financial decisions.
                   </p>

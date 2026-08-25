@@ -133,7 +133,7 @@ export function ServicesSection() {
                   <h3 className="text-xl sm:text-2xl font-bold text-navy font-heading leading-tight whitespace-pre-line mb-3">
                     {service.title}
                   </h3>
-                  <p className="text-[13.5px] text-text-body leading-relaxed max-w-[280px] mx-auto">
+                  <p className="text-sm text-text-body leading-relaxed max-w-[280px] mx-auto">
                     {service.desc}
                   </p>
                 </div>
@@ -145,6 +145,7 @@ export function ServicesSection() {
                     alt={service.title.replace('\n', ' ')}
                     fill
                     className="object-contain p-4"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   />
                 </div>
 
@@ -155,7 +156,7 @@ export function ServicesSection() {
                       <div className="w-5 h-5 rounded-full bg-lime/10 flex items-center justify-center shrink-0 mt-0.5">
                         <CheckCircle2 className="w-3.5 h-3.5 text-lime" />
                       </div>
-                      <span className="text-[13px] font-medium text-text-body leading-snug">
+                      <span className="text-xs md:text-sm font-medium text-text-body leading-snug">
                         {point}
                       </span>
                     </div>

@@ -153,14 +153,13 @@ export function WhyChooseUsSection() {
                     <div className="w-14 h-14 rounded-full bg-lime/10 flex items-center justify-center mb-4 transition-colors group-hover:bg-lime/20 animate-float" style={{ animationDelay: `${i * 0.2}s` }}>
                       <feature.icon className="w-6 h-6 text-lime transition-transform group-hover:scale-110" />
                     </div>
-                    
                     {/* Title */}
-                    <h3 className="text-[15px] font-bold text-navy mb-2 font-heading leading-tight">
+                    <h3 className="text-sm md:text-base font-bold text-navy mb-2 font-heading leading-tight">
                       {feature.title}
                     </h3>
                     
                     {/* Desc */}
-                    <p className="text-[13px] text-text-body leading-relaxed">
+                    <p className="text-xs md:text-sm text-text-body leading-relaxed">
                       {feature.desc}
                     </p>
                   </div>

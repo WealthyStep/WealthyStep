@@ -61,10 +61,10 @@ export function EducationCalculator() {
 
   return (
     <div className="w-full flex flex-col gap-6">
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-6 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-6 items-start">
         
         {/* LEFT COLUMN: INPUTS */}
-        <div className="md:col-span-4 lg:col-span-3 bg-white p-4 md:p-5 rounded-[20px] shadow-sm border border-gray-100 flex flex-col gap-4 md:gap-5">
+        <div className="lg:col-span-4 lg:col-span-3 bg-white p-4 md:p-5 rounded-[20px] shadow-sm border border-gray-100 flex flex-col gap-4 md:gap-5">
           <div className="flex items-center gap-2 text-navy border-b border-gray-100 pb-4">
             <GraduationCap className="h-5 w-5 text-lime" />
             <h2 className="text-[15px] font-bold font-heading">Education Details</h2>
@@ -138,7 +138,7 @@ export function EducationCalculator() {
         </div>
 
         {calculationError ? (
-          <div className="md:col-span-8 lg:col-span-9 bg-white p-8 rounded-[20px] shadow-sm border border-gray-100 flex flex-col items-center justify-center text-center min-h-[400px]">
+          <div className="lg:col-span-8 lg:col-span-9 bg-white p-8 rounded-[20px] shadow-sm border border-gray-100 flex flex-col items-center justify-center text-center min-h-[400px]">
             <div className="w-16 h-16 bg-lime/10 rounded-full flex items-center justify-center mb-4">
               <span className="text-lime text-2xl font-bold font-heading">?</span>
             </div>
@@ -148,7 +148,7 @@ export function EducationCalculator() {
         ) : (
           <React.Fragment>
 {/* MIDDLE COLUMN: RESULTS & CHART */}
-        <div className="md:col-span-8 lg:col-span-6 bg-white p-4 md:p-6 rounded-[20px] shadow-sm border border-gray-100 flex flex-col">
+        <div className="lg:col-span-8 lg:col-span-6 bg-white p-4 md:p-6 rounded-[20px] shadow-sm border border-gray-100 flex flex-col">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-gray-100 pb-4 mb-4">
             <div>
               <div className="flex items-center gap-2 text-navy mb-1"><Target className="h-5 w-5 text-lime" /><h2 className="text-[15px] font-bold font-heading">Education Fund Plan</h2></div>
@@ -201,7 +201,7 @@ export function EducationCalculator() {
         </div>
 
         {/* RIGHT COLUMN: INSIGHTS */}
-        <div className="md:col-span-12 lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4 md:gap-6">
+        <div className="lg:col-span-12 lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4 md:gap-6">
           <div className="bg-white p-5 rounded-[20px] shadow-sm border border-gray-100 flex-1">
             <h3 className="text-[14px] font-bold text-navy font-heading mb-4 pb-3 border-b border-gray-100">Key Insights</h3>
             <div className="space-y-4">

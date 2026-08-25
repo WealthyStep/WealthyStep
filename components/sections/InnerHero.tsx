@@ -31,6 +31,7 @@ export function InnerHero({
               alt={title} 
               fill 
               className="object-cover opacity-30 mix-blend-overlay"
+              sizes="100vw"
               priority
             />
           </div>

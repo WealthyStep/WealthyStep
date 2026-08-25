@@ -37,7 +37,7 @@ export function Navbar() {
             <Link
               key={item.name}
               href={item.href}
-              className="text-[13px] font-semibold uppercase tracking-wider text-gray-600 transition-colors hover:text-[#281475]"
+              className="text-xs lg:text-sm font-semibold uppercase tracking-wider text-gray-600 transition-colors hover:text-[#281475]"
             >
               {item.name}
             </Link>
@@ -48,14 +48,14 @@ export function Navbar() {
         <div className="flex items-center gap-4">
           <Button 
             variant="outline" 
-            className="hidden lg:flex h-10 rounded-sm border-gray-300 px-6 text-[13px] font-semibold uppercase tracking-wider text-gray-700 transition-colors hover:bg-gray-50 hover:text-[#281475]"
+            className="hidden lg:flex h-10 rounded-sm border-gray-300 px-6 text-xs lg:text-sm font-semibold uppercase tracking-wider text-gray-700 transition-colors hover:bg-gray-50 hover:text-[#281475]"
             asChild
           >
             <Link href="/contact">Contact Us</Link>
           </Button>
           
           <Button 
-            className="hidden lg:flex h-10 rounded-sm bg-[#281475] px-8 text-[13px] font-semibold uppercase tracking-wider text-white transition-colors hover:bg-[#180D45]"
+            className="hidden lg:flex h-10 rounded-sm bg-[#281475] px-8 text-xs lg:text-sm font-semibold uppercase tracking-wider text-white transition-colors hover:bg-[#180D45]"
             asChild
           >
             <Link href="https://wealthelite.in/client-login" target="_blank" rel="noopener noreferrer">Login</Link>
@@ -89,7 +89,7 @@ export function Navbar() {
               <Link
                 key={item.name}
                 href={item.href}
-                className="text-[14px] font-semibold uppercase tracking-wider text-gray-700 hover:text-[#281475]"
+                className="block py-3 text-sm font-semibold uppercase tracking-wider text-gray-700 hover:text-[#281475]"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 {item.name}
@@ -97,7 +97,7 @@ export function Navbar() {
             ))}
             <div className="pt-2">
               <Button 
-                className="w-full h-10 rounded-sm bg-[#281475] text-[13px] font-semibold uppercase tracking-wider text-white hover:bg-[#180D45]"
+                className="w-full min-h-[44px] h-12 rounded-sm bg-[#281475] text-sm font-semibold uppercase tracking-wider text-white hover:bg-[#180D45]"
                 asChild
               >
                 <Link href="https://wealthelite.in/client-login" target="_blank" rel="noopener noreferrer" onClick={() => setIsMobileMenuOpen(false)}>

@@ -36,7 +36,7 @@ export function ContactSplitSection() {
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <input 
                       type="text" 
@@ -79,9 +79,9 @@ export function ContactSplitSection() {
                 <div>
                   <textarea 
                     placeholder="Your Message" 
-                    rows={4}
+                    rows={3}
                     required
-                    className="w-full bg-[#1E293B] border border-white/10 rounded-lg px-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:border-lime transition-colors text-sm resize-none"
+                    className="w-full bg-[#1E293B] border border-white/10 rounded-lg px-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:border-lime transition-colors text-sm resize-y min-h-[100px] max-h-[300px]"
                   ></textarea>
                 </div>
 
