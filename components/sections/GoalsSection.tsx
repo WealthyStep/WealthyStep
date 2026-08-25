@@ -25,7 +25,7 @@ const goals = [
     id: "03",
     title: "Retirement",
     desc: "Plan today for a comfortable tomorrow and enjoy life your way.",
-    image: "/images/goal-4.jpg",
+    image: "/images/goal-3.jpg",
     href: "/goal-calculators"
   },
   {
@@ -39,7 +39,7 @@ const goals = [
     id: "05",
     title: "Child Marriage",
     desc: "Plan ahead for life's special moments and celebrate with peace of mind.",
-    image: "/images/goal-3.jpg",
+    image: "/images/goal-4.jpg",
     href: "/goal-calculators"
   },
   {
