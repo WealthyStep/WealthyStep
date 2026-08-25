@@ -3,6 +3,7 @@ import { Inter, Poppins, Fraunces } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
+import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
 import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
 import { StructuredData } from "@/components/seo/StructuredData";
 import { TickerBar } from "@/components/sections/TickerBar";
@@ -61,6 +62,7 @@ export default function RootLayout({
         <TickerBar />
         <main className="flex-1 flex flex-col">{children}</main>
         <Footer />
+        <WhatsAppButton />
         <GoogleAnalytics measurementId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />
       </body>
     </html>
