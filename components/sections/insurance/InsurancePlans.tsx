@@ -2,24 +2,10 @@
 
 import React from "react";
 import { FadeIn } from "@/components/ui/fade-in";
-import { CheckCircle2, ArrowRight, ShieldCheck, HeartPulse, ActivitySquare, UserPlus, Umbrella, Baby } from "lucide-react";
+import { ArrowRight, ShieldCheck, HeartPulse, ActivitySquare, Car, Plane, Building2, CheckCircle2 } from "lucide-react";
 import Link from "next/link";
 
 const plans = [
-  {
-    icon: ShieldCheck,
-    title: "Term Life Insurance",
-    desc: "Pure life cover to secure your family's future.",
-    features: ["High Life Cover", "Affordable Premiums", "Tax Benefits"],
-    href: "/contact"
-  },
-  {
-    icon: Umbrella,
-    title: "Whole Life Insurance",
-    desc: "Lifelong protection with maturity benefits.",
-    features: ["Life Long Coverage", "Guaranteed Returns", "Wealth Creation"],
-    href: "/contact"
-  },
   {
     icon: HeartPulse,
     title: "Health Insurance",
@@ -28,24 +14,38 @@ const plans = [
     href: "/contact"
   },
   {
+    icon: ShieldCheck,
+    title: "Life Insurance",
+    desc: "Pure life cover to secure your family's future.",
+    features: ["High Life Cover", "Affordable Premiums", "Tax Benefits"],
+    href: "/contact"
+  },
+  {
     icon: ActivitySquare,
-    title: "Personal Accident Insurance",
+    title: "Accidental Insurance",
     desc: "Financial protection against accidents and disabilities.",
     features: ["Accident Cover", "Disability Benefit", "Weekly Compensation"],
     href: "/contact"
   },
   {
-    icon: UserPlus,
-    title: "Retirement Plans",
-    desc: "Plan today for a financially secure tomorrow.",
-    features: ["Regular Income", "Tax Efficiency", "Peaceful Retirement"],
+    icon: Car,
+    title: "Motor Insurance",
+    desc: "Comprehensive coverage for your vehicles.",
+    features: ["Own Damage Cover", "Third Party Liability", "Cashless Garages"],
     href: "/contact"
   },
   {
-    icon: Baby,
-    title: "Child Plans",
-    desc: "Secure your child's dreams and bright future.",
-    features: ["Education Planning", "Wealth Creation", "Financial Security"],
+    icon: Plane,
+    title: "Travel Insurance",
+    desc: "Worry-free domestic and international trips.",
+    features: ["Medical Emergencies", "Trip Cancellation", "Loss of Baggage"],
+    href: "/contact"
+  },
+  {
+    icon: Building2,
+    title: "Business Insurance",
+    desc: "Safeguard your enterprise from unforeseen risks.",
+    features: ["Property Coverage", "Liability Protection", "Business Interruption"],
     href: "/contact"
   }
 ];
