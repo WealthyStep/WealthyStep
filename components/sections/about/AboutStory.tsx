@@ -59,7 +59,8 @@ export function AboutStory() {
                 <Image 
                   src="/images/contact-people.jpg" 
                   alt="Wealthy Step Advisor" 
-                  fill 
+                  fill
+sizes="(max-width: 768px) 100vw, 50vw" 
                   className="object-cover"
                 />
               </div>

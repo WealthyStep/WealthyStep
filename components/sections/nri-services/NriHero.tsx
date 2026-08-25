@@ -8,7 +8,7 @@ import { ArrowRight, Globe2, ShieldCheck, FileCheck } from "lucide-react";
 
 export function NriHero() {
   return (
-    <section className="relative bg-[#0F172A] pt-6 md:pt-10 pb-12 md:pb-16 overflow-hidden z-20">
+    <section className="relative bg-[#180D45] pt-6 md:pt-10 pb-12 md:pb-16 overflow-hidden z-20">
       {/* Background Decorative Elements */}
       <div className="absolute inset-0 z-0">
         <svg className="absolute w-full h-full opacity-50 mix-blend-screen" preserveAspectRatio="none" viewBox="0 0 1440 800">
@@ -76,6 +76,7 @@ export function NriHero() {
                 src="/images/nri-hero.jpg"
                 alt="NRI Investment Illustration"
                 fill
+sizes="(max-width: 768px) 100vw, 50vw"
                 className="object-cover lg:object-right rounded-2xl opacity-90"
                 style={{
                   maskImage: 'radial-gradient(circle at 50% 50%, black 20%, transparent 80%)',

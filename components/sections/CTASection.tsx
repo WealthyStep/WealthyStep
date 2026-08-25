@@ -5,7 +5,7 @@ import { ArrowRight, PhoneCall, CheckCircle2 } from "lucide-react";
 
 export function CTASection() {
   return (
-    <section className="relative bg-[#0A0520] pt-12 pb-20 overflow-hidden border-t border-white/10 z-10">
+    <section className="relative bg-[#180D45] pt-12 pb-20 overflow-hidden border-t border-white/10 z-10">
       
       {/* ── Background Glow ── */}
       <div className="absolute top-0 right-0 w-full md:w-3/4 h-full bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-accent-purple/40 via-[#0A0520]/0 to-transparent pointer-events-none" />
@@ -19,7 +19,6 @@ export function CTASection() {
           fill
           className="object-cover object-left md:object-center [mask-image:linear-gradient(to_bottom,transparent_0%,black_10%,black_90%,transparent_100%),linear-gradient(to_right,transparent_0%,black_20%,black_100%)] [mask-composite:intersect]"
           sizes="(max-width: 1024px) 100vw, 50vw"
-          priority
         />
       </div>
 

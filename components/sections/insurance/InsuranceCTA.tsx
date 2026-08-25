@@ -10,7 +10,7 @@ export function InsuranceCTA() {
     <section className="bg-[#FAFAFA] pb-2 md:pb-4 pt-0">
       <div className="container mx-auto max-w-[1200px] px-4 xl:px-0">
         <FadeIn direction="up">
-          <div className="bg-[#0F172A] rounded-[20px] p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl max-w-[900px] mx-auto overflow-hidden relative">
+          <div className="bg-[#180D45] rounded-[20px] p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl max-w-[900px] mx-auto overflow-hidden relative">
             
             {/* Background Glow */}
             <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-lime/10 to-transparent pointer-events-none rounded-r-[20px]" />

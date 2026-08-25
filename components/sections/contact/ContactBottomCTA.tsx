@@ -9,7 +9,7 @@ export function ContactBottomCTA() {
     <section className="bg-white pb-16 md:pb-20 relative z-10">
       <div className="container mx-auto max-w-[1100px] px-4 xl:px-0">
         <FadeIn direction="up">
-          <div className="bg-[#0F172A] rounded-[24px] p-8 md:p-12 relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-8">
+          <div className="bg-[#180D45] rounded-[24px] p-8 md:p-12 relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-8">
             
             {/* Background glowing effects */}
             <div className="absolute inset-0 z-0 opacity-30 pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle at 10px 10px, rgba(255,255,255,0.4) 1px, transparent 0)', backgroundSize: '40px 40px' }} />

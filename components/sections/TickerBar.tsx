@@ -42,7 +42,7 @@ export function TickerBar() {
   };
 
   return (
-    <div className="w-full bg-black border-b border-white/10 overflow-hidden relative flex items-center h-12">
+    <div className="w-full bg-[#180D45] border-b border-white/10 overflow-hidden relative flex items-center h-12">
       <div className="flex-1 overflow-hidden relative h-full flex items-center">
         {isLoading && !data ? (
           <div className="flex gap-12 w-full px-8 opacity-50">

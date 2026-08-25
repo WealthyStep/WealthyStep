@@ -346,7 +346,7 @@ export function EmiCalculator() {
 </div>
 
       {/* BOTTOM CTA BANNER */}
-      <div className="w-full bg-[#0F172A] rounded-[20px] p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl relative overflow-hidden mt-4">
+      <div className="w-full bg-[#180D45] rounded-[20px] p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl relative overflow-hidden mt-4">
         <div className="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-lime/10 to-transparent pointer-events-none" />
         
         <div className="flex items-center gap-4 relative z-10 w-full md:w-auto">

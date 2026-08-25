@@ -14,7 +14,8 @@ export function Philosophy() {
         <Image 
           src="/images/contact-people.jpg" 
           alt="Wealthy Step Philosophy" 
-          fill 
+          fill
+sizes="(max-width: 768px) 100vw, 50vw" 
           className="object-cover mix-blend-luminosity grayscale"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-navy via-navy/95 to-navy/80"></div>

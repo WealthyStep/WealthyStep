@@ -113,6 +113,7 @@ export function WhyChooseUsSection() {
                     src="/advisor-meeting.jpg" 
                     alt="Wealthy Step Advisor Meeting"
                     fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 450px"
                     className="object-cover"
                   />
                 </div>

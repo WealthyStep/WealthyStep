@@ -23,7 +23,7 @@ export function ContactSplitSection() {
         <div className="grid lg:grid-cols-2 gap-12 items-start">
 
           {/* Left Column: Form */}
-          <div className="bg-[#0F172A] rounded-[24px] p-8 md:p-10 shadow-xl">
+          <div className="bg-[#180D45] rounded-[24px] p-8 md:p-10 shadow-xl">
             <h2 className="text-white text-2xl font-bold font-heading mb-2">Send Us A Message</h2>
             <p className="text-white/70 text-sm mb-8">
               Tell us how we can help, and our team will get back to you shortly.
@@ -42,7 +42,7 @@ export function ContactSplitSection() {
                       type="text"
                       placeholder="Full Name"
                       required
-                      className="w-full bg-[#1E293B] border border-white/10 rounded-lg px-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:border-lime transition-colors text-sm"
+                      className="w-full bg-[#281475] border border-white/10 rounded-lg px-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:border-lime transition-colors text-sm"
                     />
                   </div>
                   <div>
@@ -50,7 +50,7 @@ export function ContactSplitSection() {
                       type="email"
                       placeholder="Email Address"
                       required
-                      className="w-full bg-[#1E293B] border border-white/10 rounded-lg px-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:border-lime transition-colors text-sm"
+                      className="w-full bg-[#281475] border border-white/10 rounded-lg px-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:border-lime transition-colors text-sm"
                     />
                   </div>
                 </div>
@@ -59,13 +59,13 @@ export function ContactSplitSection() {
                   <input
                     type="tel"
                     placeholder="Phone Number"
-                    className="w-full bg-[#1E293B] border border-white/10 rounded-lg px-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:border-lime transition-colors text-sm"
+                    className="w-full bg-[#281475] border border-white/10 rounded-lg px-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:border-lime transition-colors text-sm"
                   />
                 </div>
 
                 <div>
                   <select
-                    className="w-full bg-[#1E293B] border border-white/10 rounded-lg px-4 py-3 text-white/40 focus:outline-none focus:border-lime transition-colors text-sm appearance-none"
+                    className="w-full bg-[#281475] border border-white/10 rounded-lg px-4 py-3 text-white/40 focus:outline-none focus:border-lime transition-colors text-sm appearance-none"
                     defaultValue=""
                   >
                     <option value="" disabled>What can we help you with?</option>
@@ -81,7 +81,7 @@ export function ContactSplitSection() {
                     placeholder="Your Message"
                     rows={3}
                     required
-                    className="w-full bg-[#1E293B] border border-white/10 rounded-lg px-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:border-lime transition-colors text-sm resize-y min-h-[100px] max-h-[300px]"
+                    className="w-full bg-[#281475] border border-white/10 rounded-lg px-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:border-lime transition-colors text-sm resize-y min-h-[100px] max-h-[300px]"
                   ></textarea>
                 </div>
 
