@@ -13,7 +13,7 @@ export function Navbar() {
     <header className="sticky top-0 z-50 w-full border-b border-gray-200 bg-white">
       <div className="container mx-auto flex h-[80px] max-w-[1200px] items-center justify-between px-4 xl:px-0">
         {/* Logo Area */}
-        <Link href="/" onClick={() => window.scrollTo(0, 0)} className="flex items-center outline-none relative z-50 cursor-pointer">
+        <Link href="/" onClick={() => window.scrollTo(0, 0)} className="flex items-center outline-none relative z-50 cursor-pointer shrink-0">
           <Image 
             src="/logo.png" 
             alt="Wealthy Step Logo" 
@@ -25,7 +25,7 @@ export function Navbar() {
         </Link>
 
         {/* Desktop Nav - Classic Minimalist */}
-        <nav className="hidden lg:flex items-center gap-10">
+        <nav className="hidden lg:flex items-center gap-4 xl:gap-8">
           {[
             { name: "Home", href: "/" },
             { name: "Investments", href: "/investments" },
@@ -37,7 +37,7 @@ export function Navbar() {
             <Link
               key={item.name}
               href={item.href}
-              className="text-xs lg:text-sm font-semibold uppercase tracking-wider text-gray-600 transition-colors hover:text-[#281475]"
+              className="text-[11px] xl:text-xs font-semibold uppercase tracking-wider text-gray-600 transition-colors hover:text-[#281475] whitespace-nowrap"
             >
               {item.name}
             </Link>
@@ -45,17 +45,17 @@ export function Navbar() {
         </nav>
 
         {/* Actions - Flat, Solid, Confident Buttons */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2 xl:gap-4 shrink-0">
           <Button 
             variant="outline" 
-            className="hidden lg:flex h-10 rounded-sm border-gray-300 px-6 text-xs lg:text-sm font-semibold uppercase tracking-wider text-gray-700 transition-colors hover:bg-gray-50 hover:text-[#281475]"
+            className="hidden lg:flex h-9 xl:h-10 rounded-sm border-gray-300 px-4 xl:px-6 text-[11px] xl:text-xs font-semibold uppercase tracking-wider text-gray-700 transition-colors hover:bg-gray-50 hover:text-[#281475] whitespace-nowrap"
             asChild
           >
             <Link href="/contact">Contact Us</Link>
           </Button>
           
           <Button 
-            className="hidden lg:flex h-10 rounded-sm bg-[#281475] px-8 text-xs lg:text-sm font-semibold uppercase tracking-wider text-white transition-colors hover:bg-[#180D45]"
+            className="hidden lg:flex h-9 xl:h-10 rounded-sm bg-[#281475] px-6 xl:px-8 text-[11px] xl:text-xs font-semibold uppercase tracking-wider text-white transition-colors hover:bg-[#180D45] whitespace-nowrap"
             asChild
           >
             <Link href="https://wealthelite.in/client-login" target="_blank" rel="noopener noreferrer">Login</Link>
