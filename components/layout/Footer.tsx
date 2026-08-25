@@ -61,25 +61,19 @@ export function Footer() {
             <ul className="space-y-4 text-sm text-cream/70">
               <li>
                 <Link href="/investments" className="flex items-center justify-between hover:text-lime transition-colors group">
-                  Mutual Fund Investments
+                  Investments
                   <ChevronRight className="w-4 h-4 opacity-50 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
                 </Link>
               </li>
               <li>
                 <Link href="/insurance" className="flex items-center justify-between hover:text-lime transition-colors group">
-                  Insurance Services
-                  <ChevronRight className="w-4 h-4 opacity-50 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
-                </Link>
-              </li>
-              <li>
-                <Link href="/goal-calculators" className="flex items-center justify-between hover:text-lime transition-colors group">
-                  Personal Financial Planning
+                  Insurances
                   <ChevronRight className="w-4 h-4 opacity-50 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
                 </Link>
               </li>
               <li>
                 <Link href="/nri-services" className="flex items-center justify-between hover:text-lime transition-colors group">
-                  NRI Financial Services
+                  NRI Services
                   <ChevronRight className="w-4 h-4 opacity-50 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
                 </Link>
               </li>
@@ -99,22 +93,46 @@ export function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/goal-calculators" className="flex items-center justify-between hover:text-lime transition-colors group">
-                  Smart Calculators
-                  <ChevronRight className="w-4 h-4 opacity-50 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
-                </Link>
-              </li>
-              <li>
-                <Link href="/knowledge" className="flex items-center justify-between hover:text-lime transition-colors group">
-                  Knowledge Center
-                  <ChevronRight className="w-4 h-4 opacity-50 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
-                </Link>
-              </li>
-              <li>
                 <Link href="/contact" className="flex items-center justify-between hover:text-lime transition-colors group">
                   Contact Us
                   <ChevronRight className="w-4 h-4 opacity-50 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
                 </Link>
+              </li>
+              <li>
+                <Link href="/blogs" className="flex items-center justify-between hover:text-lime transition-colors group">
+                  Blogs
+                  <ChevronRight className="w-4 h-4 opacity-50 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
+                </Link>
+              </li>
+              <li>
+                <Link href="/goal-calculators" className="flex items-center justify-between hover:text-lime transition-colors group">
+                  Calculator
+                  <ChevronRight className="w-4 h-4 opacity-50 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
+                </Link>
+              </li>
+              <li>
+                <Link href="/privacy-policy" className="flex items-center justify-between hover:text-lime transition-colors group">
+                  Privacy Policy
+                  <ChevronRight className="w-4 h-4 opacity-50 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
+                </Link>
+              </li>
+              <li>
+                <Link href="/terms-conditions" className="flex items-center justify-between hover:text-lime transition-colors group">
+                  Terms Conditions
+                  <ChevronRight className="w-4 h-4 opacity-50 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
+                </Link>
+              </li>
+              <li>
+                <Link href="/commission-disclosure" className="flex items-center justify-between hover:text-lime transition-colors group">
+                  Commission Disclosure
+                  <ChevronRight className="w-4 h-4 opacity-50 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
+                </Link>
+              </li>
+              <li>
+                <a href="/AMFI_Code-of-Conduct.pdf" target="_blank" rel="noreferrer" className="flex items-center justify-between hover:text-lime transition-colors group">
+                  Code of Conduct
+                  <ChevronRight className="w-4 h-4 opacity-50 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
+                </a>
               </li>
             </ul>
           </div>
@@ -160,8 +178,11 @@ export function Footer() {
           <div className="bg-white rounded-md px-3 py-2 flex items-center justify-center min-w-[100px] h-[60px]">
             <Image src="/images/amfi-logo.png" alt="AMFI" width={60} height={45} className="object-contain w-auto h-full" />
           </div>
-          <div className="text-white text-lg font-semibold tracking-widest text-center">
-            ARN - 322891
+          <div className="flex flex-col items-center">
+            <div className="text-white text-lg font-semibold tracking-widest text-center">
+              ARN - 322891
+            </div>
+            <p className="text-sm text-cream/70 mt-1 text-center">Anil Kumar is an AMFI Registered Mutual Fund Distributor.</p>
           </div>
           <div className="bg-white rounded-md px-3 py-2 flex items-center justify-center min-w-[200px] h-[60px]">
             <Image src="/images/mf-sahi-hai.png" alt="Mutual Funds Sahi Hai" width={180} height={45} className="object-contain w-auto h-full" />
@@ -169,22 +190,22 @@ export function Footer() {
         </div>
 
         {/* Bottom Links Bar */}
-        <div className="mt-8 flex flex-col items-center justify-between border-t border-white/10 pt-6 pb-4 text-xs md:text-sm text-cream/70 md:flex-row gap-4">
+        <div className="mt-8 flex flex-col items-center justify-between border-t border-white/10 pt-6 pb-4 text-[10px] md:text-[11px] xl:text-xs text-cream/70 lg:flex-row gap-4">
           <p className="whitespace-nowrap text-center">© {new Date().getFullYear()} Wealthy Step. All rights reserved.</p>
-          <div className="flex flex-wrap justify-center gap-x-3 gap-y-2">
-            <Link href="/risk-factors" className="py-1 hover:text-white transition-colors">Risk Factors</Link>
-            <span className="hidden md:inline py-1">|</span>
-            <Link href="/terms-conditions" className="py-1 hover:text-white transition-colors">Terms & Conditions</Link>
-            <span className="hidden md:inline py-1">|</span>
-            <a href="https://www.sebi.gov.in/filings/mutual-funds.html" target="_blank" rel="noreferrer" className="py-1 hover:text-white transition-colors">SID/SAI/KIM</a>
-            <span className="hidden md:inline py-1">|</span>
-            <a href="/AMFI_Code-of-Conduct.pdf" target="_blank" rel="noreferrer" className="py-1 hover:text-white transition-colors">Code of Conduct</a>
-            <span className="hidden md:inline py-1">|</span>
-            <Link href="/investor-grievance" className="py-1 hover:text-white transition-colors">Investor Grievance Redressal</Link>
-            <span className="hidden md:inline py-1">|</span>
-            <Link href="/important-links" className="py-1 hover:text-white transition-colors">Important links</Link>
-            <span className="hidden md:inline py-1">|</span>
-            <a href="https://www.sebi.gov.in/sebiweb/home/HomeAction.do?doListingAll=yes&search=Mutual+Funds" target="_blank" rel="noreferrer" className="py-1 hover:text-white transition-colors">SEBI Circulars</a>
+          <div className="flex flex-wrap lg:flex-nowrap justify-center gap-x-2 xl:gap-x-3 gap-y-2 items-center">
+            <Link href="/risk-factors" className="py-1 hover:text-white transition-colors whitespace-nowrap">Risk Factors</Link>
+            <span className="hidden lg:inline text-white/20">|</span>
+            <Link href="/terms-conditions" className="py-1 hover:text-white transition-colors whitespace-nowrap">Terms & Conditions</Link>
+            <span className="hidden lg:inline text-white/20">|</span>
+            <a href="https://www.sebi.gov.in/filings/mutual-funds.html" target="_blank" rel="noreferrer" className="py-1 hover:text-white transition-colors whitespace-nowrap">SID/SAI/KIM</a>
+            <span className="hidden lg:inline text-white/20">|</span>
+            <a href="/AMFI_Code-of-Conduct.pdf" target="_blank" rel="noreferrer" className="py-1 hover:text-white transition-colors whitespace-nowrap">Code of Conduct</a>
+            <span className="hidden lg:inline text-white/20">|</span>
+            <Link href="/investor-grievance" className="py-1 hover:text-white transition-colors whitespace-nowrap">Investor Grievance Redressal</Link>
+            <span className="hidden lg:inline text-white/20">|</span>
+            <Link href="/important-links" className="py-1 hover:text-white transition-colors whitespace-nowrap">Important links</Link>
+            <span className="hidden lg:inline text-white/20">|</span>
+            <a href="https://www.sebi.gov.in/sebiweb/home/HomeAction.do?doListingAll=yes&search=Mutual+Funds" target="_blank" rel="noreferrer" className="py-1 hover:text-white transition-colors whitespace-nowrap">SEBI Circulars</a>
           </div>
         </div>
       </div>
