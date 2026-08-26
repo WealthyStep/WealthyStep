@@ -38,7 +38,7 @@ export function FAQSection({ title, description, faqs }: FAQSectionProps) {
   };
 
   return (
-    <section className="pt-16 md:pt-24 pb-0 bg-gray-50/50 relative overflow-hidden">
+    <section className="pt-6 md:pt-10 pb-0 bg-gray-50/50 relative overflow-hidden">
       {/* Decorative Background Elements */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
         <div className="absolute top-[-10%] left-[-10%] w-96 h-96 bg-lime/5 rounded-full blur-[100px]" />
@@ -52,14 +52,14 @@ export function FAQSection({ title, description, faqs }: FAQSectionProps) {
       
       <div className="container mx-auto max-w-4xl px-4 xl:px-0 relative z-10">
         <FadeIn>
-          <div className="text-center mb-16">
-            <span className="text-xs md:text-sm font-bold uppercase tracking-[0.15em] text-lime font-heading mb-4 block">
+          <div className="text-center mb-8 md:mb-12">
+            <span className="text-xs md:text-sm font-bold uppercase tracking-[0.15em] text-lime font-heading mb-3 md:mb-4 block">
               Common Questions
             </span>
-            <h2 className="text-3xl md:text-5xl font-bold font-heading leading-tight mb-4 text-navy">
+            <h2 className="text-3xl md:text-5xl font-bold font-heading leading-tight mb-3 md:mb-4 text-navy">
               {title}
             </h2>
-            <p className="text-lg text-text-body max-w-2xl mx-auto">
+            <p className="text-text-body text-base md:text-lg max-w-2xl mx-auto">
               {description}
             </p>
           </div>

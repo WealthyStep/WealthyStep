@@ -7,7 +7,7 @@ import { ArrowRight, Users, ShieldCheck, UserCheck } from "lucide-react";
 
 export function InsuranceHero() {
   return (
-    <section className="relative bg-[#180D45] pt-8 md:pt-10 pb-12 md:pb-16 overflow-hidden z-20">
+    <section className="relative bg-[#180D45] pt-8 md:pt-12 pb-12 md:pb-16 overflow-hidden z-20">
       {/* ── Background Decorative Elements ── */}
       <div className="absolute inset-0 z-0">
         <svg className="absolute w-full h-full opacity-50 mix-blend-screen" preserveAspectRatio="none" viewBox="0 0 1440 800">

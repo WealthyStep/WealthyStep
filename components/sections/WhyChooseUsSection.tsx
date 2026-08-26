@@ -50,7 +50,7 @@ const features = [
 
 export function WhyChooseUsSection() {
   return (
-    <section className="relative bg-[#FAFAFA] pt-6 pb-16 overflow-hidden z-20">
+    <section className="relative bg-[#FAFAFA] pt-6 pb-10 overflow-hidden z-20">
       
       {/* ── Background Decorative Elements ── */}
       <svg className="absolute top-0 left-0 w-full h-full pointer-events-none opacity-30 -z-10" viewBox="0 0 1440 800" preserveAspectRatio="none">

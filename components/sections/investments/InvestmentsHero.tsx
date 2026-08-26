@@ -7,7 +7,7 @@ import { ArrowRight, ShieldCheck, FileSearch, Users } from "lucide-react";
 
 export function InvestmentsHero() {
   return (
-    <section className="relative bg-[#180D45] pt-12 md:pt-16 pb-20 md:pb-24 overflow-hidden z-20">
+    <section className="relative bg-[#180D45] pt-8 md:pt-12 pb-12 md:pb-16 overflow-hidden z-20">
       {/* ── Background Decorative Elements ── */}
       <div className="absolute inset-0 z-0">
         <svg className="absolute w-full h-full opacity-50 mix-blend-screen" preserveAspectRatio="none" viewBox="0 0 1440 800">
@@ -75,7 +75,8 @@ export function InvestmentsHero() {
                 src="/images/cta-illustration.jpg"
                 alt="Investment Growth Illustration"
                 fill
-sizes="(max-width: 768px) 100vw, 50vw"
+                priority
+                sizes="(max-width: 768px) 100vw, 50vw"
                 className="object-contain lg:object-right mix-blend-screen pointer-events-none"
                 style={{
                   maskImage: 'radial-gradient(circle at 50% 50%, black 20%, transparent 70%)',

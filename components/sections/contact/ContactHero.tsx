@@ -7,7 +7,7 @@ import { FadeIn } from "@/components/ui/fade-in";
 
 export function ContactHero() {
   return (
-    <section className="relative bg-[#180D45] pt-4 md:pt-8 pb-20 md:pb-28 overflow-hidden">
+    <section className="relative bg-[#180D45] pt-4 md:pt-8 pb-12 md:pb-20 overflow-hidden">
       {/* Background Dots */}
       <div className="absolute inset-0 z-0 opacity-20 pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, rgba(255,255,255,0.4) 1px, transparent 0)', backgroundSize: '40px 40px' }} />
 
