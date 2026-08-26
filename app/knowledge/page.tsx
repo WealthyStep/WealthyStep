@@ -19,9 +19,9 @@ export default function KnowledgePage() {
         icon={BookOpen}
       />
 
-      <section className="section-white py-16 md:py-24">
+      <section className="section-white pt-8 pb-16 md:pt-12 md:pb-24">
         <div className="container mx-auto max-w-[1200px] px-4 xl:px-0">
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             {mockArticles.map((article) => (
               <ArticleCard key={article.id} article={article} />
             ))}

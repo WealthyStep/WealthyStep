@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Clock } from "lucide-react";
 import { Article } from "@/lib/mock-cms";
@@ -20,12 +21,21 @@ export function ArticleCard({ article, className, delay = 0 }: ArticleCardProps)
           className
         )}
       >
-        {/* Image Placeholder */}
         <div className="relative h-48 w-full bg-cream overflow-hidden border-b border-border-sage/30">
-          <div className="absolute inset-0 bg-lime/10 group-hover:scale-105 transition-transform duration-500 ease-out" />
-          <div className="absolute inset-0 flex items-center justify-center opacity-30">
-            <span className="font-heading text-xl text-navy">{article.category}</span>
-          </div>
+          {article.image ? (
+            <img
+              src={article.image}
+              alt={article.title}
+              className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500 ease-out"
+            />
+          ) : (
+            <>
+              <div className="absolute inset-0 bg-lime/10 group-hover:scale-105 transition-transform duration-500 ease-out" />
+              <div className="absolute inset-0 flex items-center justify-center opacity-30">
+                <span className="font-heading text-xl text-navy">{article.category}</span>
+              </div>
+            </>
+          )}
         </div>
 
         <div className="p-6 md:p-8 flex flex-col flex-1">
@@ -51,10 +61,7 @@ export function ArticleCard({ article, className, delay = 0 }: ArticleCardProps)
           </p>
 
           <div className="flex items-center justify-between border-t border-border-sage/30 pt-4 mt-auto">
-            <div className="text-xs">
-              <p className="font-semibold text-navy">{article.author.name}</p>
-              <p className="text-text-body/70">{article.date}</p>
-            </div>
+            <p className="text-xs font-medium text-text-body/70">{article.date}</p>
             <span className="inline-flex items-center text-sm font-semibold text-lime group-hover:text-cta-green transition-colors z-20 relative">
               Read <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
             </span>

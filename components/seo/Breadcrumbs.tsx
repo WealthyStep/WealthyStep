@@ -38,23 +38,23 @@ export function Breadcrumbs({ items }: BreadcrumbsProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
-      <nav aria-label="Breadcrumb" className="mb-6 flex items-center text-sm font-medium text-cream/70">
-        <ol className="flex items-center space-x-2">
-          <li>
+      <nav aria-label="Breadcrumb" className="mb-4 md:mb-6 flex items-center text-xs md:text-sm font-medium text-cream/70">
+        <ol className="flex items-center flex-wrap gap-y-2">
+          <li className="flex items-center">
             <Link href="/" className="flex items-center hover:text-lime transition-colors">
-              <Home className="mr-1 h-4 w-4" />
+              <Home className="mr-1 h-3.5 w-3.5 md:h-4 md:w-4" />
               <span className="sr-only">Home</span>
             </Link>
           </li>
           {items.map((item, index) => (
-            <li key={item.href} className="flex items-center">
-              <ChevronRight className="mx-2 h-4 w-4 text-cream/40" />
+            <li key={item.href} className="flex items-center max-w-[full]">
+              <ChevronRight className="mx-1 md:mx-2 h-3.5 w-3.5 md:h-4 md:w-4 flex-shrink-0 text-cream/40" />
               {index === items.length - 1 ? (
-                <span className="text-white" aria-current="page">
+                <span className="text-white truncate max-w-[150px] sm:max-w-[250px] md:max-w-md inline-block align-bottom" title={item.label} aria-current="page">
                   {item.label}
                 </span>
               ) : (
-                <Link href={item.href} className="hover:text-lime transition-colors">
+                <Link href={item.href} className="hover:text-lime transition-colors whitespace-nowrap">
                   {item.label}
                 </Link>
               )}

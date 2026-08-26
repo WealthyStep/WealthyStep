@@ -75,15 +75,15 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
       />
       {/* Article Header */}
       
-      <header className="bg-navy pt-32 pb-16 px-4">
-        <div className="container mx-auto max-w-[800px]">
+      <header className="bg-navy pt-4 md:pt-8 pb-3 md:pb-5 px-4">
+        <div className="container mx-auto max-w-[1200px]">
           <Breadcrumbs 
             items={[
               { label: 'Knowledge Center', href: '/knowledge' },
               { label: article.title, href: `/knowledge/${article.slug}` }
             ]} 
           />
-          <div className="flex items-center gap-3 mb-6 mt-4">
+          <div className="flex items-center gap-3 my-2 md:my-3">
             <span className="inline-flex items-center rounded-full bg-lime/20 px-3 py-1 text-sm font-semibold text-lime uppercase tracking-wider">
               {article.category}
             </span>
@@ -93,23 +93,13 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
             </span>
           </div>
           
-          <h1 className="text-3xl md:text-5xl font-bold text-white leading-tight mb-8">
+          <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold text-white leading-tight mb-2 md:mb-4 max-w-[900px]">
             {article.title}
           </h1>
           
-          <div className="flex items-center justify-between border-t border-white/10 pt-6">
-            <div className="flex items-center gap-3">
-              <div className="h-10 w-10 rounded-full bg-cream flex items-center justify-center text-navy font-bold font-heading">
-                {article.author.name.charAt(0)}
-              </div>
-              <div>
-                <p className="font-semibold text-white text-sm">{article.author.name}</p>
-                <p className="text-cream/60 text-xs">{article.author.role}</p>
-              </div>
-            </div>
-            <div className="text-right text-sm text-cream/60">
-              Published on <br />
-              <span className="text-white font-medium">{article.date}</span>
+          <div className="flex items-center justify-between border-t border-white/10 pt-2 md:pt-3 max-w-[900px]">
+            <div className="text-left text-sm text-cream/60">
+              Published on <span className="text-white font-medium ml-1">{article.date}</span>
             </div>
           </div>
         </div>
@@ -117,11 +107,24 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
 
       {/* Article Content */}
       {/* We use basic typography styles here without requiring the official @tailwindcss/typography plugin to keep the setup lean. */}
-      <div className="py-16 px-4">
-        <div 
-          className="container mx-auto max-w-[800px] text-text-dark text-lg leading-loose [&>p]:mb-6 [&>h2]:text-3xl [&>h2]:font-bold [&>h2]:mb-6 [&>h2]:mt-12 [&>h2]:text-navy [&>h3]:text-2xl [&>h3]:font-bold [&>h3]:mb-4 [&>h3]:mt-8 [&>h3]:text-navy [&>ul]:list-disc [&>ul]:pl-6 [&>ul]:mb-6 [&>ul>li]:mb-2 [&>strong]:font-semibold [&>strong]:text-navy"
-          dangerouslySetInnerHTML={{ __html: article.content }}
-        />
+      <div className="pt-3 md:pt-6 pb-6 md:pb-12 px-4">
+        <div className="container mx-auto max-w-[800px]">
+          {/* Featured Image */}
+          {article.image && (
+            <div className="w-full aspect-video relative mb-5 md:mb-8 rounded-xl md:rounded-2xl overflow-hidden shadow-sm">
+              <img 
+                src={article.image} 
+                alt={article.title}
+                className="w-full h-full object-cover"
+              />
+            </div>
+          )}
+          
+          <div 
+            className="text-text-dark text-base md:text-lg leading-relaxed [&>p]:mb-3 md:[&>p]:mb-4 [&>h2]:text-xl [&>h2]:md:text-3xl [&>h2]:font-bold [&>h2]:mb-3 [&>h2]:mt-6 [&>h2]:text-navy [&>h3]:text-lg [&>h3]:md:text-2xl [&>h3]:font-bold [&>h3]:mb-2 [&>h3]:mt-5 [&>h3]:text-navy [&>ul]:list-disc [&>ul]:pl-5 [&>ul]:mb-4 [&>ul>li]:mb-1 [&>strong]:font-semibold [&>strong]:text-navy"
+            dangerouslySetInnerHTML={{ __html: article.content }}
+          />
+        </div>
       </div>
     </article>
   );

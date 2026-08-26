@@ -6,6 +6,7 @@ export interface Article {
   content: string; // HTML string or plain text for mock purposes
   category: string;
   date: string;
+  image: string;
   updatedAt?: string;
   readTime: string;
   author: {
@@ -30,6 +31,7 @@ export const mockArticles: Article[] = [
     `,
     category: "Mutual Funds",
     date: "August 12, 2026",
+    image: "/images/blogs/sip-vs-lump-sum.png",
     readTime: "4 min read",
     author: {
       name: "Rajesh Kumar",
@@ -54,6 +56,7 @@ export const mockArticles: Article[] = [
     `,
     category: "NRI Services",
     date: "July 28, 2026",
+    image: "/images/blogs/understanding-risk.png",
     readTime: "6 min read",
     author: {
       name: "Sneha Patel",
@@ -79,6 +82,7 @@ export const mockArticles: Article[] = [
     `,
     category: "Insurance",
     date: "July 15, 2026",
+    image: "/images/blogs/financial-planning.png",
     readTime: "5 min read",
     author: {
       name: "Amit Sharma",
