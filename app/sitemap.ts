@@ -1,6 +1,6 @@
 import { MetadataRoute } from 'next';
 import { mockArticles } from '@/lib/mock-cms';
-import { blogsData } from '@/lib/data/blogs';
+import { blogs } from '@/lib/data/blogs';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://wealthystep.com';
@@ -29,8 +29,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }));
   
-  const blogRoutes = blogsData.map((blog) => ({
-    url: `${baseUrl}/blogs/${blog.id}`,
+  const blogRoutes = blogs.map((blog) => ({
+    url: `${baseUrl}/blogs/${blog.slug}`,
     lastModified: new Date(),
     changeFrequency: 'monthly' as const,
     priority: 0.6,
