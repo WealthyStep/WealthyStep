@@ -31,7 +31,7 @@ export default function GoalCalculatorsPage() {
     <main className="bg-[#FAFAFA] min-h-screen pb-10">
       
       {/* Header Section */}
-      <section className="bg-white pt-12 md:pt-16 pb-8 md:pb-12 shadow-sm relative z-20">
+      <section className="bg-white pt-6 md:pt-8 pb-6 md:pb-8 shadow-sm relative z-20">
         <div className="container mx-auto max-w-[1300px] px-4 xl:px-0 text-center">
           
           <div className="w-12 h-12 bg-lime/10 rounded-xl flex items-center justify-center mx-auto mb-4">
@@ -79,12 +79,12 @@ export default function GoalCalculatorsPage() {
       </section>
 
       {/* Tabs and Calculators */}
-      <section className="pt-8">
+      <section className="pt-4">
         <div className="container mx-auto max-w-[1300px] px-4 xl:px-0">
           <Tabs defaultValue="sip" className="w-full flex flex-col">
             
-            <div className="w-full overflow-x-auto pb-4 mb-6 hide-scrollbar px-1">
-              <TabsList className="bg-transparent h-auto p-0 inline-flex gap-2 w-max min-w-full lg:justify-center">
+            <div className="w-full mb-2 px-1 overflow-x-auto hide-scrollbar">
+              <TabsList className="bg-transparent h-auto p-0 flex flex-row flex-nowrap sm:flex-wrap gap-2 w-max sm:w-full justify-start sm:justify-center">
                 <TabsTrigger 
                   value="sip"
                   className="data-[state=active]:bg-navy data-[state=active]:text-white bg-white text-navy border border-gray-200 px-6 py-3 rounded-[12px] font-bold text-[13px] shadow-sm data-[state=active]:shadow-md transition-all flex items-center gap-2 shrink-0 whitespace-nowrap"

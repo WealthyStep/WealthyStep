@@ -596,6 +596,9 @@ describe('Deep Verification: Financial Calculators', () => {
       expect(() => calculateTargetAmountSIP(10000, 0, 6, 12)).toThrow();
       expect(() => calculateTargetAmountSIP(10000, 10, -1, 12)).toThrow();
       expect(() => calculateTargetAmountSIP(10000, 10, 6, -1)).toThrow();
+      expect(() => calculateTargetAmountSIP(NaN, 10, 6, 12)).toThrow();
+    });
+
     it('80b. MANDATORY CROSS-CALCULATOR VERIFICATION (Raw Exact SIP)', () => {
       // Step 1: Target Amount SIP calculates exact required monthly SIP
       const targetAmount = 2500000;
