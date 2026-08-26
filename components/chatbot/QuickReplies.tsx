@@ -22,20 +22,19 @@ export const QuickReplies: React.FC<QuickRepliesProps> = ({ replies, onClick, is
 
   if (isWelcomeScreen) {
     return (
-      <div className="flex flex-col mt-2 w-full max-w-[280px]">
-        <div className="grid grid-cols-2 gap-1.5 w-full">
+      <div className="flex flex-col mt-2 w-full max-w-[300px]">
+        <div className="flex flex-wrap gap-2 w-full">
           {replies.map((reply, idx) => {
-            const isLastOdd = idx === replies.length - 1 && replies.length % 2 !== 0;
             return (
               <button
                 key={idx}
                 onClick={() => onClick(reply)}
-                className={`flex items-center justify-start gap-2.5 px-3 py-2 bg-white border border-gray-100 rounded-xl hover:border-lime/50 hover:shadow-sm transition-all active:scale-95 ${isLastOdd ? 'col-span-2' : 'flex-row'}`}
+                className="flex items-center justify-start gap-2 px-3 py-2 bg-white border border-gray-200 shadow-sm rounded-xl hover:border-lime hover:shadow-md transition-all active:scale-95 shrink-0"
               >
-                <div className="w-7 h-7 rounded-full bg-slate-50 flex items-center justify-center shrink-0">
-                  {getIconForReply(reply, 14)}
+                <div className="w-6 h-6 rounded-full bg-slate-50 flex items-center justify-center shrink-0">
+                  {getIconForReply(reply, 12)}
                 </div>
-                <span className="text-[11px] font-bold text-navy leading-tight text-left">
+                <span className="text-[11px] font-bold text-navy whitespace-nowrap">
                   {reply}
                 </span>
               </button>

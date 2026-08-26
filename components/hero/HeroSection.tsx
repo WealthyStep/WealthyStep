@@ -121,9 +121,9 @@ export function HeroSection() {
 
       {/* ── Main Content ── */}
       <div className="container mx-auto max-w-[1200px] px-4 xl:px-0 relative z-10">
-        <div className="grid lg:grid-cols-[1.2fr_1fr] gap-12 lg:gap-8 pt-8 pb-16 lg:pt-16 lg:pb-24">
+        <div className="grid lg:grid-cols-[1.2fr_1fr] gap-8 lg:gap-8 pt-4 pb-12 lg:pt-8 lg:pb-20">
           {/* ── LEFT COLUMN: Text ── */}
-          <div className="space-y-7 max-w-2xl pr-4">
+          <div className="space-y-4 lg:space-y-6 max-w-2xl pr-4">
             {/* Eyebrow */}
             <motion.div {...fadeUp(0)} className="flex items-center gap-3">
               <span className="text-[13px] font-semibold uppercase tracking-[0.12em] text-lime font-heading">
@@ -155,7 +155,7 @@ export function HeroSection() {
             </motion.p>
 
             {/* CTA Buttons */}
-            <motion.div {...fadeUp(3)} className="flex flex-wrap gap-4 pt-2">
+            <motion.div {...fadeUp(3)} className="flex flex-wrap gap-4 pt-1 lg:pt-2">
               <Link
                 href="/contact"
                 className="group inline-flex items-center gap-2 rounded-full bg-cta-green hover:bg-lime text-white px-8 py-4 text-sm md:text-base font-semibold transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-cta-green/25"
@@ -175,33 +175,33 @@ export function HeroSection() {
             {/* Trust indicators */}
             <motion.div
               {...fadeUp(4)}
-              className="flex flex-wrap gap-10 pt-8 text-sm text-text-body"
+              className="flex flex-wrap gap-4 sm:gap-6 lg:gap-8 pt-2 lg:pt-4 text-sm text-text-body"
             >
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-lime/15 flex items-center justify-center">
-                  <Users className="h-5 w-5 text-lime" />
+              <div className="flex items-center gap-2.5 sm:gap-3">
+                <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-lime/15 flex items-center justify-center">
+                  <Users className="h-4 w-4 sm:h-5 sm:w-5 text-lime" />
                 </div>
-                <span className="font-medium text-text-dark text-xs sm:text-sm leading-snug">
+                <span className="font-medium text-text-dark text-[11px] sm:text-xs lg:text-sm leading-snug">
                   Goal-Focused
                   <br />
                   Guidance
                 </span>
               </div>
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-lime/15 flex items-center justify-center">
-                  <Target className="h-5 w-5 text-lime" />
+              <div className="flex items-center gap-2.5 sm:gap-3">
+                <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-lime/15 flex items-center justify-center">
+                  <Target className="h-4 w-4 sm:h-5 sm:w-5 text-lime" />
                 </div>
-                <span className="font-medium text-text-dark text-xs sm:text-sm leading-snug">
+                <span className="font-medium text-text-dark text-[11px] sm:text-xs lg:text-sm leading-snug">
                   Goal-Based
                   <br />
                   Investing
                 </span>
               </div>
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-lime/15 flex items-center justify-center">
-                  <ShieldCheck className="h-5 w-5 text-lime" />
+              <div className="flex items-center gap-2.5 sm:gap-3">
+                <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-lime/15 flex items-center justify-center">
+                  <ShieldCheck className="h-4 w-4 sm:h-5 sm:w-5 text-lime" />
                 </div>
-                <span className="font-medium text-text-dark text-xs sm:text-sm leading-snug">
+                <span className="font-medium text-text-dark text-[11px] sm:text-xs lg:text-sm leading-snug">
                   Expert
                   <br />
                   Support
@@ -215,7 +215,7 @@ export function HeroSection() {
             initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, x: 40 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.7, delay: 0.2, ease: [0.22, 1, 0.36, 1] as const }}
-            className="relative flex items-center justify-center lg:justify-end mt-12 lg:mt-0"
+            className="relative flex items-center justify-center lg:justify-end mt-6 lg:mt-0"
           >
             {/* Wrapper for Image and Background */}
             <div className="relative w-full max-w-[420px] md:max-w-[500px] lg:max-w-none lg:w-full mx-auto lg:mx-0">

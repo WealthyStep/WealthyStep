@@ -22,7 +22,10 @@ export const ChatMessages: React.FC<ChatMessagesProps> = ({
   const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+    // Only scroll if there are multiple messages (not just welcome) or if typing
+    if (messages.length > 1 || isTyping) {
+      bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }
   }, [messages, isTyping]);
 
   return (

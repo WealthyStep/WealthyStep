@@ -115,13 +115,13 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({ onClose, isOpen }) => {
   return (
     <div className="flex flex-col w-full h-full bg-[#f8fafc] overflow-hidden relative">
       {/* Premium Header - Light Theme */}
-      <div className="bg-white text-navy px-5 py-4 flex justify-between items-start shrink-0 z-10 rounded-t-2xl border-b border-gray-100">
-        <div className="flex items-start gap-3">
-          <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center shrink-0 mt-0.5 border border-gray-100 overflow-hidden">
+      <div className="bg-white text-navy px-4 py-3 sm:px-5 sm:py-4 flex justify-between items-start shrink-0 z-10 rounded-t-2xl border-b border-gray-100 shadow-[0_4px_20px_-10px_rgba(0,0,0,0.05)]">
+        <div className="flex items-start gap-2 sm:gap-3">
+          <div className="w-9 h-9 sm:w-10 sm:h-10 bg-white rounded-full flex items-center justify-center shrink-0 mt-0.5 border border-gray-100 overflow-hidden shadow-sm">
             <img src="/icon.png" alt="Bot" className="w-full h-full object-contain p-1" />
           </div>
           <div className="flex flex-col">
-            <h3 className="font-bold text-[15px] leading-tight tracking-wide">Wealthy Step Assist</h3>
+            <h3 className="font-bold text-[14px] sm:text-[15px] leading-tight tracking-wide mt-0.5">Wealthy Step Assist</h3>
             <div className="flex items-center gap-1.5 mt-1">
               <span className="relative flex h-1.5 w-1.5">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#82C341] opacity-75"></span>

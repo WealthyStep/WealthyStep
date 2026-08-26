@@ -45,17 +45,17 @@ export const ChatInput: React.FC<ChatInputProps> = ({ onSend, disabled }) => {
         onKeyDown={handleKeyDown}
         placeholder="Type your message..."
         disabled={disabled}
-        className="w-full max-h-[120px] min-h-[46px] bg-white border border-gray-200 rounded-[23px] py-[13px] pl-5 pr-14 text-[13px] text-navy focus:outline-none focus:border-[#82C341] resize-none disabled:opacity-50 shadow-sm transition-all placeholder:text-gray-400"
+        className="w-full max-h-[120px] min-h-[40px] bg-white border border-gray-200 rounded-[20px] py-[10px] pl-4 pr-12 text-[12px] sm:text-[13px] text-navy focus:outline-none focus:border-[#82C341] resize-none disabled:opacity-50 shadow-sm transition-all placeholder:text-gray-400"
         rows={1}
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       />
       <button
         onClick={handleSend}
         disabled={!input.trim() || disabled}
-        className="absolute right-1.5 bottom-1.5 w-[34px] h-[34px] rounded-full bg-[#0B052B] text-white flex items-center justify-center shrink-0 disabled:opacity-40 disabled:bg-slate-300 hover:bg-[#150a50] transition-all active:scale-90 shadow-sm"
+        className="absolute right-1 bottom-1 w-[32px] h-[32px] rounded-full bg-[#0B052B] text-white flex items-center justify-center shrink-0 disabled:opacity-40 disabled:bg-slate-300 hover:bg-[#150a50] transition-all active:scale-90 shadow-sm"
         aria-label="Send message"
       >
-        <Send size={15} className={input.trim() ? "translate-x-px -translate-y-px transition-transform" : "transition-transform"} />
+        <Send size={14} className={input.trim() ? "translate-x-px -translate-y-px transition-transform" : "transition-transform"} />
       </button>
     </div>
   );
