@@ -1,9 +1,7 @@
 import { blogs } from "@/lib/data/blogs";
 import { notFound } from "next/navigation";
-import { InnerHero } from "@/components/sections/InnerHero";
-import { BookOpen } from "lucide-react";
+import { Clock } from "lucide-react";
 import { Metadata } from "next";
-import { FadeIn } from "@/components/ui/fade-in";
 import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 
 type Props = {
@@ -45,7 +43,7 @@ export default async function BlogPostPage({ params }: Props) {
   }
 
   return (
-    <main className="min-h-screen bg-gray-50 flex flex-col">
+    <article className="min-h-screen bg-white">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -70,52 +68,57 @@ export default async function BlogPostPage({ params }: Props) {
         }}
       />
       
-      <div className="bg-navy px-4 pt-32 pb-8">
-        <div className="container mx-auto max-w-[800px]">
+      {/* Blog Header */}
+      <header className="bg-navy pt-4 md:pt-8 pb-3 md:pb-5 px-4">
+        <div className="container mx-auto max-w-[1200px]">
           <Breadcrumbs 
             items={[
               { label: 'Blogs', href: '/blogs' },
               { label: blog.title, href: `/blogs/${blog.slug}` }
             ]} 
           />
+          <div className="flex items-center gap-3 my-2 md:my-3">
+            <span className="inline-flex items-center rounded-full bg-lime/20 px-3 py-1 text-sm font-semibold text-lime uppercase tracking-wider">
+              Article
+            </span>
+            <span className="flex items-center text-sm text-cream/70">
+              <Clock className="mr-1 h-4 w-4" />
+              5 min read
+            </span>
+          </div>
+          
+          <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold text-white leading-tight mb-2 md:mb-4 max-w-[900px]">
+            {blog.title}
+          </h1>
+          
+          <div className="flex items-center justify-between border-t border-white/10 pt-2 md:pt-3 max-w-[900px]">
+            <div className="text-left text-sm text-cream/60">
+              Published on <span className="text-white font-medium ml-1">{blog.date}</span>
+            </div>
+          </div>
         </div>
-      </div>
-      <InnerHero
-        title={blog.title}
-        description={`Published On ${blog.date}`}
-        icon={BookOpen}
-      />
+      </header>
 
-      <section className="py-6 md:py-8">
-        <div className="container mx-auto max-w-4xl px-4 xl:px-0">
-          <FadeIn>
-            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8">
-              <div className="mb-10 rounded-xl overflow-hidden w-full h-[300px] md:h-[450px] relative bg-gray-100">
-                <img 
-                  src={blog.image} 
-                  alt={blog.title}
-                  className="object-cover w-full h-full"
-                />
-              </div>
-
-              <div className="flex items-center gap-4 mb-8 pb-8 border-b border-gray-100">
-                <div className="text-sm font-bold text-navy">
-                  Published On <span className="text-lime">{blog.date}</span>
-                </div>
-                <div className="w-px h-4 bg-gray-300"></div>
-                <div className="text-sm font-bold text-navy">
-                  Follow Us
-                </div>
-              </div>
-
-              <div 
-                className="prose prose-navy max-w-none prose-headings:font-heading prose-headings:text-navy prose-a:text-lime hover:prose-a:text-navy prose-a:break-all prose-strong:text-navy prose-li:text-text-body prose-p:my-3 prose-headings:my-5 prose-ul:my-3"
-                dangerouslySetInnerHTML={{ __html: blog.content }}
+      {/* Blog Content */}
+      <div className="pt-3 md:pt-6 pb-6 md:pb-12 px-4">
+        <div className="container mx-auto max-w-[800px]">
+          {/* Featured Image */}
+          {blog.image && (
+            <div className="w-full aspect-video relative mb-5 md:mb-8 rounded-xl md:rounded-2xl overflow-hidden shadow-sm">
+              <img 
+                src={blog.image} 
+                alt={blog.title}
+                className="w-full h-full object-cover"
               />
             </div>
-          </FadeIn>
+          )}
+          
+          <div 
+            className="text-text-dark text-base md:text-lg leading-relaxed [&>p]:mb-3 md:[&>p]:mb-4 [&>h2]:text-xl [&>h2]:md:text-3xl [&>h2]:font-bold [&>h2]:mb-3 [&>h2]:mt-6 [&>h2]:text-navy [&>h3]:text-lg [&>h3]:md:text-2xl [&>h3]:font-bold [&>h3]:mb-2 [&>h3]:mt-5 [&>h3]:text-navy [&>ul]:list-disc [&>ul]:pl-5 [&>ul]:mb-4 [&>ul>li]:mb-1 [&>strong]:font-semibold [&>strong]:text-navy"
+            dangerouslySetInnerHTML={{ __html: blog.content }}
+          />
         </div>
-      </section>
-    </main>
+      </div>
+    </article>
   );
 }

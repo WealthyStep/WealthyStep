@@ -105,6 +105,12 @@ export function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/knowledge" className="flex items-center justify-between hover:text-lime transition-colors group">
+                  Knowledge Center
+                  <ChevronRight className="w-4 h-4 opacity-50 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
+                </Link>
+              </li>
+              <li>
                 <Link href="/goal-calculators" className="flex items-center justify-between hover:text-lime transition-colors group">
                   Calculator
                   <ChevronRight className="w-4 h-4 opacity-50 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
