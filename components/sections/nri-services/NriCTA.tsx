@@ -37,7 +37,7 @@ export function NriCTA() {
                 href="/contact"
                 className="inline-flex items-center justify-center rounded-full bg-lime hover:bg-cta-green text-white px-10 py-5 text-lg font-bold transition-all shadow-[0_0_40px_rgba(132,189,60,0.3)] hover:shadow-[0_0_60px_rgba(132,189,60,0.5)] hover:-translate-y-1 group whitespace-nowrap"
               >
-                Talk to an NRI Expert
+                Talk to our NRI Support Team
                 <ArrowRight className="ml-3 w-6 h-6 transition-transform group-hover:translate-x-1" />
               </Link>
             </div>

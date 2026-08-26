@@ -7,8 +7,17 @@ import Image from "next/image";
 import { blogs } from "@/lib/data/blogs";
 
 export const metadata: Metadata = {
-  title: "Blogs - Wealthy Step",
-  description: "Read our latest insights on financial planning, investments, and wealth management.",
+  title: "Mutual Fund & Investment Blogs | Wealthy Step",
+  description: "Read educational articles on mutual fund investing, SIPs, insurance, and goal-based investment strategies.",
+  alternates: {
+    canonical: '/blogs'
+  },
+  openGraph: {
+    title: "Mutual Fund & Investment Blogs | Wealthy Step",
+    description: "Read educational articles on mutual fund investing, SIPs, insurance, and goal-based investment strategies.",
+    url: '/blogs',
+    type: "website",
+  },
 };
 
 export default function BlogsPage() {
@@ -17,7 +26,7 @@ export default function BlogsPage() {
       <InnerHero
         title="Blogs"
         subtitle="Home / Blogs"
-        description="Insights and updates on financial planning and investments."
+        description="Insights and updates on goal-based investing and mutual funds."
         icon={BookOpen}
       />
 

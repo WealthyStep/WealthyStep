@@ -6,8 +6,8 @@ import { Users, Eye, ShieldAlert, Target, HeartHandshake, BookOpen } from "lucid
 
 const values = [
   {
-    title: "Client-Centric Guidance",
-    desc: "Every recommendation begins with understanding our client's goals, priorities, and long-term interests.",
+    title: "Client-Centric Support",
+    desc: "Every interaction begins with understanding our client's goals, priorities, and long-term interests.",
     icon: Users
   },
   {
@@ -21,7 +21,7 @@ const values = [
     icon: ShieldAlert
   },
   {
-    title: "Goal-Based Planning",
+    title: "Goal-Based Investing",
     desc: "We believe investments and financial decisions should have a purpose connected to meaningful life goals.",
     icon: Target
   },

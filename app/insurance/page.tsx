@@ -6,8 +6,17 @@ import { WhyChooseWealthyStep } from "@/components/sections/insurance/WhyChooseW
 import { InsuranceCTA } from "@/components/sections/insurance/InsuranceCTA";
 
 export const metadata: Metadata = {
-  title: "Insurance Solutions | Wealthy Step",
-  description: "Comprehensive life and health insurance solutions tailored to protect what matters most.",
+  title: "Insurance Solutions & Coverage Options | Wealthy Step",
+  description: "Explore term life and health insurance plans designed to support your family's future.",
+  alternates: {
+    canonical: '/insurance'
+  },
+  openGraph: {
+    title: "Insurance Solutions & Coverage Options | Wealthy Step",
+    description: "Explore term life and health insurance plans designed to support your family's future.",
+    url: '/insurance',
+    type: "website",
+  },
 };
 
 export default function InsurancePage() {

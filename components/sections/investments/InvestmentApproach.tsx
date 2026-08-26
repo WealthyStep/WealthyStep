@@ -13,22 +13,22 @@ const steps = [
   {
     icon: Clock,
     title: "Plan",
-    desc: "We create a personalized investment strategy just for you.",
+    desc: "We explore mutual fund solutions suited to your goals.",
   },
   {
     icon: BarChart2,
     title: "Invest",
-    desc: "We implement the plan with best-in-class investment solutions.",
+    desc: "We facilitate investments through available mutual fund solutions.",
   },
   {
     icon: LineChart,
     title: "Monitor",
-    desc: "We continuously monitor and optimize to keep you on track.",
+    desc: "Periodic support and review discussions to help you stay connected with your stated investment goals.",
   },
   {
     icon: Target,
     title: "Achieve",
-    desc: "We help you achieve long-term wealth and financial independence.",
+    desc: "We assist you in exploring mutual fund options for long-term goals.",
   },
 ];
 
@@ -47,7 +47,7 @@ export function InvestmentApproach() {
               Simple. Disciplined. <span className="text-lime">Goal-Oriented.</span>
             </h2>
             <p className="text-text-body text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
-              We follow a proven investment approach to help you stay on track and achieve your financial goals.
+              We follow a structured investment approach to help you stay on track and achieve your financial goals.
             </p>
           </FadeIn>
         </div>

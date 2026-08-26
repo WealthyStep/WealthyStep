@@ -7,7 +7,7 @@ import { ArrowRight } from "lucide-react";
 
 export function InvestmentsCTA() {
   return (
-    <section className="bg-[#FAFAFA] pb-6 md:pb-10 pt-2 md:pt-4">
+    <section className="bg-gray-50/50 pb-12 pt-4">
       <div className="container mx-auto max-w-[1200px] px-4 xl:px-0">
         <FadeIn direction="up">
           <div className="bg-[#1C1844] rounded-[20px] p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl max-w-[900px] mx-auto">
@@ -17,7 +17,7 @@ export function InvestmentsCTA() {
                 Ready to Start Your Investment Journey?
               </h2>
               <p className="text-white/80 text-sm">
-                Let us help you build wealth and secure your financial future.
+                Let us help you explore investment solutions and support your financial goals.
               </p>
             </div>
 

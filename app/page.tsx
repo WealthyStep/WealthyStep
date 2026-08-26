@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import { ServiceCard } from "@/components/cards/ServiceCard";
 import { FadeIn } from "@/components/ui/fade-in";
 import { HeroSection } from "@/components/hero/HeroSection";
@@ -13,6 +14,20 @@ import {
   ArrowRight, PhoneCall
 } from "lucide-react";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "AMFI Registered Mutual Fund Distributor & Insurance | Wealthy Step",
+  description: "Wealthy Step is an AMFI Registered Mutual Fund Distributor (ARN-322891) providing goal-focused mutual fund distribution, insurance solutions, and NRI investment support.",
+  alternates: {
+    canonical: '/'
+  },
+  openGraph: {
+    title: "AMFI Registered Mutual Fund Distributor & Insurance | Wealthy Step",
+    description: "Wealthy Step is an AMFI Registered Mutual Fund Distributor (ARN-322891) providing goal-focused mutual fund distribution, insurance solutions, and NRI investment support.",
+    url: '/',
+    type: "website",
+  },
+};
 
 export default function HomePage() {
   return (

@@ -6,23 +6,23 @@ import { Users, FileCheck2, Award, HeadsetIcon } from "lucide-react";
 
 const stats = [
   {
-    value: "5000+",
-    label: "Families Protected",
+    value: "Protection",
+    label: "Securing what matters",
     icon: Users
   },
   {
-    value: "98%",
-    label: "Claim Assistance Success",
+    value: "Guidance",
+    label: "Claim Assistance Support",
     icon: FileCheck2
   },
   {
-    value: "10+",
-    label: "Trusted Insurance Partners",
+    value: "Trusted",
+    label: "Insurance Solutions",
     icon: Award
   },
   {
-    value: "24/7",
-    label: "Claim Support Assistance",
+    value: "Reliable",
+    label: "Continuous Support",
     icon: HeadsetIcon
   }
 ];

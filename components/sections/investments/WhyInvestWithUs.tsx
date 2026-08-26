@@ -8,13 +8,13 @@ import Image from "next/image";
 const reasons = [
   {
     icon: UserCheck,
-    title: "Expert Guidance",
-    desc: "Certified experts with deep market knowledge",
+    title: "Goal-Focused Guidance",
+    desc: "Dedicated team for mutual fund distribution",
   },
   {
     icon: SlidersHorizontal,
-    title: "Personalized Strategy",
-    desc: "Tailored investment plans for your goals",
+    title: "Goal-Based Investment Support",
+    desc: "Mutual fund solutions explored based on your stated goals, preferences and investment horizon.",
   },
   {
     icon: CheckSquare,
@@ -23,8 +23,8 @@ const reasons = [
   },
   {
     icon: Percent,
-    title: "Low Cost",
-    desc: "Optimized solutions with cost efficiency",
+    title: "Transparent",
+    desc: "Transparent solutions with cost efficiency",
   },
   {
     icon: Headset,
@@ -34,7 +34,7 @@ const reasons = [
   {
     icon: Shield,
     title: "Trust & Security",
-    desc: "Client-first approach with highest standards",
+    desc: "Client-first approach to mutual fund distribution",
   }
 ];
 
@@ -50,7 +50,7 @@ export function WhyInvestWithUs() {
               Why <span className="text-lime">Invest</span> With Us
             </h2>
             <p className="text-text-body text-sm sm:text-base max-w-lg mx-auto">
-              We are committed to your financial success.
+              We are committed to supporting your long-term goals.
             </p>
           </FadeIn>
         </div>
@@ -84,19 +84,19 @@ export function WhyInvestWithUs() {
               <div>
                 <h3 className="text-sm md:text-base font-bold text-navy font-heading mb-1">Regulated & Compliant</h3>
                 <p className="text-xs md:text-sm text-text-body max-w-xl leading-relaxed">
-                  Wealthy Step is a SEBI Registered Investment Advisor. All investments are subject to market risks. Please read all scheme related documents carefully before investing.
+                  Wealthy Step is an AMFI Registered Mutual Fund Distributor. All investments are subject to market risks. Please read all scheme related documents carefully before investing.
                 </p>
               </div>
             </div>
             
             <div className="shrink-0 flex items-center gap-4 md:border-l border-gray-200 pt-4 md:pt-0 md:pl-6 mt-2 md:mt-0 w-full md:w-auto">
-              <div className="font-bold text-navy flex items-center text-3xl font-heading tracking-tighter">
-                S<span className="text-lime">B</span>I
+              <div className="font-bold text-navy flex items-center text-xl md:text-2xl font-heading tracking-tighter uppercase">
+                AMFI
               </div>
               <div className="text-left">
-                <div className="text-[11px] md:text-xs font-bold text-navy">SEBI REGISTERED</div>
-                <div className="text-[11px] md:text-xs text-text-body">INA0000XXXXX</div>
-                <div className="text-[10px] md:text-xs text-text-body">Investment Advisor</div>
+                <div className="text-[11px] md:text-xs font-bold text-navy">REGISTERED MUTUAL FUND DISTRIBUTOR</div>
+                <div className="text-[11px] md:text-xs text-text-body">ARN - 322891</div>
+                <div className="text-[10px] md:text-xs text-text-body">MUTUAL FUND | INSURANCE</div>
               </div>
             </div>
           </div>

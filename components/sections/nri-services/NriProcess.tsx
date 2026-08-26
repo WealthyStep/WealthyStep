@@ -8,25 +8,25 @@ const steps = [
   {
     step: "01",
     title: "Onboarding & KYC",
-    description: "Digital, paperless KYC process designed for NRIs. We handle the complex documentation.",
+    description: "Digital, paperless KYC process designed for NRIs. We assist with the documentation process.",
     icon: UserCheck,
   },
   {
     step: "02",
     title: "Account Setup",
-    description: "Seamless NRE/NRO account setup and linking with compliant Demat & Trading accounts.",
+    description: "Assistance and coordination for NRE/NRO and mutual fund investment account setups.",
     icon: Building2,
   },
   {
     step: "03",
-    title: "Strategy Design",
-    description: "Custom portfolio architecture based on your risk appetite and country of residence tax laws.",
+    title: "Process Overview",
+    description: "Mutual fund solutions explored based on your stated goals.",
     icon: Briefcase,
   },
   {
     step: "04",
-    title: "Execution & Growth",
-    description: "Active portfolio management, systematic investing, and regular performance reporting.",
+    title: "Execution & Ongoing Support",
+    description: "Periodic investment review discussions and ongoing support.",
     icon: TrendingUp,
   },
 ];
@@ -42,7 +42,7 @@ export function NriProcess() {
               Your Journey to Indian Wealth
             </h2>
             <p className="text-text-body text-base md:text-lg">
-              We've streamlined the entire process. From initial compliance to executing your first trade, we handle the heavy lifting.
+              We've streamlined the entire process. From initial onboarding to executing your mutual fund investments, we provide comprehensive support.
             </p>
           </FadeIn>
         </div>

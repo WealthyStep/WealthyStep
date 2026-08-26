@@ -21,31 +21,31 @@ const products = [
     category: "Mutual Funds",
     icon: Wallet,
     title: "Mutual Funds",
-    desc: "Professionally managed portfolios diversified across asset classes. Ideal for long-term wealth creation.",
+    desc: "Professionally managed portfolios diversified across asset classes. Ideal for long-term investing.",
     features: ["Diversified Portfolio", "Expert Fund Management", "SIP & Lump Sum Options", "Flexible & Liquidity"],
     href: "/contact"
   },
   {
     category: "Equity",
     icon: TrendingUp,
-    title: "Equity Investments",
-    desc: "Invest in stocks with high growth potential and build wealth over the long term.",
-    features: ["High Return Potential", "Ownership in Top Companies", "Long Term Wealth Creation", "Market Growth Participation"],
+    title: "Equity-Oriented Mutual Funds",
+    desc: "Explore equity-oriented mutual fund solutions designed for investors seeking long-term growth potential, subject to market risks.",
+    features: ["Professional Fund Management", "Diversification", "SIP & Lump Sum Options", "Long-Term Investment Horizon"],
     href: "/contact"
   },
   {
     category: "Debt",
     icon: Landmark,
-    title: "Debt Investments",
-    desc: "Stable returns with lower risk through government and corporate bonds.",
-    features: ["Regular Income", "Low Risk", "Capital Preservation", "Short to Long Term Options"],
+    title: "Debt-Oriented Mutual Funds",
+    desc: "Explore debt-oriented mutual fund solutions with varying risk and return characteristics.",
+    features: ["Diversified Debt Exposure", "Different Duration Options", "Liquidity Subject to Scheme Terms", "Risk and Return Vary by Scheme"],
     href: "/contact"
   },
   {
     category: "Hybrid",
     icon: Layers,
     title: "Hybrid Funds",
-    desc: "A balanced mix of equity and debt to manage risk and optimize returns.",
+    desc: "A balanced mix of equity and debt to align with your stated risk tolerance.",
     features: ["Balanced Approach", "Moderate Risk", "Growth + Stability", "Dynamic Asset Allocation"],
     href: "/contact"
   },
@@ -53,8 +53,8 @@ const products = [
     category: "Tax Saving",
     icon: PiggyBank,
     title: "ELSS (Tax Saving)",
-    desc: "Save tax while you invest and grow your wealth with ELSS funds.",
-    features: ["Tax Benefit u/s 80C", "Equity Linked Growth", "3 Year Lock-in", "Wealth Creation"],
+    desc: "Save tax while you invest in ELSS mutual funds.",
+    features: ["Tax Benefit u/s 80C", "Equity Linked Growth", "3 Year Lock-in", "Long-Term Investing"],
     href: "/contact"
   },
   {
@@ -62,7 +62,7 @@ const products = [
     icon: Globe,
     title: "NRI Investments",
     desc: "Specialized investment solutions designed for NRI goals and requirements.",
-    features: ["NRI Compliant Solutions", "Repatriation Friendly", "Global Diversification", "Expert Guidance"],
+    features: ["NRI Compliant Solutions", "Repatriation Friendly", "Global Diversification", "Dedicated Support"],
     href: "/contact"
   }
 ];
@@ -85,7 +85,7 @@ export function InvestmentOptions() {
               Explore <span className="text-lime">Investment</span> Options
             </h2>
             <p className="text-text-body text-sm sm:text-base max-w-2xl mx-auto">
-              Choose from our wide range of investment solutions tailored to your needs.
+              Choose from our wide range of investment solutions aligned with your goals.
             </p>
           </FadeIn>
         </div>

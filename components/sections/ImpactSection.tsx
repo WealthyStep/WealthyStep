@@ -2,13 +2,13 @@
 
 import React from "react";
 import { FadeIn } from "@/components/ui/fade-in";
-import { Award, Users, Globe2, Star } from "lucide-react";
+import { Users, Target, ShieldCheck, TrendingUp } from "lucide-react";
 
 const stats = [
-  { icon: Award, value: "15+", label: "Years of\nExperience" },
-  { icon: Users, value: "1000+", label: "Happy\nClients" },
-  { icon: Globe2, value: "25+", label: "Cities\nServed" },
-  { icon: Star, value: "4.9/5", label: "Client\nRating" },
+  { icon: Target, value: "Goal-Focused", label: "Aligning investments\nwith meaningful goals" },
+  { icon: ShieldCheck, value: "Transparent", label: "Clear communication and\nstraightforward support" },
+  { icon: TrendingUp, value: "Long-Term", label: "Disciplined and steady\ninvestment approach" },
+  { icon: Users, value: "Investor-Centric", label: "Support designed\naround your objectives" },
 ];
 
 export function ImpactSection() {
@@ -115,7 +115,7 @@ export function ImpactSection() {
 
             {/* Subtitle */}
             <p className="text-text-body text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
-              A commitment to personalized guidance, trusted relationships, and long-term financial confidence.
+              A commitment to goal-based support, trusted relationships, and long-term investing.
             </p>
           </FadeIn>
         </div>
@@ -140,8 +140,8 @@ export function ImpactSection() {
                 </div>
               </div>
 
-              {/* Number Value */}
-              <div className="text-2xl lg:text-3xl font-bold text-navy mb-1.5 font-heading tracking-tight">
+              {/* Value proposition */}
+              <div className="text-lg lg:text-xl font-bold text-navy mb-1.5 font-heading tracking-tight leading-tight">
                 {stat.value}
               </div>
 

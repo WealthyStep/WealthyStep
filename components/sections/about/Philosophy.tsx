@@ -15,8 +15,9 @@ export function Philosophy() {
           src="/images/contact-people.jpg" 
           alt="Wealthy Step Philosophy" 
           fill
-sizes="(max-width: 768px) 100vw, 50vw" 
+          sizes="(max-width: 768px) 100vw, 50vw" 
           className="object-cover mix-blend-luminosity grayscale"
+          priority
         />
         <div className="absolute inset-0 bg-gradient-to-r from-navy via-navy/95 to-navy/80"></div>
       </div>
@@ -47,12 +48,12 @@ sizes="(max-width: 768px) 100vw, 50vw"
               </FadeInStaggerItem>
               <FadeInStaggerItem>
                 <p className="font-semibold text-white">
-                  At Wealthy Step, we believe financial planning should support the life you want to build.
+                  At Wealthy Step, we believe financial well-being begins with clarity, discipline and informed investment decisions.
                 </p>
               </FadeInStaggerItem>
               <FadeInStaggerItem>
                 <p>
-                  That is why we focus on helping you create a financial strategy with purpose, protection, and long-term direction.
+                  That is why we focus on helping you build an investment approach with purpose, protection, and long-term direction.
                 </p>
               </FadeInStaggerItem>
             </FadeInStagger>
@@ -64,7 +65,7 @@ sizes="(max-width: 768px) 100vw, 50vw"
                   Let's Build Your Financial Tomorrow, Today
                 </h3>
                 <p className="text-cream/80 text-[15px] md:text-base leading-relaxed mb-8 max-w-2xl mx-auto">
-                  Your financial journey deserves more than random decisions and disconnected products. It deserves a clear plan, thoughtful guidance, and a long-term perspective. Take your next step — the Wealthy way.
+                  Your financial journey deserves more than random decisions and disconnected products. It deserves a clear approach, thoughtful support, and a long-term perspective. Take your next step — the Wealthy way.
                 </p>
                 <Link
                   href="/contact"

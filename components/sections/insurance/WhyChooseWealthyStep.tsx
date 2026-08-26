@@ -7,13 +7,13 @@ import { UserCheck, FileSearch, ShieldCheck, ActivitySquare, IndianRupee, Shield
 const reasons = [
   {
     icon: UserCheck,
-    title: "Expert Guidance",
-    desc: "Personalized advice from certified insurance experts."
+    title: "Dedicated Support",
+    desc: "Insurance options based on your protection needs."
   },
   {
     icon: FileSearch,
-    title: "Best Plans",
-    desc: "Compare and choose from the best plans available."
+    title: "Available Options",
+    desc: "Compare and choose from available insurance solutions."
   },
   {
     icon: ShieldCheck,
@@ -23,16 +23,16 @@ const reasons = [
   {
     icon: ActivitySquare,
     title: "Easy Claim Support",
-    desc: "End-to-end assistance for hassle-free claim settlement."
+    desc: "Assistance and support with the claim process."
   },
   {
     icon: IndianRupee,
     title: "Affordable Premiums",
-    desc: "Get the best coverage at the most competitive prices."
+    desc: "Explore options for suitable coverage based on your budget."
   },
   {
     icon: ShieldAlert,
-    title: "100% Trust",
+    title: "Built on Trust",
     desc: "Your trust and security are our top priorities."
   }
 ];

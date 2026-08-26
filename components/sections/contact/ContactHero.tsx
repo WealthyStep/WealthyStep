@@ -25,7 +25,7 @@ export function ContactHero() {
               </h1>
               
               <p className="text-white/80 text-lg mb-10 max-w-lg leading-relaxed">
-                Have questions about investments, insurance, financial planning, or NRI services? Our team is here to guide you.
+                Have questions about investments, insurance, goal-based investing, or NRI services? Our team is here to guide you.
               </p>
             </FadeIn>
 
@@ -35,7 +35,7 @@ export function ContactHero() {
                   <User className="w-5 h-5 text-lime" />
                 </div>
                 <div>
-                  <h4 className="text-sm font-bold text-white mb-1">Expert Guidance</h4>
+                  <h4 className="text-sm font-bold text-white mb-1">Dedicated Support</h4>
                   <p className="text-xs text-white/60 leading-tight">From experienced<br/>professionals</p>
                 </div>
               </div>
@@ -44,8 +44,8 @@ export function ContactHero() {
                   <Target className="w-5 h-5 text-lime" />
                 </div>
                 <div>
-                  <h4 className="text-sm font-bold text-white mb-1">Personalized Support</h4>
-                  <p className="text-xs text-white/60 leading-tight">Solutions tailored to<br/>your goals</p>
+                  <h4 className="text-sm font-bold text-white mb-1">Goal-Focused Support</h4>
+                  <p className="text-xs text-white/60 leading-tight">Solutions designed around<br/>your goals</p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
@@ -82,7 +82,7 @@ export function ContactHero() {
                   <div className="w-full h-full relative overflow-hidden rounded-br-[150px] rounded-tl-[150px] rounded-tr-[40px] rounded-bl-[40px] bg-white z-10">
                     <Image 
                       src="/images/contact-people.jpg"
-                      alt="Financial Advisors"
+                      alt="Mutual Fund Distributors"
                       fill
                       sizes="(max-width: 768px) 100vw, 50vw"
                       className="object-cover"

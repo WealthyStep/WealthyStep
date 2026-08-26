@@ -59,10 +59,10 @@ export function InsurancePlans() {
         <div className="text-center max-w-3xl mx-auto mb-8">
           <FadeIn direction="up">
             <h2 className="text-3xl sm:text-4xl font-bold text-navy font-heading leading-tight mb-2">
-              Our <span className="text-lime">Insurance</span> Plans
+              Our <span className="text-lime">Insurance</span> Options
             </h2>
             <p className="text-text-body text-sm sm:text-base max-w-2xl mx-auto">
-              Choose the right plan to protect what matters most
+              Choose the right coverage to protect what matters most
             </p>
           </FadeIn>
         </div>

@@ -29,7 +29,7 @@ export function WhatsAppButton() {
       <div className="relative group">
         {/* Tooltip / Message Bubble */}
         <div className="absolute right-full mr-4 bottom-1/2 translate-y-1/2 w-max px-4 py-3 bg-white text-navy text-sm font-semibold rounded-2xl rounded-br-none shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-gray-100 opacity-0 transform translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 pointer-events-none origin-bottom-right hidden md:block">
-          Need expert advice? <span className="text-[#25D366]">Chat with us!</span>
+          Need mutual fund assistance? <span className="text-[#25D366]">Chat with us!</span>
           <div className="absolute right-[-6px] bottom-2 w-3 h-3 bg-white border-b border-r border-gray-100 rotate-[-45deg]"></div>
         </div>
 

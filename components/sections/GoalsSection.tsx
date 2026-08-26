@@ -10,35 +10,35 @@ const goals = [
   {
     id: "01",
     title: "Dream Home",
-    desc: "Turn your dream home into a well-planned reality.",
+    desc: "Turn your dream home into a clear investment journey.",
     image: "/images/goal-6.jpg",
     href: "/goal-calculators"
   },
   {
     id: "02",
-    title: "Wealth Creation",
-    desc: "Build and grow your wealth for a secure and prosperous future.",
+    title: "Long-Term Investing",
+    desc: "Work towards your long-term goals through disciplined investing.",
     image: "/images/goal-2.jpg",
     href: "/investments"
   },
   {
     id: "03",
     title: "Retirement",
-    desc: "Plan today for a comfortable tomorrow and enjoy life your way.",
+    desc: "Start today for a comfortable tomorrow and enjoy life your way.",
     image: "/images/goal-3.jpg",
     href: "/goal-calculators"
   },
   {
     id: "04",
     title: "Child Education",
-    desc: "Secure the best education and build a bright future for your children.",
+    desc: "Save for their education and build a strong foundation for their future.",
     image: "/images/goal-5.jpg",
     href: "/goal-calculators"
   },
   {
     id: "05",
     title: "Child Marriage",
-    desc: "Plan ahead for life's special moments and celebrate with peace of mind.",
+    desc: "Prepare for life's special moments and celebrate with peace of mind.",
     image: "/images/goal-4.jpg",
     href: "/goal-calculators"
   },
@@ -95,7 +95,7 @@ export function GoalsSection() {
                 <div className="absolute right-0 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-lime" />
               </div>
               <span className="text-sm font-bold uppercase tracking-[0.15em] text-lime font-heading">
-                PLAN WITH PURPOSE
+                INVEST WITH PURPOSE
               </span>
               <div className="w-12 h-px bg-lime relative">
                 <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-lime" />
@@ -108,7 +108,7 @@ export function GoalsSection() {
             </h2>
 
             <p className="text-text-body text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
-              Every financial journey is unique. Explore goal-based strategies designed to help you plan, invest, and move closer to what matters most.
+              Every financial journey is unique. Explore goal-based options designed to help you explore, invest, and move closer to what matters most.
             </p>
           </FadeIn>
         </div>
@@ -194,7 +194,7 @@ export function GoalsSection() {
               href="/goal-calculators"
               className="inline-flex items-center justify-center rounded-full bg-cta-green hover:bg-lime text-white px-8 py-3.5 text-base font-bold transition-all shadow-md hover:shadow-lg group"
             >
-              Plan Your Goals Today
+              Start Your Goals Today
               <ArrowRight className="ml-2 w-5 h-5 transition-transform group-hover:translate-x-1" />
             </Link>
           </FadeIn>

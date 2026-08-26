@@ -3,7 +3,16 @@ import { InnerHero } from "@/components/sections/InnerHero";
 
 export const metadata: Metadata = {
   title: "Investor Grievance Redressal | Wealthy Step",
-  description: "Wealthy Step investor grievance redressal process.",
+  description: "Information on our investor grievance redressal mechanism and escalation matrix.",
+  alternates: {
+    canonical: '/investor-grievance'
+  },
+  openGraph: {
+    title: "Investor Grievance Redressal | Wealthy Step",
+    description: "Information on our investor grievance redressal mechanism and escalation matrix.",
+    url: '/investor-grievance',
+    type: "website",
+  },
 };
 
 export default function InvestorGrievancePage() {

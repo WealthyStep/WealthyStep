@@ -2,8 +2,17 @@ import { Metadata } from "next";
 import { InnerHero } from "@/components/sections/InnerHero";
 
 export const metadata: Metadata = {
-  title: "Important Links | Wealthy Step",
-  description: "Essential regulatory and informational links for investors.",
+  title: "Important Links & Resources | Wealthy Step",
+  description: "Access important regulatory links, investor education resources, and official SEBI/AMFI portals.",
+  alternates: {
+    canonical: '/important-links'
+  },
+  openGraph: {
+    title: "Important Links & Resources | Wealthy Step",
+    description: "Access important regulatory links, investor education resources, and official SEBI/AMFI portals.",
+    url: '/important-links',
+    type: "website",
+  },
 };
 
 export default function ImportantLinksPage() {

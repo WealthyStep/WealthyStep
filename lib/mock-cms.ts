@@ -6,6 +6,7 @@ export interface Article {
   content: string; // HTML string or plain text for mock purposes
   category: string;
   date: string;
+  updatedAt?: string;
   readTime: string;
   author: {
     name: string;
@@ -32,7 +33,7 @@ export const mockArticles: Article[] = [
     readTime: "4 min read",
     author: {
       name: "Rajesh Kumar",
-      role: "Senior Financial Planner"
+      role: "Mutual Fund Distribution Professional"
     }
   },
   {
@@ -56,7 +57,7 @@ export const mockArticles: Article[] = [
     readTime: "6 min read",
     author: {
       name: "Sneha Patel",
-      role: "NRI Tax Consultant"
+      role: "Financial Writer"
     }
   },
   {
@@ -65,13 +66,13 @@ export const mockArticles: Article[] = [
     title: "Term vs. Whole Life Insurance: Making the Right Choice",
     excerpt: "Confused about which life insurance policy is right for you? We break down the pros, cons, and use cases for both.",
     content: `
-      <p class="mb-4">Life insurance is the bedrock of any solid financial plan. However, with so many products on the market, choosing the right type of coverage can be overwhelming. The two primary categories are Term Life and Whole Life (or Endowment) insurance.</p>
+      <p class="mb-4">Life insurance is the bedrock of any solid protection approach. However, with so many products on the market, choosing the right type of coverage can be overwhelming. The two primary categories are Term Life and Whole Life (or Endowment) insurance.</p>
       <h3 class="text-2xl font-bold mt-8 mb-4 text-navy">Term Life Insurance: Pure Protection</h3>
       <p class="mb-4">Term insurance is straightforward: you pay a premium for a specific period (the "term"), and if you pass away during that time, your beneficiaries receive a payout. If you outlive the policy, there is no payout.</p>
       <p class="mb-4"><strong>Pros:</strong> Highly affordable, allowing you to buy substantial coverage for a low premium.</p>
       <h3 class="text-2xl font-bold mt-8 mb-4 text-navy">Whole Life Insurance: Protection + Investment</h3>
       <p class="mb-4">Whole life policies provide coverage for your entire life, and they typically include a savings or investment component (cash value).</p>
-      <p class="mb-4"><strong>Pros:</strong> Guaranteed payout eventually, forced savings component.</p>
+      <p className="mb-4"><strong>Pros:</strong> Fixed payout eventually, forced savings component.</p>
       <p class="mb-4"><strong>Cons:</strong> Premiums are significantly higher than term insurance for the same amount of coverage.</p>
       <h3 class="text-2xl font-bold mt-8 mb-4 text-navy">The Wealthy Step Verdict</h3>
       <p class="mb-4">For most young professionals and families, we recommend "Buy Term and Invest the Rest." A robust term plan provides the necessary safety net, while investing the premium difference in a diversified mutual fund portfolio typically yields much higher long-term returns than a whole life policy.</p>

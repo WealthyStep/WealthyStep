@@ -4,6 +4,7 @@ import { InnerHero } from "@/components/sections/InnerHero";
 import { BookOpen } from "lucide-react";
 import { Metadata } from "next";
 import { FadeIn } from "@/components/ui/fade-in";
+import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -15,8 +16,17 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!blog) return { title: "Blog Not Found" };
 
   return {
-    title: `${blog.title} - Wealthy Step`,
+    title: `${blog.title} | Wealthy Step`,
     description: blog.excerpt,
+    alternates: {
+      canonical: `/blogs/${slug}`,
+    },
+    openGraph: {
+      title: `${blog.title} | Wealthy Step`,
+      description: blog.excerpt,
+      url: `/blogs/${slug}`,
+      type: "article",
+    },
   };
 }
 
@@ -36,9 +46,42 @@ export default async function BlogPostPage({ params }: Props) {
 
   return (
     <main className="min-h-screen bg-gray-50 flex flex-col">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BlogPosting",
+            "headline": blog.title,
+            "description": blog.excerpt,
+            "image": blog.image,
+            "datePublished": blog.date,
+            "dateModified": (blog as any).updatedAt || blog.date,
+            "publisher": {
+              "@type": "Organization",
+              "name": "Wealthy Step",
+              "url": "https://wealthystep.com",
+              "logo": {
+                "@type": "ImageObject",
+                "url": "https://wealthystep.com/logo.svg"
+              }
+            }
+          })
+        }}
+      />
+      
+      <div className="bg-navy px-4 pt-32 pb-8">
+        <div className="container mx-auto max-w-[800px]">
+          <Breadcrumbs 
+            items={[
+              { label: 'Blogs', href: '/blogs' },
+              { label: blog.title, href: `/blogs/${blog.slug}` }
+            ]} 
+          />
+        </div>
+      </div>
       <InnerHero
         title={blog.title}
-        subtitle="Home / Blogs"
         description={`Published On ${blog.date}`}
         icon={BookOpen}
       />

@@ -34,7 +34,7 @@ sizes="(max-width: 768px) 100vw, 50vw"
         </FadeInStaggerItem>
         <FadeInStaggerItem>
           <p className="text-base md:text-lg text-cream/90 max-w-2xl mx-auto leading-relaxed">
-            Planning with confidence. We believe that true wealth is built with intention, creating clarity for what matters most.
+            Investing with confidence. We believe that true wealth is built with intention, creating clarity for what matters most.
           </p>
         </FadeInStaggerItem>
       </FadeInStagger>
@@ -68,8 +68,8 @@ sizes="(max-width: 768px) 100vw, 50vw"
                 <Target className="w-5 h-5 text-lime" />
               </div>
               <div className="text-left">
-                <div className="text-navy font-bold text-sm">Personalized</div>
-                <div className="text-gray-500 text-[11px] font-medium leading-tight">Goal-Based Planning</div>
+                <div className="text-navy font-bold text-sm">Goal-Focused</div>
+                <div className="text-gray-500 text-[11px] font-medium leading-tight">Goal-Based Investing</div>
               </div>
             </div>
           </div>

@@ -43,7 +43,7 @@ sizes="(max-width: 768px) 100vw, 50vw"
                 <h3 className="text-xl font-bold text-navy font-heading">Our Location</h3>
               </div>
               <p className="text-sm text-text-body leading-relaxed mb-6">
-                Visit our office for a personalized consultation with our experts.
+                Visit our office for a goal-focused discussion with our team.
               </p>
               <a 
                 href="https://maps.google.com" 

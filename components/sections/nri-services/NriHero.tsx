@@ -40,7 +40,7 @@ export function NriHero() {
               </h1>
               
               <p className="text-base sm:text-lg text-white/80 mb-8 leading-relaxed max-w-lg">
-                Navigating Indian investments, taxation, and compliance from miles away made effortless with our dedicated NRI desk.
+                NRI mutual fund solutions based on applicable regulations and stated investment goals.
               </p>
 
               <Link
@@ -56,7 +56,7 @@ export function NriHero() {
             <FadeIn direction="up" delay={0.2} className="flex flex-wrap items-center gap-6 sm:gap-10 mt-6">
               <div className="flex items-center gap-3">
                 <Globe2 className="w-6 h-6 text-lime" strokeWidth={1.5} />
-                <span className="text-xs sm:text-sm font-medium text-white/90 leading-tight">Dedicated<br/>NRI Portfolio</span>
+                <span className="text-xs sm:text-sm font-medium text-white/90 leading-tight">NRI<br/>Investment Support</span>
               </div>
               <div className="flex items-center gap-3">
                 <ShieldCheck className="w-6 h-6 text-lime" strokeWidth={1.5} />
@@ -64,7 +64,7 @@ export function NriHero() {
               </div>
               <div className="flex items-center gap-3">
                 <FileCheck className="w-6 h-6 text-lime" strokeWidth={1.5} />
-                <span className="text-xs sm:text-sm font-medium text-white/90 leading-tight">Tax & DTAA<br/>Assistance</span>
+                <span className="text-xs sm:text-sm font-medium text-white/90 leading-tight">NRI Investment<br/>Support</span>
               </div>
             </FadeIn>
           </div>

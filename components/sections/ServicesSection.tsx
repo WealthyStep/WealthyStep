@@ -16,7 +16,7 @@ const services = [
   {
     icon: TrendingUp,
     title: "Mutual Funds\nInvestments",
-    desc: "Smart investment solutions to grow your wealth and achieve your long-term financial goals.",
+    desc: "Mutual fund investment solutions designed to support long-term goals.",
     image: "/images/service-2.png",
     points: [
       "Equity Mutual Funds",
@@ -29,7 +29,7 @@ const services = [
   {
     icon: ShieldCheck,
     title: "All Kind\nInsurances",
-    desc: "Comprehensive insurance plans to protect what matters most – your family, health, and future.",
+    desc: "Insurance options to protect what matters most – your family, health, and future.",
     image: "/images/service-1.png",
     points: [
       "Life Insurance",
@@ -41,14 +41,14 @@ const services = [
   },
   {
     icon: Target,
-    title: "Personal Finance\nPlanning",
-    desc: "Personalized financial planning to help you manage money better and build a secure future.",
+    title: "Goal-Based\nInvesting",
+    desc: "Goal-based mutual fund investment solutions to support your long-term objectives.",
     image: "/images/image.png",
     points: [
-      "Goal-Based Planning",
-      "Retirement Planning",
-      "Wealth Creation",
-      "Tax Planning"
+      "Goal-Based Approach",
+      "Retirement Goal Investing",
+      "Long-Term Investing",
+      "Tax-saving mutual fund options, subject to applicable tax laws"
     ],
     href: "/goal-calculators"
   }
@@ -106,12 +106,12 @@ export function ServicesSection() {
             </div>
 
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-[1.15] text-text-dark font-heading tracking-tight mb-4">
-              Smart Financial Solutions,<br className="hidden sm:block" />
+              Investment & Protection Solutions,<br className="hidden sm:block" />
               Built Around <span className="text-lime">You.</span>
             </h2>
 
             <p className="text-text-body text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
-              Comprehensive financial services to help you grow, protect, and manage your wealth with confidence.
+              Mutual fund investment and insurance solutions designed to support your long-term goals and protection needs.
             </p>
           </FadeIn>
         </div>

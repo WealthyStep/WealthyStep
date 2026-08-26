@@ -6,8 +6,17 @@ import { ContactLocation } from "@/components/sections/contact/ContactLocation";
 import { ContactBottomCTA } from "@/components/sections/contact/ContactBottomCTA";
 
 export const metadata: Metadata = {
-  title: "Contact Us | Wealthy Step",
-  description: "Get in touch with Wealthy Step's financial advisors.",
+  title: "Contact Wealthy Step | Investor Support",
+  description: "Get in touch with Wealthy Step for support with your mutual fund investments and insurance queries.",
+  alternates: {
+    canonical: '/contact'
+  },
+  openGraph: {
+    title: "Contact Wealthy Step | Investor Support",
+    description: "Get in touch with Wealthy Step for support with your mutual fund investments and insurance queries.",
+    url: '/contact',
+    type: "website",
+  },
 };
 
 export default function ContactPage() {

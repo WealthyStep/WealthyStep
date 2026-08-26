@@ -45,7 +45,7 @@ export function CTASection() {
 
               {/* Subtitle */}
               <p className="text-cream/80 text-lg md:text-xl max-w-xl leading-relaxed mb-10">
-                Get personalized guidance for your financial goals and start your journey towards long-term wealth and financial freedom.
+                Get support for your stated goals and start your journey towards long-term investing.
               </p>
 
               {/* Buttons */}
@@ -72,11 +72,11 @@ export function CTASection() {
                 </div>
                 <div className="flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 text-lime" />
-                  Expert Guidance
+                  Dedicated Support
                 </div>
                 <div className="flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 text-lime" />
-                  Personalized Plans
+                  Goal-Focused Support
                 </div>
               </div>
             </FadeIn>

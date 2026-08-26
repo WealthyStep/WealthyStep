@@ -19,22 +19,22 @@ const features = [
   {
     icon: UserCheck,
     title: "Client-First Approach",
-    desc: "We prioritize your goals and create strategies tailored to your needs.",
+    desc: "We understand your goals and help you explore suitable mutual fund investment solutions.",
   },
   {
     icon: Medal,
-    title: "Expertise You Can Trust",
+    title: "Experience You Can Trust",
     desc: "Backed by years of experience and in-depth market knowledge.",
   },
   {
     icon: TrendingUp,
-    title: "Goal-Based Planning",
-    desc: "Every plan we create is aligned with your short-term needs and long-term dreams.",
+    title: "Goal-Based Investing",
+    desc: "Every investment approach is aligned with your short-term needs and long-term dreams.",
   },
   {
     icon: ShieldCheck,
-    title: "Comprehensive Solutions",
-    desc: "From investments to insurance, we offer holistic financial solutions.",
+    title: "Investment & Protection Solutions",
+    desc: "We offer mutual fund investment solutions and insurance solutions designed to support your financial goals.",
   },
   {
     icon: BarChart,
@@ -44,7 +44,7 @@ const features = [
   {
     icon: HeartHandshake,
     title: "Long-Term Partnership",
-    desc: "We grow with you, offering guidance at every step of your financial journey.",
+    desc: "We stay with you, offering support throughout your financial journey.",
   }
 ];
 
@@ -90,7 +90,7 @@ export function WhyChooseUsSection() {
             </div>
 
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-[1.15] text-text-dark font-heading tracking-tight">
-              Your Financial Growth,<br className="hidden sm:block" />
+              Your Financial Journey,<br className="hidden sm:block" />
               Our <span className="text-accent-purple">Commitment.</span>
             </h2>
           </FadeIn>
@@ -103,7 +103,7 @@ export function WhyChooseUsSection() {
           <div className="lg:col-span-5 flex flex-col justify-center">
             <FadeIn direction="right" delay={0.1}>
               <p className="text-text-body text-base sm:text-lg mb-8 leading-relaxed max-w-lg">
-                At Wealthy Step, we combine expertise, technology, and a client-first approach to deliver financial solutions that truly make a difference.
+                At Wealthy Step, we combine expertise, technology, and a client-first approach to deliver mutual fund and insurance solutions that truly make a difference.
               </p>
               
               <div className="relative mt-4 w-full max-w-[450px]">
@@ -111,7 +111,7 @@ export function WhyChooseUsSection() {
                 <div className="relative w-full aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl border-4 border-white">
                   <Image 
                     src="/advisor-meeting.jpg" 
-                    alt="Wealthy Step Advisor Meeting"
+                    alt="Wealthy Step Support Meeting"
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 450px"
                     className="object-cover"
@@ -125,13 +125,13 @@ export function WhyChooseUsSection() {
                   </div>
                   <div>
                     <div className="text-xs font-semibold text-text-body uppercase tracking-wider mb-1">
-                      Trusted by
+                      Investor
                     </div>
-                    <div className="text-2xl font-bold text-navy leading-none mb-1 font-heading">
-                      1000+
+                    <div className="text-xl font-bold text-navy leading-none mb-1 font-heading">
+                      Focused
                     </div>
                     <div className="text-xs text-text-body">
-                      Happy Clients
+                      Support
                     </div>
                   </div>
                 </div>
@@ -184,8 +184,8 @@ export function WhyChooseUsSection() {
                 <Quote fill="currentColor" className="w-10 h-10" />
               </div>
               <div className="text-base sm:text-lg font-medium text-text-dark">
-                We don't just manage money, <br className="hidden sm:block" />
-                <span className="text-accent-purple font-bold">we help you build a better future.</span>
+                We help you take informed steps <br className="hidden sm:block" />
+                <span className="text-accent-purple font-bold">towards your financial goals.</span>
               </div>
             </div>
             
@@ -198,7 +198,7 @@ export function WhyChooseUsSection() {
                 <Users className="w-6 h-6" />
               </div>
               <div className="text-base font-medium text-text-dark">
-                Your goals. Our strategy. <span className="text-lime font-bold">A wealthier future.</span>
+                Your goals. Our support. <span className="text-lime font-bold">Your investment journey.</span>
               </div>
             </div>
 

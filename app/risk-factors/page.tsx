@@ -2,8 +2,17 @@ import { Metadata } from "next";
 import { InnerHero } from "@/components/sections/InnerHero";
 
 export const metadata: Metadata = {
-  title: "Risk Factors | Wealthy Step",
-  description: "Risk factors associated with mutual fund investments.",
+  title: "Risk Factors & Disclaimer | Wealthy Step",
+  description: "Important risk factors, liability disclaimers, and regulatory disclosures regarding mutual fund investments.",
+  alternates: {
+    canonical: '/risk-factors'
+  },
+  openGraph: {
+    title: "Risk Factors & Disclaimer | Wealthy Step",
+    description: "Important risk factors, liability disclaimers, and regulatory disclosures regarding mutual fund investments.",
+    url: '/risk-factors',
+    type: "website",
+  },
 };
 
 export default function RiskFactorsPage() {
@@ -36,7 +45,7 @@ export default function RiskFactorsPage() {
             </ul>
 
             <div className="bg-gray-50 p-6 rounded-xl border border-gray-100 text-sm text-text-body italic">
-              <strong>Note:</strong> Mutual Fund investments are subject to market risks. Read all scheme-related documents carefully. Past performance is not indicative of future results. As a Mutual Fund Distributor (MFD), we offer execution-only services and do not provide investment advice. Investors are advised to assess their risk tolerance and consult with a financial advisor if needed.
+              <strong>Note:</strong> Mutual Fund investments are subject to market risks. Read all scheme-related documents carefully. Past performance is not indicative of future results. As an AMFI-registered Mutual Fund Distributor (MFD), we facilitate mutual fund transactions and distribute products on behalf of Asset Management Companies. We do not provide fee-based investment advisory services. Investors are advised to assess their risk tolerance and consult with a SEBI-registered Investment Adviser if comprehensive financial advisory services are needed.
             </div>
           </div>
         </div>

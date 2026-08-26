@@ -61,8 +61,8 @@ export function Navbar() {
               <div className="hidden md:flex items-center gap-4">
                 <div className="w-px h-10 lg:h-12 bg-gray-200" />
                 <div className="flex flex-col text-[12px] xl:text-[14px] leading-snug font-medium text-navy/80 whitespace-nowrap">
-                  <span>AMFI REGISTERED MUTUAL FUND DISTRIBUTOR ,</span>
-                  <span>AMFI REGISTERED SIF DISTRIBUTOR , ARN - 322891</span>
+                  <span>AMFI REGISTERED MUTUAL FUND DISTRIBUTOR</span>
+                  <span>AMFI REGISTERED SIF DISTRIBUTOR | ARN - 322891</span>
                   <div className="flex items-center gap-2 text-[12px] xl:text-[14px] font-bold text-navy tracking-wider mt-0.5">
                     <span>MUTUAL FUND</span>
                     <span className="text-lime">|</span>
@@ -74,6 +74,28 @@ export function Navbar() {
 
             {/* Right Actions */}
             <div className="flex items-center gap-2 xl:gap-3 shrink-0">
+              {/* App Store Icon */}
+              <a
+                href="https://apps.apple.com/us/app/wealthy-step/id6751190719"
+                target="_blank"
+                rel="noreferrer"
+                className="hidden lg:flex items-center justify-center w-10 h-10 rounded-full border border-navy/20 text-navy hover:bg-navy/5 transition-colors"
+                aria-label="Download on App Store"
+              >
+                <svg viewBox="0 0 384 512" fill="currentColor" className="w-4 h-4"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z" /></svg>
+              </a>
+
+              {/* Google Play Icon */}
+              <a
+                href="https://play.google.com/store/apps/details?id=com.wealthystep.wealthystep&hl=en_IN"
+                target="_blank"
+                rel="noreferrer"
+                className="hidden lg:flex items-center justify-center w-10 h-10 rounded-full border border-navy/20 text-navy hover:bg-navy/5 transition-colors"
+                aria-label="Get it on Google Play"
+              >
+                <svg viewBox="0 0 512 512" fill="currentColor" className="w-4 h-4"><path d="M325.3 234.3L104.6 13l280.8 161.2-60.1 60.1zM47 0C34 6.8 25.3 19.2 25.3 35.3v441.3c0 16.1 8.7 28.5 21.7 35.3l256.6-256L47 0zm425.2 225.6l-58.9-34.1-65.7 64.5 65.7 64.5 60.1-34.1c18-14.3 18-46.5-1.2-60.8zM104.6 499l280.8-161.2-60.1-60.1L104.6 499z" /></svg>
+              </a>
+
               {/* Phone Icon (desktop only) */}
               <a
                 href="tel:+919000929666"
@@ -187,14 +209,18 @@ export function Navbar() {
               );
             })}
 
-            {/* Mobile AMFI Info */}
-            <div className="flex flex-col text-[12px] text-navy/60 font-medium leading-relaxed py-4 border-b border-gray-50">
+            <div className="flex flex-col text-[11px] text-navy/60 font-bold leading-relaxed py-4 border-b border-gray-50">
               <span>AMFI REGISTERED MUTUAL FUND DISTRIBUTOR</span>
-              <span>AMFI REGISTERED SIF DISTRIBUTOR , ARN - 322891</span>
+              <span>AMFI REGISTERED SIF DISTRIBUTOR | ARN - 322891</span>
+              <div className="flex items-center gap-1.5 mt-0.5">
+                <span>MUTUAL FUND</span>
+                <span className="text-lime">|</span>
+                <span>INSURANCE</span>
+              </div>
             </div>
 
             {/* Mobile Actions */}
-            <div className="flex gap-3 pt-5 pb-4">
+            <div className="flex gap-3 pt-5 pb-2">
               <Button
                 variant="outline"
                 className="flex-1 min-h-[52px] rounded-full border-navy/20 text-sm font-semibold text-navy hover:bg-navy hover:text-white active:bg-navy active:text-white touch-manipulation"
@@ -222,6 +248,40 @@ export function Navbar() {
                 </Link>
               </Button>
             </div>
+            
+            {/* Mobile App Download Actions */}
+            <div className="flex gap-3 pb-4">
+              <Button
+                variant="outline"
+                className="flex-1 min-h-[52px] rounded-full border-navy/20 text-sm font-semibold text-navy hover:bg-navy/5 active:bg-navy/5 touch-manipulation gap-2"
+                asChild
+              >
+                <a
+                  href="https://apps.apple.com/us/app/wealthy-step/id6751190719"
+                  target="_blank"
+                  rel="noreferrer"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  <svg viewBox="0 0 384 512" fill="currentColor" className="w-4 h-4"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z" /></svg>
+                  App Store
+                </a>
+              </Button>
+              <Button
+                variant="outline"
+                className="flex-1 min-h-[52px] rounded-full border-navy/20 text-sm font-semibold text-navy hover:bg-navy/5 active:bg-navy/5 touch-manipulation gap-2"
+                asChild
+              >
+                <a
+                  href="https://play.google.com/store/apps/details?id=com.wealthystep.wealthystep&hl=en_IN"
+                  target="_blank"
+                  rel="noreferrer"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  <svg viewBox="0 0 512 512" fill="currentColor" className="w-4 h-4"><path d="M325.3 234.3L104.6 13l280.8 161.2-60.1 60.1zM47 0C34 6.8 25.3 19.2 25.3 35.3v441.3c0 16.1 8.7 28.5 21.7 35.3l256.6-256L47 0zm425.2 225.6l-58.9-34.1-65.7 64.5 65.7 64.5 60.1-34.1c18-14.3 18-46.5-1.2-60.8zM104.6 499l280.8-161.2-60.1-60.1L104.6 499z" /></svg>
+                  Google Play
+                </a>
+              </Button>
+            </div>
           </div>
         </div>
       )}
@@ -230,8 +290,8 @@ export function Navbar() {
     {/* AMFI Info — Mobile row (scrolls with page naturally, not sticky) */}
     <div className="md:hidden bg-gray-50/50 border-b border-gray-100 px-4 py-3 flex justify-center">
       <div className="flex flex-col items-center text-[10px] sm:text-[11px] leading-snug font-medium text-navy/80 whitespace-nowrap text-center">
-        <span>AMFI REGISTERED MUTUAL FUND DISTRIBUTOR ,</span>
-        <span>AMFI REGISTERED SIF DISTRIBUTOR , ARN - 322891</span>
+        <span>AMFI REGISTERED MUTUAL FUND DISTRIBUTOR</span>
+        <span>AMFI REGISTERED SIF DISTRIBUTOR | ARN - 322891</span>
         <div className="flex items-center justify-center gap-1.5 text-[10px] sm:text-[11px] font-bold text-navy tracking-wider mt-1">
           <span>MUTUAL FUND</span>
           <span className="text-lime">|</span>

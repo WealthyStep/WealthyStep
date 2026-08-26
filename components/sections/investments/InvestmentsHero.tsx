@@ -40,7 +40,7 @@ export function InvestmentsHero() {
               </h1>
               
               <p className="text-base sm:text-lg text-white/80 mb-8 leading-relaxed max-w-lg">
-                Discover carefully selected investment solutions designed to help you grow wealth, manage risk, and secure your financial future.
+                Discover mutual fund solutions designed to help you explore growth potential, mitigate risk, and support your long-term goals.
               </p>
 
               <Link
@@ -56,7 +56,7 @@ export function InvestmentsHero() {
             <FadeIn direction="up" delay={0.2} className="flex flex-wrap items-center gap-6 sm:gap-10 mt-6">
               <div className="flex items-center gap-3">
                 <ShieldCheck className="w-6 h-6 text-lime" strokeWidth={1.5} />
-                <span className="text-xs sm:text-sm font-medium text-white/90 leading-tight">SEBI Registered<br/>Investment Advisor</span>
+                <span className="text-xs sm:text-sm font-medium text-white/90 leading-tight">AMFI Registered<br/>Mutual Fund Distributor</span>
               </div>
               <div className="flex items-center gap-3">
                 <FileSearch className="w-6 h-6 text-lime" strokeWidth={1.5} />
@@ -64,7 +64,7 @@ export function InvestmentsHero() {
               </div>
               <div className="flex items-center gap-3">
                 <Users className="w-6 h-6 text-lime" strokeWidth={1.5} />
-                <span className="text-xs sm:text-sm font-medium text-white/90 leading-tight">100% Client<br/>Centric Approach</span>
+                <span className="text-xs sm:text-sm font-medium text-white/90 leading-tight">Investor Centric<br/>Approach</span>
               </div>
             </FadeIn>
           </div>

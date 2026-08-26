@@ -51,7 +51,7 @@ export function ContactForm({ className }: { className?: string }) {
         <CheckCircle2 className="h-16 w-16 text-cta-green mb-4" />
         <h3 className="text-2xl font-bold text-text-dark mb-2">Message Sent!</h3>
         <p className="text-text-body">
-          Thank you for reaching out. A Wealthy Step advisor will contact you shortly.
+          Thank you for reaching out. A Wealthy Step representative will contact you shortly.
         </p>
         <Button 
           variant="outline" 
@@ -125,7 +125,7 @@ export function ContactForm({ className }: { className?: string }) {
           </label>
           <Textarea
             id="message"
-            placeholder="Tell us about your financial goals..."
+            placeholder="Tell us about your mutual fund or insurance requirements..."
             {...register("message")}
             className={errors.message ? "border-negative focus-visible:ring-negative" : ""}
           />

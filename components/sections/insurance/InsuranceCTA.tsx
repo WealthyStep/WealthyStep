@@ -25,7 +25,7 @@ export function InsuranceCTA() {
                   Let Our Experts Help You
                 </h2>
                 <p className="text-white/60 text-[12px] max-w-sm leading-relaxed">
-                  Talk to our advisors and find the perfect insurance plan that fits your needs and budget.
+                  Speak with our team to explore insurance solutions that fit your protection needs.
                 </p>
               </div>
             </div>

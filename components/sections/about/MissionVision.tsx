@@ -39,13 +39,13 @@ export function MissionVision() {
                 
                 <div className="space-y-4 text-cream/80 text-sm md:text-base leading-relaxed">
                   <p>
-                    Our mission is to help individuals and families across India move closer to financial confidence and long-term success.
+                    Our mission is to help individuals and families across India explore mutual fund solutions for their long-term goals.
                   </p>
                   <p>
-                    We aim to provide thoughtful guidance, reliable financial solutions, and personalized planning that help people make informed decisions at every stage of life.
+                    We aim to provide thoughtful support, reliable mutual fund solutions, and goal-oriented guidance that help people make informed decisions at every stage of life.
                   </p>
                   <p>
-                    We believe professional financial guidance should not feel complicated or inaccessible. Our goal is simple: to make quality financial planning more understandable, accessible, and meaningful for every individual.
+                    We believe investing in mutual funds should not feel complicated or inaccessible. Our goal is simple: to make quality mutual fund investment support more understandable, accessible, and meaningful for every individual.
                   </p>
                 </div>
               </div>
@@ -84,10 +84,10 @@ export function MissionVision() {
                     We envision an India where more individuals and families have the knowledge, confidence, and support needed to make better financial decisions.
                   </p>
                   <p>
-                    Our vision is to create a future where financial dreams are supported by thoughtful planning rather than uncertainty.
+                    Our vision is to create a future where financial dreams are supported by thoughtful goal-setting rather than uncertainty.
                   </p>
                   <p>
-                    Through financial education, personalized guidance, and responsible planning, we aim to empower people to build stronger financial foundations and a more secure future.
+                    Through education, investor support, and disciplined investing, we aim to help people build stronger financial foundations.
                   </p>
                 </div>
               </div>

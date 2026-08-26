@@ -4,8 +4,17 @@ import { Metadata } from "next";
 import { FadeIn } from "@/components/ui/fade-in";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy - Wealthy Step",
-  description: "Privacy Policy for Wealthy Step.",
+  title: "Privacy Policy | Wealthy Step",
+  description: "Read the Wealthy Step privacy policy to understand how we protect your data and personal information.",
+  alternates: {
+    canonical: '/privacy-policy'
+  },
+  openGraph: {
+    title: "Privacy Policy | Wealthy Step",
+    description: "Read the Wealthy Step privacy policy to understand how we protect your data and personal information.",
+    url: '/privacy-policy',
+    type: "website",
+  },
 };
 
 export default function PrivacyPolicyPage() {

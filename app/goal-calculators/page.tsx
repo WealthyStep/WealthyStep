@@ -10,13 +10,22 @@ import { Calculator, CheckCircle2, ShieldCheck, LineChart, TrendingUp, Users, Gr
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Goal Calculators | Wealthy Step",
-  description: "Calculate your SIP, Retirement, EMI, and more with our interactive financial tools.",
+  title: "Investment Goal Calculators | Wealthy Step",
+  description: "Use our educational SIP, Lumpsum, and retirement calculators to explore illustrative mutual fund projections.",
+  alternates: {
+    canonical: '/goal-calculators'
+  },
+  openGraph: {
+    title: "Investment Goal Calculators | Wealthy Step",
+    description: "Use our educational SIP, Lumpsum, and retirement calculators to explore illustrative mutual fund projections.",
+    url: '/goal-calculators',
+    type: "website",
+  },
 };
 
 export default function GoalCalculatorsPage() {
   return (
-    <main className="bg-[#FAFAFA] min-h-screen pb-20">
+    <main className="bg-[#FAFAFA] min-h-screen pb-10">
       
       {/* Header Section */}
       <section className="bg-white pt-12 md:pt-16 pb-8 md:pb-12 shadow-sm relative z-20">
@@ -30,7 +39,7 @@ export default function GoalCalculatorsPage() {
             Goal Calculators
           </h1>
           <p className="text-text-body text-sm sm:text-base max-w-2xl mx-auto mb-8">
-            Plan your investments, estimate returns and achieve your financial goals with confidence.
+            Explore mutual fund scenarios and project possible outcomes based on your assumptions.
           </p>
 
           <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-10">
@@ -48,8 +57,8 @@ export default function GoalCalculatorsPage() {
                 <ShieldCheck className="w-4 h-4 text-lime" />
               </div>
               <div className="text-left">
-                <div className="text-sm font-bold text-navy leading-tight">100% Accurate</div>
-                <div className="text-[11px] text-text-body">Advanced calculations you can trust</div>
+                <div className="text-sm font-bold text-navy leading-tight">Real-Time Estimates</div>
+                <div className="text-[11px] text-text-body">Projections based on assumed rates</div>
               </div>
             </div>
             <div className="flex items-center gap-2">
@@ -57,7 +66,7 @@ export default function GoalCalculatorsPage() {
                 <LineChart className="w-4 h-4 text-lime" />
               </div>
               <div className="text-left">
-                <div className="text-sm font-bold text-navy leading-tight">Smart Planning</div>
+                <div className="text-sm font-bold text-navy leading-tight">Smart Investing</div>
                 <div className="text-[11px] text-text-body">Make data-driven financial decisions</div>
               </div>
             </div>

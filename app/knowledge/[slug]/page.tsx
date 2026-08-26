@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { ArrowLeft, Clock } from "lucide-react";
 import Link from "next/link";
 import { Metadata } from "next";
+import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 
 // This enables Static Site Generation for all known articles at build time
 export function generateStaticParams() {
@@ -11,8 +12,9 @@ export function generateStaticParams() {
   }));
 }
 
-export function generateMetadata({ params }: { params: { slug: string } }): Metadata {
-  const article = getArticleBySlug(params.slug);
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const resolvedParams = await params;
+  const article = getArticleBySlug(resolvedParams.slug);
   
   if (!article) {
     return {
@@ -23,11 +25,21 @@ export function generateMetadata({ params }: { params: { slug: string } }): Meta
   return {
     title: `${article.title} | Wealthy Step`,
     description: article.excerpt,
+    alternates: {
+      canonical: `/knowledge/${resolvedParams.slug}`,
+    },
+    openGraph: {
+      title: `${article.title} | Wealthy Step`,
+      description: article.excerpt,
+      url: `/knowledge/${resolvedParams.slug}`,
+      type: "article",
+    },
   };
 }
 
-export default function ArticlePage({ params }: { params: { slug: string } }) {
-  const article = getArticleBySlug(params.slug);
+export default async function ArticlePage({ params }: { params: Promise<{ slug: string }> }) {
+  const resolvedParams = await params;
+  const article = getArticleBySlug(resolvedParams.slug);
 
   if (!article) {
     notFound();
@@ -35,17 +47,43 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
 
   return (
     <article className="min-h-screen bg-white">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Article",
+            "headline": article.title,
+            "description": article.excerpt,
+            "datePublished": article.date,
+            "dateModified": article.updatedAt || article.date,
+            "author": {
+              "@type": "Person",
+              "name": article.author.name
+            },
+            "publisher": {
+              "@type": "Organization",
+              "name": "Wealthy Step",
+              "url": "https://wealthystep.com",
+              "logo": {
+                "@type": "ImageObject",
+                "url": "https://wealthystep.com/logo.svg"
+              }
+            }
+          })
+        }}
+      />
       {/* Article Header */}
+      
       <header className="bg-navy pt-32 pb-16 px-4">
         <div className="container mx-auto max-w-[800px]">
-          <Link 
-            href="/knowledge" 
-            className="inline-flex items-center text-sm font-semibold text-lime hover:text-white transition-colors mb-8"
-          >
-            <ArrowLeft className="mr-2 h-4 w-4" /> Back to Knowledge Center
-          </Link>
-          
-          <div className="flex items-center gap-3 mb-6">
+          <Breadcrumbs 
+            items={[
+              { label: 'Knowledge Center', href: '/knowledge' },
+              { label: article.title, href: `/knowledge/${article.slug}` }
+            ]} 
+          />
+          <div className="flex items-center gap-3 mb-6 mt-4">
             <span className="inline-flex items-center rounded-full bg-lime/20 px-3 py-1 text-sm font-semibold text-lime uppercase tracking-wider">
               {article.category}
             </span>

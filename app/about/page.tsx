@@ -8,8 +8,17 @@ import { CoreValues } from "@/components/sections/about/CoreValues";
 import { Philosophy } from "@/components/sections/about/Philosophy";
 
 export const metadata: Metadata = {
-  title: "About Us | Wealthy Step",
-  description: "Learn about Wealthy Step's mission to build legacy through mindful steps.",
+  title: "About Wealthy Step | Mutual Fund Distribution Support",
+  description: "Learn about Wealthy Step, our core values, and our commitment to goal-based mutual fund distribution and investor education.",
+  alternates: {
+    canonical: '/about'
+  },
+  openGraph: {
+    title: "About Wealthy Step | Mutual Fund Distribution Support",
+    description: "Learn about Wealthy Step, our core values, and our commitment to goal-based mutual fund distribution and investor education.",
+    url: '/about',
+    type: "website",
+  },
 };
 
 export default function AboutPage() {

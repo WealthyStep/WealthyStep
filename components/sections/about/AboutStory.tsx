@@ -3,6 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import { FadeIn } from "@/components/ui/fade-in";
+import { Heart } from "lucide-react";
 
 export function AboutStory() {
   return (
@@ -33,19 +34,19 @@ export function AboutStory() {
                   It is about creating clarity, protecting what matters most, achieving meaningful goals, and building a secure legacy for the future.
                 </p>
                 <p>
-                  Founded by a financial professional certified as a <strong>QPFP (Qualified Personal Finance Professional)</strong> and an <strong>AMFI Registered Mutual Fund Distributor</strong>, Wealthy Step provides a thoughtful and holistic approach to personal financial planning.
+                  Founded by a financial professional certified as a <strong>QPFP (Qualified Personal Finance Professional)</strong> and an <strong>AMFI Registered Mutual Fund Distributor</strong>, Wealthy Step provides a thoughtful and holistic approach to mutual fund investing.
                 </p>
                 <p>
-                  We specialize in 360° financial planning, helping individuals and families navigate every stage of their financial journey with greater clarity, confidence, and purpose.
+                  We specialize in mutual fund distribution support, helping individuals and families navigate every stage of their financial journey with greater clarity, confidence, and purpose.
                 </p>
                 <p>
-                  From protecting your family and growing your wealth to planning for retirement and creating long-term financial security, we help bring every important financial decision together under one clear strategy.
+                  From protecting your family and exploring growth potential to saving for retirement, we help bring every important financial decision together under one clear approach.
                 </p>
               </div>
 
               <div className="pt-6 border-t border-gray-100">
                 <p className="text-lg font-bold text-navy italic">
-                  Plan with purpose. Protect with confidence. Prosper with clarity.
+                  Invest with purpose. Protect with confidence. Prosper with clarity.
                 </p>
               </div>
             </div>
@@ -58,10 +59,11 @@ export function AboutStory() {
               <div className="relative h-[500px] md:h-[600px] w-full rounded-2xl overflow-hidden shadow-2xl z-10">
                 <Image 
                   src="/images/contact-people.jpg" 
-                  alt="Wealthy Step Advisor" 
+                  alt="Wealthy Step Team Member" 
                   fill
-sizes="(max-width: 768px) 100vw, 50vw" 
+                  sizes="(max-width: 768px) 100vw, 50vw" 
                   className="object-cover"
+                  priority
                 />
               </div>
               
@@ -72,7 +74,7 @@ sizes="(max-width: 768px) 100vw, 50vw"
               <div className="absolute bottom-10 -left-8 md:-left-12 bg-white p-6 rounded-2xl shadow-xl z-20 w-48 border border-gray-100 hidden sm:block">
                 <div className="flex items-center gap-4 mb-2">
                   <div className="w-3 h-3 rounded-full bg-lime" />
-                  <div className="text-3xl font-bold text-navy">100%</div>
+                  <Heart className="w-8 h-8 text-navy" />
                 </div>
                 <div className="text-sm text-text-body font-medium">Client-Centric<br/>Approach</div>
               </div>

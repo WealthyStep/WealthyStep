@@ -33,13 +33,13 @@ export function OurApproach() {
               <div className="w-8 h-px bg-lime" />
             </div>
             <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-navy mb-4 font-heading">
-              Financial Planning, Designed Around Your Life
+              Investment & Protection Solutions Designed Around Your Goals
             </h2>
             <p className="text-lg text-text-body leading-relaxed mb-6">
-              There is no single financial strategy that works for everyone. Your goals, responsibilities, lifestyle, aspirations, and vision for the future are unique. That is why our approach begins with understanding you.
+              There is no single investment journey that works for everyone. Your goals, responsibilities, lifestyle, aspirations, and vision for the future are unique. That is why our approach begins with understanding you.
             </p>
             <p className="text-lg text-text-body leading-relaxed">
-              We focus on creating personalized financial strategies that connect your present decisions with your future ambitions. Our philosophy is built around three simple principles:
+              We focus on facilitating goal-based mutual fund investments that connect your present decisions with your future ambitions. Our philosophy is built around three simple principles:
             </p>
           </FadeIn>
         </div>
@@ -54,12 +54,12 @@ export function OurApproach() {
             },
             {
               title: "Confidence",
-              desc: "We help you make informed financial decisions with a structured and thoughtful approach.",
+              desc: "We help you make informed investment decisions with a structured and thoughtful approach.",
               icon: ThumbsUp
             },
             {
               title: "Continuity",
-              desc: "Financial planning is not a one-time exercise. As life changes, your financial strategy should evolve with it.",
+              desc: "Working towards long-term goals is a continuous journey. As life changes, your investment choices may evolve with it.",
               icon: RefreshCw
             }
           ].map((item, i) => (

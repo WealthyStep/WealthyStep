@@ -4,8 +4,17 @@ import { Metadata } from "next";
 import { FadeIn } from "@/components/ui/fade-in";
 
 export const metadata: Metadata = {
-  title: "Commission Disclosure - Wealthy Step",
-  description: "Commission Disclosure under SEBI Circular SEBI/IMD/CIR No.4 /168230/09.",
+  title: "Commission Disclosure | Wealthy Step",
+  description: "Review our mutual fund commission disclosure as per AMFI and SEBI guidelines for mutual fund distributors.",
+  alternates: {
+    canonical: '/commission-disclosure'
+  },
+  openGraph: {
+    title: "Commission Disclosure | Wealthy Step",
+    description: "Review our mutual fund commission disclosure as per AMFI and SEBI guidelines for mutual fund distributors.",
+    url: '/commission-disclosure',
+    type: "website",
+  },
 };
 
 export default function CommissionDisclosurePage() {

@@ -126,7 +126,7 @@ export function HeroSection() {
             {/* Eyebrow */}
             <motion.div {...fadeUp(0)} className="flex items-center gap-3">
               <span className="text-[13px] font-semibold uppercase tracking-[0.12em] text-lime font-heading">
-                Building Financial Confidence
+                Your Investment Journey
               </span>
               <div className="w-10 h-px bg-lime" />
             </motion.div>
@@ -136,10 +136,10 @@ export function HeroSection() {
               <h1 className="text-4xl sm:text-5xl lg:text-[3.4rem] xl:text-[3.8rem] font-bold leading-[1.1] text-text-dark font-heading tracking-tight">
                 Your Goals.
                 <br />
-                Our Strategy.
+                Our Support.
                 <br />
                 <span className="bg-gradient-to-r from-accent-purple to-lime bg-clip-text text-transparent">
-                  A Wealthier Future.
+                  Your Investment Journey.
                 </span>
               </h1>
             </motion.div>
@@ -149,9 +149,8 @@ export function HeroSection() {
               {...fadeUp(2)}
               className="text-base sm:text-lg text-text-body leading-relaxed max-w-[480px]"
             >
-              Personalized financial planning, smart investments, and
-              comprehensive protection designed around your goals, lifestyle, and
-              long-term aspirations.
+              Goal-based mutual fund investment solutions, and
+              comprehensive protection designed around your long-term aspirations.
             </motion.p>
 
             {/* CTA Buttons */}
@@ -182,7 +181,7 @@ export function HeroSection() {
                   <Users className="h-5 w-5 text-lime" />
                 </div>
                 <span className="font-medium text-text-dark text-xs sm:text-sm leading-snug">
-                  Personalized
+                  Goal-Focused
                   <br />
                   Guidance
                 </span>
@@ -194,7 +193,7 @@ export function HeroSection() {
                 <span className="font-medium text-text-dark text-xs sm:text-sm leading-snug">
                   Goal-Based
                   <br />
-                  Planning
+                  Investing
                 </span>
               </div>
               <div className="flex items-center gap-3">
@@ -230,7 +229,7 @@ export function HeroSection() {
               >
                 <Image
                   src="/advisor-hero.jpg"
-                  alt="Professional Wealth Advisor"
+                  alt="Mutual Fund Distribution Professional"
                   fill
                   className="object-cover object-top lg:object-[60%_top]"
                   sizes="(max-width: 1024px) 100vw, 50vw"
@@ -241,36 +240,20 @@ export function HeroSection() {
 
             {/* ── Floating Cards ── */}
 
-            {/* Portfolio Growth Card — top-left */}
+            {/* Goal-Based Investing Card — top-left */}
             <motion.div
               {...fadeRight(0)}
               className="absolute top-0 left-0 lg:top-8 lg:-left-12 z-20 bg-white rounded-xl shadow-lg border border-border-sage/20 px-4 py-3 flex items-center gap-3 scale-[0.65] sm:scale-90 lg:scale-100 origin-top-left"
             >
               <div className="w-10 h-10 rounded-lg bg-lime/10 flex items-center justify-center">
-                <BarChart3 className="h-5 w-5 text-lime" />
+                <Target className="h-5 w-5 text-lime" />
               </div>
-              <div>
-                <div className="text-xs text-text-body">Portfolio Growth</div>
-                <div className="text-lg font-bold text-positive font-heading">
-                  +24.6%
+              <div className="max-w-[120px]">
+                <div className="text-xs font-bold text-navy font-heading">GOAL-BASED INVESTING</div>
+                <div className="text-[10px] text-text-body leading-tight mt-0.5">
+                  Aligning investments with long-term financial goals.
                 </div>
-                <div className="text-[10px] text-text-body/60">This Year</div>
               </div>
-              {/* Mini chart accent */}
-              <svg
-                width="60"
-                height="30"
-                viewBox="0 0 60 30"
-                className="ml-1"
-              >
-                <path
-                  d="M0,25 C10,22 15,18 20,15 C25,12 30,8 40,10 C50,12 55,5 60,2"
-                  fill="none"
-                  stroke="#84BD3C"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                />
-              </svg>
             </motion.div>
 
             {/* Financial Goals Badge — top-right */}
@@ -287,9 +270,9 @@ export function HeroSection() {
                 </span>
               </div>
               <div className="text-[11px] text-text-body">
-                Plan today for a
+                Invest for your
               </div>
-              <div className="text-[11px] text-text-body">better tomorrow</div>
+              <div className="text-[11px] text-text-body">long-term goals</div>
             </motion.div>
 
             {/* Wealth Protection Badge — middle-right */}
@@ -311,21 +294,20 @@ export function HeroSection() {
               <div className="text-[11px] text-text-body">matters most</div>
             </motion.div>
 
-            {/* 10+ Years Stat Card — bottom-left */}
+            {/* Investor-Centric Stat Card — bottom-left */}
             <motion.div
               {...fadeRight(3)}
               className="absolute -bottom-4 left-0 lg:-bottom-6 lg:left-[-2rem] z-30 bg-white rounded-xl shadow-xl border border-border-sage/20 px-6 py-4 flex items-center gap-4 scale-[0.65] sm:scale-90 lg:scale-100 origin-bottom-left"
             >
               <div className="w-11 h-11 rounded-xl bg-lime/10 flex items-center justify-center">
-                <Star className="h-5 w-5 text-lime" />
+                <Users className="h-5 w-5 text-lime" />
               </div>
               <div>
-                <div className="text-3xl font-bold text-navy font-heading">
-                  10+
+                <div className="text-base font-bold text-navy font-heading leading-tight">
+                  INVESTOR<br/>CENTRIC
                 </div>
-                <div className="text-xs text-text-body">Years of</div>
-                <div className="text-xs font-semibold text-text-dark">
-                  Financial Guidance
+                <div className="text-[11px] text-text-body mt-1 max-w-[100px] leading-tight">
+                  Support designed around your goals.
                 </div>
                 <div className="w-8 h-0.5 bg-navy mt-2 rounded-full" />
               </div>

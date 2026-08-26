@@ -7,32 +7,32 @@ import Link from "next/link";
 
 const plans = [
   {
-    title: "Personal Financial Planning",
-    desc: "Create a clear financial strategy based on your income, responsibilities, aspirations, and long-term goals.",
+    title: "Goal-Based Investment Support",
+    desc: "Explore mutual fund solutions based on your income, responsibilities, aspirations, and long-term goals.",
     icon: Target,
     link: "/goal-calculators"
   },
   {
-    title: "Mutual Fund Guidance",
+    title: "Mutual Fund Distribution",
     desc: "Explore mutual fund solutions aligned with your financial goals, investment horizon, and risk profile.",
     icon: TrendingUp,
     link: "/investments"
   },
   {
-    title: "Insurance Planning",
-    desc: "Plan the right protection across important areas, including Health, Life, Motor, Travel, NRI, and Business Insurance.",
+    title: "Insurance Solutions",
+    desc: "Explore the right protection across important areas, including Health, Life, Motor, Travel, NRI, and Business Insurance.",
     icon: ShieldCheck,
     link: "/insurance"
   },
   {
     title: "Goal-Based Roadmaps",
-    desc: "Build structured plans for important life goals such as Child's Education, Retirement, and Major Milestones.",
+    desc: "Explore mutual fund solutions for important life goals such as Child's Education, Retirement, and Major Milestones.",
     icon: Map,
     link: "/goal-calculators"
   },
   {
-    title: "Wealth Tracking & Review",
-    desc: "Stay informed about your financial progress through structured wealth tracking and periodic review reports.",
+    title: "Investment Portfolio Tracking",
+    desc: "Stay informed about your financial progress through structured tracking and periodic portfolio updates.",
     icon: BarChart3,
     link: "/contact"
   }
@@ -47,10 +47,10 @@ export function WhatWePlan() {
         <div className="text-center max-w-3xl mx-auto mb-4 md:mb-6">
           <FadeIn direction="up">
             <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-navy mb-2 font-heading">
-              What We Help You Plan
+              What We Help You Achieve
             </h2>
             <p className="text-base text-text-body leading-relaxed">
-              Your financial life is made up of many important decisions. Our approach brings them together into a structured, goal-focused financial roadmap.
+              Your financial life is made up of many important decisions. Our approach brings them together into a structured, goal-focused financial journey.
             </p>
           </FadeIn>
         </div>

@@ -27,11 +27,11 @@ const fraunces = Fraunces({
 
 export const metadata: Metadata = {
   title: "Wealthy Step | Legacy Through Mindful Steps",
-  description: "Wealthy Step provides expert financial solutions, insurance, and NRI services to empower your future with smart financial planning.",
+  description: "Wealthy Step is an AMFI Registered Mutual Fund Distributor providing goal-based mutual fund investment solutions, insurance, and NRI services.",
   metadataBase: new URL('https://wealthystep.com'),
   openGraph: {
     title: "Wealthy Step | Legacy Through Mindful Steps",
-    description: "Expert financial solutions, insurance, and NRI services.",
+    description: "Wealthy Step is an AMFI Registered Mutual Fund Distributor providing goal-based mutual fund investment solutions, insurance, and NRI services.",
     url: "https://wealthystep.com",
     siteName: "Wealthy Step",
     locale: "en_IN",
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Wealthy Step",
-    description: "Expert financial solutions, insurance, and NRI services.",
+    description: "Wealthy Step is an AMFI Registered Mutual Fund Distributor providing goal-based mutual fund investment solutions, insurance, and NRI services.",
   },
 };
 

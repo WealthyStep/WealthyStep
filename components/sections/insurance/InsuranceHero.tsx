@@ -56,7 +56,7 @@ export function InsuranceHero() {
             <FadeIn direction="up" delay={0.2} className="flex flex-wrap items-center gap-6 sm:gap-10 mt-6">
               <div className="flex items-center gap-3">
                 <Users className="w-6 h-6 text-lime" strokeWidth={1.5} />
-                <span className="text-xs sm:text-sm font-medium text-white/90 leading-tight">Trusted by 5000+<br/>Families</span>
+                <span className="text-xs sm:text-sm font-medium text-white/90 leading-tight">Goal-Based<br/>Protection</span>
               </div>
               <div className="flex items-center gap-3">
                 <ShieldCheck className="w-6 h-6 text-lime" strokeWidth={1.5} />
@@ -64,7 +64,7 @@ export function InsuranceHero() {
               </div>
               <div className="flex items-center gap-3">
                 <UserCheck className="w-6 h-6 text-lime" strokeWidth={1.5} />
-                <span className="text-xs sm:text-sm font-medium text-white/90 leading-tight">Expert Insurance<br/>Advisors</span>
+                <span className="text-xs sm:text-sm font-medium text-white/90 leading-tight">Reliable<br/>Support</span>
               </div>
             </FadeIn>
           </div>

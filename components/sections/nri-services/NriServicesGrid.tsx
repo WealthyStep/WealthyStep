@@ -8,25 +8,25 @@ import Link from "next/link";
 const services = [
   {
     title: "NRE / NRO Account Support",
-    description: "End-to-end assistance in opening and managing your NRE/NRO accounts for seamless inward and outward remittances.",
+    description: "Information and coordination support regarding applicable NRI investment requirements.",
     icon: Landmark,
     color: "bg-blue-50 text-blue-600",
   },
   {
-    title: "Repatriation of Funds",
-    description: "Expert guidance on 15CA/15CB documentation and RBI compliance for repatriating funds back to your country of residence.",
+    title: "Repatriation Support",
+    description: "Coordination support with appropriately qualified professionals for repatriating funds back to your country of residence, where applicable.",
     icon: HandCoins,
     color: "bg-lime/10 text-lime",
   },
   {
-    title: "Indian Taxation (DTAA)",
-    description: "Leverage Double Taxation Avoidance Agreements (DTAA) to optimize your tax liabilities across jurisdictions.",
+    title: "Indian Taxation Support",
+    description: "Assistance in connecting with appropriately qualified professionals to help navigate Indian taxation, where applicable.",
     icon: FileText,
     color: "bg-purple-50 text-purple-600",
   },
   {
-    title: "Dedicated NRI Portfolio",
-    description: "Customized investment strategies in Indian Equities and Mutual Funds specifically designed around NRI regulations.",
+    title: "NRI Mutual Fund Investment Support",
+    description: "Coordination support with appropriately qualified professionals, where applicable.",
     icon: Globe2,
     color: "bg-orange-50 text-orange-600",
   },
@@ -47,7 +47,7 @@ export function NriServicesGrid() {
               <span className="text-lime">Stress-Free.</span>
             </h2>
             <p className="text-base md:text-lg text-text-body leading-relaxed">
-              As a Non-Resident Indian, investing back home comes with its unique set of regulatory and tax challenges. Wealthy Step provides a unified solution for NRIs—from wealth creation to tax filing.
+              As a Non-Resident Indian, investing back home comes with its unique set of regulatory and tax challenges. Wealthy Step provides a unified solution for NRIs—from long-term investing to coordinating with appropriately qualified professionals where applicable.
             </p>
           </FadeIn>
         </div>
