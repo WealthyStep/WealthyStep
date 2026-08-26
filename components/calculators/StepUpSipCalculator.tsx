@@ -47,7 +47,7 @@ export function StepUpSipCalculator() {
   let results: any = null;
   let calculationError: string | null = null;
   try {
-    results = calculateStepUpSIP(monthlyInvestment, annualStepUp, returnRate, duration);
+    results = calculateStepUpSIP(monthlyInvestment as number, annualStepUp as number, returnRate as number, duration as number);
   } catch (err: any) {
     calculationError = err.message;
   }
@@ -81,14 +81,14 @@ export function StepUpSipCalculator() {
                 <Input 
                   type="number" 
                   value={monthlyInvestment} 
-                  onChange={(e) => setMonthlyInvestment(Number(e.target.value))}
+                  onChange={(e) => setMonthlyInvestment(e.target.value === '' ? '' : Number(e.target.value))}
                   className="pl-5 pr-2 h-8 text-right font-bold text-[13px] text-navy rounded-md"
                   min={500}
                 />
               </div>
             </div>
             <Slider 
-              value={[monthlyInvestment]} 
+              value={[Number(monthlyInvestment)]} 
               onValueChange={([val]) => setMonthlyInvestment(val)} 
               min={500} max={200000} step={500}
               className="[&>.relative>.absolute]:bg-navy [&>.relative]:bg-gray-200"
@@ -106,7 +106,7 @@ export function StepUpSipCalculator() {
                 <Input 
                   type="number" 
                   value={returnRate} 
-                  onChange={(e) => setReturnRate(Number(e.target.value))}
+                  onChange={(e) => setReturnRate(e.target.value === '' ? '' : Number(e.target.value))}
                   className="pr-6 h-8 text-right font-bold text-[13px] text-navy rounded-md"
                   min={1} max={30} step={0.5}
                 />
@@ -114,7 +114,7 @@ export function StepUpSipCalculator() {
               </div>
             </div>
             <Slider 
-              value={[returnRate]} 
+              value={[Number(returnRate)]} 
               onValueChange={([val]) => setReturnRate(val)} 
               min={1} max={30} step={0.5}
               className="[&>.relative>.absolute]:bg-navy [&>.relative]:bg-gray-200"
@@ -132,7 +132,7 @@ export function StepUpSipCalculator() {
                 <Input 
                   type="number" 
                   value={duration} 
-                  onChange={(e) => setDuration(Number(e.target.value))}
+                  onChange={(e) => setDuration(e.target.value === '' ? '' : Number(e.target.value))}
                   className="pr-6 h-8 text-right font-bold text-[13px] text-navy rounded-md"
                   min={1} max={40}
                 />
@@ -140,7 +140,7 @@ export function StepUpSipCalculator() {
               </div>
             </div>
             <Slider 
-              value={[duration]} 
+              value={[Number(duration)]} 
               onValueChange={([val]) => setDuration(val)} 
               min={1} max={40} step={1}
               className="[&>.relative>.absolute]:bg-navy [&>.relative]:bg-gray-200"
@@ -158,7 +158,7 @@ export function StepUpSipCalculator() {
                 <Input 
                   type="number" 
                   value={annualStepUp} 
-                  onChange={(e) => setAnnualStepUp(Number(e.target.value))}
+                  onChange={(e) => setAnnualStepUp(e.target.value === '' ? '' : Number(e.target.value))}
                   className="pr-6 h-8 text-right font-bold text-[13px] text-navy rounded-md"
                   min={1} max={50}
                 />
@@ -166,7 +166,7 @@ export function StepUpSipCalculator() {
               </div>
             </div>
             <Slider 
-              value={[annualStepUp]} 
+              value={[Number(annualStepUp)]} 
               onValueChange={([val]) => setAnnualStepUp(val)} 
               min={1} max={50} step={1}
               className="[&>.relative>.absolute]:bg-navy [&>.relative]:bg-gray-200"

@@ -45,7 +45,7 @@ export function LumpsumCalculator() {
   let results: any = null;
   let calculationError: string | null = null;
   try {
-    results = calculateLumpsum(investment, returnRate, duration);
+    results = calculateLumpsum(investment as number, returnRate as number, duration as number);
   } catch (err: any) {
     calculationError = err.message;
   }
@@ -76,10 +76,10 @@ export function LumpsumCalculator() {
               <label className="text-[12px] font-bold text-navy">Initial Investment</label>
               <div className="relative w-28">
                 <span className="absolute left-2 top-1/2 -translate-y-1/2 text-text-body text-[12px]">₹</span>
-                <Input type="number" value={investment} onChange={(e) => setInvestment(Number(e.target.value))} className="pl-5 pr-2 h-8 text-right font-bold text-[13px] text-navy rounded-md" min={1000} />
+                <Input type="number" value={investment} onChange={(e) => setInvestment(e.target.value === '' ? '' : Number(e.target.value))} className="pl-5 pr-2 h-8 text-right font-bold text-[13px] text-navy rounded-md" min={1000} />
               </div>
             </div>
-            <Slider value={[investment]} onValueChange={([val]) => setInvestment(val)} min={1000} max={10000000} step={1000} className="[&>.relative>.absolute]:bg-navy [&>.relative]:bg-gray-200" />
+            <Slider value={[Number(investment)]} onValueChange={([val]) => setInvestment(val)} min={1000} max={10000000} step={1000} className="[&>.relative>.absolute]:bg-navy [&>.relative]:bg-gray-200" />
             <div className="flex justify-between text-[10px] font-medium text-text-body/70"><span>₹1,000</span><span>₹1 Cr</span></div>
           </div>
 
@@ -88,11 +88,11 @@ export function LumpsumCalculator() {
             <div className="flex justify-between items-center">
               <label className="text-[12px] font-bold text-navy">Expected Return (p.a.)</label>
               <div className="relative w-20">
-                <Input type="number" value={returnRate} onChange={(e) => setReturnRate(Number(e.target.value))} className="pr-6 h-8 text-right font-bold text-[13px] text-navy rounded-md" min={0} max={30} step={0.5} />
+                <Input type="number" value={returnRate} onChange={(e) => setReturnRate(e.target.value === '' ? '' : Number(e.target.value))} className="pr-6 h-8 text-right font-bold text-[13px] text-navy rounded-md" min={0} max={30} step={0.5} />
                 <span className="absolute right-2 top-1/2 -translate-y-1/2 text-text-body text-[11px]">%</span>
               </div>
             </div>
-            <Slider value={[returnRate]} onValueChange={([val]) => setReturnRate(val)} min={0} max={30} step={0.5} className="[&>.relative>.absolute]:bg-navy [&>.relative]:bg-gray-200" />
+            <Slider value={[Number(returnRate)]} onValueChange={([val]) => setReturnRate(val)} min={0} max={30} step={0.5} className="[&>.relative>.absolute]:bg-navy [&>.relative]:bg-gray-200" />
             <div className="flex justify-between text-[10px] font-medium text-text-body/70"><span>0%</span><span>30%</span></div>
           </div>
 
@@ -101,11 +101,11 @@ export function LumpsumCalculator() {
             <div className="flex justify-between items-center">
               <label className="text-[12px] font-bold text-navy">Duration</label>
               <div className="relative w-20">
-                <Input type="number" value={duration} onChange={(e) => setDuration(Number(e.target.value))} className="pr-6 h-8 text-right font-bold text-[13px] text-navy rounded-md" min={1} max={40} />
+                <Input type="number" value={duration} onChange={(e) => setDuration(e.target.value === '' ? '' : Number(e.target.value))} className="pr-6 h-8 text-right font-bold text-[13px] text-navy rounded-md" min={1} max={40} />
                 <span className="absolute right-2 top-1/2 -translate-y-1/2 text-text-body text-[11px]">yrs</span>
               </div>
             </div>
-            <Slider value={[duration]} onValueChange={([val]) => setDuration(val)} min={1} max={40} step={1} className="[&>.relative>.absolute]:bg-navy [&>.relative]:bg-gray-200" />
+            <Slider value={[Number(duration)]} onValueChange={([val]) => setDuration(val)} min={1} max={40} step={1} className="[&>.relative>.absolute]:bg-navy [&>.relative]:bg-gray-200" />
             <div className="flex justify-between text-[10px] font-medium text-text-body/70"><span>1 yr</span><span>40 yrs</span></div>
           </div>
 

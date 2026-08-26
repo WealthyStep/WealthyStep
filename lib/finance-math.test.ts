@@ -7,6 +7,9 @@ import {
   calculateEMI,
   calculateStepUpSIP,
   calculateSWP,
+  calculateAnnualSIP,
+  calculateTargetAmountSIP,
+  calculateLumpsumTarget,
   formatCurrency,
   formatCurrencyExact,
 } from './finance-math';
@@ -461,5 +464,235 @@ describe('Deep Verification: Financial Calculators', () => {
       expect(res.finalBalance).toBe(Math.max(0, Math.round(bal)));
       expect(res.totalWithdrawn).toBe(Math.round(withdrawn));
     });
+  describe('8. Annual SIP Calculator', () => {
+    it('63. Normal scenario (beginning of year)', () => {
+      const res = calculateAnnualSIP(120000, 12, 10);
+      const r = 0.12;
+      const n = 10;
+      const p = 120000;
+      const expected = p * ( (Math.pow(1 + r, n) - 1) / r ) * (1 + r);
+      expect(res.maturityValue).toBe(Math.round(expected));
+      expect(res.totalInvestment).toBe(1200000);
+      expect(res.estimatedReturns).toBe(Math.round(expected) - 1200000);
+    });
+
+    it('64. 0% return', () => {
+      const res = calculateAnnualSIP(100000, 0, 5);
+      expect(res.maturityValue).toBe(500000);
+      expect(res.totalInvestment).toBe(500000);
+      expect(res.estimatedReturns).toBe(0);
+      expect(res.returnsPercentage).toBe(0);
+    });
+
+    it('65. 1-year duration', () => {
+      const res = calculateAnnualSIP(100000, 10, 1);
+      expect(res.maturityValue).toBe(110000);
+      expect(res.totalInvestment).toBe(100000);
+      expect(res.estimatedReturns).toBe(10000);
+    });
+
+    it('66. Long duration (30 years)', () => {
+      const res = calculateAnnualSIP(100000, 12, 30);
+      expect(res.maturityValue).toBeGreaterThan(100000 * 30);
+      expect(res.estimatedReturns).toBeGreaterThan(0);
+    });
+
+    it('67. Decimal return rate', () => {
+      const res = calculateAnnualSIP(100000, 12.5, 5);
+      const r = 0.125;
+      const n = 5;
+      const p = 100000;
+      const expected = p * ( (Math.pow(1 + r, n) - 1) / r ) * (1 + r);
+      expect(res.maturityValue).toBe(Math.round(expected));
+    });
+
+    it('68. Large yearly investment', () => {
+      const res = calculateAnnualSIP(10000000, 12, 10);
+      const expected = 10000000 * ( (Math.pow(1 + 0.12, 10) - 1) / 0.12 ) * 1.12;
+      expect(res.maturityValue).toBe(Math.round(expected));
+    });
+
+    it('69. Invalid validation throws', () => {
+      expect(() => calculateAnnualSIP(0, 10, 10)).toThrow();
+      expect(() => calculateAnnualSIP(-1000, 10, 10)).toThrow();
+      expect(() => calculateAnnualSIP(10000, -10, 10)).toThrow();
+      expect(() => calculateAnnualSIP(10000, 10, 0)).toThrow();
+      expect(() => calculateAnnualSIP(NaN, 10, 10)).toThrow();
+      expect(() => calculateAnnualSIP(10000, NaN, 10)).toThrow();
+    });
+
+    it('70. Verify percentages clamp to 100', () => {
+      const res = calculateAnnualSIP(100000, 100, 10);
+      expect(res.returnsPercentage).toBeLessThanOrEqual(100);
+      expect(res.investmentPercentage).toBeLessThanOrEqual(100);
+      expect(res.returnsPercentage).toBeGreaterThan(0);
+    });
+  });
+
+  describe('9. Target Amount SIP Calculator', () => {
+    it('71. Normal scenario', () => {
+      const res = calculateTargetAmountSIP(10000000, 10, 6, 12);
+      const fv = 10000000 * Math.pow(1.06, 10);
+      expect(res.futureTargetAmount).toBe(Math.round(fv));
+      expect(res.inflationImpact).toBe(Math.round(fv) - 10000000);
+      
+      const r = 0.12 / 12;
+      const n = 120;
+      const sip = fv / ( ((Math.pow(1 + r, n) - 1) / r) * (1 + r) );
+      expect(res.requiredMonthlySIP).toBe(Math.round(sip));
+    });
+
+    it('72. 0% inflation', () => {
+      const res = calculateTargetAmountSIP(10000000, 10, 0, 12);
+      expect(res.futureTargetAmount).toBe(10000000);
+      expect(res.inflationImpact).toBe(0);
+    });
+
+    it('73. 0% return', () => {
+      const res = calculateTargetAmountSIP(10000000, 10, 6, 0);
+      const fv = 10000000 * Math.pow(1.06, 10);
+      expect(res.requiredMonthlySIP).toBe(Math.round(fv / 120));
+    });
+
+    it('74. 0% inflation and 0% return', () => {
+      const res = calculateTargetAmountSIP(1200000, 10, 0, 0);
+      expect(res.futureTargetAmount).toBe(1200000);
+      expect(res.requiredMonthlySIP).toBe(10000);
+    });
+
+    it('75. Short duration', () => {
+      const res = calculateTargetAmountSIP(1000000, 1, 6, 12);
+      expect(res.durationMonths).toBe(12);
+      expect(res.futureTargetAmount).toBe(1060000);
+    });
+
+    it('76. Long duration', () => {
+      const res = calculateTargetAmountSIP(10000000, 30, 6, 12);
+      expect(res.futureTargetAmount).toBeGreaterThan(10000000);
+      expect(res.requiredMonthlySIP).toBeGreaterThan(0);
+    });
+
+    it('77. Decimal inflation rate', () => {
+      const res = calculateTargetAmountSIP(1000000, 10, 5.5, 12);
+      const fv = 1000000 * Math.pow(1.055, 10);
+      expect(res.futureTargetAmount).toBe(Math.round(fv));
+    });
+
+    it('78. Decimal return rate', () => {
+      const res = calculateTargetAmountSIP(1000000, 10, 6, 12.5);
+      const fv = 1000000 * Math.pow(1.06, 10);
+      const r = 0.125 / 12;
+      const sip = fv / ( ((Math.pow(1 + r, 120) - 1) / r) * (1 + r) );
+      expect(res.requiredMonthlySIP).toBe(Math.round(sip));
+    });
+
+    it('79. Large target amount', () => {
+      const res = calculateTargetAmountSIP(1000000000, 10, 6, 12);
+      expect(res.requiredMonthlySIP).toBeGreaterThan(0);
+    });
+
+    it('80. Invalid validation throws', () => {
+      expect(() => calculateTargetAmountSIP(0, 10, 6, 12)).toThrow();
+      expect(() => calculateTargetAmountSIP(10000, 0, 6, 12)).toThrow();
+      expect(() => calculateTargetAmountSIP(10000, 10, -1, 12)).toThrow();
+      expect(() => calculateTargetAmountSIP(10000, 10, 6, -1)).toThrow();
+    it('80b. MANDATORY CROSS-CALCULATOR VERIFICATION (Raw Exact SIP)', () => {
+      // Step 1: Target Amount SIP calculates exact required monthly SIP
+      const targetAmount = 2500000;
+      const years = 30;
+      const inflation = 5;
+      const returnRate = 12;
+
+      const targetResult = calculateTargetAmountSIP(targetAmount, years, inflation, returnRate);
+
+      // Step 2: Pass exact unrounded SIP into Regular SIP Calculator
+      const sipResult = calculateSIP(targetResult.requiredMonthlySIP, returnRate, years);
+
+      // Step 4: The maturity value from Regular SIP must equal Target Amount SIP future target
+      const difference = Math.abs(sipResult.maturityValue - targetResult.futureTargetAmount);
+      expect(difference).toBeLessThan(0.01);
+    });
+
+    it('80c. Display Rounded SIP Behaviour', () => {
+      const targetAmount = 2500000;
+      const years = 30;
+      const inflation = 5;
+      const returnRate = 12;
+
+      const targetResult = calculateTargetAmountSIP(targetAmount, years, inflation, returnRate);
+      
+      // The displayed SIP is rounded to the nearest integer
+      const displayedSip = Math.round(targetResult.requiredMonthlySIP);
+      
+      // When users enter the displayed SIP into a standard SIP calculator,
+      // the maturity value will slightly drift from the exact target.
+      const sipResult = calculateSIP(displayedSip, returnRate, years);
+      
+      // We document this drift, which is normally negligible but mathematically expected.
+      const difference = Math.abs(sipResult.maturityValue - targetResult.futureTargetAmount);
+      expect(difference).toBeGreaterThan(0); // Proof that rounding introduces drift
+      expect(difference).toBeLessThan(100); // But the drift is very small
+    });
+  });
+
+  describe('10. Lumpsum Target Calculator', () => {
+    it('81. Normal benchmark', () => {
+      const res = calculateLumpsumTarget(5000000, 30, 12);
+      const pv = 5000000 / Math.pow(1.12, 30);
+      expect(res.requiredLumpsumInvestment).toBe(Math.round(pv));
+      expect(res.expectedGrowth).toBe(5000000 - Math.round(pv));
+    });
+
+    it('82. 0% return', () => {
+      const res = calculateLumpsumTarget(5000000, 30, 0);
+      expect(res.requiredLumpsumInvestment).toBe(5000000);
+      expect(res.expectedGrowth).toBe(0);
+      expect(res.growthPercentage).toBe(0);
+    });
+
+    it('83. Short duration', () => {
+      const res = calculateLumpsumTarget(100000, 1, 10);
+      const pv = 100000 / 1.10;
+      expect(res.requiredLumpsumInvestment).toBe(Math.round(pv));
+    });
+
+    it('84. Long duration', () => {
+      const res = calculateLumpsumTarget(10000000, 50, 12);
+      const pv = 10000000 / Math.pow(1.12, 50);
+      expect(res.requiredLumpsumInvestment).toBe(Math.round(pv));
+    });
+
+    it('85. Decimal return', () => {
+      const res = calculateLumpsumTarget(100000, 10, 10.5);
+      const pv = 100000 / Math.pow(1.105, 10);
+      expect(res.requiredLumpsumInvestment).toBe(Math.round(pv));
+    });
+
+    it('86. Large target amount', () => {
+      const res = calculateLumpsumTarget(100000000, 10, 12);
+      const pv = 100000000 / Math.pow(1.12, 10);
+      expect(res.requiredLumpsumInvestment).toBe(Math.round(pv));
+    });
+
+    it('87. Invalid target throws', () => {
+      expect(() => calculateLumpsumTarget(0, 10, 12)).toThrow();
+      expect(() => calculateLumpsumTarget(-10000, 10, 12)).toThrow();
+      expect(() => calculateLumpsumTarget(NaN, 10, 12)).toThrow();
+    });
+
+    it('88. Invalid duration throws', () => {
+      expect(() => calculateLumpsumTarget(100000, 0, 12)).toThrow();
+      expect(() => calculateLumpsumTarget(100000, -1, 12)).toThrow();
+    });
+
+    it('89. Negative return throws', () => {
+      expect(() => calculateLumpsumTarget(100000, 10, -12)).toThrow();
+    });
+
+    it('90. Verify percentage math', () => {
+      const res = calculateLumpsumTarget(5000000, 30, 12);
+      expect(res.investmentPercentage + res.growthPercentage).toBeCloseTo(100, 0);
+    });
+  });
   });
 });

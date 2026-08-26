@@ -46,7 +46,7 @@ export function EducationCalculator() {
   let results: any = null;
   let calculationError: string | null = null;
   try {
-    results = calculateEducation(currentAge, collegeAge, currentCost, 0, returnRate, inflationRate);
+    results = calculateEducation(currentAge as number, collegeAge as number, currentCost as number, 0, returnRate as number, inflationRate as number);
   } catch (err: any) {
     calculationError = err.message;
   }
@@ -76,11 +76,11 @@ export function EducationCalculator() {
             <div className="flex justify-between items-center">
               <label className="text-[12px] font-bold text-navy">Child's Age</label>
               <div className="relative w-20">
-                <Input type="number" value={currentAge} onChange={(e) => setCurrentAge(Math.min(Number(e.target.value), collegeAge - 1))} className="pr-6 h-8 text-right font-bold text-[13px] text-navy rounded-md" min={0} max={17} />
+                <Input type="number" value={currentAge} onChange={(e) => setCurrentAge(e.target.value === '' ? '' : Math.min(Number(e.target.value), (collegeAge as number) - 1))} className="pr-6 h-8 text-right font-bold text-[13px] text-navy rounded-md" min={0} max={17} />
                 <span className="absolute right-2 top-1/2 -translate-y-1/2 text-text-body text-[11px]">yrs</span>
               </div>
             </div>
-            <Slider value={[currentAge]} onValueChange={([val]) => setCurrentAge(Math.min(val, collegeAge - 1))} min={0} max={17} step={1} className="[&>.relative>.absolute]:bg-navy [&>.relative]:bg-gray-200" />
+            <Slider value={[Number(currentAge)]} onValueChange={([val]) => setCurrentAge(Math.min(val, (collegeAge as number) - 1))} min={0} max={17} step={1} className="[&>.relative>.absolute]:bg-navy [&>.relative]:bg-gray-200" />
             <div className="flex justify-between text-[10px] font-medium text-text-body/70"><span>0</span><span>17</span></div>
           </div>
 
@@ -89,11 +89,11 @@ export function EducationCalculator() {
             <div className="flex justify-between items-center">
               <label className="text-[12px] font-bold text-navy">College Start Age</label>
               <div className="relative w-20">
-                <Input type="number" value={collegeAge} onChange={(e) => setCollegeAge(Math.max(Number(e.target.value), currentAge + 1))} className="pr-6 h-8 text-right font-bold text-[13px] text-navy rounded-md" min={16} max={25} />
+                <Input type="number" value={collegeAge} onChange={(e) => setCollegeAge(e.target.value === '' ? '' : Math.max(Number(e.target.value), (currentAge as number) + 1))} className="pr-6 h-8 text-right font-bold text-[13px] text-navy rounded-md" min={16} max={25} />
                 <span className="absolute right-2 top-1/2 -translate-y-1/2 text-text-body text-[11px]">yrs</span>
               </div>
             </div>
-            <Slider value={[collegeAge]} onValueChange={([val]) => setCollegeAge(Math.max(val, currentAge + 1))} min={16} max={25} step={1} className="[&>.relative>.absolute]:bg-navy [&>.relative]:bg-gray-200" />
+            <Slider value={[Number(collegeAge)]} onValueChange={([val]) => setCollegeAge(Math.max(val, (currentAge as number) + 1))} min={16} max={25} step={1} className="[&>.relative>.absolute]:bg-navy [&>.relative]:bg-gray-200" />
             <div className="flex justify-between text-[10px] font-medium text-text-body/70"><span>16</span><span>25</span></div>
           </div>
 
@@ -103,10 +103,10 @@ export function EducationCalculator() {
               <label className="text-[12px] font-bold text-navy">Current Cost</label>
               <div className="relative w-24">
                 <span className="absolute left-2 top-1/2 -translate-y-1/2 text-text-body text-[12px]">₹</span>
-                <Input type="number" value={currentCost} onChange={(e) => setCurrentCost(Number(e.target.value))} className="pl-5 pr-2 h-8 text-right font-bold text-[13px] text-navy rounded-md" min={100000} />
+                <Input type="number" value={currentCost} onChange={(e) => setCurrentCost(e.target.value === '' ? '' : Number(e.target.value))} className="pl-5 pr-2 h-8 text-right font-bold text-[13px] text-navy rounded-md" min={100000} />
               </div>
             </div>
-            <Slider value={[currentCost]} onValueChange={([val]) => setCurrentCost(val)} min={100000} max={50000000} step={50000} className="[&>.relative>.absolute]:bg-navy [&>.relative]:bg-gray-200" />
+            <Slider value={[Number(currentCost)]} onValueChange={([val]) => setCurrentCost(val)} min={100000} max={50000000} step={50000} className="[&>.relative>.absolute]:bg-navy [&>.relative]:bg-gray-200" />
             <div className="flex justify-between text-[10px] font-medium text-text-body/70"><span>₹1L</span><span>₹5Cr</span></div>
           </div>
 
@@ -115,11 +115,11 @@ export function EducationCalculator() {
             <div className="flex justify-between items-center">
               <label className="text-[12px] font-bold text-navy">Edu. Inflation</label>
               <div className="relative w-20">
-                <Input type="number" value={inflationRate} onChange={(e) => setInflationRate(Number(e.target.value))} className="pr-6 h-8 text-right font-bold text-[13px] text-navy rounded-md" min={0} max={20} step={0.5} />
+                <Input type="number" value={inflationRate} onChange={(e) => setInflationRate(e.target.value === '' ? '' : Number(e.target.value))} className="pr-6 h-8 text-right font-bold text-[13px] text-navy rounded-md" min={0} max={20} step={0.5} />
                 <span className="absolute right-2 top-1/2 -translate-y-1/2 text-text-body text-[11px]">%</span>
               </div>
             </div>
-            <Slider value={[inflationRate]} onValueChange={([val]) => setInflationRate(val)} min={0} max={20} step={0.5} className="[&>.relative>.absolute]:bg-navy [&>.relative]:bg-gray-200" />
+            <Slider value={[Number(inflationRate)]} onValueChange={([val]) => setInflationRate(val)} min={0} max={20} step={0.5} className="[&>.relative>.absolute]:bg-navy [&>.relative]:bg-gray-200" />
             <div className="flex justify-between text-[10px] font-medium text-text-body/70"><span>0%</span><span>20%</span></div>
           </div>
 
@@ -128,11 +128,11 @@ export function EducationCalculator() {
             <div className="flex justify-between items-center">
               <label className="text-[12px] font-bold text-navy">Expected Return</label>
               <div className="relative w-20">
-                <Input type="number" value={returnRate} onChange={(e) => setReturnRate(Number(e.target.value))} className="pr-6 h-8 text-right font-bold text-[13px] text-navy rounded-md" min={0} max={30} step={0.5} />
+                <Input type="number" value={returnRate} onChange={(e) => setReturnRate(e.target.value === '' ? '' : Number(e.target.value))} className="pr-6 h-8 text-right font-bold text-[13px] text-navy rounded-md" min={0} max={30} step={0.5} />
                 <span className="absolute right-2 top-1/2 -translate-y-1/2 text-text-body text-[11px]">%</span>
               </div>
             </div>
-            <Slider value={[returnRate]} onValueChange={([val]) => setReturnRate(val)} min={0} max={30} step={0.5} className="[&>.relative>.absolute]:bg-navy [&>.relative]:bg-gray-200" />
+            <Slider value={[Number(returnRate)]} onValueChange={([val]) => setReturnRate(val)} min={0} max={30} step={0.5} className="[&>.relative>.absolute]:bg-navy [&>.relative]:bg-gray-200" />
             <div className="flex justify-between text-[10px] font-medium text-text-body/70"><span>0%</span><span>30%</span></div>
           </div>
         </div>

@@ -47,7 +47,7 @@ export function SwpCalculator() {
   let results: any = null;
   let calculationError: string | null = null;
   try {
-    results = calculateSWP(totalInvestment, monthlyWithdrawal, returnRate, duration);
+    results = calculateSWP(totalInvestment as number, monthlyWithdrawal as number, returnRate as number, duration as number);
   } catch (err: any) {
     calculationError = err.message;
   }
@@ -80,14 +80,14 @@ export function SwpCalculator() {
                 <Input 
                   type="number" 
                   value={totalInvestment} 
-                  onChange={(e) => setTotalInvestment(Number(e.target.value))}
+                  onChange={(e) => setTotalInvestment(e.target.value === '' ? '' : Number(e.target.value))}
                   className="pl-5 pr-2 h-8 text-right font-bold text-[13px] text-navy rounded-md"
                   min={100000}
                 />
               </div>
             </div>
             <Slider 
-              value={[totalInvestment]} 
+              value={[Number(totalInvestment)]} 
               onValueChange={([val]) => setTotalInvestment(val)} 
               min={100000} max={100000000} step={100000}
               className="[&>.relative>.absolute]:bg-navy [&>.relative]:bg-gray-200"
@@ -106,14 +106,14 @@ export function SwpCalculator() {
                 <Input 
                   type="number" 
                   value={monthlyWithdrawal} 
-                  onChange={(e) => setMonthlyWithdrawal(Number(e.target.value))}
+                  onChange={(e) => setMonthlyWithdrawal(e.target.value === '' ? '' : Number(e.target.value))}
                   className="pl-5 pr-2 h-8 text-right font-bold text-[13px] text-navy rounded-md"
                   min={5000}
                 />
               </div>
             </div>
             <Slider 
-              value={[monthlyWithdrawal]} 
+              value={[Number(monthlyWithdrawal)]} 
               onValueChange={([val]) => setMonthlyWithdrawal(val)} 
               min={5000} max={500000} step={1000}
               className="[&>.relative>.absolute]:bg-navy [&>.relative]:bg-gray-200"
@@ -131,7 +131,7 @@ export function SwpCalculator() {
                 <Input 
                   type="number" 
                   value={returnRate} 
-                  onChange={(e) => setReturnRate(Number(e.target.value))}
+                  onChange={(e) => setReturnRate(e.target.value === '' ? '' : Number(e.target.value))}
                   className="pr-6 h-8 text-right font-bold text-[13px] text-navy rounded-md"
                   min={1} max={20} step={0.5}
                 />
@@ -139,7 +139,7 @@ export function SwpCalculator() {
               </div>
             </div>
             <Slider 
-              value={[returnRate]} 
+              value={[Number(returnRate)]} 
               onValueChange={([val]) => setReturnRate(val)} 
               min={1} max={20} step={0.5}
               className="[&>.relative>.absolute]:bg-navy [&>.relative]:bg-gray-200"
@@ -157,7 +157,7 @@ export function SwpCalculator() {
                 <Input 
                   type="number" 
                   value={duration} 
-                  onChange={(e) => setDuration(Number(e.target.value))}
+                  onChange={(e) => setDuration(e.target.value === '' ? '' : Number(e.target.value))}
                   className="pr-6 h-8 text-right font-bold text-[13px] text-navy rounded-md"
                   min={1} max={40}
                 />
@@ -165,7 +165,7 @@ export function SwpCalculator() {
               </div>
             </div>
             <Slider 
-              value={[duration]} 
+              value={[Number(duration)]} 
               onValueChange={([val]) => setDuration(val)} 
               min={1} max={40} step={1}
               className="[&>.relative>.absolute]:bg-navy [&>.relative]:bg-gray-200"

@@ -52,7 +52,7 @@ export function RetirementCalculator() {
   let results: any = null;
   let calculationError: string | null = null;
   try {
-    results = calculateRetirement(currentAge, retirementAge, monthlyExpense, currentSavings, preReturnRate, inflationRate, postReturnRate, lifeExpectancy);
+    results = calculateRetirement(currentAge as number, retirementAge as number, monthlyExpense as number, currentSavings as number, preReturnRate as number, inflationRate as number, postReturnRate as number, lifeExpectancy as number);
   } catch (err: any) {
     calculationError = err.message;
   }
@@ -83,11 +83,11 @@ export function RetirementCalculator() {
             <div className="flex justify-between items-center">
               <label className="text-[12px] font-bold text-navy">Current Age</label>
               <div className="relative w-20">
-                <Input type="number" value={currentAge} onChange={(e) => setCurrentAge(Math.min(Number(e.target.value), retirementAge - 1))} className="pr-6 h-8 text-right font-bold text-[13px] text-navy rounded-md" min={18} max={60} />
+                <Input type="number" value={currentAge} onChange={(e) => setCurrentAge(e.target.value === '' ? '' : Math.min(Number(e.target.value), (retirementAge as number) - 1))} className="pr-6 h-8 text-right font-bold text-[13px] text-navy rounded-md" min={18} max={60} />
                 <span className="absolute right-2 top-1/2 -translate-y-1/2 text-text-body text-[11px] font-medium">yrs</span>
               </div>
             </div>
-            <Slider value={[currentAge]} onValueChange={([val]) => setCurrentAge(Math.min(val, retirementAge - 1))} min={18} max={60} step={1} className="[&>.relative>.absolute]:bg-navy [&>.relative]:bg-gray-200" />
+            <Slider value={[Number(currentAge)]} onValueChange={([val]) => setCurrentAge(Math.min(val, (retirementAge as number) - 1))} min={18} max={60} step={1} className="[&>.relative>.absolute]:bg-navy [&>.relative]:bg-gray-200" />
             <div className="flex justify-between text-[10px] font-medium text-text-body/70"><span>18</span><span>60</span></div>
           </div>
 
@@ -96,11 +96,11 @@ export function RetirementCalculator() {
             <div className="flex justify-between items-center">
               <label className="text-[12px] font-bold text-navy">Retirement Age</label>
               <div className="relative w-20">
-                <Input type="number" value={retirementAge} onChange={(e) => setRetirementAge(Math.max(Number(e.target.value), currentAge + 1))} className="pr-6 h-8 text-right font-bold text-[13px] text-navy rounded-md" min={30} max={80} />
+                <Input type="number" value={retirementAge} onChange={(e) => setRetirementAge(e.target.value === '' ? '' : Math.max(Number(e.target.value), (currentAge as number) + 1))} className="pr-6 h-8 text-right font-bold text-[13px] text-navy rounded-md" min={30} max={80} />
                 <span className="absolute right-2 top-1/2 -translate-y-1/2 text-text-body text-[11px] font-medium">yrs</span>
               </div>
             </div>
-            <Slider value={[retirementAge]} onValueChange={([val]) => setRetirementAge(Math.max(val, currentAge + 1))} min={30} max={80} step={1} className="[&>.relative>.absolute]:bg-navy [&>.relative]:bg-gray-200" />
+            <Slider value={[Number(retirementAge)]} onValueChange={([val]) => setRetirementAge(Math.max(val, (currentAge as number) + 1))} min={30} max={80} step={1} className="[&>.relative>.absolute]:bg-navy [&>.relative]:bg-gray-200" />
             <div className="flex justify-between text-[10px] font-medium text-text-body/70"><span>30</span><span>80</span></div>
           </div>
 
@@ -110,10 +110,10 @@ export function RetirementCalculator() {
               <label className="text-[12px] font-bold text-navy">Monthly Expense</label>
               <div className="relative w-24">
                 <span className="absolute left-2 top-1/2 -translate-y-1/2 text-text-body text-[12px]">₹</span>
-                <Input type="number" value={monthlyExpense} onChange={(e) => setMonthlyExpense(Number(e.target.value))} className="pl-5 pr-2 h-8 text-right font-bold text-[13px] text-navy rounded-md" min={10000} />
+                <Input type="number" value={monthlyExpense} onChange={(e) => setMonthlyExpense(e.target.value === '' ? '' : Number(e.target.value))} className="pl-5 pr-2 h-8 text-right font-bold text-[13px] text-navy rounded-md" min={10000} />
               </div>
             </div>
-            <Slider value={[monthlyExpense]} onValueChange={([val]) => setMonthlyExpense(val)} min={10000} max={500000} step={5000} className="[&>.relative>.absolute]:bg-navy [&>.relative]:bg-gray-200" />
+            <Slider value={[Number(monthlyExpense)]} onValueChange={([val]) => setMonthlyExpense(val)} min={10000} max={500000} step={5000} className="[&>.relative>.absolute]:bg-navy [&>.relative]:bg-gray-200" />
             <div className="flex justify-between text-[10px] font-medium text-text-body/70"><span>₹10K</span><span>₹5L</span></div>
           </div>
 
@@ -123,10 +123,10 @@ export function RetirementCalculator() {
               <label className="text-[12px] font-bold text-navy">Current Savings</label>
               <div className="relative w-24">
                 <span className="absolute left-2 top-1/2 -translate-y-1/2 text-text-body text-[12px]">₹</span>
-                <Input type="number" value={currentSavings} onChange={(e) => setCurrentSavings(Number(e.target.value))} className="pl-5 pr-2 h-8 text-right font-bold text-[13px] text-navy rounded-md" min={0} />
+                <Input type="number" value={currentSavings} onChange={(e) => setCurrentSavings(e.target.value === '' ? '' : Number(e.target.value))} className="pl-5 pr-2 h-8 text-right font-bold text-[13px] text-navy rounded-md" min={0} />
               </div>
             </div>
-            <Slider value={[currentSavings]} onValueChange={([val]) => setCurrentSavings(val)} min={0} max={50000000} step={100000} className="[&>.relative>.absolute]:bg-navy [&>.relative]:bg-gray-200" />
+            <Slider value={[Number(currentSavings)]} onValueChange={([val]) => setCurrentSavings(val)} min={0} max={50000000} step={100000} className="[&>.relative>.absolute]:bg-navy [&>.relative]:bg-gray-200" />
             <div className="flex justify-between text-[10px] font-medium text-text-body/70"><span>₹0</span><span>₹5Cr</span></div>
           </div>
 
@@ -135,11 +135,11 @@ export function RetirementCalculator() {
             <div className="flex justify-between items-center">
               <label className="text-[12px] font-bold text-navy">Inflation Rate</label>
               <div className="relative w-20">
-                <Input type="number" value={inflationRate} onChange={(e) => setInflationRate(Number(e.target.value))} className="pr-6 h-8 text-right font-bold text-[13px] text-navy rounded-md" min={0} max={20} step={0.5} />
+                <Input type="number" value={inflationRate} onChange={(e) => setInflationRate(e.target.value === '' ? '' : Number(e.target.value))} className="pr-6 h-8 text-right font-bold text-[13px] text-navy rounded-md" min={0} max={20} step={0.5} />
                 <span className="absolute right-2 top-1/2 -translate-y-1/2 text-text-body text-[11px]">%</span>
               </div>
             </div>
-            <Slider value={[inflationRate]} onValueChange={([val]) => setInflationRate(val)} min={0} max={20} step={0.5} className="[&>.relative>.absolute]:bg-navy [&>.relative]:bg-gray-200" />
+            <Slider value={[Number(inflationRate)]} onValueChange={([val]) => setInflationRate(val)} min={0} max={20} step={0.5} className="[&>.relative>.absolute]:bg-navy [&>.relative]:bg-gray-200" />
             <div className="flex justify-between text-[10px] font-medium text-text-body/70"><span>0%</span><span>20%</span></div>
           </div>
 
@@ -148,11 +148,11 @@ export function RetirementCalculator() {
             <div className="flex justify-between items-center">
               <label className="text-[12px] font-bold text-navy">Pre-Ret. Return</label>
               <div className="relative w-20">
-                <Input type="number" value={preReturnRate} onChange={(e) => setPreReturnRate(Number(e.target.value))} className="pr-6 h-8 text-right font-bold text-[13px] text-navy rounded-md" min={0} max={30} step={0.5} />
+                <Input type="number" value={preReturnRate} onChange={(e) => setPreReturnRate(e.target.value === '' ? '' : Number(e.target.value))} className="pr-6 h-8 text-right font-bold text-[13px] text-navy rounded-md" min={0} max={30} step={0.5} />
                 <span className="absolute right-2 top-1/2 -translate-y-1/2 text-text-body text-[11px]">%</span>
               </div>
             </div>
-            <Slider value={[preReturnRate]} onValueChange={([val]) => setPreReturnRate(val)} min={0} max={30} step={0.5} className="[&>.relative>.absolute]:bg-navy [&>.relative]:bg-gray-200" />
+            <Slider value={[Number(preReturnRate)]} onValueChange={([val]) => setPreReturnRate(val)} min={0} max={30} step={0.5} className="[&>.relative>.absolute]:bg-navy [&>.relative]:bg-gray-200" />
             <div className="flex justify-between text-[10px] font-medium text-text-body/70"><span>0%</span><span>30%</span></div>
           </div>
 
@@ -166,11 +166,11 @@ export function RetirementCalculator() {
               <div className="flex justify-between items-center">
                 <label className="text-[12px] font-bold text-navy">Post-Ret. Return</label>
                 <div className="relative w-20">
-                  <Input type="number" value={postReturnRate} onChange={(e) => setPostReturnRate(Number(e.target.value))} className="pr-6 h-8 text-right font-bold text-[13px] text-navy rounded-md" min={0} max={20} step={0.5} />
+                  <Input type="number" value={postReturnRate} onChange={(e) => setPostReturnRate(e.target.value === '' ? '' : Number(e.target.value))} className="pr-6 h-8 text-right font-bold text-[13px] text-navy rounded-md" min={0} max={20} step={0.5} />
                   <span className="absolute right-2 top-1/2 -translate-y-1/2 text-text-body text-[11px]">%</span>
                 </div>
               </div>
-              <Slider value={[postReturnRate]} onValueChange={([val]) => setPostReturnRate(val)} min={0} max={20} step={0.5} className="[&>.relative>.absolute]:bg-navy [&>.relative]:bg-gray-200" />
+              <Slider value={[Number(postReturnRate)]} onValueChange={([val]) => setPostReturnRate(val)} min={0} max={20} step={0.5} className="[&>.relative>.absolute]:bg-navy [&>.relative]:bg-gray-200" />
               <div className="flex justify-between text-[10px] font-medium text-text-body/70"><span>0%</span><span>20%</span></div>
             </div>
           </details>
@@ -180,11 +180,11 @@ export function RetirementCalculator() {
             <div className="flex justify-between items-center">
               <label className="text-[12px] font-bold text-navy">Life Expectancy</label>
               <div className="relative w-20">
-                <Input type="number" value={lifeExpectancy} onChange={(e) => setLifeExpectancy(Math.max(Number(e.target.value), retirementAge + 1))} className="pr-6 h-8 text-right font-bold text-[13px] text-navy rounded-md" min={60} max={100} />
+                <Input type="number" value={lifeExpectancy} onChange={(e) => setLifeExpectancy(e.target.value === '' ? '' : Math.max(Number(e.target.value), (retirementAge as number) + 1))} className="pr-6 h-8 text-right font-bold text-[13px] text-navy rounded-md" min={60} max={100} />
                 <span className="absolute right-2 top-1/2 -translate-y-1/2 text-text-body text-[11px]">yrs</span>
               </div>
             </div>
-            <Slider value={[lifeExpectancy]} onValueChange={([val]) => setLifeExpectancy(Math.max(val, retirementAge + 1))} min={60} max={100} step={1} className="[&>.relative>.absolute]:bg-navy [&>.relative]:bg-gray-200" />
+            <Slider value={[Number(lifeExpectancy)]} onValueChange={([val]) => setLifeExpectancy(Math.max(val, (retirementAge as number) + 1))} min={60} max={100} step={1} className="[&>.relative>.absolute]:bg-navy [&>.relative]:bg-gray-200" />
             <div className="flex justify-between text-[10px] font-medium text-text-body/70"><span>60</span><span>100</span></div>
           </div>
         </div>
@@ -298,7 +298,7 @@ export function RetirementCalculator() {
               </div>
               <div className="flex items-start gap-3">
                 <div className="w-6 h-6 rounded-md bg-lime/10 flex items-center justify-center shrink-0 mt-0.5"><ShieldCheck className="w-3 h-3 text-lime" /></div>
-                <p className="text-[11px] text-navy/90 leading-relaxed font-medium">Your ₹{(monthlyExpense / 1000).toFixed(0)}K monthly expense will become <strong>{formatCurrencyExact(results.futureMonthlyExpense)}</strong> at retirement due to inflation.</p>
+                <p className="text-[11px] text-navy/90 leading-relaxed font-medium">Your ₹{((monthlyExpense as number) / 1000).toFixed(0)}K monthly expense will become <strong>{formatCurrencyExact(results.futureMonthlyExpense)}</strong> at retirement due to inflation.</p>
               </div>
               <div className="flex items-start gap-3">
                 <div className="w-6 h-6 rounded-md bg-lime/10 flex items-center justify-center shrink-0 mt-0.5"><TrendingUp className="w-3 h-3 text-lime" /></div>

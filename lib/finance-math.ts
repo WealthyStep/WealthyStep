@@ -671,3 +671,197 @@ export function calculateSWP(
     yearlyData,
   };
 }
+
+// ============================================================================
+// 8. ANNUAL SIP CALCULATOR
+// Formula: M = P × [((1+r)^n - 1) / r] × (1+r) (beginning of year)
+// ============================================================================
+
+export interface AnnualSIPResult {
+  yearlyInvestment: number;
+  totalInvestment: number;
+  estimatedReturns: number;
+  maturityValue: number;
+  durationYears: number;
+  investmentPercentage: number;
+  returnsPercentage: number;
+  yearlyData: YearlyDataPoint[];
+}
+
+export function calculateAnnualSIP(
+  yearlyInvestment: number,
+  annualReturnRate: number,
+  years: number
+): AnnualSIPResult {
+  const P = requirePositive(yearlyInvestment, "Yearly Investment");
+  const rate = requireNonNegative(annualReturnRate, "Return Rate");
+  const Y = Math.round(requirePositive(years, "Duration"));
+  
+  const r = rate / 100;
+  let totalInvestment = 0;
+  let balance = 0;
+  
+  const yearlyData: YearlyDataPoint[] = [
+    { year: 0, investedAmount: 0, maturityValue: 0 },
+  ];
+
+  for (let year = 1; year <= Y; year++) {
+    // Beginning of year investment
+    if (r === 0) {
+      balance += P;
+    } else {
+      balance = (balance + P) * (1 + r);
+    }
+    totalInvestment += P;
+    
+    yearlyData.push({
+      year,
+      investedAmount: Math.round(totalInvestment),
+      maturityValue: Math.round(balance),
+    });
+  }
+
+  const maturityValue = Math.round(balance);
+  totalInvestment = Math.round(totalInvestment);
+  const estimatedReturns = Math.max(0, maturityValue - totalInvestment);
+  
+  let investmentPercentage = 0;
+  let returnsPercentage = 0;
+  
+  if (maturityValue > 0) {
+    investmentPercentage = Math.min(100, Math.max(0, (totalInvestment / maturityValue) * 100));
+    returnsPercentage = Math.min(100, Math.max(0, (estimatedReturns / maturityValue) * 100));
+  }
+
+  return {
+    yearlyInvestment: Math.round(P),
+    totalInvestment,
+    estimatedReturns,
+    maturityValue,
+    durationYears: Y,
+    investmentPercentage: parseFloat(investmentPercentage.toFixed(1)),
+    returnsPercentage: parseFloat(returnsPercentage.toFixed(1)),
+    yearlyData
+  };
+}
+
+// ============================================================================
+// 9. TARGET AMOUNT SIP CALCULATOR
+// ============================================================================
+
+export interface TargetAmountSIPResult {
+  targetAmountToday: number;
+  futureTargetAmount: number;
+  requiredMonthlySIP: number;
+  totalInvestment: number;
+  estimatedReturns: number;
+  inflationImpact: number;
+  durationYears: number;
+  durationMonths: number;
+  investmentPercentage: number;
+  returnsPercentage: number;
+}
+
+export function calculateTargetAmountSIP(
+  targetAmount: number,
+  years: number,
+  inflationRate: number,
+  annualReturnRate: number
+): TargetAmountSIPResult {
+  const T = requirePositive(targetAmount, "Target Amount");
+  const Y = Math.round(requirePositive(years, "Investment Period"));
+  const i = requireNonNegative(inflationRate, "Inflation Rate") / 100;
+  const rate = requireNonNegative(annualReturnRate, "Return Rate");
+  const r = rate / 100 / 12;
+  const n = Y * 12;
+
+  // Calculate Future Target Amount
+  const futureTarget = T * Math.pow(1 + i, Y);
+
+  // Calculate Required Monthly SIP (beginning of month)
+  let requiredSIP = 0;
+  if (r === 0) {
+    requiredSIP = futureTarget / n;
+  } else {
+    // F = P * (((1+r)^n - 1) / r) * (1+r) => P = F / ((((1+r)^n - 1) / r) * (1+r))
+    const growthFactor = (Math.pow(1 + r, n) - 1) / r;
+    requiredSIP = futureTarget / (growthFactor * (1 + r));
+  }
+  
+  // Total Investment uses the full precision requiredSIP
+  const totalInvestment = requiredSIP * n;
+  const estimatedReturns = Math.max(0, futureTarget - totalInvestment);
+  const inflationImpact = Math.max(0, futureTarget - T);
+
+  let investmentPercentage = 0;
+  let returnsPercentage = 0;
+  
+  if (futureTarget > 0) {
+    investmentPercentage = Math.min(100, Math.max(0, (totalInvestment / futureTarget) * 100));
+    returnsPercentage = Math.min(100, Math.max(0, (estimatedReturns / futureTarget) * 100));
+  }
+
+  return {
+    targetAmountToday: T,
+    futureTargetAmount: futureTarget,
+    requiredMonthlySIP: requiredSIP,
+    totalInvestment: totalInvestment,
+    estimatedReturns: estimatedReturns,
+    inflationImpact: inflationImpact,
+    durationYears: Y,
+    durationMonths: n,
+    investmentPercentage: parseFloat(investmentPercentage.toFixed(1)),
+    returnsPercentage: parseFloat(returnsPercentage.toFixed(1))
+  };
+}
+
+// ============================================================================
+// 10. LUMPSUM TARGET CALCULATOR
+// ============================================================================
+
+export interface LumpsumTargetResult {
+  targetAmount: number;
+  durationYears: number;
+  requiredLumpsumInvestment: number;
+  expectedGrowth: number;
+  investmentPercentage: number;
+  growthPercentage: number;
+}
+
+export function calculateLumpsumTarget(
+  targetAmount: number,
+  years: number,
+  annualReturnRate: number
+): LumpsumTargetResult {
+  const FV = requirePositive(targetAmount, "Target Amount");
+  const Y = Math.round(requirePositive(years, "Duration"));
+  const rate = requireNonNegative(annualReturnRate, "Return Rate");
+  
+  const r = rate / 100;
+  let requiredLumpsum = 0;
+  
+  if (r === 0) {
+    requiredLumpsum = FV;
+  } else {
+    requiredLumpsum = FV / Math.pow(1 + r, Y);
+  }
+  
+  const expectedGrowth = Math.max(0, FV - requiredLumpsum);
+  
+  let investmentPercentage = 0;
+  let growthPercentage = 0;
+  
+  if (FV > 0) {
+    investmentPercentage = Math.min(100, Math.max(0, (requiredLumpsum / FV) * 100));
+    growthPercentage = Math.min(100, Math.max(0, (expectedGrowth / FV) * 100));
+  }
+
+  return {
+    targetAmount: Math.round(FV),
+    durationYears: Y,
+    requiredLumpsumInvestment: Math.round(requiredLumpsum),
+    expectedGrowth: Math.round(expectedGrowth),
+    investmentPercentage: parseFloat(investmentPercentage.toFixed(1)),
+    growthPercentage: parseFloat(growthPercentage.toFixed(1))
+  };
+}

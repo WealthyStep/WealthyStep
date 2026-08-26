@@ -45,7 +45,7 @@ export function EmiCalculator() {
   let results: any = null;
   let calculationError: string | null = null;
   try {
-    results = calculateEMI(loanAmount, interestRate, duration);
+    results = calculateEMI(loanAmount as number, interestRate as number, duration as number);
   } catch (err: any) {
     calculationError = err.message;
   }
@@ -78,14 +78,14 @@ export function EmiCalculator() {
                 <Input 
                   type="number" 
                   value={loanAmount} 
-                  onChange={(e) => setLoanAmount(Number(e.target.value))}
+                  onChange={(e) => setLoanAmount(e.target.value === '' ? '' : Number(e.target.value))}
                   className="pl-5 pr-2 h-8 text-right font-bold text-[13px] text-navy rounded-md"
                   min={100000}
                 />
               </div>
             </div>
             <Slider 
-              value={[loanAmount]} 
+              value={[Number(loanAmount)]} 
               onValueChange={([val]) => setLoanAmount(val)} 
               min={100000} max={100000000} step={100000}
               className="[&>.relative>.absolute]:bg-navy [&>.relative]:bg-gray-200"
@@ -103,7 +103,7 @@ export function EmiCalculator() {
                 <Input 
                   type="number" 
                   value={interestRate} 
-                  onChange={(e) => setInterestRate(Number(e.target.value))}
+                  onChange={(e) => setInterestRate(e.target.value === '' ? '' : Number(e.target.value))}
                   className="pr-6 h-8 text-right font-bold text-[13px] text-navy rounded-md"
                   min={5} max={20} step={0.1}
                 />
@@ -111,7 +111,7 @@ export function EmiCalculator() {
               </div>
             </div>
             <Slider 
-              value={[interestRate]} 
+              value={[Number(interestRate)]} 
               onValueChange={([val]) => setInterestRate(val)} 
               min={5} max={20} step={0.1}
               className="[&>.relative>.absolute]:bg-navy [&>.relative]:bg-gray-200"
@@ -129,7 +129,7 @@ export function EmiCalculator() {
                 <Input 
                   type="number" 
                   value={duration} 
-                  onChange={(e) => setDuration(Number(e.target.value))}
+                  onChange={(e) => setDuration(e.target.value === '' ? '' : Number(e.target.value))}
                   className="pr-6 h-8 text-right font-bold text-[13px] text-navy rounded-md"
                   min={1} max={40}
                 />
@@ -137,7 +137,7 @@ export function EmiCalculator() {
               </div>
             </div>
             <Slider 
-              value={[duration]} 
+              value={[Number(duration)]} 
               onValueChange={([val]) => setDuration(val)} 
               min={1} max={40} step={1}
               className="[&>.relative>.absolute]:bg-navy [&>.relative]:bg-gray-200"

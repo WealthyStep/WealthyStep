@@ -6,6 +6,9 @@ import { EducationCalculator } from "@/components/calculators/EducationCalculato
 import { EmiCalculator } from "@/components/calculators/EmiCalculator";
 import { StepUpSipCalculator } from "@/components/calculators/StepUpSipCalculator";
 import { SwpCalculator } from "@/components/calculators/SwpCalculator";
+import { AnnualSipCalculator } from "@/components/calculators/AnnualSipCalculator";
+import { TargetAmountSipCalculator } from "@/components/calculators/TargetAmountSipCalculator";
+import { LumpsumTargetCalculator } from "@/components/calculators/LumpsumTargetCalculator";
 import { Calculator, CheckCircle2, ShieldCheck, LineChart, TrendingUp, Users, GraduationCap, Coins, Wallet, Landmark, PiggyBank } from "lucide-react";
 import { Metadata } from "next";
 
@@ -131,6 +134,27 @@ export default function GoalCalculatorsPage() {
                   <Wallet className="w-4 h-4" />
                   SWP Calculator
                 </TabsTrigger>
+                <TabsTrigger 
+                  value="annual-sip"
+                  className="data-[state=active]:bg-navy data-[state=active]:text-white bg-white text-navy border border-gray-200 px-6 py-3 rounded-[12px] font-bold text-[13px] shadow-sm transition-all flex items-center gap-2 shrink-0 whitespace-nowrap"
+                >
+                  <TrendingUp className="w-4 h-4" />
+                  Annual SIP Calculator
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="target-sip"
+                  className="data-[state=active]:bg-navy data-[state=active]:text-white bg-white text-navy border border-gray-200 px-6 py-3 rounded-[12px] font-bold text-[13px] shadow-sm transition-all flex items-center gap-2 shrink-0 whitespace-nowrap"
+                >
+                  <PiggyBank className="w-4 h-4" />
+                  Target SIP Calculator
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="lumpsum-target"
+                  className="data-[state=active]:bg-navy data-[state=active]:text-white bg-white text-navy border border-gray-200 px-6 py-3 rounded-[12px] font-bold text-[13px] shadow-sm transition-all flex items-center gap-2 shrink-0 whitespace-nowrap"
+                >
+                  <Landmark className="w-4 h-4" />
+                  Lumpsum Target Calculator
+                </TabsTrigger>
               </TabsList>
             </div>
 
@@ -155,6 +179,15 @@ export default function GoalCalculatorsPage() {
               </TabsContent>
               <TabsContent value="swp" className="mt-0">
                 <SwpCalculator />
+              </TabsContent>
+              <TabsContent value="annual-sip" className="mt-0">
+                <AnnualSipCalculator />
+              </TabsContent>
+              <TabsContent value="target-sip" className="mt-0">
+                <TargetAmountSipCalculator />
+              </TabsContent>
+              <TabsContent value="lumpsum-target" className="mt-0">
+                <LumpsumTargetCalculator />
               </TabsContent>
             </div>
 
