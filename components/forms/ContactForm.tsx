@@ -34,15 +34,32 @@ export function ContactForm({ className }: { className?: string }) {
 
   const onSubmit = async (data: FormValues) => {
     setIsSubmitting(true);
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    console.log("Form submitted:", data);
-    setIsSubmitting(false);
-    setIsSuccess(true);
-    reset();
-    
-    // Reset success message after 5 seconds
-    setTimeout(() => setIsSuccess(false), 5000);
+    try {
+      const response = await fetch('/api/chatbot/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...data,
+          service: 'Other', // Contact page generic service
+          source: 'Contact Page'
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to submit");
+      }
+
+      setIsSuccess(true);
+      reset();
+      
+      // Reset success message after 5 seconds
+      setTimeout(() => setIsSuccess(false), 5000);
+    } catch (error) {
+      console.error("Submission error:", error);
+      // In a real app we might show an error toast here
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   if (isSuccess) {
@@ -67,7 +84,7 @@ export function ContactForm({ className }: { className?: string }) {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className={cn("space-y-6 bg-white p-8 rounded-2xl border border-border-sage/30 shadow-sm", className)}
+      className={cn("space-y-6 bg-white p-8 rounded-2xl border border-border-sage/30 shadow-sm", isSubmitting && "opacity-50 pointer-events-none", className)}
     >
       <div className="space-y-4">
         <div>
@@ -128,6 +145,7 @@ export function ContactForm({ className }: { className?: string }) {
             placeholder="Tell us about your mutual fund or insurance requirements..."
             {...register("message")}
             className={errors.message ? "border-negative focus-visible:ring-negative" : ""}
+            rows={4}
           />
           {errors.message && (
             <p className="mt-1 text-xs text-negative">{errors.message.message}</p>
@@ -135,8 +153,16 @@ export function ContactForm({ className }: { className?: string }) {
         </div>
       </div>
 
-      <Button type="submit" className="w-full h-12 text-base" disabled={isSubmitting}>
-        {isSubmitting ? "Sending..." : "Send Message"}
+      <Button type="submit" className="w-full h-12 text-base flex items-center justify-center gap-2" disabled={isSubmitting}>
+        {isSubmitting ? (
+          <>
+            <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            Sending...
+          </>
+        ) : "Send Message"}
       </Button>
       <p className="text-xs text-center text-text-body/70">
         Your information is secure and encrypted. We will never spam you.

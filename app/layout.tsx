@@ -7,6 +7,7 @@ import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
 import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
 import { StructuredData } from "@/components/seo/StructuredData";
 import { TickerBar } from "@/components/sections/TickerBar";
+import { ChatbotWidget } from "@/components/chatbot/ChatbotWidget";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -55,6 +56,8 @@ export default function RootLayout({
       className={`${inter.variable} ${poppins.variable} ${fraunces.variable} h-full antialiased`}
     >
       <head>
+        <link rel="preconnect" href="https://www.googletagmanager.com" />
+        <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
         <StructuredData />
       </head>
       <body className="min-h-full flex flex-col font-sans bg-white text-text-body">
@@ -63,6 +66,7 @@ export default function RootLayout({
         <main className="flex-1 flex flex-col">{children}</main>
         <Footer />
         <WhatsAppButton />
+        <ChatbotWidget />
         <GoogleAnalytics measurementId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />
       </body>
     </html>

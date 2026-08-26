@@ -1,4 +1,3 @@
-"use client";
 
 import React from "react";
 import { FadeIn, FadeInStagger, FadeInStaggerItem } from "@/components/ui/fade-in";
@@ -17,7 +16,7 @@ export function Philosophy() {
           fill
           sizes="(max-width: 768px) 100vw, 50vw" 
           className="object-cover mix-blend-luminosity grayscale"
-          priority
+          quality={90}
         />
         <div className="absolute inset-0 bg-gradient-to-r from-navy via-navy/95 to-navy/80"></div>
       </div>

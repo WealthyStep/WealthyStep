@@ -12,6 +12,7 @@ import { calculateTargetAmountSIP, formatCurrencyExact } from "@/lib/finance-mat
 import { Slider } from "@/components/ui/slider";
 import { Input } from "@/components/ui/input";
 import { User, TrendingUp, Wallet, Calculator, Coins, ShieldCheck, PieChart as PieChartIcon, LineChart } from "lucide-react";
+import Link from "next/link";
 
 export function TargetAmountSipCalculator() {
   const [targetAmount, setTargetAmount] = useAtom(targetSipAmountAtom);
@@ -236,9 +237,9 @@ export function TargetAmountSipCalculator() {
               <div className="bg-navy p-5 rounded-[20px] text-white flex flex-col justify-center">
                 <h3 className="text-[15px] font-bold font-heading mb-2">Need Expert Guidance?</h3>
                 <p className="text-white/80 text-[11px] mb-4">Our advisors can help you structure your investments.</p>
-                <a href="https://wealthystep.com/contact-us" target="_blank" rel="noopener noreferrer" className="bg-lime hover:bg-lime/90 text-navy text-[12px] font-bold py-2 px-4 rounded-lg transition-colors inline-flex items-center justify-center gap-2">
+                <Link href="/contact" className="bg-lime hover:bg-lime/90 text-navy text-[12px] font-bold py-2 px-4 rounded-lg transition-colors inline-flex items-center justify-center gap-2">
                   Book Consultation <Calculator className="w-3 h-3" />
-                </a>
+                </Link>
               </div>
           </div>
 

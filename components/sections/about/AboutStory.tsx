@@ -1,4 +1,3 @@
-"use client";
 
 import React from "react";
 import Image from "next/image";
@@ -63,7 +62,7 @@ export function AboutStory() {
                   fill
                   sizes="(max-width: 768px) 100vw, 50vw" 
                   className="object-cover"
-                  priority
+                  quality={90}
                 />
               </div>
               

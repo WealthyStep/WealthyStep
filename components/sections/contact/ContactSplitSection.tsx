@@ -7,14 +7,44 @@ import { MapPin, Phone, Mail, Clock, Lock } from "lucide-react";
 export function ContactSplitSection() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [error, setError] = useState("");
+  
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    service: "",
+    message: ""
+  });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    setIsSubmitting(false);
-    setIsSuccess(true);
-    setTimeout(() => setIsSuccess(false), 5000);
+    setError("");
+
+    try {
+      const res = await fetch('/api/chatbot/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...formData, website: '', source: 'Contact Page' }) // includes honeypot and source
+      });
+
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => null);
+        if (errorData && errorData.details && Array.isArray(errorData.details)) {
+          throw new Error(errorData.details[0].message);
+        }
+        throw new Error(errorData?.error || "Failed to send message");
+      }
+
+      setIsSuccess(true);
+      setFormData({ name: "", email: "", phone: "", service: "", message: "" });
+      setTimeout(() => setIsSuccess(false), 5000);
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Something went wrong. Please try again or use the chatbot.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -36,12 +66,16 @@ export function ContactSplitSection() {
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-6">
+                {error && <div className="bg-red-500/10 border border-red-500/20 text-red-400 p-3 rounded-lg text-sm">{error}</div>}
+                
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <input
                       type="text"
                       placeholder="Full Name"
                       required
+                      value={formData.name}
+                      onChange={(e) => setFormData({...formData, name: e.target.value})}
                       className="w-full bg-[#281475] border border-white/10 rounded-lg px-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:border-lime transition-colors text-sm"
                     />
                   </div>
@@ -50,6 +84,8 @@ export function ContactSplitSection() {
                       type="email"
                       placeholder="Email Address"
                       required
+                      value={formData.email}
+                      onChange={(e) => setFormData({...formData, email: e.target.value})}
                       className="w-full bg-[#281475] border border-white/10 rounded-lg px-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:border-lime transition-colors text-sm"
                     />
                   </div>
@@ -58,29 +94,36 @@ export function ContactSplitSection() {
                 <div>
                   <input
                     type="tel"
-                    placeholder="Phone Number"
+                    placeholder="Phone Number (10 digits)"
+                    required
+                    value={formData.phone}
+                    onChange={(e) => setFormData({...formData, phone: e.target.value})}
                     className="w-full bg-[#281475] border border-white/10 rounded-lg px-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:border-lime transition-colors text-sm"
                   />
                 </div>
 
                 <div>
                   <select
+                    required
+                    value={formData.service}
+                    onChange={(e) => setFormData({...formData, service: e.target.value})}
                     className="w-full bg-[#281475] border border-white/10 rounded-lg px-4 py-3 text-white/40 focus:outline-none focus:border-lime transition-colors text-sm appearance-none"
-                    defaultValue=""
                   >
                     <option value="" disabled>What can we help you with?</option>
-                    <option value="investment">Investments</option>
-                    <option value="insurance">Insurance</option>
-                    <option value="nri">NRI Services</option>
-                    <option value="other">Other</option>
+                    <option value="Mutual Fund Distribution">Mutual Funds</option>
+                    <option value="Insurance">Insurance</option>
+                    <option value="NRI Services">NRI Services</option>
+                    <option value="Other">Other</option>
                   </select>
                 </div>
 
                 <div>
                   <textarea
-                    placeholder="Your Message"
+                    placeholder="Your Message (minimum 10 characters)"
                     rows={3}
                     required
+                    value={formData.message}
+                    onChange={(e) => setFormData({...formData, message: e.target.value})}
                     className="w-full bg-[#281475] border border-white/10 rounded-lg px-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:border-lime transition-colors text-sm resize-y min-h-[100px] max-h-[300px]"
                   ></textarea>
                 </div>

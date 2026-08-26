@@ -13,6 +13,19 @@ export function StructuredData() {
         "https://www.linkedin.com/company/wealthystep",
         "https://twitter.com/wealthystep"
       ],
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Gachibowli",
+        "addressLocality": "Hyderabad",
+        "addressRegion": "Telangana",
+        "postalCode": "500032",
+        "addressCountry": "IN"
+      },
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+91-9000929666",
+        "contactType": "customer service"
+      },
       "offers": [
         {
           "@type": "Offer",

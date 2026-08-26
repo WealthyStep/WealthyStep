@@ -1,7 +1,7 @@
-"use client";
 
 import React from "react";
 import Image from "next/image";
+import bgImage from "@/public/images/contact-people.jpg";
 import { FadeInStagger, FadeInStaggerItem } from "@/components/ui/fade-in";
 import { ShieldCheck, Award, Target } from "lucide-react";
 
@@ -11,12 +11,13 @@ export function AboutHero() {
       {/* Background Image Container */}
       <div className="absolute inset-0 z-0 overflow-hidden">
         <Image 
-          src="/images/contact-people.jpg" 
+          src={bgImage}
           alt="Building Wealth" 
           fill
-sizes="(max-width: 768px) 100vw, 50vw" 
+          sizes="(max-width: 768px) 100vw, 50vw" 
           className="object-cover opacity-20 mix-blend-overlay"
           priority
+          placeholder="blur"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-navy via-navy/80 to-navy/40 z-0"></div>
       </div>

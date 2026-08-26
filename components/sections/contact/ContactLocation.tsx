@@ -1,4 +1,3 @@
-"use client";
 
 import React from "react";
 import Image from "next/image";
@@ -18,7 +17,8 @@ export function ContactLocation() {
                 src="/images/map-light.jpg" 
                 alt="Office Location Map"
                 fill
-sizes="(max-width: 768px) 100vw, 50vw"
+                quality={90}
+                sizes="(max-width: 768px) 100vw, 50vw"
                 className="object-cover opacity-80 mix-blend-multiply"
               />
               {/* Location Pin */}
@@ -48,7 +48,7 @@ sizes="(max-width: 768px) 100vw, 50vw"
               <a 
                 href="https://maps.google.com" 
                 target="_blank" 
-                rel="noreferrer"
+                rel="noopener noreferrer"
                 className="inline-flex items-center justify-center border border-lime text-lime hover:bg-lime hover:text-navy font-bold rounded-full px-5 py-2 transition-colors text-sm w-max"
               >
                 Get Directions

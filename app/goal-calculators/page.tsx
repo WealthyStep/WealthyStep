@@ -1,14 +1,16 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { SipCalculator } from "@/components/calculators/SipCalculator";
-import { LumpsumCalculator } from "@/components/calculators/LumpsumCalculator";
-import { RetirementCalculator } from "@/components/calculators/RetirementCalculator";
-import { EducationCalculator } from "@/components/calculators/EducationCalculator";
-import { EmiCalculator } from "@/components/calculators/EmiCalculator";
-import { StepUpSipCalculator } from "@/components/calculators/StepUpSipCalculator";
-import { SwpCalculator } from "@/components/calculators/SwpCalculator";
-import { AnnualSipCalculator } from "@/components/calculators/AnnualSipCalculator";
-import { TargetAmountSipCalculator } from "@/components/calculators/TargetAmountSipCalculator";
-import { LumpsumTargetCalculator } from "@/components/calculators/LumpsumTargetCalculator";
+import dynamic from 'next/dynamic';
+
+const SipCalculator = dynamic(() => import('@/components/calculators/SipCalculator').then(mod => mod.SipCalculator));
+const LumpsumCalculator = dynamic(() => import('@/components/calculators/LumpsumCalculator').then(mod => mod.LumpsumCalculator));
+const RetirementCalculator = dynamic(() => import('@/components/calculators/RetirementCalculator').then(mod => mod.RetirementCalculator));
+const EducationCalculator = dynamic(() => import('@/components/calculators/EducationCalculator').then(mod => mod.EducationCalculator));
+const EmiCalculator = dynamic(() => import('@/components/calculators/EmiCalculator').then(mod => mod.EmiCalculator));
+const StepUpSipCalculator = dynamic(() => import('@/components/calculators/StepUpSipCalculator').then(mod => mod.StepUpSipCalculator));
+const SwpCalculator = dynamic(() => import('@/components/calculators/SwpCalculator').then(mod => mod.SwpCalculator));
+const AnnualSipCalculator = dynamic(() => import('@/components/calculators/AnnualSipCalculator').then(mod => mod.AnnualSipCalculator));
+const TargetAmountSipCalculator = dynamic(() => import('@/components/calculators/TargetAmountSipCalculator').then(mod => mod.TargetAmountSipCalculator));
+const LumpsumTargetCalculator = dynamic(() => import('@/components/calculators/LumpsumTargetCalculator').then(mod => mod.LumpsumTargetCalculator));
 import { Calculator, CheckCircle2, ShieldCheck, LineChart, TrendingUp, Users, GraduationCap, Coins, Wallet, Landmark, PiggyBank } from "lucide-react";
 import { Metadata } from "next";
 

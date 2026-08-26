@@ -13,6 +13,7 @@ import {
   Star,
   BarChart3,
 } from "lucide-react";
+import advisorHero from "@/public/advisor-hero.jpg";
 
 /* ──────────────────────────────────────────────────
    Hero Section — Bright, Premium, White Background
@@ -228,12 +229,13 @@ export function HeroSection() {
                 className="relative z-10 w-full aspect-[4/5] sm:aspect-square lg:aspect-[1.05/1] overflow-hidden shadow-2xl rounded-[24px] rounded-tr-[80px] lg:rounded-[32px] lg:rounded-tr-[120px]"
               >
                 <Image
-                  src="/advisor-hero.jpg"
+                  src={advisorHero}
                   alt="Mutual Fund Distribution Professional"
                   fill
                   className="object-cover object-top lg:object-[60%_top]"
                   sizes="(max-width: 1024px) 100vw, 50vw"
                   priority
+                  placeholder="blur"
                 />
               </div>
             </div>

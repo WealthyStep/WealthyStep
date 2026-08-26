@@ -1,4 +1,3 @@
-"use client";
 
 import React from "react";
 import { FadeIn, FadeInStagger, FadeInStaggerItem } from "@/components/ui/fade-in";

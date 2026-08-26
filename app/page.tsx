@@ -16,13 +16,13 @@ import {
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "AMFI Registered Mutual Fund Distributor & Insurance | Wealthy Step",
+  title: "Wealthy Step | AMFI Registered Mutual Fund Distributor & Insurance",
   description: "Wealthy Step is an AMFI Registered Mutual Fund Distributor (ARN-322891) providing goal-focused mutual fund distribution, insurance solutions, and NRI investment support.",
   alternates: {
     canonical: '/'
   },
   openGraph: {
-    title: "AMFI Registered Mutual Fund Distributor & Insurance | Wealthy Step",
+    title: "Wealthy Step | AMFI Registered Mutual Fund Distributor & Insurance",
     description: "Wealthy Step is an AMFI Registered Mutual Fund Distributor (ARN-322891) providing goal-focused mutual fund distribution, insurance solutions, and NRI investment support.",
     url: '/',
     type: "website",
