@@ -93,11 +93,25 @@ export default function GoalCalculatorsPage() {
                   SIP Calculator
                 </TabsTrigger>
                 <TabsTrigger 
+                  value="step-up"
+                  className="data-[state=active]:bg-navy data-[state=active]:text-white bg-white text-navy border border-gray-200 px-6 py-3 rounded-[12px] font-bold text-[13px] shadow-sm transition-all flex items-center gap-2 shrink-0 whitespace-nowrap"
+                >
+                  <LineChart className="w-4 h-4" />
+                  Step-Up SIP Calculator
+                </TabsTrigger>
+                <TabsTrigger 
                   value="lumpsum"
                   className="data-[state=active]:bg-navy data-[state=active]:text-white bg-white text-navy border border-gray-200 px-6 py-3 rounded-[12px] font-bold text-[13px] shadow-sm data-[state=active]:shadow-md transition-all flex items-center gap-2 shrink-0 whitespace-nowrap"
                 >
                   <Landmark className="w-4 h-4" />
                   Lumpsum Calculator
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="swp"
+                  className="data-[state=active]:bg-navy data-[state=active]:text-white bg-white text-navy border border-gray-200 px-6 py-3 rounded-[12px] font-bold text-[13px] shadow-sm transition-all flex items-center gap-2 shrink-0 whitespace-nowrap"
+                >
+                  <Wallet className="w-4 h-4" />
+                  SWP Calculator
                 </TabsTrigger>
                 <TabsTrigger 
                   value="retirement"
@@ -119,20 +133,6 @@ export default function GoalCalculatorsPage() {
                 >
                   <Coins className="w-4 h-4" />
                   EMI Calculator
-                </TabsTrigger>
-                <TabsTrigger 
-                  value="step-up"
-                  className="data-[state=active]:bg-navy data-[state=active]:text-white bg-white text-navy border border-gray-200 px-6 py-3 rounded-[12px] font-bold text-[13px] shadow-sm transition-all flex items-center gap-2 shrink-0 whitespace-nowrap"
-                >
-                  <LineChart className="w-4 h-4" />
-                  Step-Up SIP Calculator
-                </TabsTrigger>
-                <TabsTrigger 
-                  value="swp"
-                  className="data-[state=active]:bg-navy data-[state=active]:text-white bg-white text-navy border border-gray-200 px-6 py-3 rounded-[12px] font-bold text-[13px] shadow-sm transition-all flex items-center gap-2 shrink-0 whitespace-nowrap"
-                >
-                  <Wallet className="w-4 h-4" />
-                  SWP Calculator
                 </TabsTrigger>
                 <TabsTrigger 
                   value="annual-sip"
@@ -162,8 +162,14 @@ export default function GoalCalculatorsPage() {
               <TabsContent value="sip" className="mt-0">
                 <SipCalculator />
               </TabsContent>
+              <TabsContent value="step-up" className="mt-0">
+                <StepUpSipCalculator />
+              </TabsContent>
               <TabsContent value="lumpsum" className="mt-0">
                 <LumpsumCalculator />
+              </TabsContent>
+              <TabsContent value="swp" className="mt-0">
+                <SwpCalculator />
               </TabsContent>
               <TabsContent value="retirement" className="mt-0">
                 <RetirementCalculator />
@@ -173,12 +179,6 @@ export default function GoalCalculatorsPage() {
               </TabsContent>
               <TabsContent value="emi" className="mt-0">
                 <EmiCalculator />
-              </TabsContent>
-              <TabsContent value="step-up" className="mt-0">
-                <StepUpSipCalculator />
-              </TabsContent>
-              <TabsContent value="swp" className="mt-0">
-                <SwpCalculator />
               </TabsContent>
               <TabsContent value="annual-sip" className="mt-0">
                 <AnnualSipCalculator />
