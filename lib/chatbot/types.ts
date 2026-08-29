@@ -18,6 +18,7 @@ export type ChatbotIntent =
   | 'INSURANCE'
   | 'TERM_INSURANCE'
   | 'HEALTH_INSURANCE'
+  | 'CORPORATE_INSURANCE'
   | 'NRI_SERVICES'
   | 'CONTACT'
   | 'HUMAN_SUPPORT'
@@ -50,6 +51,7 @@ export interface ChatMessage {
 export type LeadServiceOption = 
   | 'Mutual Fund Distribution'
   | 'Insurance'
+  | 'Corporate Insurance'
   | 'NRI Services'
   | 'Calculators / Website Help'
   | 'Other';

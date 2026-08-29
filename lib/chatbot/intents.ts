@@ -40,6 +40,8 @@ export const intentMappings: Record<ChatbotIntent, string[]> = {
   
   HEALTH_INSURANCE: ['health insurance', 'mediclaim', 'medical insurance', 'health cover'],
   
+  CORPORATE_INSURANCE: ['corporate insurance', 'group insurance', 'employee benefits', 'employer insurance', 'business insurance', 'group health'],
+  
   NRI_SERVICES: ['nri', 'nri investment', 'nri mutual fund', 'non resident indian', 'nre', 'nro'],
   
   CONTACT: ['contact', 'address', 'phone number', 'email id', 'where are you located', 'location'],

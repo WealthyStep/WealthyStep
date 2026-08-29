@@ -123,8 +123,8 @@ export const knowledgeBase: Record<ChatbotIntent, Partial<KnowledgeBaseEntry>> =
   },
   
   INSURANCE: {
-    answer: "We assist clients with finding suitable insurance solutions, primarily Term Life Insurance for pure protection and Health Insurance (Mediclaim) for medical emergencies.",
-    quickReplies: ['Term Insurance', 'Health Insurance', 'Contact Our Team'],
+    answer: "We assist clients with finding suitable insurance solutions, including Term Life Insurance, Health Insurance (Mediclaim), and specialized Corporate & Group Insurance.",
+    quickReplies: ['Term Insurance', 'Health Insurance', 'Corporate Insurance'],
   },
   
   TERM_INSURANCE: {
@@ -135,6 +135,11 @@ export const knowledgeBase: Record<ChatbotIntent, Partial<KnowledgeBaseEntry>> =
   HEALTH_INSURANCE: {
     answer: "Health insurance (Mediclaim) covers medical expenses incurred due to hospitalization, surgeries, and specific illnesses, protecting your savings from unexpected medical emergencies.",
     quickReplies: ['Insurance', 'Contact Our Team'],
+  },
+  
+  CORPORATE_INSURANCE: {
+    answer: "We offer specialized Corporate & Group Insurance solutions, including Group Health, Group Term Life, and tailored Employee Benefit packages designed to protect your workforce.",
+    quickReplies: ['Contact Our Team', 'Insurance'],
   },
   
   NRI_SERVICES: {

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { LeadData, LeadFlowStep, LeadServiceOption } from '@/lib/chatbot/types';
 import { leadDataSchema } from '@/lib/chatbot/validators';
 import { z } from 'zod';
-import { CheckCircle2, User, Phone, Mail, FileText, CheckCircle, TrendingUp, ShieldCheck, Globe, MoreHorizontal, Edit2, AlertCircle } from 'lucide-react';
+import { CheckCircle2, User, Phone, Mail, FileText, CheckCircle, TrendingUp, ShieldCheck, Globe, MoreHorizontal, Edit2, AlertCircle, Building2 } from 'lucide-react';
 
 interface LeadFormFlowProps {
   onSuccess: () => void;
@@ -199,7 +199,11 @@ export const LeadFormFlow: React.FC<LeadFormFlowProps> = ({ onSuccess, onCancel 
                 <Globe size={24} className="text-[#8b5cf6]" />
                 <span className="text-[12px] font-bold text-navy">NRI Services</span>
               </button>
-              <button onClick={() => { setData({ ...data, service: 'Other' }); setStep('REVIEW'); }} className="flex flex-col items-center justify-center gap-2 p-4 bg-white border border-gray-100 rounded-xl hover:border-[#82C341] hover:shadow-md shadow-sm transition-all">
+              <button onClick={() => { setData({ ...data, service: 'Corporate Insurance' }); setStep('REVIEW'); }} className="flex flex-col items-center justify-center gap-2 p-4 bg-white border border-gray-100 rounded-xl hover:border-[#82C341] hover:shadow-md shadow-sm transition-all text-center">
+                <Building2 size={24} className="text-[#f59e0b]" />
+                <span className="text-[12px] font-bold text-navy leading-tight">Corp. Insurance</span>
+              </button>
+              <button onClick={() => { setData({ ...data, service: 'Other' }); setStep('REVIEW'); }} className="col-span-2 flex flex-col items-center justify-center gap-2 p-4 bg-white border border-gray-100 rounded-xl hover:border-[#82C341] hover:shadow-md shadow-sm transition-all">
                 <MoreHorizontal size={24} className="text-gray-400" />
                 <span className="text-[12px] font-bold text-navy">Other</span>
               </button>

@@ -27,6 +27,7 @@ export const leadDataSchema = z.object({
   service: z.enum([
     'Mutual Fund Distribution',
     'Insurance',
+    'Corporate Insurance',
     'NRI Services',
     'Calculators / Website Help',
     'Other'

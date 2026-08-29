@@ -114,10 +114,13 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({ onClose, isOpen }) => {
 
   return (
     <div className="flex flex-col w-full h-full bg-[#f8fafc] overflow-hidden relative">
-      {/* Premium Header - Light Theme */}
-      <div className="bg-white text-navy px-4 py-3 sm:px-5 sm:py-4 flex justify-between items-start shrink-0 z-10 rounded-t-2xl border-b border-gray-100 shadow-[0_4px_20px_-10px_rgba(0,0,0,0.05)]">
-        <div className="flex items-start gap-2 sm:gap-3">
-          <div className="w-9 h-9 sm:w-10 sm:h-10 bg-white rounded-full flex items-center justify-center shrink-0 mt-0.5 border border-gray-100 overflow-hidden shadow-sm">
+      {/* Premium Header - Dark Theme */}
+      <div className="bg-navy text-white px-4 py-3 sm:px-5 sm:py-4 flex justify-between items-start shrink-0 z-10 rounded-t-2xl shadow-lg relative overflow-hidden">
+        {/* Subtle background glow effect */}
+        <div className="absolute top-0 right-0 w-32 h-32 bg-lime/10 rounded-full blur-2xl -mr-10 -mt-10 pointer-events-none"></div>
+        
+        <div className="flex items-start gap-2 sm:gap-3 relative z-10">
+          <div className="w-9 h-9 sm:w-10 sm:h-10 bg-white rounded-full flex items-center justify-center shrink-0 mt-0.5 shadow-md">
             <img src="/icon.png" alt="Bot" className="w-full h-full object-contain p-1" />
           </div>
           <div className="flex flex-col">
@@ -127,21 +130,21 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({ onClose, isOpen }) => {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#82C341] opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-[#82C341]"></span>
               </span>
-              <span className="text-[11px] text-gray-500 font-medium tracking-wide">Support Available</span>
+              <span className="text-[11px] text-white/70 font-medium tracking-wide">Support Available</span>
             </div>
           </div>
         </div>
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-1 relative z-10">
           <button 
             onClick={onClose}
-            className="w-7 h-7 flex items-center justify-center rounded hover:bg-gray-100 text-gray-400 hover:text-navy transition-all"
+            className="w-7 h-7 flex items-center justify-center rounded-full hover:bg-white/10 text-white/60 hover:text-white transition-all"
             aria-label="Minimize chat"
           >
             <Minus size={16} />
           </button>
           <button 
             onClick={onClose}
-            className="w-7 h-7 flex items-center justify-center rounded hover:bg-gray-100 text-gray-400 hover:text-navy transition-all"
+            className="w-7 h-7 flex items-center justify-center rounded-full hover:bg-white/10 text-white/60 hover:text-white transition-all"
             aria-label="Close chat"
           >
             <X size={16} />
