@@ -197,7 +197,7 @@ export function ServicesSection() {
         <div className="mt-10 text-center">
           <FadeIn direction="up" delay={0.4}>
             <Link
-              href="/services"
+              href="/investments"
               className="inline-flex items-center justify-center rounded-full bg-lime hover:bg-cta-green text-white px-8 py-3.5 text-[15px] font-bold transition-all shadow-md hover:shadow-lg group"
             >
               Explore All Services
