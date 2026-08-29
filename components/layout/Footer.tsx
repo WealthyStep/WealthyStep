@@ -13,11 +13,11 @@ export function Footer() {
             <Link href="/" className="flex flex-col items-start outline-none relative z-50 cursor-pointer">
               <div className="mb-2 bg-white p-3 rounded-lg inline-flex">
                 <Image
-                  src="/logo.png"
+                  src="/logo.svg"
                   alt="Wealthy Step Logo"
-                  width={200}
-                  height={50}
-                  className="h-8 w-auto object-contain"
+                  width={280}
+                  height={80}
+                  className="w-56 md:w-64 lg:w-72 h-auto object-contain"
                 />
               </div>
             </Link>
@@ -125,12 +125,6 @@ export function Footer() {
               <li>
                 <Link href="/terms-conditions" className="flex items-center justify-between hover:text-lime transition-colors group">
                   Terms Conditions
-                  <ChevronRight className="w-4 h-4 opacity-50 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
-                </Link>
-              </li>
-              <li>
-                <Link href="/commission-disclosure" className="flex items-center justify-between hover:text-lime transition-colors group">
-                  Commission Disclosure
                   <ChevronRight className="w-4 h-4 opacity-50 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
                 </Link>
               </li>

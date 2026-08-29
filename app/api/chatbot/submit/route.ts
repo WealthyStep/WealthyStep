@@ -76,7 +76,7 @@ export async function POST(req: Request) {
                 <!-- Header with White Background for Logo -->
                 <tr>
                   <td class="header-box" align="center" style="background-color: #ffffff; padding: 35px 30px 25px; border-bottom: 2px solid #f8fafc;">
-                    <img class="logo-img" src="https://wealthystepwebsite.vercel.app/logo.png" alt="Wealthy Step" style="height: 52px; width: auto; display: block; margin: 0 auto 20px auto; border: 0;" />
+                    <img class="logo-img" src="https://wealthystepwebsite.vercel.app/logo.svg" alt="Wealthy Step" style="height: 52px; width: auto; display: block; margin: 0 auto 20px auto; border: 0;" />
                     <div class="source-badge" style="background-color: #f0fdf4; border: 1px solid #bce640; color: #166534; display: inline-block; padding: 5px 14px; border-radius: 20px; font-size: 11px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase; margin-bottom: 15px;">
                       Source: ${parsed.source || 'Website'}
                     </div>
