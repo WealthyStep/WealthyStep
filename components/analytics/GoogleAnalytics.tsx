@@ -1,9 +1,15 @@
 "use client";
 
 import Script from 'next/script';
+import { useCookieConsent } from '@/hooks/useCookieConsent';
 
 export function GoogleAnalytics({ measurementId }: { measurementId?: string }) {
-  if (!measurementId) return null;
+  const { consentState, hasInitialized } = useCookieConsent();
+
+  if (!measurementId || !hasInitialized) return null;
+
+  // Only render tracking scripts if the user has consented to analytics cookies
+  if (!consentState.preferences.analytics) return null;
 
   return (
     <>

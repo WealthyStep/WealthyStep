@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ChevronRight, MapPin, Mail, Phone } from "lucide-react";
+import { CookieSettingsButton } from "@/components/cookie-consent/CookieSettingsButton";
 
 export function Footer() {
   return (
@@ -139,6 +140,9 @@ export function Footer() {
                   Code of Conduct
                   <ChevronRight className="w-4 h-4 opacity-50 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
                 </a>
+              </li>
+              <li>
+                <CookieSettingsButton />
               </li>
             </ul>
           </div>

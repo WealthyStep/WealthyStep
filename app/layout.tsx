@@ -8,6 +8,9 @@ import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
 import { StructuredData } from "@/components/seo/StructuredData";
 import { TickerBar } from "@/components/sections/TickerBar";
 import { ChatbotWidget } from "@/components/chatbot/ChatbotWidget";
+import { CookieConsentProvider } from "@/components/cookie-consent/CookieConsentProvider";
+import { CookieBanner } from "@/components/cookie-consent/CookieBanner";
+import { CookiePreferencesModal } from "@/components/cookie-consent/CookiePreferencesModal";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -61,13 +64,17 @@ export default function RootLayout({
         <StructuredData />
       </head>
       <body className="min-h-full flex flex-col font-sans bg-white text-text-body">
-        <Navbar />
-        <TickerBar />
-        <main className="flex-1 flex flex-col">{children}</main>
-        <Footer />
-        <WhatsAppButton />
-        <ChatbotWidget />
-        <GoogleAnalytics measurementId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />
+        <CookieConsentProvider>
+          <Navbar />
+          <TickerBar />
+          <main className="flex-1 flex flex-col">{children}</main>
+          <Footer />
+          <WhatsAppButton />
+          <ChatbotWidget />
+          <GoogleAnalytics measurementId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />
+          <CookieBanner />
+          <CookiePreferencesModal />
+        </CookieConsentProvider>
       </body>
     </html>
   );
