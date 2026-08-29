@@ -55,8 +55,8 @@ export function ContactQuickInfo() {
               </div>
               <div>
                 <h4 className="text-navy font-bold text-sm mb-1">Working Hours</h4>
-                <p className="text-xs text-text-body">Mon - Fri: 9:30 AM - 6:30 PM</p>
-                <p className="text-[10px] text-text-body/70 mt-0.5">Sat: 10:00 AM - 2:00 PM</p>
+                <p className="text-xs text-text-body">Mon - Sun: 9:00 AM - 9:00 PM</p>
+                <p className="text-[10px] text-text-body/70 mt-0.5">Available 7 days a week</p>
               </div>
             </div>
 

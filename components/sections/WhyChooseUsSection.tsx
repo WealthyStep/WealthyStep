@@ -50,7 +50,7 @@ const features = [
 
 export function WhyChooseUsSection() {
   return (
-    <section className="relative bg-[#FAFAFA] pt-6 pb-10 overflow-hidden z-20">
+    <section className="relative bg-[#FAFAFA] pt-6 pb-4 overflow-hidden z-20">
       
       {/* ── Background Decorative Elements ── */}
       <svg className="absolute top-0 left-0 w-full h-full pointer-events-none opacity-30 -z-10" viewBox="0 0 1440 800" preserveAspectRatio="none">
@@ -97,7 +97,7 @@ export function WhyChooseUsSection() {
         </div>
 
         {/* ── Main Grid ── */}
-        <div className="grid lg:grid-cols-12 gap-12 lg:gap-8 mb-16">
+        <div className="grid lg:grid-cols-12 gap-12 lg:gap-8 mb-8">
           
           {/* Left Column (Text + Image) */}
           <div className="lg:col-span-5 flex flex-col justify-center">
@@ -179,9 +179,9 @@ export function WhyChooseUsSection() {
           <div className="bg-[#F6F8F3] border border-lime/20 rounded-2xl p-6 lg:p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-sm">
             
             {/* Left Quote */}
-            <div className="flex items-center gap-4 flex-1">
-              <div className="hidden sm:flex text-lime">
-                <Quote fill="currentColor" className="w-10 h-10" />
+            <div className="flex items-center gap-3 sm:gap-4 flex-1">
+              <div className="flex text-lime shrink-0">
+                <Quote fill="currentColor" className="w-8 h-8 sm:w-10 sm:h-10" />
               </div>
               <div className="text-base sm:text-lg font-medium text-text-dark">
                 We help you take informed steps <br className="hidden sm:block" />
@@ -193,9 +193,9 @@ export function WhyChooseUsSection() {
             <div className="hidden md:block w-px h-12 bg-border-sage/40" />
             
             {/* Right Statement */}
-            <div className="flex items-center gap-4 flex-1 justify-start md:justify-center">
-              <div className="p-3 bg-white rounded-full shadow-sm text-lime hidden sm:block">
-                <Users className="w-6 h-6" />
+            <div className="flex items-center gap-3 sm:gap-4 flex-1 justify-start md:justify-center">
+              <div className="p-2.5 sm:p-3 bg-white rounded-full shadow-sm text-lime shrink-0">
+                <Users className="w-5 h-5 sm:w-6 sm:h-6" />
               </div>
               <div className="text-base font-medium text-text-dark">
                 Your goals. Our support. <span className="text-lime font-bold">Your investment journey.</span>

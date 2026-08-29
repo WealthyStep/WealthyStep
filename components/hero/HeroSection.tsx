@@ -12,6 +12,7 @@ import {
   Users,
   Star,
   BarChart3,
+  Calendar,
 } from "lucide-react";
 import advisorHero from "@/public/advisor-hero.jpg";
 
@@ -156,6 +157,15 @@ export function HeroSection() {
 
             {/* CTA Buttons */}
             <motion.div {...fadeUp(3)} className="flex flex-wrap gap-4 pt-1 lg:pt-2">
+              <Link
+                href="https://calendly.com/wealthystep-info/30min"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group inline-flex items-center gap-2 rounded-full bg-navy hover:bg-lime hover:text-navy text-white px-8 py-4 text-sm md:text-base font-semibold transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-navy/25"
+              >
+                <Calendar className="h-4 w-4" />
+                Book a Call
+              </Link>
               <Link
                 href="/contact"
                 className="group inline-flex items-center gap-2 rounded-full bg-cta-green hover:bg-lime text-white px-8 py-4 text-sm md:text-base font-semibold transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-cta-green/25"

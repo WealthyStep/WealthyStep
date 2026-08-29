@@ -8,7 +8,8 @@ import {
   ShieldCheck,
   Target,
   CheckCircle2,
-  ArrowRight
+  ArrowRight,
+  Building2
 } from "lucide-react";
 
 const services = [
@@ -50,12 +51,25 @@ const services = [
       "Tax-saving mutual fund options, subject to applicable tax laws"
     ],
     href: "/goal-calculators"
+  },
+  {
+    icon: Building2,
+    title: "Employer & Employee\nBenefits Solutions",
+    desc: "Insurance solutions and support for businesses, organizations, and employee groups.",
+    image: "/images/service-4.jpg",
+    points: [
+      "Group Health Insurance",
+      "Group Term Life Insurance",
+      "Employee Benefits Support",
+      "Corporate Insurance Support"
+    ],
+    href: "/insurance#corporate-group-insurance"
   }
 ];
 
 export function ServicesSection() {
   return (
-    <section className="relative bg-white pt-8 pb-10 overflow-hidden z-20">
+    <section className="relative bg-white pt-2 pb-10 overflow-hidden z-20">
 
       {/* ── Background Decorative Elements ── */}
       {/* Top Left Dots */}
@@ -90,7 +104,7 @@ export function ServicesSection() {
       <div className="container mx-auto max-w-[1200px] px-4 xl:px-0 relative z-10">
 
         {/* ── Header ── */}
-        <div className="text-center max-w-3xl mx-auto mb-14">
+        <div className="text-center max-w-3xl mx-auto mb-8">
           <FadeIn direction="up">
             <div className="flex items-center justify-center gap-3 mb-4">
               <div className="w-12 h-px bg-lime relative">
@@ -115,8 +129,8 @@ export function ServicesSection() {
           </FadeIn>
         </div>
 
-        {/* ── 3 Column Card Grid ── */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16 lg:gap-y-0 relative">
+        {/* ── 4 Column / 2x2 Card Grid ── */}
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-x-6 gap-y-16 xl:gap-y-0 relative">
 
           {services.map((service, i) => (
             <FadeIn key={i} delay={0.1 * i} direction="up" className="relative h-full flex flex-col">

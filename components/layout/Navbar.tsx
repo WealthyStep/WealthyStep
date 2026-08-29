@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Menu, X, Phone, ChevronDown, User } from "lucide-react";
+import { Menu, X, Phone, ChevronDown, User, Calendar } from "lucide-react";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
 
@@ -106,6 +106,21 @@ export function Navbar() {
               >
                 <Phone className="w-4 h-4" />
               </a>
+
+              {/* Book a Call Button */}
+              <Button
+                className="hidden lg:flex h-10 rounded-full bg-navy px-6 text-xs font-bold text-white transition-all hover:bg-lime hover:text-navy whitespace-nowrap gap-2"
+                asChild
+              >
+                <Link
+                  href="https://calendly.com/wealthystep-info/30min"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Calendar className="w-4 h-4" />
+                  Book a Call
+                </Link>
+              </Button>
 
               {/* Contact Us Button */}
               <Button
@@ -222,33 +237,51 @@ export function Navbar() {
             </div>
 
             {/* Mobile Actions */}
-            <div className="flex gap-3 pt-5 pb-2">
+            <div className="flex flex-col gap-3 pt-5 pb-2">
+              {/* Book a Call */}
               <Button
-                variant="outline"
-                className="flex-1 min-h-[52px] rounded-full border-navy/20 text-sm font-semibold text-navy hover:bg-navy hover:text-white active:bg-navy active:text-white touch-manipulation"
+                className="w-full min-h-[52px] rounded-full bg-navy text-sm font-bold text-white hover:bg-lime hover:text-navy active:bg-lime active:text-navy gap-2 touch-manipulation shadow-md"
                 asChild
               >
                 <Link
-                  href="/contact"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  Contact Us
-                </Link>
-              </Button>
-              <Button
-                className="flex-1 min-h-[52px] rounded-full bg-lime text-sm font-bold text-navy hover:bg-cta-green hover:text-white active:bg-cta-green active:text-white gap-2 touch-manipulation"
-                asChild
-              >
-                <Link
-                  href="https://wealthelite.in/client-login"
+                  href="https://calendly.com/wealthystep-info/30min"
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  <User className="w-4 h-4" />
-                  Login
+                  <Calendar className="w-4 h-4" />
+                  Book a Call
                 </Link>
               </Button>
+              
+              <div className="flex gap-3">
+                <Button
+                  variant="outline"
+                  className="flex-1 min-h-[52px] rounded-full border-navy/20 text-sm font-semibold text-navy hover:bg-navy hover:text-white active:bg-navy active:text-white touch-manipulation"
+                  asChild
+                >
+                  <Link
+                    href="/contact"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    Contact Us
+                  </Link>
+                </Button>
+                <Button
+                  className="flex-1 min-h-[52px] rounded-full bg-lime text-sm font-bold text-navy hover:bg-cta-green hover:text-white active:bg-cta-green active:text-white gap-2 touch-manipulation"
+                  asChild
+                >
+                  <Link
+                    href="https://wealthelite.in/client-login"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    <User className="w-4 h-4" />
+                    Login
+                  </Link>
+                </Button>
+              </div>
             </div>
             
             {/* Mobile App Download Actions */}

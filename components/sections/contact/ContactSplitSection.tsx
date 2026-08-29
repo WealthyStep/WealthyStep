@@ -76,7 +76,7 @@ export function ContactSplitSection() {
                       required
                       value={formData.name}
                       onChange={(e) => setFormData({...formData, name: e.target.value})}
-                      className="w-full bg-[#281475] border border-white/10 rounded-lg px-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:border-lime transition-colors text-sm"
+                      className="w-full bg-white border border-transparent rounded-lg px-4 py-3 text-navy placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-lime focus:border-transparent transition-colors text-sm"
                     />
                   </div>
                   <div>
@@ -86,7 +86,7 @@ export function ContactSplitSection() {
                       required
                       value={formData.email}
                       onChange={(e) => setFormData({...formData, email: e.target.value})}
-                      className="w-full bg-[#281475] border border-white/10 rounded-lg px-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:border-lime transition-colors text-sm"
+                      className="w-full bg-white border border-transparent rounded-lg px-4 py-3 text-navy placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-lime focus:border-transparent transition-colors text-sm"
                     />
                   </div>
                 </div>
@@ -98,7 +98,7 @@ export function ContactSplitSection() {
                     required
                     value={formData.phone}
                     onChange={(e) => setFormData({...formData, phone: e.target.value})}
-                    className="w-full bg-[#281475] border border-white/10 rounded-lg px-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:border-lime transition-colors text-sm"
+                    className="w-full bg-white border border-transparent rounded-lg px-4 py-3 text-navy placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-lime focus:border-transparent transition-colors text-sm"
                   />
                 </div>
 
@@ -107,7 +107,7 @@ export function ContactSplitSection() {
                     required
                     value={formData.service}
                     onChange={(e) => setFormData({...formData, service: e.target.value})}
-                    className="w-full bg-[#281475] border border-white/10 rounded-lg px-4 py-3 text-white/40 focus:outline-none focus:border-lime transition-colors text-sm appearance-none"
+                    className={`w-full bg-white border border-transparent rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-lime focus:border-transparent transition-colors text-sm appearance-none ${!formData.service ? 'text-gray-400' : 'text-navy'}`}
                   >
                     <option value="" disabled>What can we help you with?</option>
                     <option value="Mutual Fund Distribution">Mutual Funds</option>
@@ -124,7 +124,7 @@ export function ContactSplitSection() {
                     required
                     value={formData.message}
                     onChange={(e) => setFormData({...formData, message: e.target.value})}
-                    className="w-full bg-[#281475] border border-white/10 rounded-lg px-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:border-lime transition-colors text-sm resize-y min-h-[100px] max-h-[300px]"
+                    className="w-full bg-white border border-transparent rounded-lg px-4 py-3 text-navy placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-lime focus:border-transparent transition-colors text-sm resize-y min-h-[100px] max-h-[300px]"
                   ></textarea>
                 </div>
 
@@ -197,10 +197,8 @@ export function ContactSplitSection() {
                 </div>
                 <div>
                   <h4 className="font-bold text-navy text-sm mb-1">Working Hours</h4>
-                  <div className="grid grid-cols-[100px_1fr] gap-x-2 gap-y-1 text-xs text-text-body">
-                    <span>Monday - Friday</span><span>9:30 AM - 6:30 PM</span>
-                    <span>Saturday</span><span>10:00 AM - 2:00 PM</span>
-                    <span>Sunday</span><span>Closed</span>
+                  <div className="grid grid-cols-[115px_1fr] gap-x-2 gap-y-1 text-xs text-text-body">
+                    <span>Monday - Sunday</span><span>9:00 AM - 9:00 PM</span>
                   </div>
                 </div>
               </div>

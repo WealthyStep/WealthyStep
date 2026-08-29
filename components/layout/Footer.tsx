@@ -77,6 +77,12 @@ export function Footer() {
                   <ChevronRight className="w-4 h-4 opacity-50 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
                 </Link>
               </li>
+              <li>
+                <Link href="/insurance#corporate-group-insurance" className="flex items-center justify-between hover:text-lime transition-colors group">
+                  Employer & Employee Benefits
+                  <ChevronRight className="w-4 h-4 opacity-50 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
+                </Link>
+              </li>
             </ul>
           </div>
 
