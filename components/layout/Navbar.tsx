@@ -268,7 +268,7 @@ export function Navbar() {
                     className="flex-1 min-h-[52px] rounded-full bg-lime text-sm font-bold text-navy hover:bg-cta-green hover:text-white active:bg-cta-green active:text-white gap-2 touch-manipulation"
                     asChild
                   >
-                    <Link
+                    <a
                       href="https://wealthelite.in/client-login"
                       target="_blank"
                       rel="noopener noreferrer"
@@ -276,7 +276,7 @@ export function Navbar() {
                     >
                       <User className="w-4 h-4" />
                       Login
-                    </Link>
+                    </a>
                   </Button>
                 </div>
               </div>
