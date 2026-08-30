@@ -49,7 +49,7 @@ export function AboutHero() {
                 <Award className="w-5 h-5 text-lime" />
               </div>
               <div className="text-left">
-                <div className="text-navy font-bold text-sm">QPFP Certified</div>
+                
                 <div className="text-gray-500 text-[11px] font-medium leading-tight">Qualified Professional</div>
               </div>
             </div>

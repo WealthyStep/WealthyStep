@@ -33,7 +33,7 @@ export function AboutStory() {
                   It is about creating clarity, protecting what matters most, achieving meaningful goals, and building a secure legacy for the future.
                 </p>
                 <p>
-                  Founded by a financial professional certified as a <strong>QPFP (Qualified Personal Finance Professional)</strong> and an <strong>AMFI Registered Mutual Fund Distributor</strong>, Wealthy Step provides a thoughtful and holistic approach to mutual fund investing.
+                  Founded by an <strong>AMFI Registered Mutual Fund Distributor</strong>, Wealthy Step provides a thoughtful and holistic approach to mutual fund investing.
                 </p>
                 <p>
                   We specialize in mutual fund distribution support, helping individuals and families navigate every stage of their financial journey with greater clarity, confidence, and purpose.
