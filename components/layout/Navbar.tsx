@@ -48,7 +48,7 @@ export function Navbar() {
                   className="flex items-center outline-none relative z-50 cursor-pointer shrink-0"
                 >
                   <Image
-                    src="/logo.svg"
+                    src="/logo.svg" priority
                     alt="Wealthy Step Logo"
                     width={280}
                     height={80}
