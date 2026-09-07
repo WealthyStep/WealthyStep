@@ -16,7 +16,7 @@ export function ContactQuickInfo() {
               </div>
               <div>
                 <h4 className="text-navy font-bold text-sm mb-1">Call Us</h4>
-                <p className="text-xs text-text-body">+91 9000929666</p>
+                <p className="text-xs text-text-body">+91 90009 29666</p>
                 <p className="text-[10px] text-text-body/70 mt-0.5">Mon - Fri: 9:30 AM - 6:30 PM</p>
               </div>
             </div>
@@ -43,7 +43,7 @@ export function ContactQuickInfo() {
               <div>
                 <h4 className="text-navy font-bold text-sm mb-1">Visit Us</h4>
                 <p className="text-xs text-text-body">Pranava Business Park,</p>
-                <p className="text-[10px] text-text-body/70 mt-0.5">Kondapur, Hyderabad</p>
+                <p className="text-[10px] text-text-body/70 mt-0.5">Kothaguda, Hyderabad</p>
               </div>
             </div>
 

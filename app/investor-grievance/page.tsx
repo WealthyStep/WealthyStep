@@ -38,9 +38,9 @@ export default function InvestorGrievancePage() {
             </p>
 
             <div className="bg-gray-50 p-6 rounded-xl border border-gray-100 mb-8 space-y-3 text-text-body">
-              <div><strong>Call:</strong> <a href="tel:+919000929666" className="text-lime hover:underline font-bold">+91 9000929666</a></div>
+              <div><strong>Call:</strong> <a href="tel:+919000929666" className="text-lime hover:underline font-bold">+91 90009 29666</a></div>
               <div><strong>Email:</strong> <a href="mailto:info@wealthystep.com" className="text-lime hover:underline font-bold">info@wealthystep.com</a></div>
-              <div><strong>Address:</strong> <a href="https://maps.app.goo.gl/Hk3E9w3WdQx8S7eG7" target="_blank" rel="noreferrer" className="text-lime hover:underline font-bold">Pranava Business Park, 7th Floor, Kondapur, Hyderabad, Telangana 500081</a></div>
+              <div><strong>Address:</strong> <a href="https://maps.app.goo.gl/Hk3E9w3WdQx8S7eG7" target="_blank" rel="noreferrer" className="text-lime hover:underline font-bold">Pranava Business Park, 7th Floor, Kothaguda, Hyderabad, Telangana 500081</a></div>
             </div>
 
             <p className="mb-6 text-text-body">
@@ -53,7 +53,7 @@ export default function InvestorGrievancePage() {
 
             <div className="bg-navy text-white p-6 rounded-xl mb-8">
               <strong>LTM Ventures India LLP</strong><br />
-              Call: <a href="tel:+919000929666" className="text-lime hover:underline font-bold">+91 9000929666</a>
+              Call: <a href="tel:+919000929666" className="text-lime hover:underline font-bold">+91 90009 29666</a>
             </div>
 
             <p className="text-text-body italic">

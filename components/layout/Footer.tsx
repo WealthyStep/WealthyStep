@@ -19,11 +19,12 @@ export function Footer() {
                   width={280}
                   height={80}
                   className="w-56 md:w-64 lg:w-72 h-auto object-contain"
+                  priority
                 />
               </div>
             </Link>
-            <p className="text-sm text-cream/70 leading-relaxed pr-4">
-              Empowering your future with mutual fund distribution, mutual funds, and comprehensive insurance solutions.
+            <p className="text-sm text-cream/70 leading-relaxed text-balance pr-4 lg:pr-0">
+              Empowering your future with mutual fund Investments and comprehensive insurance solutions.
             </p>
             <div className="flex gap-3 pt-2">
               <a href="#" className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-white/80 hover:text-white hover:border-lime hover:bg-white/5 transition-all group" aria-label="LinkedIn">
@@ -159,7 +160,7 @@ export function Footer() {
                 </div>
                 <div className="pt-1.5 leading-relaxed">
                   Wealthy Step<br />
-                  Pranava Business Park, 7th Floor, Kondapur,<br />
+                  Pranava Business Park, 7th Floor, Kothaguda,<br />
                   Hyderabad, Telangana 500081
                 </div>
               </div>
@@ -176,7 +177,7 @@ export function Footer() {
                   <Phone className="w-4 h-4 text-white" />
                 </div>
                 <div className="pt-1.5">
-                  <a href="tel:+919000929666" className="hover:text-lime transition-colors">+91 9000929666</a>
+                  <a href="tel:+919000929666" className="hover:text-lime transition-colors">+91 90009 29666</a>
                 </div>
               </div>
             </address>
@@ -199,6 +200,7 @@ export function Footer() {
               ARN - 322891
             </div>
             <p className="text-sm text-cream/70 mt-2 text-center tracking-widest">MUTUAL FUND | INSURANCE</p>
+            <p className="text-base text-cream font-semibold mt-1 text-center tracking-widest">Mr. Anil Kumar</p>
           </div>
           <div className="bg-white rounded-md px-3 py-2 flex items-center justify-center min-w-[200px] h-[60px]">
             <Image src="/images/mf-sahi-hai.png" alt="Mutual Funds Sahi Hai" width={180} height={45} className="object-contain w-auto h-full" />

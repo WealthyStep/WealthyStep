@@ -198,7 +198,7 @@ export function ContactSplitSection() {
                   <h4 className="font-bold text-navy text-sm mb-1">Office Address</h4>
                   <p className="text-xs text-text-body leading-relaxed">
                     Wealthy Step<br />
-                    Pranava Business Park, 7th Floor, Kondapur,<br />
+                    Pranava Business Park, 7th Floor, Kothaguda,<br />
                     Hyderabad, Telangana 500081<br />
                     India
                   </p>
@@ -212,7 +212,7 @@ export function ContactSplitSection() {
                 <div>
                   <h4 className="font-bold text-navy text-sm mb-1">Phone</h4>
                   <p className="text-xs text-text-body leading-relaxed">
-                    +91 9000929666
+                    +91 90009 29666
                   </p>
                 </div>
               </div>

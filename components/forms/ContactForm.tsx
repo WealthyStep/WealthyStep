@@ -148,7 +148,7 @@ export function ContactForm({ className }: { className?: string }) {
             <Input
               id="phone"
               type="tel"
-              placeholder="+91 9000929666"
+              placeholder="+91 90009 29666"
               {...register("phone")}
               className={errors.phone ? "border-negative focus-visible:ring-negative" : ""}
             />
