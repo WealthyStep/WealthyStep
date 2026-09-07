@@ -7,16 +7,43 @@ export async function POST(req: Request) {
   try {
     const body = await req.json();
 
-    // 1. Server-side validation
+    // 1. Turnstile Verification
+    const turnstileToken = body.turnstileToken;
+    const turnstileSecret = process.env.TURNSTILE_SECRET_KEY || '1x0000000000000000000000000000000AA'; // Use testing key as fallback in dev
+    
+    if (!turnstileToken) {
+      return NextResponse.json({ error: "Verification failed", message: "Security token missing." }, { status: 400 });
+    }
+
+    const formData = new URLSearchParams();
+    formData.append('secret', turnstileSecret);
+    formData.append('response', turnstileToken);
+
+    const turnstileRes = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+      method: 'POST',
+      body: formData,
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+    });
+
+    const turnstileResult = await turnstileRes.json();
+
+    if (!turnstileResult.success) {
+      console.warn("Turnstile verification failed:", turnstileResult);
+      return NextResponse.json({ error: "Verification failed", message: "Security check failed." }, { status: 400 });
+    }
+
+    // 2. Server-side validation
     const parsed = leadDataSchema.parse(body);
 
-    // 2. Honeypot check
+    // 3. Honeypot check
     if (parsed.website && parsed.website.length > 0) {
       // Spam bot filled the honeypot
       return NextResponse.json({ success: true }); // Fake success to deter bots
     }
 
-    // 3. Email configuration check
+    // 4. Email configuration check
     const smtpHost = process.env.SMTP_HOST;
     const smtpUser = process.env.SMTP_USER;
     const smtpPass = process.env.SMTP_PASSWORD;
@@ -33,7 +60,7 @@ export async function POST(req: Request) {
       });
     }
 
-    // 4. Create Nodemailer transporter
+    // 5. Create Nodemailer transporter
     const transporter = nodemailer.createTransport({
       host: smtpHost,
       port: Number(process.env.SMTP_PORT) || 587,
@@ -44,10 +71,10 @@ export async function POST(req: Request) {
       },
     });
 
-    // 5. Sanitize HTML
+    // 6. Sanitize HTML
     // (Zod already sanitized and validated the raw text length and basic format)
     const safeName = parsed.name.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-    const safeMessage = parsed.message.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    const safeMessage = (parsed.message || '').replace(/</g, "&lt;").replace(/>/g, "&gt;");
     const refId = `WS-${Date.now().toString().slice(-6)}-${Math.floor(Math.random() * 1000)}`;
 
     const htmlBody = `
@@ -138,7 +165,7 @@ export async function POST(req: Request) {
       </html>
     `;
 
-    // 6. Send Email
+    // 7. Send Email
     await transporter.sendMail({
       from: `"Wealthy Step" <${process.env.EMAIL_FROM || smtpUser}>`,
       to: emailTo,

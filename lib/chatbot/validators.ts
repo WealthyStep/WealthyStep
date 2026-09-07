@@ -37,9 +37,10 @@ export const leadDataSchema = z.object({
   
   message: z
     .string()
-    .min(2, { message: 'Message must be at least 2 characters long.' })
     .max(1000, { message: 'Message must not exceed 1000 characters.' })
-    .transform((val) => val.trim()),
+    .transform((val) => val.trim())
+    .optional()
+    .or(z.literal('')),
     
   // Honeypot field - must be empty
   website: z.string().optional(),

@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { LeadData, LeadFlowStep, LeadServiceOption } from '@/lib/chatbot/types';
 import { leadDataSchema } from '@/lib/chatbot/validators';
 import { z } from 'zod';
 import { CheckCircle2, User, Phone, Mail, FileText, CheckCircle, TrendingUp, ShieldCheck, Globe, MoreHorizontal, Edit2, AlertCircle, Building2 } from 'lucide-react';
+import { Turnstile, TurnstileInstance } from '@marsidev/react-turnstile';
 
 interface LeadFormFlowProps {
   onSuccess: () => void;
@@ -23,6 +24,11 @@ export const LeadFormFlow: React.FC<LeadFormFlowProps> = ({ onSuccess, onCancel 
   const [error, setError] = useState<string>('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [agree, setAgree] = useState(true);
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const [turnstileError, setTurnstileError] = useState<boolean>(false);
+  const turnstileRef = useRef<TurnstileInstance>(null);
+
+  const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || '1x00000000000000000000AA';
 
   const getStepIndex = () => {
     const idx = STEP_ORDER.indexOf(step);
@@ -58,26 +64,48 @@ export const LeadFormFlow: React.FC<LeadFormFlowProps> = ({ onSuccess, onCancel 
       return;
     }
     
+    if (!turnstileToken) {
+      setTurnstileError(true);
+      return;
+    }
+    
     try {
       setError('');
+      setTurnstileError(false);
       setIsSubmitting(true);
       leadDataSchema.parse(data);
 
       const res = await fetch('/api/chatbot/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...data, website: '', source: 'Chatbot' })
+        body: JSON.stringify({ ...data, website: '', source: 'Chatbot', turnstileToken })
       });
 
-      if (!res.ok) throw new Error('Failed to submit enquiry');
+      if (!res.ok) {
+        if (res.status === 400) {
+          const resData = await res.json().catch(() => ({}));
+          if (resData.error === 'Verification failed') {
+            throw new Error('Security verification failed.');
+          }
+        }
+        throw new Error('Failed to submit enquiry');
+      }
 
       setStep('SUCCESS');
+      setTurnstileToken(null);
       setTimeout(onSuccess, 1500);
     } catch (e) {
       if (e instanceof z.ZodError) {
         setError('Please check your details and try again.');
+        // Do not reset turnstile token here, it hasn't been consumed yet
+      } else if (e instanceof Error && e.message === 'Security verification failed.') {
+        setError('Security verification failed. Please try again.');
+        setTurnstileToken(null);
+        turnstileRef.current?.reset();
       } else {
         setError('Something went wrong. Please try again later.');
+        setTurnstileToken(null);
+        turnstileRef.current?.reset();
       }
       setStep('REVIEW');
       setIsSubmitting(false);
@@ -255,9 +283,31 @@ export const LeadFormFlow: React.FC<LeadFormFlowProps> = ({ onSuccess, onCancel 
               </div>
             )}
 
+            <div className="flex flex-col gap-2 mb-4">
+              <Turnstile 
+                ref={turnstileRef}
+                siteKey={siteKey}
+                onSuccess={(token) => {
+                  setTurnstileToken(token);
+                  setTurnstileError(false);
+                  setError('');
+                }}
+                onError={() => setTurnstileError(true)}
+                onExpire={() => setTurnstileToken(null)}
+                options={{
+                  theme: 'light',
+                }}
+              />
+              {turnstileError && (
+                <p className="text-xs text-red-500 flex items-center gap-1 mt-1 font-medium">
+                  <AlertCircle size={12} /> Please complete the security check.
+                </p>
+              )}
+            </div>
+
             <button 
               onClick={handleSubmit} 
-              disabled={isSubmitting}
+              disabled={isSubmitting || !turnstileToken}
               className="w-full bg-[#82C341] text-white py-3 rounded-xl font-bold hover:bg-[#72ad39] transition-colors shadow-sm flex items-center justify-center gap-2 disabled:opacity-70"
             >
               {isSubmitting ? (

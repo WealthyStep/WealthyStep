@@ -2,12 +2,17 @@
 
 import React, { useState } from "react";
 import { FadeIn } from "@/components/ui/fade-in";
-import { MapPin, Phone, Mail, Clock, Lock } from "lucide-react";
+import { MapPin, Phone, Mail, Clock, Lock, AlertCircle } from "lucide-react";
+import { Turnstile } from '@marsidev/react-turnstile';
 
 export function ContactSplitSection() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [error, setError] = useState("");
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const [turnstileError, setTurnstileError] = useState<boolean>(false);
+  
+  const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || '1x00000000000000000000AA';
   
   const [formData, setFormData] = useState({
     name: "",
@@ -19,29 +24,42 @@ export function ContactSplitSection() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!turnstileToken) {
+      setTurnstileError(true);
+      return;
+    }
+
     setIsSubmitting(true);
     setError("");
+    setTurnstileError(false);
 
     try {
       const res = await fetch('/api/chatbot/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...formData, website: '', source: 'Contact Page' }) // includes honeypot and source
+        body: JSON.stringify({ ...formData, website: '', source: 'Contact Page', turnstileToken }) // includes honeypot and source
       });
 
       if (!res.ok) {
-        const errorData = await res.json().catch(() => null);
-        if (errorData && errorData.details && Array.isArray(errorData.details)) {
-          throw new Error(errorData.details[0].message);
+        if (res.status === 400) {
+          const errorData = await res.json().catch(() => null);
+          if (errorData?.error === 'Verification failed') {
+            throw new Error('Security verification failed. Please try again.');
+          }
+          if (errorData && errorData.details && Array.isArray(errorData.details)) {
+            throw new Error(errorData.details[0].message);
+          }
         }
-        throw new Error(errorData?.error || "Failed to send message");
+        throw new Error("Failed to send message");
       }
 
       setIsSuccess(true);
       setFormData({ name: "", email: "", phone: "", service: "", message: "" });
+      setTurnstileToken(null);
       setTimeout(() => setIsSuccess(false), 5000);
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : "Something went wrong. Please try again or use the chatbot.");
+      setTurnstileToken(null);
     } finally {
       setIsSubmitting(false);
     }
@@ -128,6 +146,26 @@ export function ContactSplitSection() {
                   ></textarea>
                 </div>
 
+                <div className="flex flex-col items-start gap-2 w-full overflow-hidden">
+                  <Turnstile 
+                    siteKey={siteKey}
+                    onSuccess={(token) => {
+                      setTurnstileToken(token);
+                      setTurnstileError(false);
+                    }}
+                    onError={() => setTurnstileError(true)}
+                    onExpire={() => setTurnstileToken(null)}
+                    options={{
+                      theme: 'dark',
+                    }}
+                  />
+                  {turnstileError && (
+                    <p className="text-xs text-red-400 flex items-center gap-1 mt-1">
+                      <AlertCircle size={12} /> Please complete the security check.
+                    </p>
+                  )}
+                </div>
+
                 <div className="flex items-center gap-2 text-white/50 text-xs">
                   <Lock className="w-3 h-3 text-lime" />
                   Your information is secure and confidential.
@@ -135,7 +173,7 @@ export function ContactSplitSection() {
 
                 <button
                   type="submit"
-                  disabled={isSubmitting}
+                  disabled={isSubmitting || !turnstileToken}
                   className="w-full bg-lime hover:bg-cta-green text-navy font-bold rounded-lg px-4 py-4 transition-colors disabled:opacity-70"
                 >
                   {isSubmitting ? "Sending..." : "Send Message"}

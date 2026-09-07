@@ -8,7 +8,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
-import { CheckCircle2 } from "lucide-react";
+import { CheckCircle2, AlertCircle } from "lucide-react";
+import { Turnstile } from '@marsidev/react-turnstile';
 
 const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters."),
@@ -22,6 +23,11 @@ type FormValues = z.infer<typeof formSchema>;
 export function ContactForm({ className }: { className?: string }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const [turnstileError, setTurnstileError] = useState<boolean>(false);
+  
+  // Always-pass testing key for development if no key is provided
+  const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || '1x00000000000000000000AA';
 
   const {
     register,
@@ -33,7 +39,13 @@ export function ContactForm({ className }: { className?: string }) {
   });
 
   const onSubmit = async (data: FormValues) => {
+    if (!turnstileToken) {
+      setTurnstileError(true);
+      return;
+    }
+    
     setIsSubmitting(true);
+    setTurnstileError(false);
     try {
       const response = await fetch('/api/chatbot/submit', {
         method: 'POST',
@@ -41,22 +53,32 @@ export function ContactForm({ className }: { className?: string }) {
         body: JSON.stringify({
           ...data,
           service: 'Other', // Contact page generic service
-          source: 'Contact Page'
+          source: 'Contact Page',
+          turnstileToken
         }),
       });
 
       if (!response.ok) {
+        if (response.status === 400) {
+          const resData = await response.json().catch(() => ({}));
+          if (resData.error === 'Verification failed') {
+            throw new Error('Security verification failed. Please try again.');
+          }
+        }
         throw new Error("Failed to submit");
       }
 
       setIsSuccess(true);
       reset();
+      setTurnstileToken(null);
       
       // Reset success message after 5 seconds
       setTimeout(() => setIsSuccess(false), 5000);
     } catch (error) {
       console.error("Submission error:", error);
-      // In a real app we might show an error toast here
+      alert(error instanceof Error ? error.message : "Something went wrong. Please try again.");
+      // Force token reset on error so they have to verify again
+      setTurnstileToken(null);
     } finally {
       setIsSubmitting(false);
     }
@@ -153,7 +175,27 @@ export function ContactForm({ className }: { className?: string }) {
         </div>
       </div>
 
-      <Button type="submit" className="w-full h-12 text-base flex items-center justify-center gap-2" disabled={isSubmitting}>
+      <div className="flex flex-col gap-2">
+        <Turnstile 
+          siteKey={siteKey}
+          onSuccess={(token) => {
+            setTurnstileToken(token);
+            setTurnstileError(false);
+          }}
+          onError={() => setTurnstileError(true)}
+          onExpire={() => setTurnstileToken(null)}
+          options={{
+            theme: 'light',
+          }}
+        />
+        {turnstileError && (
+          <p className="text-xs text-negative flex items-center gap-1 mt-1">
+            <AlertCircle size={12} /> Please complete the security check.
+          </p>
+        )}
+      </div>
+
+      <Button type="submit" className="w-full h-12 text-base flex items-center justify-center gap-2" disabled={isSubmitting || !turnstileToken}>
         {isSubmitting ? (
           <>
             <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
