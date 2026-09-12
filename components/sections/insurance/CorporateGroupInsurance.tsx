@@ -58,7 +58,7 @@ export function CorporateGroupInsurance() {
 
         <div className="w-full">
           {/* 4 Column Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mb-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
             {solutions.map((item, idx) => (
               <FadeIn key={idx} delay={0.1 * idx} direction="up" className="h-full">
                 <div className="bg-white rounded-[20px] p-5 lg:p-6 shadow-[0_4px_25px_rgb(0,0,0,0.03)] hover:shadow-[0_12px_40px_rgb(0,0,0,0.08)] transition-all duration-300 hover:-translate-y-1 border border-border-sage/20 h-full flex flex-col items-start group">
@@ -77,42 +77,8 @@ export function CorporateGroupInsurance() {
                 </div>
               </FadeIn>
             ))}
-          </div>
-
-          {/* CTA Block */}
-          <FadeIn direction="up" delay={0.4}>
-            <div className="bg-navy rounded-[24px] p-8 md:p-10 text-center relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-64 h-64 bg-accent-purple/20 blur-[100px] rounded-full pointer-events-none" />
-              <div className="absolute bottom-0 left-0 w-64 h-64 bg-lime/10 blur-[100px] rounded-full pointer-events-none" />
-              
-              <div className="relative z-10 max-w-2xl mx-auto">
-                <h3 className="text-2xl md:text-3xl font-bold text-white font-heading mb-4">
-                  Looking for Insurance Support for Your Organization?
-                </h3>
-                <p className="text-white/80 mb-8 leading-relaxed text-sm md:text-base">
-                  Connect with our team to discuss your organization's insurance requirements and explore suitable coverage options.
-                </p>
-                
-                <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                  <Link
-                    href="/contact"
-                    className="w-full sm:w-auto inline-flex items-center justify-center rounded-full bg-lime hover:bg-cta-green text-white px-8 py-3.5 text-[15px] font-bold transition-all shadow-md group"
-                  >
-                    Talk to Our Team
-                    <ArrowRight className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" />
-                  </Link>
-                  <Link
-                    href="/contact?service=Corporate+%26+Group+Insurance"
-                    className="w-full sm:w-auto inline-flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-white px-8 py-3.5 text-[15px] font-bold transition-all border border-white/20"
-                  >
-                    Send an Enquiry
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </FadeIn>
         </div>
-
+        </div>
       </div>
     </section>
   );
