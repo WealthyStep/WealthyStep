@@ -57,7 +57,7 @@ export const ChatMessages: React.FC<ChatMessagesProps> = ({
               
               {isBot && (
                 <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center shrink-0 shadow-sm mt-1 border border-gray-100 overflow-hidden">
-                   <img src="/icon.png" alt="Bot" className="w-full h-full object-contain p-1" />
+                   <img src="/icon.png" alt="Wealthy Step Assistant" className="w-full h-full object-contain p-1" />
                 </div>
               )}
 
@@ -118,7 +118,7 @@ export const ChatMessages: React.FC<ChatMessagesProps> = ({
         <div className="flex w-full justify-start animate-in fade-in slide-in-from-bottom-2 duration-300">
           <div className="flex gap-3 flex-row max-w-[85%]">
             <div className="w-7 h-7 rounded-full bg-white flex items-center justify-center shrink-0 shadow-sm border border-gray-100 overflow-hidden mt-1">
-                <img src="/icon.png" alt="Bot" className="w-full h-full object-contain p-[3px]" />
+                <img src="/icon.png" alt="Wealthy Step Assistant Typing" className="w-full h-full object-contain p-[3px]" />
             </div>
             <div className="px-3.5 py-2.5 bg-white text-navy border border-gray-100 rounded-2xl rounded-tl-sm shadow-sm flex items-center gap-1.5 h-9">
               <span className="w-1 h-1 bg-slate-300 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></span>

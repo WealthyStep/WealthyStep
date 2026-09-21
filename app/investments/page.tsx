@@ -1,4 +1,3 @@
-import { Metadata } from "next";
 import { InvestmentsHero } from "@/components/sections/investments/InvestmentsHero";
 import { InvestmentApproach } from "@/components/sections/investments/InvestmentApproach";
 import { InvestmentOptions } from "@/components/sections/investments/InvestmentOptions";
@@ -6,20 +5,9 @@ import { InvestmentStats } from "@/components/sections/investments/InvestmentSta
 import { WhyInvestWithUs } from "@/components/sections/investments/WhyInvestWithUs";
 import { InvestmentsCTA } from "@/components/sections/investments/InvestmentsCTA";
 import { FAQSection } from "@/components/sections/FAQSection";
+import { constructMetadata, ROUTES_SEO } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Mutual Fund Solutions | Wealthy Step",
-  description: "Discover a diverse range of mutual fund solutions tailored for your risk tolerance and investment horizon.",
-  alternates: {
-    canonical: '/investments'
-  },
-  openGraph: {
-    title: "Mutual Fund Solutions | Wealthy Step",
-    description: "Discover a diverse range of mutual fund solutions tailored for your risk tolerance and investment horizon.",
-    url: '/investments',
-    type: "website",
-  },
-};
+export const metadata = constructMetadata(ROUTES_SEO.investments);
 
 export default function InvestmentsPage() {
   return (

@@ -15,7 +15,7 @@ export function Footer() {
               <div className="mb-2 bg-white p-3 rounded-lg inline-flex">
                 <Image
                   src="/logo.svg"
-                  alt="Wealthy Step Logo"
+                  alt="Wealthy Step - AMFI Registered Mutual Fund Distributor Logo"
                   width={280}
                   height={80}
                   className="w-56 md:w-64 lg:w-72 h-auto object-contain"
@@ -193,7 +193,7 @@ export function Footer() {
         {/* AMFI Registration & Logos */}
         <div className="mt-16 flex flex-col md:flex-row items-center justify-center gap-6 md:gap-10">
           <div className="bg-white rounded-md px-3 py-2 flex items-center justify-center min-w-[100px] h-[60px]">
-            <Image src="/images/amfi-logo.png" alt="AMFI" width={60} height={45} className="object-contain w-auto h-full" />
+            <Image src="/images/amfi-logo.png" alt="Association of Mutual Funds in India (AMFI) Registered Distributor Badge" width={60} height={45} className="object-contain w-auto h-full" />
           </div>
           <div className="flex flex-col items-center">
             <div className="text-white text-base md:text-lg font-semibold tracking-wide text-center uppercase leading-tight">

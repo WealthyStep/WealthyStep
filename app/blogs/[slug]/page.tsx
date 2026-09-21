@@ -4,6 +4,10 @@ import { Clock } from "lucide-react";
 import { Metadata } from "next";
 import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 
+import { constructMetadata } from "@/lib/seo";
+
+import { JsonLd, getArticleSchema } from "@/components/seo/json-ld";
+
 type Props = {
   params: Promise<{ slug: string }>;
 };
@@ -11,21 +15,17 @@ type Props = {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const blog = blogs.find((b) => b.slug === slug);
-  if (!blog) return { title: "Blog Not Found" };
+  if (!blog) return { title: "Blog Not Found | Wealthy Step" };
 
-  return {
+  return constructMetadata({
     title: `${blog.title} | Wealthy Step`,
     description: blog.excerpt,
-    alternates: {
-      canonical: `/blogs/${slug}`,
-    },
-    openGraph: {
-      title: `${blog.title} | Wealthy Step`,
-      description: blog.excerpt,
-      url: `/blogs/${slug}`,
-      type: "article",
-    },
-  };
+    path: `/blogs/${slug}/`,
+    image: blog.image,
+    type: "article",
+    publishedTime: blog.date,
+    modifiedTime: (blog as any).updatedAt || blog.date,
+  });
 }
 
 export function generateStaticParams() {
@@ -42,31 +42,18 @@ export default async function BlogPostPage({ params }: Props) {
     notFound();
   }
 
+  const articleSchema = getArticleSchema({
+    title: blog.title,
+    excerpt: blog.excerpt,
+    slug: blog.slug,
+    image: blog.image,
+    date: blog.date,
+    updatedAt: (blog as any).updatedAt || blog.date,
+  });
+
   return (
     <article className="min-h-screen bg-white">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "BlogPosting",
-            "headline": blog.title,
-            "description": blog.excerpt,
-            "image": blog.image,
-            "datePublished": blog.date,
-            "dateModified": (blog as any).updatedAt || blog.date,
-            "publisher": {
-              "@type": "Organization",
-              "name": "Wealthy Step",
-              "url": "https://wealthystep.com",
-              "logo": {
-                "@type": "ImageObject",
-                "url": "https://wealthystep.com/logo.svg"
-              }
-            }
-          })
-        }}
-      />
+      <JsonLd data={articleSchema} />
       
       {/* Blog Header */}
       <header className="bg-navy pt-4 md:pt-8 pb-3 md:pb-5 px-4">

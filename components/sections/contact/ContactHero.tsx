@@ -82,7 +82,7 @@ export function ContactHero() {
                   <div className="w-full h-full relative overflow-hidden rounded-br-[150px] rounded-tl-[150px] rounded-tr-[40px] rounded-bl-[40px] bg-white z-10">
                     <Image 
                       src="/images/contact-people.jpg"
-                      alt="Mutual Fund Distributors"
+                      alt="Wealthy Step AMFI Registered Mutual Fund Advisors"
                       fill
                       sizes="(max-width: 768px) 100vw, 50vw"
                       className="object-cover"

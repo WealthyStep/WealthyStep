@@ -2,12 +2,9 @@ import { InnerHero } from "@/components/sections/InnerHero";
 import { ArticleCard } from "@/components/cards/ArticleCard";
 import { mockArticles } from "@/lib/mock-cms";
 import { BookOpen } from "lucide-react";
-import { Metadata } from "next";
+import { constructMetadata, ROUTES_SEO } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Knowledge Center | Wealthy Step",
-  description: "Financial insights, market analysis, and investment guides from the experts at Wealthy Step.",
-};
+export const metadata = constructMetadata(ROUTES_SEO.knowledge);
 
 export default function KnowledgePage() {
   return (

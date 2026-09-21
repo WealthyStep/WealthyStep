@@ -5,20 +5,9 @@ import { FadeIn, FadeInStagger, FadeInStaggerItem } from "@/components/ui/fade-i
 import Link from "next/link";
 import Image from "next/image";
 import { blogs } from "@/lib/data/blogs";
+import { constructMetadata, ROUTES_SEO } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Mutual Fund & Investment Blogs | Wealthy Step",
-  description: "Read educational articles on mutual fund investing, SIPs, insurance, and goal-based investment strategies.",
-  alternates: {
-    canonical: '/blogs'
-  },
-  openGraph: {
-    title: "Mutual Fund & Investment Blogs | Wealthy Step",
-    description: "Read educational articles on mutual fund investing, SIPs, insurance, and goal-based investment strategies.",
-    url: '/blogs',
-    type: "website",
-  },
-};
+export const metadata = constructMetadata(ROUTES_SEO.blogs);
 
 export default function BlogsPage() {
   return (

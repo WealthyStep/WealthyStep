@@ -1,19 +1,7 @@
-import { Metadata } from "next";
 import { InnerHero } from "@/components/sections/InnerHero";
+import { constructMetadata, ROUTES_SEO } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Investor Grievance Redressal | Wealthy Step",
-  description: "Information on our investor grievance redressal mechanism and escalation matrix.",
-  alternates: {
-    canonical: '/investor-grievance'
-  },
-  openGraph: {
-    title: "Investor Grievance Redressal | Wealthy Step",
-    description: "Information on our investor grievance redressal mechanism and escalation matrix.",
-    url: '/investor-grievance',
-    type: "website",
-  },
-};
+export const metadata = constructMetadata(ROUTES_SEO.investorGrievance);
 
 export default function InvestorGrievancePage() {
   return (

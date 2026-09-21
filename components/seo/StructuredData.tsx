@@ -15,16 +15,29 @@ export function StructuredData() {
       ],
       "address": {
         "@type": "PostalAddress",
-        "streetAddress": "Gachibowli",
+        "streetAddress": "Pranava Business Park, 7th Floor, Kothaguda",
         "addressLocality": "Hyderabad",
         "addressRegion": "Telangana",
-        "postalCode": "500032",
+        "postalCode": "500081",
         "addressCountry": "IN"
       },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 17.4575,
+        "longitude": 78.3676
+      },
+      "areaServed": [
+        { "@type": "City", "name": "Hyderabad" },
+        { "@type": "State", "name": "Telangana" },
+        { "@type": "State", "name": "Andhra Pradesh" },
+        { "@type": "Country", "name": "India" }
+      ],
       "contactPoint": {
         "@type": "ContactPoint",
         "telephone": "+91-9000929666",
-        "contactType": "customer service"
+        "contactType": "customer service",
+        "areaServed": ["Hyderabad", "Telangana", "Andhra Pradesh", "IN"],
+        "availableLanguage": ["English", "Hindi", "Telugu"]
       },
       "offers": [
         {

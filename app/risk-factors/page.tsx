@@ -1,19 +1,7 @@
-import { Metadata } from "next";
 import { InnerHero } from "@/components/sections/InnerHero";
+import { constructMetadata, ROUTES_SEO } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Risk Factors & Disclaimer | Wealthy Step",
-  description: "Important risk factors, liability disclaimers, and regulatory disclosures regarding mutual fund investments.",
-  alternates: {
-    canonical: '/risk-factors'
-  },
-  openGraph: {
-    title: "Risk Factors & Disclaimer | Wealthy Step",
-    description: "Important risk factors, liability disclaimers, and regulatory disclosures regarding mutual fund investments.",
-    url: '/risk-factors',
-    type: "website",
-  },
-};
+export const metadata = constructMetadata(ROUTES_SEO.riskFactors);
 
 export default function RiskFactorsPage() {
   return (

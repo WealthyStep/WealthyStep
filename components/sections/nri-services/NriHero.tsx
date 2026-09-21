@@ -73,7 +73,7 @@ export function NriHero() {
             <FadeIn direction="left" delay={0.3} className="relative w-full h-full max-w-[650px] lg:scale-110 lg:translate-x-8">
                <Image 
                 src="/images/nri-hero.jpg"
-                alt="NRI Investment Illustration"
+                alt="NRI Mutual Fund Investment & Portfolio Management"
                 fill
 sizes="(max-width: 768px) 100vw, 50vw"
                 className="object-cover lg:object-right rounded-2xl opacity-90"

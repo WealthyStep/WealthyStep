@@ -13,21 +13,9 @@ import {
   Home, Wallet, Palmtree, GraduationCap, Heart, ShieldAlert,
   ArrowRight, PhoneCall
 } from "lucide-react";
-import Link from "next/link";
+import { constructMetadata, ROUTES_SEO } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Wealthy Step | AMFI Registered Mutual Fund Distributor & Insurance",
-  description: "Wealthy Step is an AMFI Registered Mutual Fund Distributor (ARN-322891) providing goal-focused mutual fund distribution, insurance solutions, and NRI investment support.",
-  alternates: {
-    canonical: '/'
-  },
-  openGraph: {
-    title: "Wealthy Step | AMFI Registered Mutual Fund Distributor & Insurance",
-    description: "Wealthy Step is an AMFI Registered Mutual Fund Distributor (ARN-322891) providing goal-focused mutual fund distribution, insurance solutions, and NRI investment support.",
-    url: '/',
-    type: "website",
-  },
-};
+export const metadata = constructMetadata(ROUTES_SEO.home);
 
 export default function HomePage() {
   return (

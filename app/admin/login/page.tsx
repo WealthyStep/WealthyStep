@@ -222,7 +222,7 @@ export default function AdminLoginPage() {
 
         {/* Security & Regulatory Footer */}
         <div className="text-center text-[11px] text-gray-500 space-y-0.5">
-          <p className="font-semibold text-gray-700">Wealthy Step • AMFI Registered Mutual Fund Distributor • ARN-286884</p>
+          <p className="font-semibold text-gray-700">Wealthy Step • AMFI Registered Mutual Fund Distributor • ARN-322891</p>
           <p className="text-gray-400">
             Restricted access portal. All login sessions and IP addresses are audited.
           </p>

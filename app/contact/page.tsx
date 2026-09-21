@@ -5,19 +5,9 @@ import { ContactSplitSection } from "@/components/sections/contact/ContactSplitS
 import { ContactLocation } from "@/components/sections/contact/ContactLocation";
 import { ContactBottomCTA } from "@/components/sections/contact/ContactBottomCTA";
 
-export const metadata: Metadata = {
-  title: "Contact Wealthy Step | Investor Support",
-  description: "Get in touch with Wealthy Step for support with your mutual fund investments and insurance queries.",
-  alternates: {
-    canonical: '/contact'
-  },
-  openGraph: {
-    title: "Contact Wealthy Step | Investor Support",
-    description: "Get in touch with Wealthy Step for support with your mutual fund investments and insurance queries.",
-    url: '/contact',
-    type: "website",
-  },
-};
+import { constructMetadata, ROUTES_SEO } from "@/lib/seo";
+
+export const metadata = constructMetadata(ROUTES_SEO.contact);
 
 export default function ContactPage() {
   return (

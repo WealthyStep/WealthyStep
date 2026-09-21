@@ -92,7 +92,7 @@ export function Navbar() {
                 >
                   <Image
                     src="/logo.svg"
-                    alt="Wealthy Step Logo"
+                    alt="Wealthy Step - AMFI Registered Mutual Fund Distributor Logo"
                     width={280}
                     height={80}
                     className="h-12 md:h-14 lg:h-16 w-auto object-contain select-none"

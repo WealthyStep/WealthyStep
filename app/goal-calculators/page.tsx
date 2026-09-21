@@ -12,21 +12,9 @@ const AnnualSipCalculator = dynamic(() => import('@/components/calculators/Annua
 const TargetAmountSipCalculator = dynamic(() => import('@/components/calculators/TargetAmountSipCalculator').then(mod => mod.TargetAmountSipCalculator));
 const LumpsumTargetCalculator = dynamic(() => import('@/components/calculators/LumpsumTargetCalculator').then(mod => mod.LumpsumTargetCalculator));
 import { Calculator, CheckCircle2, ShieldCheck, LineChart, TrendingUp, Users, GraduationCap, Coins, Wallet, Landmark, PiggyBank } from "lucide-react";
-import { Metadata } from "next";
+import { constructMetadata, ROUTES_SEO } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Investment Goal Calculators | Wealthy Step",
-  description: "Use our educational SIP, Lumpsum, and retirement calculators to explore illustrative mutual fund projections.",
-  alternates: {
-    canonical: '/goal-calculators'
-  },
-  openGraph: {
-    title: "Investment Goal Calculators | Wealthy Step",
-    description: "Use our educational SIP, Lumpsum, and retirement calculators to explore illustrative mutual fund projections.",
-    url: '/goal-calculators',
-    type: "website",
-  },
-};
+export const metadata = constructMetadata(ROUTES_SEO.goalCalculators);
 
 export default function GoalCalculatorsPage() {
   return (

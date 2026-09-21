@@ -1,19 +1,7 @@
-import { Metadata } from "next";
 import { InnerHero } from "@/components/sections/InnerHero";
+import { constructMetadata, ROUTES_SEO } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Important Links & Resources | Wealthy Step",
-  description: "Access important regulatory links, investor education resources, and official SEBI/AMFI portals.",
-  alternates: {
-    canonical: '/important-links'
-  },
-  openGraph: {
-    title: "Important Links & Resources | Wealthy Step",
-    description: "Access important regulatory links, investor education resources, and official SEBI/AMFI portals.",
-    url: '/important-links',
-    type: "website",
-  },
-};
+export const metadata = constructMetadata(ROUTES_SEO.importantLinks);
 
 export default function ImportantLinksPage() {
   return (

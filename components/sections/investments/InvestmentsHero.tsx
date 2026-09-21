@@ -73,7 +73,7 @@ export function InvestmentsHero() {
             <FadeIn direction="left" delay={0.3} className="relative w-full h-full max-w-[650px] lg:scale-110 lg:translate-x-8">
                <Image 
                 src="/images/cta-illustration.jpg"
-                alt="Investment Growth Illustration"
+                alt="Mutual Fund Investment Growth & Portfolio Planning"
                 fill
                 priority
                 sizes="(max-width: 768px) 100vw, 50vw"

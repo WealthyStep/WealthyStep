@@ -3,19 +3,9 @@ import { ShieldAlert } from "lucide-react";
 import { Metadata } from "next";
 import { FadeIn } from "@/components/ui/fade-in";
 
-export const metadata: Metadata = {
-  title: "Privacy Policy | Wealthy Step",
-  description: "Read the Wealthy Step privacy policy to understand how we protect your data and personal information.",
-  alternates: {
-    canonical: '/privacy-policy'
-  },
-  openGraph: {
-    title: "Privacy Policy | Wealthy Step",
-    description: "Read the Wealthy Step privacy policy to understand how we protect your data and personal information.",
-    url: '/privacy-policy',
-    type: "website",
-  },
-};
+import { constructMetadata, ROUTES_SEO } from "@/lib/seo";
+
+export const metadata = constructMetadata(ROUTES_SEO.privacyPolicy);
 
 export default function PrivacyPolicyPage() {
   return (

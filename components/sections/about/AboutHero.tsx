@@ -12,7 +12,7 @@ export function AboutHero() {
       <div className="absolute inset-0 z-0 overflow-hidden">
         <Image 
           src={bgImage}
-          alt="Building Wealth" 
+          alt="Wealthy Step Financial Services & Mutual Fund Planning" 
           fill
           sizes="(max-width: 768px) 100vw, 50vw" 
           className="object-cover opacity-20 mix-blend-overlay"

@@ -1,19 +1,7 @@
-import { Metadata } from "next";
 import { InnerHero } from "@/components/sections/InnerHero";
+import { constructMetadata, ROUTES_SEO } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Terms & Conditions | Wealthy Step",
-  description: "Review the terms and conditions for using the Wealthy Step mutual fund distribution platform.",
-  alternates: {
-    canonical: '/terms-conditions'
-  },
-  openGraph: {
-    title: "Terms & Conditions | Wealthy Step",
-    description: "Review the terms and conditions for using the Wealthy Step mutual fund distribution platform.",
-    url: '/terms-conditions',
-    type: "website",
-  },
-};
+export const metadata = constructMetadata(ROUTES_SEO.termsConditions);
 
 export default function TermsConditionsPage() {
   return (

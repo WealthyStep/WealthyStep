@@ -5,19 +5,9 @@ import { NriProcess } from "@/components/sections/nri-services/NriProcess";
 import { NriCTA } from "@/components/sections/nri-services/NriCTA";
 import { FAQSection } from "@/components/sections/FAQSection";
 
-export const metadata: Metadata = {
-  title: "NRI Mutual Fund Investment Support | Wealthy Step",
-  description: "Dedicated mutual fund distribution and coordination support for Non-Resident Indians navigating Indian investments.",
-  alternates: {
-    canonical: '/nri-services'
-  },
-  openGraph: {
-    title: "NRI Mutual Fund Investment Support | Wealthy Step",
-    description: "Dedicated mutual fund distribution and coordination support for Non-Resident Indians navigating Indian investments.",
-    url: '/nri-services',
-    type: "website",
-  },
-};
+import { constructMetadata, ROUTES_SEO } from "@/lib/seo";
+
+export const metadata = constructMetadata(ROUTES_SEO.nriServices);
 
 export default function NriServicesPage() {
   return (

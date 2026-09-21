@@ -1,5 +1,7 @@
+import React from "react";
 import Link from "next/link";
 import { ChevronRight, Home } from "lucide-react";
+import { SITE_CONFIG, getCanonicalUrl } from "@/lib/seo";
 
 export interface BreadcrumbItem {
   label: string;
@@ -15,7 +17,7 @@ export function Breadcrumbs({ items }: BreadcrumbsProps) {
     "@type": "ListItem",
     "position": index + 2, // 1 is Home
     "name": item.label,
-    "item": `https://wealthystep.com${item.href}`
+    "item": getCanonicalUrl(item.href),
   }));
 
   const structuredData = {
@@ -26,17 +28,19 @@ export function Breadcrumbs({ items }: BreadcrumbsProps) {
         "@type": "ListItem",
         "position": 1,
         "name": "Home",
-        "item": "https://wealthystep.com/"
+        "item": getCanonicalUrl("/"),
       },
-      ...schemaList
-    ]
+      ...schemaList,
+    ],
   };
+
+  const jsonString = JSON.stringify(structuredData).replace(/</g, "\\u003c");
 
   return (
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+        dangerouslySetInnerHTML={{ __html: jsonString }}
       />
       <nav aria-label="Breadcrumb" className="mb-4 md:mb-6 flex items-center text-xs md:text-sm font-medium text-cream/70">
         <ol className="flex items-center flex-wrap gap-y-2">

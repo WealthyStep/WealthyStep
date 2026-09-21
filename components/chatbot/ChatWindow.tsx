@@ -121,7 +121,7 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({ onClose, isOpen }) => {
         
         <div className="flex items-start gap-2 sm:gap-3 relative z-10">
           <div className="w-9 h-9 sm:w-10 sm:h-10 bg-white rounded-full flex items-center justify-center shrink-0 mt-0.5 shadow-md">
-            <img src="/icon.png" alt="Bot" className="w-full h-full object-contain p-1" />
+            <img src="/icon.png" alt="Wealthy Step Virtual Assistant" className="w-full h-full object-contain p-1" />
           </div>
           <div className="flex flex-col">
             <h3 className="font-bold text-[14px] sm:text-[15px] leading-tight tracking-wide mt-0.5">Wealthy Step Assist</h3>

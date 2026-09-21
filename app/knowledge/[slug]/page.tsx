@@ -12,6 +12,8 @@ export function generateStaticParams() {
   }));
 }
 
+import { constructMetadata } from "@/lib/seo";
+
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const resolvedParams = await params;
   const article = getArticleBySlug(resolvedParams.slug);
@@ -22,20 +24,18 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     };
   }
 
-  return {
+  return constructMetadata({
     title: `${article.title} | Wealthy Step`,
     description: article.excerpt,
-    alternates: {
-      canonical: `/knowledge/${resolvedParams.slug}`,
-    },
-    openGraph: {
-      title: `${article.title} | Wealthy Step`,
-      description: article.excerpt,
-      url: `/knowledge/${resolvedParams.slug}`,
-      type: "article",
-    },
-  };
+    path: `/knowledge/${resolvedParams.slug}/`,
+    image: article.image,
+    type: "article",
+    publishedTime: article.date,
+    modifiedTime: article.updatedAt || article.date,
+  });
 }
+
+import { JsonLd, getArticleSchema } from "@/components/seo/json-ld";
 
 export default async function ArticlePage({ params }: { params: Promise<{ slug: string }> }) {
   const resolvedParams = await params;
@@ -45,34 +45,19 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
     notFound();
   }
 
+  const articleSchema = getArticleSchema({
+    title: article.title,
+    excerpt: article.excerpt,
+    slug: article.slug,
+    image: article.image,
+    date: article.date,
+    updatedAt: article.updatedAt || article.date,
+    author: article.author?.name || "Wealthy Step Research Team",
+  });
+
   return (
     <article className="min-h-screen bg-white">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Article",
-            "headline": article.title,
-            "description": article.excerpt,
-            "datePublished": article.date,
-            "dateModified": article.updatedAt || article.date,
-            "author": {
-              "@type": "Person",
-              "name": article.author.name
-            },
-            "publisher": {
-              "@type": "Organization",
-              "name": "Wealthy Step",
-              "url": "https://wealthystep.com",
-              "logo": {
-                "@type": "ImageObject",
-                "url": "https://wealthystep.com/logo.svg"
-              }
-            }
-          })
-        }}
-      />
+      <JsonLd data={articleSchema} />
       {/* Article Header */}
       
       <header className="bg-navy pt-4 md:pt-8 pb-3 md:pb-5 px-4">

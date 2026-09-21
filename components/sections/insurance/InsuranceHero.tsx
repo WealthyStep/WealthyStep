@@ -83,7 +83,7 @@ export function InsuranceHero() {
             <FadeIn direction="left" delay={0.3} className="relative w-full h-full max-w-[750px] lg:scale-125 lg:translate-x-12">
                <Image 
                 src="/images/insurance-hero.jpg"
-                alt="Insurance Protection Illustration"
+                alt="Comprehensive Insurance Coverage & Financial Protection"
                 fill
                 className="object-contain lg:object-right mix-blend-screen pointer-events-none"
                 style={{
