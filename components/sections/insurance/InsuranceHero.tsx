@@ -3,7 +3,7 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { FadeIn } from "@/components/ui/fade-in";
-import { ArrowRight, Users, ShieldCheck, UserCheck } from "lucide-react";
+import { ArrowRight, Users, ShieldCheck, UserCheck, FileText } from "lucide-react";
 
 export function InsuranceHero() {
   return (
@@ -42,13 +42,23 @@ export function InsuranceHero() {
                 Comprehensive insurance plans designed to safeguard you, your family and your future from life&apos;s uncertainties.
               </p>
 
-              <Link
-                href="/contact"
-                className="inline-flex items-center justify-center rounded-full bg-lime hover:bg-cta-green text-white px-8 py-3.5 text-sm font-bold transition-all shadow-md hover:shadow-lg group mb-10"
-              >
-                Get a Free Consultation
-                <ArrowRight className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" />
-              </Link>
+              <div className="flex flex-wrap items-center gap-3 sm:gap-4 mb-10">
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center justify-center rounded-full bg-lime hover:bg-cta-green text-white px-7 py-3.5 text-sm font-bold transition-all shadow-md hover:shadow-lg group"
+                >
+                  Get a Free Consultation
+                  <ArrowRight className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" />
+                </Link>
+
+                <Link
+                  href="/policy-download"
+                  className="inline-flex items-center justify-center rounded-full bg-white/10 hover:bg-white text-white hover:text-[#180D45] border border-white/20 px-6 py-3.5 text-sm font-bold transition-all shadow-md hover:shadow-lg gap-2"
+                >
+                  <FileText className="w-4 h-4 text-lime" />
+                  <span>Download Policy Bond</span>
+                </Link>
+              </div>
             </FadeIn>
 
             {/* Badges/Features */}

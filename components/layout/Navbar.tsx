@@ -3,14 +3,15 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Menu, X, Phone, ChevronDown, User, Calendar } from "lucide-react";
-import { useState } from "react";
-import { usePathname } from "next/navigation";
+import { Menu, X, Phone, ChevronDown, User, Calendar, FileText } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+import { usePathname, useRouter } from "next/navigation";
 
 const navLinks = [
   { name: "Home", href: "/" },
   { name: "Investments", href: "/investments", hasDropdown: true },
   { name: "Insurance", href: "/insurance", hasDropdown: true },
+  { name: "Download Policy", href: "/policy-download" },
   { name: "Calculators", href: "/goal-calculators", hasDropdown: true },
   { name: "NRI Services", href: "/nri-services" },
   { name: "About Us", href: "/about" },
@@ -20,6 +21,7 @@ const mobileLinks = [
   { name: "Home", href: "/" },
   { name: "Investments", href: "/investments" },
   { name: "Insurance", href: "/insurance" },
+  { name: "Download Policy", href: "/policy-download" },
   { name: "Calculators", href: "/goal-calculators" },
   { name: "NRI Services", href: "/nri-services" },
   { name: "About Us", href: "/about" },
@@ -31,6 +33,47 @@ const mobileLinks = [
 export function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
+
+  // Secret Admin Access: Logo Triple-Tap & Global Hotkey
+  const [logoClickCount, setLogoClickCount] = useState(0);
+  const logoTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Secret Admin Hotkey: Ctrl + Shift + A (Windows/Linux) or Cmd + Shift + A (Mac)
+      if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key.toLowerCase() === "a") {
+        e.preventDefault();
+        router.push("/admin/login");
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+      if (logoTimerRef.current) clearTimeout(logoTimerRef.current);
+    };
+  }, [router]);
+
+  const handleLogoClick = (e: React.MouseEvent) => {
+    const nextCount = logoClickCount + 1;
+    setLogoClickCount(nextCount);
+
+    if (logoTimerRef.current) clearTimeout(logoTimerRef.current);
+
+    if (nextCount >= 3) {
+      e.preventDefault();
+      setLogoClickCount(0);
+      router.push("/admin/login");
+      return;
+    }
+
+    logoTimerRef.current = setTimeout(() => {
+      setLogoClickCount(0);
+    }, 1200);
+
+    window.scrollTo(0, 0);
+  };
 
   return (
     <>
@@ -44,7 +87,7 @@ export function Navbar() {
               <div className="flex items-center gap-4">
                 <Link
                   href="/"
-                  onClick={() => window.scrollTo(0, 0)}
+                  onClick={handleLogoClick}
                   className="flex items-center outline-none relative z-50 cursor-pointer shrink-0"
                 >
                   <Image
@@ -52,7 +95,7 @@ export function Navbar() {
                     alt="Wealthy Step Logo"
                     width={280}
                     height={80}
-                    className="h-12 md:h-14 lg:h-16 w-auto object-contain"
+                    className="h-12 md:h-14 lg:h-16 w-auto object-contain select-none"
                     priority
                     loading="eager"
                     fetchPriority="high"
@@ -176,21 +219,21 @@ export function Navbar() {
                   <Link
                     key={item.name}
                     href={item.href}
-                    className={`flex items-center gap-1 px-4 xl:px-5 h-full text-[13px] font-semibold transition-all relative group whitespace-nowrap ${isActive
-                        ? "text-navy"
+                    className={`flex items-center gap-1 px-4 xl:px-5 h-full text-[13px] font-semibold transition-all relative group whitespace-nowrap ${
+                      isActive
+                        ? "text-navy font-bold"
                         : "text-gray-500 hover:text-navy"
-                      }`}
+                    }`}
                   >
-                    {item.name}
+                    <span>{item.name}</span>
                     {item.hasDropdown && (
                       <ChevronDown className="w-3.5 h-3.5 opacity-50 group-hover:opacity-100 transition-opacity" />
                     )}
                     {/* Active Underline */}
                     <span
-                      className={`absolute bottom-0 left-1/2 -translate-x-1/2 h-[2px] bg-lime rounded-full transition-all duration-300 ${isActive
-                          ? "w-3/4"
-                          : "w-0 group-hover:w-1/2"
-                        }`}
+                      className={`absolute bottom-0 left-1/2 -translate-x-1/2 h-[2px] bg-lime rounded-full transition-all duration-300 ${
+                        isActive ? "w-3/4" : "w-0 group-hover:w-1/2"
+                      }`}
                     />
                   </Link>
                 );
@@ -211,11 +254,14 @@ export function Navbar() {
                   <Link
                     key={item.name}
                     href={item.href}
-                    className={`flex items-center justify-between py-4 border-b border-gray-50 text-base font-semibold transition-colors min-h-[48px] touch-manipulation ${isActive ? "text-navy" : "text-gray-600 hover:text-navy active:text-navy"
-                      }`}
+                    className={`flex items-center justify-between py-4 border-b border-gray-50 text-base font-semibold transition-colors min-h-[48px] touch-manipulation ${
+                      isActive
+                        ? "text-navy font-bold"
+                        : "text-gray-600 hover:text-navy active:text-navy"
+                    }`}
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
-                    {item.name}
+                    <span>{item.name}</span>
                     {isActive && (
                       <div className="w-2 h-2 rounded-full bg-lime shrink-0" />
                     )}

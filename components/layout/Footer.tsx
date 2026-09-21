@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ChevronRight, MapPin, Mail, Phone } from "lucide-react";
+import { ChevronRight, MapPin, Mail, Phone, FileText } from "lucide-react";
 import { CookieSettingsButton } from "@/components/cookie-consent/CookieSettingsButton";
 
 export function Footer() {
@@ -94,6 +94,12 @@ export function Footer() {
               Quick Links
             </h3>
             <ul className="space-y-4 text-sm text-cream/70">
+              <li>
+                <Link href="/policy-download" className="flex items-center justify-between hover:text-lime transition-colors group">
+                  Download Policy
+                  <ChevronRight className="w-4 h-4 opacity-50 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
+                </Link>
+              </li>
               <li>
                 <Link href="/about" className="flex items-center justify-between hover:text-lime transition-colors group">
                   About Us
