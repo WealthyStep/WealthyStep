@@ -21,9 +21,18 @@ export async function POST(request: Request) {
 
     if (error || !data.session) {
       console.error("Server-side Supabase sign-in error:", error);
+      const isFetchError =
+        error?.name === "AuthRetryableFetchError" ||
+        error?.message?.toLowerCase().includes("fetch failed") ||
+        (error as any)?.status === 0;
+
+      const errorMessage = isFetchError
+        ? "Unable to connect to Supabase authentication service. Your Supabase project may be paused (free tier inactivity) or the Supabase URL in .env.local is unreachable."
+        : (error?.message || "Invalid login credentials. Please check your email and password.");
+
       return NextResponse.json(
-        { error: error?.message || "Invalid login credentials. Please check your email and password." },
-        { status: 401 }
+        { error: errorMessage },
+        { status: isFetchError ? 503 : 401 }
       );
     }
 
