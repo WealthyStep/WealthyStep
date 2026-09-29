@@ -37,21 +37,20 @@ export async function POST(request: Request) {
   try {
     const ipAddress = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
     const body = await request.json().catch(() => ({}));
-    const { mobile, email, dob, otp } = body;
+    const { email, dob, otp, mobile } = body;
 
-    if (!mobile || !email || !dob || !otp) {
+    if (!email || !dob || !otp) {
       return NextResponse.json(
-        { error: "Mobile number, email, date of birth, and OTP code are required." },
+        { error: "Registered email, date of birth, and OTP code are required." },
         { status: 400 }
       );
     }
 
-    const cleanMobile = normalizeMobile(String(mobile).trim());
     const cleanEmail = String(email).trim().toLowerCase();
     const rawDob = String(dob).trim();
     const normalizedDob = normalizeDob(rawDob);
+    const cleanMobile = mobile ? normalizeMobile(String(mobile).trim()) : "";
     const submittedOtp = String(otp).trim();
-    const identifier = `${cleanMobile}:${cleanEmail}`;
 
     // 1. Find client record
     const { data: clients, error: clientErr } = await supabaseServer
@@ -64,15 +63,15 @@ export async function POST(request: Request) {
     if (clients && clients.length > 0) {
       client =
         clients.find((c) => {
-          const mobileMatches = normalizeMobile(c.mobile) === cleanMobile;
           const dobMatches = normalizeDob(c.dob) === normalizedDob || c.dob === rawDob;
-          return mobileMatches && dobMatches;
+          const mobileMatches = !cleanMobile || normalizeMobile(c.mobile) === cleanMobile;
+          return dobMatches && mobileMatches;
         }) || null;
     }
 
     if (!client) {
       return NextResponse.json(
-        { error: "The details provided (Mobile Number, Email, or Date of Birth) do not match our registered client records." },
+        { error: "The details provided (Email or Date of Birth) do not match our registered client records." },
         { status: 400 }
       );
     }

@@ -129,8 +129,8 @@ export default function PolicyDownloadPage() {
     setErrorMsg(null);
     setSuccessMsg(null);
 
-    if (!mobile.trim() || !email.trim() || !dob.trim()) {
-      setErrorMsg("Please fill in all verification fields.");
+    if (!email.trim() || !dob.trim()) {
+      setErrorMsg("Please provide your registered Email address and Date of Birth.");
       return;
     }
 
@@ -140,7 +140,7 @@ export default function PolicyDownloadPage() {
       const res = await fetch("/api/policy/request-otp", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ mobile, email, dob }),
+        body: JSON.stringify({ email, dob }),
       });
 
       const data = await res.json();
@@ -172,7 +172,7 @@ export default function PolicyDownloadPage() {
       const res = await fetch("/api/policy/request-otp", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ mobile, email, dob }),
+        body: JSON.stringify({ email, dob }),
       });
 
       const data = await res.json();
@@ -207,7 +207,7 @@ export default function PolicyDownloadPage() {
       const res = await fetch("/api/policy/verify-otp", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ mobile, email, dob, otp: enteredOtp }),
+        body: JSON.stringify({ email, dob, otp: enteredOtp }),
       });
 
       const data = await res.json();
@@ -513,32 +513,12 @@ export default function PolicyDownloadPage() {
               <div>
                 <h2 className="text-sm sm:text-base font-extrabold text-[#180D45]">Client Identity Verification</h2>
                 <p className="text-[11px] text-gray-500">
-                  Enter your registered mobile, email, and DOB to receive a single-use access code.
+                  Enter your registered email address and Date of Birth to receive a single-use access code.
                 </p>
               </div>
             </div>
 
             <form onSubmit={handleRequestOtp} className="space-y-4">
-              {/* Mobile Input */}
-              <div>
-                <label className="block text-[11px] font-bold text-gray-700 uppercase tracking-wider mb-1.5">
-                  Registered Mobile Number *
-                </label>
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400">
-                    <Phone className="w-4 h-4" />
-                  </div>
-                  <input
-                    type="tel"
-                    required
-                    placeholder="e.g. 9876543210"
-                    value={mobile}
-                    onChange={(e) => setMobile(e.target.value)}
-                    className="w-full pl-10 pr-4 py-2.5 bg-[#FAFBF7] border border-gray-200 rounded-xl text-xs sm:text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#84BD3C] focus:bg-white transition-all shadow-2xs"
-                  />
-                </div>
-              </div>
-
               {/* Email Input */}
               <div>
                 <label className="block text-[11px] font-bold text-gray-700 uppercase tracking-wider mb-1.5">

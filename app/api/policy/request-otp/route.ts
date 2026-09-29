@@ -40,23 +40,23 @@ export async function POST(request: Request) {
   try {
     const ipAddress = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
     const body = await request.json().catch(() => ({}));
-    const { mobile, email, dob } = body;
+    const { email, dob, mobile } = body;
 
-    if (!mobile || !email || !dob) {
+    if (!email || !dob) {
       return NextResponse.json(
-        { error: "Please provide your Mobile Number, Registered Email, and Date of Birth." },
+        { error: "Please provide your Registered Email and Date of Birth." },
         { status: 400 }
       );
     }
 
-    const cleanMobile = normalizeMobile(String(mobile).trim());
     const cleanEmail = String(email).trim().toLowerCase();
     const rawDob = String(dob).trim();
     const normalizedDob = normalizeDob(rawDob);
+    const cleanMobile = mobile ? normalizeMobile(String(mobile).trim()) : "";
 
-    const identifier = `${cleanMobile}:${cleanEmail}`;
+    const identifier = `email:${cleanEmail}`;
 
-    // 1. Rate Limiting Check (Max 5 requests per hour for this identifier or IP)
+    // 1. Rate Limiting Check (Max 5 requests per hour for this email)
     const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000).toISOString();
     const { count, error: countErr } = await supabaseServer
       .from("otp_requests")
@@ -84,9 +84,9 @@ export async function POST(request: Request) {
     if (clients && clients.length > 0) {
       matchedClient =
         clients.find((c) => {
-          const mobileMatches = normalizeMobile(c.mobile) === cleanMobile;
           const dobMatches = normalizeDob(c.dob) === normalizedDob || c.dob === rawDob;
-          return mobileMatches && dobMatches;
+          const mobileMatches = !cleanMobile || normalizeMobile(c.mobile) === cleanMobile;
+          return dobMatches && mobileMatches;
         }) || null;
     }
 
@@ -94,7 +94,7 @@ export async function POST(request: Request) {
     if (!matchedClient) {
       return NextResponse.json(
         {
-          error: "The details provided (Mobile Number, Email, or Date of Birth) do not match our registered client records. Please check your details and try again.",
+          error: "The details provided (Email or Date of Birth) do not match our registered client records. Please check your details and try again.",
         },
         { status: 400 }
       );
