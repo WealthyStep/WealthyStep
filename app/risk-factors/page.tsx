@@ -32,8 +32,19 @@ export default function RiskFactorsPage() {
               <li><strong>Scheme-Specific Risks:</strong> Each mutual fund scheme carries unique risks. Investors are advised to read the Scheme Information Document (SID) before investing.</li>
             </ul>
 
-            <div className="bg-gray-50 p-6 rounded-xl border border-gray-100 text-sm text-text-body italic">
-              <strong>Note:</strong> Mutual Fund investments are subject to market risks. Read all scheme-related documents carefully. Past performance is not indicative of future results. As an AMFI-registered Mutual Fund Distributor (MFD), we facilitate mutual fund transactions and distribute products on behalf of Asset Management Companies. We do not provide fee-based investment advisory services. Investors are advised to assess their risk tolerance and consult with a SEBI-registered Investment Adviser if comprehensive financial advisory services are needed.
+            <div className="bg-gray-50 p-6 rounded-xl border border-gray-100 text-sm text-text-body space-y-3">
+              <p>
+                <strong>Statutory Notice:</strong> Mutual Fund investments are subject to market risks, read all scheme related documents carefully. Past performance is not indicative of future results.
+              </p>
+              <p>
+                Wealthy Step is an AMFI-registered Mutual Fund Distributor (ARN-322891). We distribute mutual fund schemes and earn commission from Asset Management Companies. We are not a SEBI-registered Investment Adviser and do not provide investment advice.
+              </p>
+              <p>
+                Insurance products are offered through licensed insurance partners. Insurance is the subject matter of solicitation. Please read the sales brochure and policy wording carefully before concluding a sale. IRDAI does not sell insurance policies, announce bonuses or invest premiums; report spurious calls to the police.
+              </p>
+              <p>
+                Calculator results are for illustration only and assume a constant rate of return. Past performance may or may not be sustained in the future and is not a guarantee of future returns. Tax benefits are subject to prevailing tax laws.
+              </p>
             </div>
           </div>
         </div>

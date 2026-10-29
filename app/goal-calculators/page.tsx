@@ -182,6 +182,13 @@ export default function GoalCalculatorsPage() {
             </div>
 
           </Tabs>
+
+          {/* Regulatory Calculator Disclaimer */}
+          <div className="mt-8 p-4 bg-white rounded-xl border border-border-sage/20 text-center max-w-4xl mx-auto">
+            <p className="text-xs text-text-body leading-relaxed">
+              <strong>Disclaimer:</strong> Calculator results are for illustration only and assume a constant rate of return. Mutual Fund investments are subject to market risks, read all scheme related documents carefully. Past performance may or may not be sustained in the future and is not a guarantee of future returns. Tax benefits are subject to prevailing tax laws.
+            </p>
+          </div>
         </div>
       </section>
 

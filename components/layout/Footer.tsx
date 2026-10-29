@@ -213,6 +213,22 @@ export function Footer() {
           </div>
         </div>
 
+        {/* Regulatory Disclaimers */}
+        <div className="mt-10 border-t border-white/10 pt-6 text-[10px] md:text-[11px] leading-relaxed text-cream/70 space-y-2">
+          <p>
+            <strong className="text-white font-semibold">Disclaimer:</strong> Mutual Fund investments are subject to market risks, read all scheme related documents carefully.
+          </p>
+          <p>
+            Wealthy Step is an AMFI-registered Mutual Fund Distributor (ARN-322891). We distribute mutual fund schemes and earn commission from Asset Management Companies. We are not a SEBI-registered Investment Adviser and do not provide investment advice.
+          </p>
+          <p>
+            Insurance products are offered through licensed insurance partners. Insurance is the subject matter of solicitation. Please read the sales brochure and policy wording carefully before concluding a sale. IRDAI does not sell insurance policies, announce bonuses or invest premiums; report spurious calls to the police.
+          </p>
+          <p>
+            Calculator results are for illustration only and assume a constant rate of return. Past performance may or may not be sustained in the future and is not a guarantee of future returns. Tax benefits are subject to prevailing tax laws.
+          </p>
+        </div>
+
         {/* Bottom Links Bar */}
         <div className="mt-8 flex flex-col items-center lg:items-start justify-between border-t border-white/10 pt-6 pb-4 text-[10px] md:text-[11px] xl:text-xs text-cream/70 lg:flex-row gap-6">
           <div className="text-center lg:text-left flex flex-col gap-1.5 shrink-0">
