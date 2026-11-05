@@ -183,8 +183,13 @@ export default function PresentationStagePage() {
                 />
                 {/* Centered Brand Mark */}
                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                  <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-[#180D45] border-4 border-[#84BD3C] flex items-center justify-center shadow-lg">
-                    <span className="text-[#84BD3C] font-black text-sm sm:text-base tracking-wider">WS</span>
+                  <div className="w-14 h-14 sm:w-20 sm:h-20 rounded-3xl bg-white p-2 sm:p-2.5 border-4 border-[#84BD3C] flex items-center justify-center shadow-2xl">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src="/icon.png"
+                      alt="Wealthy Step Icon"
+                      className="w-full h-full object-contain"
+                    />
                   </div>
                 </div>
               </div>
@@ -251,3 +256,4 @@ export default function PresentationStagePage() {
     </div>
   );
 }
+

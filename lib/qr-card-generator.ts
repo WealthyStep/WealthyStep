@@ -1,8 +1,21 @@
 import QRCode from "qrcode";
 
 /**
- * Renders a rounded rectangle path on a 2D canvas context.
+ * Helper to load the official brand icon (/icon.png) in the browser.
  */
+function loadBrandIcon(): Promise<HTMLImageElement | null> {
+  if (typeof window === "undefined") return Promise.resolve(null);
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.crossOrigin = "anonymous";
+    img.onload = () => resolve(img);
+    img.onerror = () => {
+      console.warn("Could not load /icon.png for QR canvas embedding");
+      resolve(null);
+    };
+    img.src = "/icon.png";
+  });
+}
 function roundRect(
   ctx: CanvasRenderingContext2D,
   x: number,
@@ -195,27 +208,46 @@ export async function generateBrandedQrCard(
   const qrImgY = qrCardY + 28;
   ctx.drawImage(qrImage, qrImgX, qrImgY, qrImgSize, qrImgSize);
 
-  // Center Brand Badge inside QR (safe with error correction 'H')
-  const centerBadgeRadius = 42;
-  const centerX = width / 2;
-  const centerY = qrImgY + qrImgSize / 2;
+  // Load official brand icon (/icon.png)
+  const brandIcon = await loadBrandIcon();
 
-  ctx.beginPath();
-  ctx.arc(centerX, centerY, centerBadgeRadius, 0, Math.PI * 2);
+  // Center Brand Badge inside QR (safe with error correction 'H')
+  const badgeSize = 96;
+  const badgeRadius = 22;
+  const badgeX = (width - badgeSize) / 2;
+  const badgeY = qrImgY + (qrImgSize - badgeSize) / 2;
+
+  // Outer shadow & white badge container
+  ctx.save();
+  ctx.shadowColor = "rgba(24, 13, 69, 0.35)";
+  ctx.shadowBlur = 16;
+  ctx.shadowOffsetY = 6;
+  roundRect(ctx, badgeX, badgeY, badgeSize, badgeSize, badgeRadius);
   ctx.fillStyle = "#FFFFFF";
   ctx.fill();
+  ctx.restore();
+
+  // Lime stroke border around badge
+  roundRect(ctx, badgeX, badgeY, badgeSize, badgeSize, badgeRadius);
   ctx.lineWidth = 4;
   ctx.strokeStyle = "#84BD3C";
   ctx.stroke();
 
-  ctx.beginPath();
-  ctx.arc(centerX, centerY, centerBadgeRadius - 6, 0, Math.PI * 2);
-  ctx.fillStyle = "#180D45";
-  ctx.fill();
-
-  ctx.font = "900 22px system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
-  ctx.fillStyle = "#84BD3C";
-  ctx.fillText("WS", centerX, centerY + 2);
+  // Draw the official brand icon inside
+  if (brandIcon) {
+    const iconPadding = 12;
+    ctx.drawImage(
+      brandIcon,
+      badgeX + iconPadding,
+      badgeY + iconPadding,
+      badgeSize - iconPadding * 2,
+      badgeSize - iconPadding * 2
+    );
+  } else {
+    ctx.font = "900 24px system-ui, -apple-system, sans-serif";
+    ctx.fillStyle = "#180D45";
+    ctx.fillText("W", width / 2, badgeY + badgeSize / 2 + 1);
+  }
 
   // Bottom text inside the QR Card
   ctx.font = "800 16px system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
@@ -326,22 +358,82 @@ export async function downloadBrandedQrCard(
 }
 
 /**
- * Downloads a clean high-resolution standalone QR code PNG (1024x1024).
+ * Downloads a clean high-resolution standalone QR code PNG (1024x1024)
+ * with the official Wealthy Step brand icon (/icon.png) embedded in the center.
  */
 export async function downloadCleanQrCode(
   targetUrl: string,
-  filename = "WealthyStep_Participant_Form_QR.png"
+  filename = "WealthyStep_Participant_QR_Code.png"
 ): Promise<void> {
-  const url = await QRCode.toDataURL(targetUrl, {
-    width: 1024,
+  const qrSize = 1024;
+  const rawQrUrl = await QRCode.toDataURL(targetUrl, {
+    errorCorrectionLevel: "H",
+    width: qrSize,
     margin: 2,
     color: {
       dark: "#180D45",
       light: "#FFFFFF",
     },
   });
+
+  const qrImg = await new Promise<HTMLImageElement>((resolve, reject) => {
+    const img = new Image();
+    img.crossOrigin = "anonymous";
+    img.onload = () => resolve(img);
+    img.onerror = (e) => reject(e);
+    img.src = rawQrUrl;
+  });
+
+  const canvas = document.createElement("canvas");
+  canvas.width = qrSize;
+  canvas.height = qrSize;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) throw new Error("Could not create canvas 2D context");
+
+  // Draw QR code
+  ctx.drawImage(qrImg, 0, 0, qrSize, qrSize);
+
+  // Load and embed brand icon in center
+  const brandIcon = await loadBrandIcon();
+  const badgeSize = 210;
+  const badgeRadius = 48;
+  const badgeX = (qrSize - badgeSize) / 2;
+  const badgeY = (qrSize - badgeSize) / 2;
+
+  ctx.save();
+  ctx.shadowColor = "rgba(24, 13, 69, 0.35)";
+  ctx.shadowBlur = 24;
+  ctx.shadowOffsetY = 8;
+  roundRect(ctx, badgeX, badgeY, badgeSize, badgeSize, badgeRadius);
+  ctx.fillStyle = "#FFFFFF";
+  ctx.fill();
+  ctx.restore();
+
+  roundRect(ctx, badgeX, badgeY, badgeSize, badgeSize, badgeRadius);
+  ctx.lineWidth = 8;
+  ctx.strokeStyle = "#84BD3C";
+  ctx.stroke();
+
+  if (brandIcon) {
+    const padding = 26;
+    ctx.drawImage(
+      brandIcon,
+      badgeX + padding,
+      badgeY + padding,
+      badgeSize - padding * 2,
+      badgeSize - padding * 2
+    );
+  } else {
+    ctx.font = "900 64px system-ui, -apple-system, sans-serif";
+    ctx.fillStyle = "#180D45";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText("W", qrSize / 2, qrSize / 2);
+  }
+
+  const finalUrl = canvas.toDataURL("image/png");
   const link = document.createElement("a");
-  link.href = url;
+  link.href = finalUrl;
   link.download = filename;
   document.body.appendChild(link);
   link.click();

@@ -276,3 +276,4 @@ export async function sendParticipantNotificationEmail(
   console.log(`[DEV NOTIFICATION] New participant submission for ${data.name} (+91 ${data.mobile}) sent to ${recipientEmail}`);
   return { success: true, messageId: "dev-simulated-id" };
 }
+

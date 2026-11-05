@@ -715,8 +715,13 @@ CREATE POLICY "Allow authenticated full access to program_participants" ON progr
                   className="w-36 h-36 sm:w-44 sm:h-44 rounded-lg object-contain"
                 />
                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                  <div className="w-9 h-9 rounded-full bg-[#180D45] border-2 border-[#84BD3C] flex items-center justify-center shadow-md">
-                    <span className="text-[#84BD3C] font-black text-[10px] tracking-wider">WS</span>
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-white p-1.5 border-2 border-[#84BD3C] flex items-center justify-center shadow-lg">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src="/icon.png"
+                      alt="Wealthy Step Icon"
+                      className="w-full h-full object-contain"
+                    />
                   </div>
                 </div>
               </div>
@@ -1106,8 +1111,13 @@ CREATE POLICY "Allow authenticated full access to program_participants" ON progr
                     className="w-64 h-64 sm:w-80 sm:h-80 rounded-xl object-contain"
                   />
                   <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                    <div className="w-14 h-14 rounded-full bg-[#180D45] border-4 border-[#84BD3C] flex items-center justify-center shadow-lg">
-                      <span className="text-[#84BD3C] font-black text-sm tracking-wider">WS</span>
+                    <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-3xl bg-white p-2.5 border-4 border-[#84BD3C] flex items-center justify-center shadow-2xl">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src="/icon.png"
+                        alt="Wealthy Step Icon"
+                        className="w-full h-full object-contain"
+                      />
                     </div>
                   </div>
                 </div>
