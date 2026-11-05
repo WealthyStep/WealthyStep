@@ -41,6 +41,30 @@ export async function GET(request: Request) {
 
     if (error) {
       console.error("Failed to query program_participants:", error);
+
+      // Handle table not created in Supabase yet (PGRST205 / 42P01)
+      if (
+        error.code === "PGRST205" ||
+        error.code === "42P01" ||
+        error.message?.includes("schema cache") ||
+        error.message?.includes("does not exist")
+      ) {
+        return NextResponse.json({
+          success: true,
+          tableSetupRequired: true,
+          participants: [],
+          metrics: {
+            total: 0,
+            newCount: 0,
+            followUpCount: 0,
+            interestedCount: 0,
+            convertedCount: 0,
+          },
+          message:
+            "Database table 'program_participants' has not been created yet in Supabase. Please run sql/program_participants.sql in the Supabase SQL Editor.",
+        });
+      }
+
       return NextResponse.json(
         { error: "Failed to fetch participants from database." },
         { status: 500 }
@@ -133,6 +157,20 @@ export async function POST(request: Request) {
 
     if (error) {
       console.error("Failed to insert participant manually:", error);
+      if (
+        error.code === "PGRST205" ||
+        error.code === "42P01" ||
+        error.message?.includes("schema cache") ||
+        error.message?.includes("does not exist")
+      ) {
+        return NextResponse.json(
+          {
+            error:
+              "The 'program_participants' table has not been created yet in Supabase. Please run sql/program_participants.sql in the Supabase SQL Editor.",
+          },
+          { status: 503 }
+        );
+      }
       return NextResponse.json(
         { error: "Failed to create participant record." },
         { status: 500 }

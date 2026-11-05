@@ -113,6 +113,22 @@ export async function POST(request: Request) {
 
     if (dbError) {
       console.error("Supabase insert error in /api/feedback/submit:", dbError);
+
+      if (
+        (dbError as any)?.code === "PGRST205" ||
+        (dbError as any)?.code === "42P01" ||
+        dbError.message?.includes("schema cache") ||
+        dbError.message?.includes("does not exist")
+      ) {
+        return NextResponse.json(
+          {
+            error:
+              "The participant database table is currently being initialized. Please run sql/program_participants.sql in the Supabase SQL Editor.",
+          },
+          { status: 503 }
+        );
+      }
+
       const isFetchError =
         (dbError as any)?.name === "AuthRetryableFetchError" ||
         dbError.message?.toLowerCase().includes("fetch failed") ||

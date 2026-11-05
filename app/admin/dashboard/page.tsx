@@ -177,10 +177,10 @@ export default function AdminDashboardPage() {
   const [storageMetrics, setStorageMetrics] = useState<StorageMetrics | null>(null);
   const [isLoadingMetrics, setIsLoadingMetrics] = useState(false);
 
-  const showFeedback = (type: "success" | "error", message: string) => {
+  const showFeedback = useCallback((type: "success" | "error", message: string) => {
     setFeedback({ type, message });
     setTimeout(() => setFeedback(null), 5000);
-  };
+  }, []);
 
   // Handle Session Expiry & Auto-Redirect to Login
   const handleSessionExpired = useCallback(() => {
@@ -1270,7 +1270,7 @@ export default function AdminDashboardPage() {
             authToken={authToken}
             handleSessionExpired={handleSessionExpired}
             showFeedback={showFeedback}
-            onTotalCountChange={(count) => setFeedbackCount(count)}
+            onTotalCountChange={setFeedbackCount}
           />
         )}
 

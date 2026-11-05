@@ -347,3 +347,4 @@ export async function downloadCleanQrCode(
   link.click();
   document.body.removeChild(link);
 }
+

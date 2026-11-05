@@ -124,6 +124,8 @@ export function ProgramFeedbackTab({
   const [isPresentationOpen, setIsPresentationOpen] = useState(false);
   const [isDownloadingCard, setIsDownloadingCard] = useState(false);
   const [isDownloadingClean, setIsDownloadingClean] = useState(false);
+  const [tableSetupRequired, setTableSetupRequired] = useState(false);
+  const [isCopiedSql, setIsCopiedSql] = useState(false);
 
   // Notes Modal/Drawer State
   const [activeParticipantForNotes, setActiveParticipantForNotes] = useState<ProgramParticipant | null>(null);
@@ -176,6 +178,56 @@ export function ProgramFeedbackTab({
       .catch((err) => console.error("QR Generation error:", err));
   }, [formUrl]);
 
+  // Callback refs to prevent unnecessary re-fetches
+  const showFeedbackRef = React.useRef(showFeedback);
+  showFeedbackRef.current = showFeedback;
+
+  const onTotalCountChangeRef = React.useRef(onTotalCountChange);
+  onTotalCountChangeRef.current = onTotalCountChange;
+
+  const handleSessionExpiredRef = React.useRef(handleSessionExpired);
+  handleSessionExpiredRef.current = handleSessionExpired;
+
+  const SQL_MIGRATION_TEXT = `-- Run this in your Supabase Dashboard > SQL Editor:
+CREATE TABLE IF NOT EXISTS program_participants (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    name TEXT NOT NULL,
+    email TEXT NOT NULL,
+    mobile TEXT NOT NULL,
+    age INTEGER NOT NULL,
+    occupation TEXT NOT NULL CHECK (occupation IN ('Salaried', 'Business', 'Others')),
+    interested_in TEXT[] NOT NULL DEFAULT '{}'::text[],
+    consent_given BOOLEAN NOT NULL DEFAULT true,
+    consent_text TEXT NOT NULL,
+    status TEXT NOT NULL DEFAULT 'New' CHECK (status IN (
+        'New', 'Contacted', 'Interested', 'Not Interested', 
+        'Call Evening', 'Call Tomorrow', 'Call Weekend', 
+        'Follow Up', 'Converted', 'Closed'
+    )),
+    notes TEXT DEFAULT '',
+    source TEXT DEFAULT 'Awareness Program',
+    ip_address TEXT,
+    user_agent TEXT,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT timezone('utc'::text, now()),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT timezone('utc'::text, now())
+);
+
+CREATE INDEX IF NOT EXISTS idx_program_participants_created_at ON program_participants(created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_program_participants_status ON program_participants(status);
+CREATE INDEX IF NOT EXISTS idx_program_participants_email ON program_participants(LOWER(email));
+CREATE INDEX IF NOT EXISTS idx_program_participants_mobile ON program_participants(mobile);
+
+ALTER TABLE program_participants ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Allow service_role full access to program_participants" ON program_participants FOR ALL TO service_role USING (true) WITH CHECK (true);
+CREATE POLICY "Allow authenticated full access to program_participants" ON program_participants FOR ALL TO authenticated USING (true) WITH CHECK (true);`;
+
+  const handleCopyMigrationSql = () => {
+    navigator.clipboard.writeText(SQL_MIGRATION_TEXT);
+    setIsCopiedSql(true);
+    showFeedbackRef.current("success", "Supabase SQL migration copied to clipboard!");
+    setTimeout(() => setIsCopiedSql(false), 3000);
+  };
+
   // Fetch Participants
   const fetchParticipants = useCallback(async () => {
     if (!authToken) return;
@@ -193,24 +245,30 @@ export function ProgramFeedbackTab({
       });
 
       if (res.status === 401) {
-        handleSessionExpired();
+        handleSessionExpiredRef.current();
         return;
       }
 
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Failed to load participants.");
 
+      if (data.tableSetupRequired) {
+        setTableSetupRequired(true);
+      } else {
+        setTableSetupRequired(false);
+      }
+
       const list: ProgramParticipant[] = data.participants || [];
       setParticipants(list);
       if (data.metrics) setMetrics(data.metrics);
-      if (onTotalCountChange) onTotalCountChange(list.length);
+      if (onTotalCountChangeRef.current) onTotalCountChangeRef.current(list.length);
     } catch (err: any) {
       console.error("Fetch participants error:", err);
-      showFeedback("error", err.message || "Failed to load participant submissions.");
+      showFeedbackRef.current("error", err.message || "Failed to load participant submissions.");
     } finally {
       setIsLoading(false);
     }
-  }, [authToken, searchQuery, statusFilter, occupationFilter, interestFilter, handleSessionExpired, showFeedback, onTotalCountChange]);
+  }, [authToken, searchQuery, statusFilter, occupationFilter, interestFilter]);
 
   useEffect(() => {
     fetchParticipants();
@@ -220,7 +278,7 @@ export function ProgramFeedbackTab({
   const handleCopyLink = () => {
     navigator.clipboard.writeText(formUrl);
     setIsCopiedLink(true);
-    showFeedback("success", "Participant Form link copied to clipboard!");
+    showFeedbackRef.current("success", "Participant Form link copied to clipboard!");
     setTimeout(() => setIsCopiedLink(false), 3000);
   };
 
@@ -526,6 +584,49 @@ export function ProgramFeedbackTab({
 
   return (
     <div className="space-y-6">
+      {/* ── 0. DATABASE TABLE SETUP WARNING (IF TABLE NOT YET CREATED IN SUPABASE) ── */}
+      {tableSetupRequired && (
+        <div className="bg-amber-50 border-2 border-amber-300 rounded-3xl p-5 shadow-sm text-amber-950 space-y-3 animate-fade-in">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="flex items-start gap-3.5">
+              <div className="w-10 h-10 rounded-2xl bg-amber-100 border border-amber-300 text-amber-800 flex items-center justify-center shrink-0 shadow-xs">
+                <AlertCircle className="w-5 h-5 text-amber-700" />
+              </div>
+              <div className="space-y-1">
+                <h3 className="text-sm sm:text-base font-black text-amber-950 flex items-center gap-2">
+                  <span>Supabase Database Setup Required</span>
+                  <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-amber-200 text-amber-900">
+                    Action Needed
+                  </span>
+                </h3>
+                <p className="text-xs text-amber-800 leading-relaxed max-w-2xl">
+                  The <code className="px-1.5 py-0.5 rounded-md bg-amber-200/60 font-mono font-bold text-amber-950 text-[11px]">program_participants</code> table does not exist in your Supabase project yet.
+                  Copy the SQL script below and paste it into your <strong>Supabase Dashboard &gt; SQL Editor</strong> to complete setup.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2 self-start sm:self-center shrink-0">
+              <button
+                onClick={handleCopyMigrationSql}
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-amber-800 hover:bg-amber-900 text-white text-xs font-bold transition-all shadow-xs cursor-pointer active:scale-95"
+              >
+                {isCopiedSql ? <Check className="w-3.5 h-3.5 text-lime-300" /> : <Copy className="w-3.5 h-3.5" />}
+                <span>{isCopiedSql ? "SQL Copied!" : "Copy SQL Script"}</span>
+              </button>
+              <button
+                onClick={() => fetchParticipants()}
+                className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-white hover:bg-amber-100 text-amber-900 border border-amber-300 text-xs font-bold transition-all shadow-xs cursor-pointer active:scale-95"
+                title="Check if table is ready"
+              >
+                <RefreshCw className="w-3.5 h-3.5" />
+                <span>Re-check Table</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* ── 1. PRESENTATION QR CODE & WEBINAR SHOWCASE BANNER ── */}
       <div className="relative overflow-hidden bg-gradient-to-br from-[#180D45] via-[#21145C] to-[#120836] rounded-3xl border border-[#84BD3C]/30 shadow-xl p-5 sm:p-7 text-white">
         <div className="absolute top-0 right-0 w-80 h-80 bg-[#84BD3C]/10 rounded-full blur-3xl pointer-events-none" />
