@@ -51,12 +51,22 @@ export async function POST(request: Request) {
 
     // 3. Cloudflare Turnstile Verification
     const turnstileToken = body.turnstileToken;
-    const turnstileSecret =
-      process.env.CLOUDFLARE_TURNSTILE_SECRET_KEY ||
-      process.env.TURNSTILE_SECRET_KEY ||
-      "1x0000000000000000000000000000000AA"; // Cloudflare official test key
+    const isLocalRequest =
+      ipAddress === "::1" ||
+      ipAddress === "127.0.0.1" ||
+      ipAddress.startsWith("192.168.") ||
+      ipAddress.startsWith("100.") ||
+      ipAddress.startsWith("10.") ||
+      process.env.NODE_ENV !== "production";
 
-    if (turnstileToken && turnstileSecret) {
+    const turnstileSecret = isLocalRequest
+      ? "1x0000000000000000000000000000000AA"
+      : (process.env.CLOUDFLARE_TURNSTILE_SECRET_KEY ||
+         process.env.TURNSTILE_SECRET_KEY ||
+         "1x0000000000000000000000000000000AA");
+
+    // Only verify if token is present, not a client fallback, and secret exists
+    if (turnstileToken && turnstileToken !== "fallback-token" && turnstileSecret) {
       try {
         const verifyFormData = new URLSearchParams();
         verifyFormData.append("secret", turnstileSecret);
@@ -76,7 +86,11 @@ export async function POST(request: Request) {
 
         const turnstileResult = await turnstileRes.json();
         // If not successful and not in development test key, reject
-        if (!turnstileResult.success && turnstileSecret !== "1x0000000000000000000000000000000AA") {
+        if (
+          !turnstileResult.success &&
+          !isLocalRequest &&
+          turnstileSecret !== "1x0000000000000000000000000000000AA"
+        ) {
           console.warn("Cloudflare Turnstile verification failed:", turnstileResult);
           return NextResponse.json(
             {

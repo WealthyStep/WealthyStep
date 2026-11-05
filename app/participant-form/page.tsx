@@ -51,12 +51,33 @@ export default function ParticipantFormPage() {
   // Automatically computed live date (no manual entry)
   const [sessionDate, setSessionDate] = useState("");
 
-  // Turnstile state
+  // Turnstile state - uses Cloudflare test key on localhost/private IPs to avoid 400020 domain mismatch
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
-  const turnstileSiteKey =
-    process.env.NEXT_PUBLIC_CLOUDFLARE_TURNSTILE_SITE_KEY ||
-    process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ||
-    "1x00000000000000000000AA"; // Cloudflare official test sitekey (always passes)
+  const [turnstileSiteKey, setTurnstileSiteKey] = useState<string>("1x00000000000000000000AA");
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const hostname = window.location.hostname;
+      const isLocalHost =
+        hostname === "localhost" ||
+        hostname === "127.0.0.1" ||
+        hostname.startsWith("192.168.") ||
+        hostname.startsWith("100.") ||
+        hostname.startsWith("10.");
+
+      if (isLocalHost) {
+        // Cloudflare official always-passing dummy key for local dev & testing
+        setTurnstileSiteKey("1x00000000000000000000AA");
+      } else {
+        // Production sitekey for wealthystep.com
+        setTurnstileSiteKey(
+          process.env.NEXT_PUBLIC_CLOUDFLARE_TURNSTILE_SITE_KEY ||
+          process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ||
+          "1x00000000000000000000AA"
+        );
+      }
+    }
+  }, []);
 
   // Validation & UI State
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
