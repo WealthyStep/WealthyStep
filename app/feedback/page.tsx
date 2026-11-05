@@ -23,6 +23,8 @@ import {
   ChevronRight,
   Shield,
   HelpCircle,
+  QrCode,
+  ArrowLeft,
 } from "lucide-react";
 import { Turnstile } from "@marsidev/react-turnstile";
 import {
@@ -239,6 +241,24 @@ END:VCARD`;
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#F8FAF5] via-white to-[#FAFBF7] py-6 sm:py-10 px-4 sm:px-6">
       <div className="max-w-2xl mx-auto">
+        {/* Top Quick Links Bar */}
+        <div className="flex items-center justify-between mb-4">
+          <Link
+            href="/"
+            className="inline-flex items-center gap-1.5 text-xs font-bold text-gray-500 hover:text-[#180D45] transition-colors"
+          >
+            <ArrowLeft className="w-3.5 h-3.5" />
+            <span>wealthystep.com</span>
+          </Link>
+          <Link
+            href="/feedback/presentation"
+            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white border border-[#84BD3C]/60 text-[#180D45] text-[11px] sm:text-xs font-black shadow-2xs hover:bg-[#F3F7EB] transition-all"
+          >
+            <QrCode className="w-3.5 h-3.5 text-[#84BD3C]" />
+            <span>Presenter QR / Slide View</span>
+          </Link>
+        </div>
+
         {/* Brand Top Header */}
         <div className="text-center mb-6 sm:mb-8">
           <Link href="/" className="inline-flex items-center gap-2 mb-4 group">
@@ -765,3 +785,4 @@ END:VCARD`;
     </div>
   );
 }
+

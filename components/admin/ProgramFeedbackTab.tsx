@@ -42,6 +42,7 @@ import {
   isValidEmail,
   isValidMobile,
 } from "@/lib/feedback-validation";
+import { downloadBrandedQrCard, downloadCleanQrCode } from "@/lib/qr-card-generator";
 
 export interface ProgramParticipant {
   id: string;
@@ -121,6 +122,8 @@ export function ProgramFeedbackTab({
   const [qrDataUrl, setQrDataUrl] = useState<string>("");
   const [isCopiedLink, setIsCopiedLink] = useState(false);
   const [isPresentationOpen, setIsPresentationOpen] = useState(false);
+  const [isDownloadingCard, setIsDownloadingCard] = useState(false);
+  const [isDownloadingClean, setIsDownloadingClean] = useState(false);
 
   // Notes Modal/Drawer State
   const [activeParticipantForNotes, setActiveParticipantForNotes] = useState<ProgramParticipant | null>(null);
@@ -221,29 +224,32 @@ export function ProgramFeedbackTab({
     setTimeout(() => setIsCopiedLink(false), 3000);
   };
 
-  // Download High-Res QR Code PNG for Slides
-  const handleDownloadQr = () => {
-    QRCode.toDataURL(formUrl, {
-      width: 1024,
-      margin: 2,
-      color: {
-        dark: "#180D45",
-        light: "#FFFFFF",
-      },
-    })
-      .then((url) => {
-        const link = document.createElement("a");
-        link.href = url;
-        link.download = "WealthyStep_Participant_Form_QR.png";
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        showFeedback("success", "High-Resolution QR Code downloaded for presentation slides.");
-      })
-      .catch((err) => {
-        console.error("QR Download error:", err);
-        showFeedback("error", "Failed to download QR code.");
-      });
+  // Download Ultra-Premium Branded Presentation Slide Card (1200x1500 PNG)
+  const handleDownloadBrandedCard = async () => {
+    try {
+      setIsDownloadingCard(true);
+      await downloadBrandedQrCard(formUrl, "WealthyStep_Financial_Freedom_Program_Slide.png");
+      showFeedback("success", "Ultra-Premium Presentation Slide Card (1200x1500 PNG) downloaded!");
+    } catch (err: any) {
+      console.error("Card download error:", err);
+      showFeedback("error", "Failed to generate branded presentation card.");
+    } finally {
+      setIsDownloadingCard(false);
+    }
+  };
+
+  // Download High-Res Clean QR Code PNG (1024x1024)
+  const handleDownloadCleanQr = async () => {
+    try {
+      setIsDownloadingClean(true);
+      await downloadCleanQrCode(formUrl, "WealthyStep_Participant_Form_QR.png");
+      showFeedback("success", "Clean High-Resolution QR Code (1024x1024 PNG) downloaded!");
+    } catch (err: any) {
+      console.error("QR Download error:", err);
+      showFeedback("error", "Failed to download QR code.");
+    } finally {
+      setIsDownloadingClean(false);
+    }
   };
 
   // Open Notes Drawer
@@ -550,11 +556,30 @@ export function ProgramFeedbackTab({
               </button>
 
               <button
-                onClick={handleDownloadQr}
-                className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#84BD3C] hover:bg-[#97D444] text-[#180D45] text-xs font-black transition-all shadow-md cursor-pointer active:scale-95"
+                onClick={handleDownloadBrandedCard}
+                disabled={isDownloadingCard}
+                className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#84BD3C] hover:bg-[#97D444] text-[#180D45] text-xs font-black transition-all shadow-md cursor-pointer active:scale-95 disabled:opacity-50"
               >
-                <Download className="w-3.5 h-3.5" />
-                <span>Download Slide QR (PNG)</span>
+                {isDownloadingCard ? (
+                  <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                ) : (
+                  <Download className="w-3.5 h-3.5" />
+                )}
+                <span>Download Slide Card (PNG)</span>
+              </button>
+
+              <button
+                onClick={handleDownloadCleanQr}
+                disabled={isDownloadingClean}
+                className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/20 text-xs font-bold transition-all cursor-pointer active:scale-95 disabled:opacity-50"
+                title="Download pure QR code without background card"
+              >
+                {isDownloadingClean ? (
+                  <RefreshCw className="w-3.5 h-3.5 animate-spin text-[#84BD3C]" />
+                ) : (
+                  <QrCode className="w-3.5 h-3.5 text-[#84BD3C]" />
+                )}
+                <span>Clean QR</span>
               </button>
 
               <button
@@ -564,18 +589,36 @@ export function ProgramFeedbackTab({
                 <Maximize2 className="w-3.5 h-3.5 text-[#84BD3C]" />
                 <span>Fullscreen Slide Mode</span>
               </button>
+
+              <a
+                href="/feedback/presentation"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-white/5 hover:bg-white/15 text-white/90 border border-white/10 text-xs font-semibold transition-all"
+                title="Open Standalone Stage Presenter in new tab"
+              >
+                <span>Stage Link</span>
+                <span className="text-[10px]">↗</span>
+              </a>
             </div>
           </div>
 
           {/* Right: QR Code Visual Card */}
           <div className="bg-white p-3.5 rounded-2xl shadow-2xl border-4 border-[#84BD3C] flex flex-col items-center justify-center shrink-0">
             {qrDataUrl ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={qrDataUrl}
-                alt="Participant Details Form QR Code"
-                className="w-36 h-36 sm:w-44 sm:h-44 rounded-lg object-contain"
-              />
+              <div className="relative">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={qrDataUrl}
+                  alt="Participant Details Form QR Code"
+                  className="w-36 h-36 sm:w-44 sm:h-44 rounded-lg object-contain"
+                />
+                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                  <div className="w-9 h-9 rounded-full bg-[#180D45] border-2 border-[#84BD3C] flex items-center justify-center shadow-md">
+                    <span className="text-[#84BD3C] font-black text-[10px] tracking-wider">WS</span>
+                  </div>
+                </div>
+              </div>
             ) : (
               <div className="w-36 h-36 flex items-center justify-center bg-gray-100 rounded-lg">
                 <RefreshCw className="w-6 h-6 animate-spin text-[#180D45]" />
@@ -954,12 +997,19 @@ export function ProgramFeedbackTab({
             {/* Giant QR Card */}
             <div className="p-6 bg-white rounded-3xl shadow-2xl border-8 border-[#84BD3C] inline-block mx-auto mt-4">
               {qrDataUrl && (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={qrDataUrl}
-                  alt="Presentation QR Code"
-                  className="w-64 h-64 sm:w-80 sm:h-80 rounded-xl object-contain"
-                />
+                <div className="relative">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={qrDataUrl}
+                    alt="Presentation QR Code"
+                    className="w-64 h-64 sm:w-80 sm:h-80 rounded-xl object-contain"
+                  />
+                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                    <div className="w-14 h-14 rounded-full bg-[#180D45] border-4 border-[#84BD3C] flex items-center justify-center shadow-lg">
+                      <span className="text-[#84BD3C] font-black text-sm tracking-wider">WS</span>
+                    </div>
+                  </div>
+                </div>
               )}
               <p className="mt-3 text-xs font-black text-[#180D45] tracking-widest uppercase text-center">
                 SCAN WITH MOBILE CAMERA
@@ -967,6 +1017,43 @@ export function ProgramFeedbackTab({
               <p className="text-xs font-mono text-gray-500 text-center font-bold">
                 {formUrl}
               </p>
+            </div>
+
+            {/* Modal Controls */}
+            <div className="flex flex-wrap items-center justify-center gap-2 pt-2">
+              <button
+                onClick={handleDownloadBrandedCard}
+                disabled={isDownloadingCard}
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#84BD3C] hover:bg-[#97D444] text-[#180D45] text-xs font-black transition-all shadow-md cursor-pointer disabled:opacity-50"
+              >
+                {isDownloadingCard ? (
+                  <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                ) : (
+                  <Download className="w-3.5 h-3.5" />
+                )}
+                <span>Download Slide Card (PNG)</span>
+              </button>
+
+              <button
+                onClick={handleDownloadCleanQr}
+                disabled={isDownloadingClean}
+                className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/20 text-xs font-bold transition-all cursor-pointer disabled:opacity-50"
+              >
+                {isDownloadingClean ? (
+                  <RefreshCw className="w-3.5 h-3.5 animate-spin text-[#84BD3C]" />
+                ) : (
+                  <QrCode className="w-3.5 h-3.5 text-[#84BD3C]" />
+                )}
+                <span>Download Clean QR</span>
+              </button>
+
+              <button
+                onClick={handleCopyLink}
+                className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/20 text-xs font-bold transition-all cursor-pointer"
+              >
+                {isCopiedLink ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                <span>{isCopiedLink ? "Link Copied!" : "Copy Link"}</span>
+              </button>
             </div>
 
             <p className="text-xs text-white/60 pt-4">
@@ -1391,3 +1478,4 @@ export function ProgramFeedbackTab({
     </div>
   );
 }
+

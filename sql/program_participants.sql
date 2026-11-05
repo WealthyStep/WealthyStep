@@ -63,3 +63,4 @@ CREATE POLICY "Allow service_role full access to program_participants"
 DROP POLICY IF EXISTS "Allow authenticated full access to program_participants" ON program_participants;
 CREATE POLICY "Allow authenticated full access to program_participants" 
     ON program_participants FOR ALL TO authenticated USING (true) WITH CHECK (true);
+

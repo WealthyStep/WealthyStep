@@ -221,6 +221,20 @@ export const ROUTES_SEO: Record<string, RouteSeoConfig> = {
     priority: 0.8,
     changeFrequency: "weekly",
   },
+  feedbackPresentation: {
+    path: "/feedback/presentation/",
+    title: "Presenter Slide & QR Code | Financial Freedom Awareness Program",
+    description:
+      "Live presentation screen and high-resolution QR code for Wealthy Step Financial Freedom Awareness Program seminars and webinars.",
+    keywords: [
+      "Presentation QR Code",
+      "Financial Freedom Awareness Program",
+      "Wealthy Step Slide",
+      "Live Webinar QR",
+    ],
+    priority: 0.6,
+    changeFrequency: "monthly",
+  },
   importantLinks: {
     path: "/important-links/",
     title: "Important Regulatory & Investor Links | Wealthy Step",
