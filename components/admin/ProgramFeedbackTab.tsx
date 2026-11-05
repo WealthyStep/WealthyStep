@@ -156,12 +156,12 @@ export function ProgramFeedbackTab({
   const [participantToDelete, setParticipantToDelete] = useState<ProgramParticipant | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
 
-  // Feedback Form URL
+  // Participant Form URL
   const formUrl = useMemo(() => {
     if (typeof window !== "undefined") {
-      return `${window.location.origin}/feedback/`;
+      return `${window.location.origin}/participant-form/`;
     }
-    return "https://wealthystep.com/feedback/";
+    return "https://wealthystep.com/participant-form/";
   }, []);
 
   // Generate QR Code
@@ -692,7 +692,7 @@ CREATE POLICY "Allow authenticated full access to program_participants" ON progr
               </button>
 
               <a
-                href="/feedback/presentation"
+                href="/presentation"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-white/5 hover:bg-white/15 text-white/90 border border-white/10 text-xs font-semibold transition-all"
@@ -729,7 +729,7 @@ CREATE POLICY "Allow authenticated full access to program_participants" ON progr
               SCAN TO SUBMIT DETAILS
             </p>
             <p className="text-[10px] font-mono text-gray-500 truncate max-w-[170px]">
-              wealthystep.com/feedback
+              wealthystep.com/participant-form
             </p>
           </div>
         </div>
@@ -794,7 +794,7 @@ CREATE POLICY "Allow authenticated full access to program_participants" ON progr
             <button
               onClick={handleExportCsv}
               className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-bold transition-all cursor-pointer active:scale-95 shadow-2xs"
-              title="Download spreadsheet of all participant feedback"
+              title="Download spreadsheet of all participant submissions"
             >
               <FileSpreadsheet className="w-3.5 h-3.5 text-emerald-600" />
               <span>Export CSV</span>
@@ -885,7 +885,7 @@ CREATE POLICY "Allow authenticated full access to program_participants" ON progr
         {isLoading ? (
           <div className="py-16 text-center text-gray-500 space-y-3">
             <RefreshCw className="w-8 h-8 animate-spin text-[#84BD3C] mx-auto" />
-            <p className="text-xs font-bold">Loading participant feedback submissions...</p>
+            <p className="text-xs font-bold">Loading participant submissions...</p>
           </div>
         ) : participants.length === 0 ? (
           <div className="py-16 text-center text-gray-500 space-y-3 max-w-sm mx-auto p-4">
@@ -1084,7 +1084,7 @@ CREATE POLICY "Allow authenticated full access to program_participants" ON progr
           <div className="text-center max-w-xl mx-auto space-y-4">
             <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#84BD3C] text-[#180D45] text-xs font-black tracking-widest uppercase">
               <Sparkles className="w-4 h-4" />
-              LIVE WEBINAR FEEDBACK
+              LIVE WEBINAR REGISTRATION
             </span>
 
             <h2 className="text-3xl sm:text-4xl font-black tracking-tight leading-tight">

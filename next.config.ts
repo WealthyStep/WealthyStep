@@ -76,13 +76,23 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
-        source: '/program-feedback',
-        destination: '/feedback/',
+        source: '/feedback',
+        destination: '/participant-form/',
         permanent: true,
       },
       {
-        source: '/participant-form',
-        destination: '/feedback/',
+        source: '/feedback/presentation',
+        destination: '/presentation/',
+        permanent: true,
+      },
+      {
+        source: '/program-feedback',
+        destination: '/participant-form/',
+        permanent: true,
+      },
+      {
+        source: '/program-registration',
+        destination: '/participant-form/',
         permanent: true,
       },
 

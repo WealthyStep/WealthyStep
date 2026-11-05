@@ -206,8 +206,37 @@ export const ROUTES_SEO: Record<string, RouteSeoConfig> = {
     priority: 0.8,
     changeFrequency: "monthly",
   },
+  participantForm: {
+    path: "/participant-form/",
+    title: "Financial Freedom Awareness Program | Participant Details Form",
+    description:
+      "Share your details to receive personalized financial insights, goal planning resources, and guidance from Wealthy Step™ AMFI Registered Mutual Fund Distributor.",
+    keywords: [
+      "Financial Freedom Program",
+      "Wealthy Step Seminar",
+      "Financial Insights",
+      "Participant Form",
+      "Mutual Fund Planning",
+    ],
+    priority: 0.8,
+    changeFrequency: "weekly",
+  },
+  participantPresentation: {
+    path: "/presentation/",
+    title: "Presenter Slide & QR Code | Financial Freedom Awareness Program",
+    description:
+      "Live presentation screen and high-resolution QR code for Wealthy Step Financial Freedom Awareness Program seminars and webinars.",
+    keywords: [
+      "Presentation QR Code",
+      "Financial Freedom Awareness Program",
+      "Wealthy Step Slide",
+      "Live Webinar QR",
+    ],
+    priority: 0.6,
+    changeFrequency: "monthly",
+  },
   feedback: {
-    path: "/feedback/",
+    path: "/participant-form/",
     title: "Financial Freedom Awareness Program | Participant Details Form",
     description:
       "Share your details to receive personalized financial insights, goal planning resources, and guidance from Wealthy Step™ AMFI Registered Mutual Fund Distributor.",
@@ -222,7 +251,7 @@ export const ROUTES_SEO: Record<string, RouteSeoConfig> = {
     changeFrequency: "weekly",
   },
   feedbackPresentation: {
-    path: "/feedback/presentation/",
+    path: "/presentation/",
     title: "Presenter Slide & QR Code | Financial Freedom Awareness Program",
     description:
       "Live presentation screen and high-resolution QR code for Wealthy Step Financial Freedom Awareness Program seminars and webinars.",
