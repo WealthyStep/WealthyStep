@@ -75,6 +75,16 @@ const nextConfig: NextConfig = {
         destination: '/terms-conditions/',
         permanent: true,
       },
+      {
+        source: '/program-feedback',
+        destination: '/feedback/',
+        permanent: true,
+      },
+      {
+        source: '/participant-form',
+        destination: '/feedback/',
+        permanent: true,
+      },
 
       // Legacy WordPress Uploads & Media Assets
       {

@@ -206,6 +206,21 @@ export const ROUTES_SEO: Record<string, RouteSeoConfig> = {
     priority: 0.8,
     changeFrequency: "monthly",
   },
+  feedback: {
+    path: "/feedback/",
+    title: "Financial Freedom Awareness Program | Participant Details Form",
+    description:
+      "Share your details to receive personalized financial insights, goal planning resources, and guidance from Wealthy Step™ AMFI Registered Mutual Fund Distributor.",
+    keywords: [
+      "Financial Freedom Program",
+      "Wealthy Step Seminar",
+      "Financial Insights",
+      "Participant Form",
+      "Mutual Fund Planning",
+    ],
+    priority: 0.8,
+    changeFrequency: "weekly",
+  },
   importantLinks: {
     path: "/important-links/",
     title: "Important Regulatory & Investor Links | Wealthy Step",

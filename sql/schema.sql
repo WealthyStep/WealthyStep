@@ -74,20 +74,62 @@ CREATE TABLE IF NOT EXISTS audit_logs (
 CREATE INDEX IF NOT EXISTS idx_audit_logs_created_at 
     ON audit_logs(created_at DESC);
 
--- 6. Enable Row Level Security (RLS) on all tables
+-- 6. Program Participants Table (Financial Freedom Awareness Program Submissions)
+CREATE TABLE IF NOT EXISTS program_participants (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    name TEXT NOT NULL,
+    email TEXT NOT NULL,
+    mobile TEXT NOT NULL,
+    age INTEGER NOT NULL,
+    occupation TEXT NOT NULL CHECK (occupation IN ('Salaried', 'Business', 'Others')),
+    interested_in TEXT[] NOT NULL DEFAULT '{}'::text[],
+    consent_given BOOLEAN NOT NULL DEFAULT true,
+    consent_text TEXT NOT NULL,
+    status TEXT NOT NULL DEFAULT 'New' CHECK (status IN (
+        'New', 
+        'Contacted', 
+        'Interested', 
+        'Not Interested', 
+        'Call Evening', 
+        'Call Tomorrow', 
+        'Call Weekend', 
+        'Follow Up', 
+        'Converted', 
+        'Closed'
+    )),
+    notes TEXT DEFAULT '',
+    source TEXT DEFAULT 'Awareness Program',
+    ip_address TEXT,
+    user_agent TEXT,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT timezone('utc'::text, now()),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT timezone('utc'::text, now())
+);
+
+CREATE INDEX IF NOT EXISTS idx_program_participants_created_at 
+    ON program_participants(created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_program_participants_status 
+    ON program_participants(status);
+CREATE INDEX IF NOT EXISTS idx_program_participants_email 
+    ON program_participants(LOWER(email));
+CREATE INDEX IF NOT EXISTS idx_program_participants_mobile 
+    ON program_participants(mobile);
+
+-- 7. Enable Row Level Security (RLS) on all tables
 ALTER TABLE clients ENABLE ROW LEVEL SECURITY;
 ALTER TABLE documents ENABLE ROW LEVEL SECURITY;
 ALTER TABLE otp_requests ENABLE ROW LEVEL SECURITY;
 ALTER TABLE verified_sessions ENABLE ROW LEVEL SECURITY;
 ALTER TABLE audit_logs ENABLE ROW LEVEL SECURITY;
+ALTER TABLE program_participants ENABLE ROW LEVEL SECURITY;
 
--- 7. Explicit RLS Policies
+-- 8. Explicit RLS Policies
 -- Allow service role full access (Backend Server API Routes)
 CREATE POLICY "Allow service_role full access to clients" ON clients FOR ALL TO service_role USING (true) WITH CHECK (true);
 CREATE POLICY "Allow service_role full access to documents" ON documents FOR ALL TO service_role USING (true) WITH CHECK (true);
 CREATE POLICY "Allow service_role full access to otp_requests" ON otp_requests FOR ALL TO service_role USING (true) WITH CHECK (true);
 CREATE POLICY "Allow service_role full access to verified_sessions" ON verified_sessions FOR ALL TO service_role USING (true) WITH CHECK (true);
 CREATE POLICY "Allow service_role full access to audit_logs" ON audit_logs FOR ALL TO service_role USING (true) WITH CHECK (true);
+CREATE POLICY "Allow service_role full access to program_participants" ON program_participants FOR ALL TO service_role USING (true) WITH CHECK (true);
 
 -- Allow authenticated admin users full access
 CREATE POLICY "Allow authenticated full access to clients" ON clients FOR ALL TO authenticated USING (true) WITH CHECK (true);
@@ -95,6 +137,7 @@ CREATE POLICY "Allow authenticated full access to documents" ON documents FOR AL
 CREATE POLICY "Allow authenticated full access to otp_requests" ON otp_requests FOR ALL TO authenticated USING (true) WITH CHECK (true);
 CREATE POLICY "Allow authenticated full access to verified_sessions" ON verified_sessions FOR ALL TO authenticated USING (true) WITH CHECK (true);
 CREATE POLICY "Allow authenticated full access to audit_logs" ON audit_logs FOR ALL TO authenticated USING (true) WITH CHECK (true);
+CREATE POLICY "Allow authenticated full access to program_participants" ON program_participants FOR ALL TO authenticated USING (true) WITH CHECK (true);
 
 -- 8. Automated Database Storage Retention Function
 -- Purges audit logs, expired OTP requests, and expired verified sessions.
