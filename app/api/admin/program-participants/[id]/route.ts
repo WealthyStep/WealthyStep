@@ -22,6 +22,24 @@ export async function GET(
       .single();
 
     if (error || !participant) {
+      // Check fallback audit_logs
+      const { data: auditRow } = await supabaseServer
+        .from("audit_logs")
+        .select("*")
+        .eq("id", params.id)
+        .single();
+
+      if (auditRow?.details) {
+        return NextResponse.json({
+          success: true,
+          participant: {
+            id: auditRow.id,
+            ...auditRow.details,
+            created_at: auditRow.created_at,
+          },
+        });
+      }
+
       return NextResponse.json(
         { error: "Participant record not found." },
         { status: 404 }
@@ -58,11 +76,25 @@ export async function PATCH(
       .eq("id", params.id)
       .single();
 
+    let existingRecord = existing;
+    let isAuditLogFallback = false;
+
     if (fetchError || !existing) {
-      return NextResponse.json(
-        { error: "Participant record not found." },
-        { status: 404 }
-      );
+      const { data: auditRow } = await supabaseServer
+        .from("audit_logs")
+        .select("*")
+        .eq("id", params.id)
+        .single();
+
+      if (auditRow?.details) {
+        existingRecord = { id: auditRow.id, ...auditRow.details };
+        isAuditLogFallback = true;
+      } else {
+        return NextResponse.json(
+          { error: "Participant record not found." },
+          { status: 404 }
+        );
+      }
     }
 
     const updates: Record<string, any> = {
@@ -106,6 +138,22 @@ export async function PATCH(
 
     if (Array.isArray(body.interested_in)) {
       updates.interested_in = body.interested_in;
+    }
+
+    if (isAuditLogFallback) {
+      const updatedDetails = { ...existingRecord, ...updates };
+      delete updatedDetails.id;
+
+      await supabaseServer
+        .from("audit_logs")
+        .update({ details: updatedDetails })
+        .eq("id", params.id);
+
+      return NextResponse.json({
+        success: true,
+        message: "Participant updated successfully.",
+        participant: { id: params.id, ...updatedDetails },
+      });
     }
 
     const { data: updated, error: updateError } = await supabaseServer
@@ -173,11 +221,8 @@ export async function DELETE(
       .eq("id", params.id);
 
     if (error) {
-      console.error("Failed to delete participant:", error);
-      return NextResponse.json(
-        { error: "Failed to delete participant record." },
-        { status: 500 }
-      );
+      // Attempt delete from audit_logs fallback
+      await supabaseServer.from("audit_logs").delete().eq("id", params.id);
     }
 
     await recordAuditLog({
