@@ -201,13 +201,50 @@ export async function POST(request: Request) {
         }
       }
     } catch (insertErr: any) {
-      console.error("Supabase insert error in /api/program/submit:", insertErr);
+      console.warn("Supabase insert error in /api/program/submit (activating audit_logs fallback):", insertErr?.message || insertErr);
 
-      // Emergency Lead Preservation:
+      // Emergency Lead Preservation (Database):
+      // Persist participant directly into audit_logs (which always exists in Supabase!)
+      let fallbackRecordId = "lead-" + Date.now();
+      try {
+        const { data: auditSaved } = await supabaseServer
+          .from("audit_logs")
+          .insert({
+            actor: `attendee:${mobile}`,
+            action: "PARTICIPANT_SUBMISSION",
+            target_type: "program_participants",
+            target_id: null,
+            details: {
+              name,
+              email,
+              mobile,
+              age,
+              occupation,
+              interested_in,
+              consent_given,
+              consent_text,
+              session_date,
+              status: "New",
+              notes: `📅 Session Date: ${session_date}`,
+              source: body.source || "Financial Freedom Awareness Program",
+            },
+            ip_address: ipAddress !== "unknown" ? ipAddress : null,
+          })
+          .select("id")
+          .single();
+
+        if (auditSaved?.id) {
+          fallbackRecordId = auditSaved.id;
+        }
+      } catch (logErr) {
+        console.warn("Failed to store participant in audit_logs fallback:", logErr);
+      }
+
+      // Emergency Lead Preservation (Email):
       // Even if database table is pending initialization, ALWAYS send the email alert
       // so zero participant leads are ever lost!
       sendParticipantNotificationEmail({
-        id: "offline-" + Date.now(),
+        id: fallbackRecordId,
         name,
         email,
         mobile,
@@ -228,7 +265,7 @@ export async function POST(request: Request) {
         {
           success: true,
           message: "Your details have been successfully submitted! Thank you.",
-          id: "lead-" + Date.now(),
+          id: fallbackRecordId,
           participant: {
             name,
             createdAt: new Date().toISOString(),

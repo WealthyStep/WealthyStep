@@ -15,6 +15,7 @@ const navLinks = [
   { name: "Calculators", href: "/goal-calculators", hasDropdown: true },
   { name: "NRI Services", href: "/nri-services" },
   { name: "About Us", href: "/about" },
+  { name: "Contact Us", href: "/contact" },
 ];
 
 const mobileLinks = [
