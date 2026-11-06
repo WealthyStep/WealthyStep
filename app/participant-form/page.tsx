@@ -94,7 +94,7 @@ const GOAL_CONFIG: Record<
 function WhatsAppIcon({ className = "w-5 h-5" }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="currentColor">
-      <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766 0-3.18-2.587-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.007c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.275.072.376-.044c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.086s1.011.477 1.184.564.289.13.332.202c.043.073.043.419-.101.824zm-3.392-12.416c-5.518 0-10 4.482-10 10 0 1.761.458 3.414 1.258 4.862l-1.336 4.88 5.009-1.314c1.398.761 2.99 1.192 4.685 1.192 5.518 0 10-4.482 10-10s-4.482-10-10-10z" />
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z" />
     </svg>
   );
 }
@@ -385,157 +385,81 @@ END:VCARD`;
           </div>
         )}
 
-        {/* ===================== ULTRA-PREMIUM THANK YOU SCREEN ===================== */}
+        {/* ===================== SIMPLE, MODERN & PROFESSIONAL THANK YOU SCREEN ===================== */}
         {isSubmitted && submittedData ? (
-          <div className="space-y-4 animate-fade-in">
-            <div className="bg-white rounded-3xl border border-[#C7D9A8] shadow-2xl p-6 sm:p-8 text-center space-y-6 relative overflow-hidden">
-              {/* Subtle Ambient Glow */}
-              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-80 h-36 bg-gradient-to-b from-[#84BD3C]/20 via-emerald-100/40 to-transparent blur-2xl pointer-events-none" />
+          <div className="bg-white rounded-3xl border border-gray-200 shadow-xl p-6 sm:p-8 text-center space-y-6 animate-fade-in max-w-md mx-auto">
+            {/* Clean Emerald Checkmark */}
+            <div className="w-16 h-16 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-600 flex items-center justify-center mx-auto shadow-xs">
+              <Check className="w-8 h-8 stroke-[3]" />
+            </div>
 
-              {/* Status Pill */}
-              <div className="relative inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-[11px] font-black uppercase tracking-wider shadow-xs">
-                <Check className="w-3.5 h-3.5 text-emerald-600 stroke-[3]" />
-                <span>Response Recorded • 100% Confidential</span>
+            {/* Title & Description */}
+            <div className="space-y-1.5">
+              <h1 className="text-2xl sm:text-3xl font-black text-[#180D45] tracking-tight">
+                Thank You, {submittedData.name}!
+              </h1>
+              <p className="text-xs sm:text-sm text-gray-600 leading-relaxed max-w-xs mx-auto">
+                Your details have been successfully recorded. Our team will review your goals and connect with you shortly.
+              </p>
+            </div>
+
+            {/* Clean Minimalist Status Chip */}
+            <div className="bg-[#FAFBF7] border border-[#E2E8D8] rounded-2xl px-4 py-2.5 text-xs text-gray-600 flex items-center justify-between">
+              <div className="flex items-center gap-1.5 font-medium">
+                <CalendarDays className="w-3.5 h-3.5 text-[#446A1B] shrink-0" />
+                <span className="text-gray-800 font-semibold">{submittedData.sessionDate}</span>
               </div>
+              <span className="text-[11px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 rounded-full inline-flex items-center gap-1">
+                <ShieldCheck className="w-3 h-3 text-emerald-600" />
+                <span>100% Confidential</span>
+              </span>
+            </div>
 
-              {/* Glowing Celebration Checkmark */}
-              <div className="relative mx-auto flex items-center justify-center">
-                <div className="w-20 h-20 rounded-full bg-gradient-to-tr from-[#84BD3C] to-[#1EBE5D] p-1 shadow-xl shadow-emerald-500/25 ring-8 ring-emerald-50">
-                  <div className="w-full h-full rounded-full bg-white flex items-center justify-center">
-                    <Check className="w-10 h-10 text-emerald-600 stroke-[3.5]" />
-                  </div>
-                </div>
-              </div>
+            {/* Streamlined Action Buttons */}
+            <div className="space-y-2.5 pt-1">
+              {/* Primary: Chat with Our Team */}
+              <a
+                href="https://wa.me/919000929666?text=Hi%20Wealthy%20Step%2C%20I%20just%20submitted%20the%20Financial%20Freedom%20Program%20form."
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full inline-flex items-center justify-center gap-2 h-13 px-4 rounded-xl bg-[#25D366] hover:bg-[#20BA5A] active:scale-98 text-white font-bold text-sm sm:text-base shadow-sm hover:shadow transition-all cursor-pointer"
+              >
+                <WhatsAppIcon className="w-5 h-5 fill-white" />
+                <span>Chat with Our Team on WhatsApp</span>
+                <ExternalLink className="w-4 h-4 opacity-80" />
+              </a>
 
-              {/* Personalized Heading & Description */}
-              <div className="space-y-2 relative">
-                <h1 className="text-2xl sm:text-3xl font-black text-[#180D45] tracking-tight">
-                  Thank You, {submittedData.name}!
-                </h1>
-                <p className="text-xs sm:text-sm text-gray-600 max-w-md mx-auto leading-relaxed">
-                  Your details have been successfully recorded for the{" "}
-                  <strong className="text-[#180D45] font-bold">Financial Freedom Awareness Program</strong>.
-                  Our team will review your selected goals and share tailored financial insights with you shortly.
-                </p>
-              </div>
-
-              {/* 3-Step "What Happens Next" Roadmap */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-1 text-left">
-                <div className="p-3.5 rounded-2xl bg-[#F8F9FA] border border-gray-100 space-y-1">
-                  <div className="w-7 h-7 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center text-xs font-black">
-                    1
-                  </div>
-                  <p className="text-xs font-bold text-[#180D45]">Goal Review</p>
-                  <p className="text-[11px] text-gray-500 leading-tight">
-                    Our team studies your selected priorities & timeframe.
-                  </p>
-                </div>
-
-                <div className="p-3.5 rounded-2xl bg-[#F8F9FA] border border-gray-100 space-y-1">
-                  <div className="w-7 h-7 rounded-xl bg-emerald-100 text-emerald-800 flex items-center justify-center text-xs font-black">
-                    2
-                  </div>
-                  <p className="text-xs font-bold text-[#180D45]">Custom Insights</p>
-                  <p className="text-[11px] text-gray-500 leading-tight">
-                    Practical wealth strategies tailored to your profile.
-                  </p>
-                </div>
-
-                <div className="p-3.5 rounded-2xl bg-[#F8F9FA] border border-gray-100 space-y-1">
-                  <div className="w-7 h-7 rounded-xl bg-blue-100 text-blue-800 flex items-center justify-center text-xs font-black">
-                    3
-                  </div>
-                  <p className="text-xs font-bold text-[#180D45]">Team Support</p>
-                  <p className="text-[11px] text-gray-500 leading-tight">
-                    Direct access whenever you need clarity or guidance.
-                  </p>
-                </div>
-              </div>
-
-              {/* Official Record / Receipt Card */}
-              <div className="bg-[#FAFBF7] border border-[#DDE7CD] rounded-2xl p-4 text-left text-xs space-y-2.5">
-                <div className="flex items-center justify-between pb-2 border-b border-gray-200/60 text-[11px] text-gray-500 font-bold uppercase tracking-wider">
-                  <span>Official Program Record</span>
-                  <span className="text-[#446A1B] font-black">AMFI ARN-322891</span>
-                </div>
-                <div className="flex items-center justify-between text-gray-600">
-                  <span className="font-semibold">Participant:</span>
-                  <span className="font-bold text-[#180D45]">{submittedData.name}</span>
-                </div>
-                <div className="flex items-center justify-between text-gray-600">
-                  <span className="font-semibold">Session Date:</span>
-                  <span className="font-bold text-[#180D45]">{submittedData.sessionDate}</span>
-                </div>
-                <div className="flex items-center justify-between text-gray-600">
-                  <span className="font-semibold">Privacy Status:</span>
-                  <span className="font-bold text-emerald-700 inline-flex items-center gap-1">
-                    <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
-                    <span>100% Protected & Spam-Free</span>
-                  </span>
-                </div>
-              </div>
-
-              {/* Action Buttons */}
-              <div className="space-y-3 pt-2">
-                {/* 1. Primary WhatsApp Action: "Chat with Our Team on WhatsApp" */}
-                <div>
-                  <a
-                    href="https://wa.me/919000929666?text=Hi%20Wealthy%20Step%2C%20I%20just%20submitted%20the%20Financial%20Freedom%20Program%20form."
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-full inline-flex items-center justify-center gap-2.5 h-14 px-6 rounded-2xl bg-gradient-to-r from-[#25D366] to-[#1EBE5D] hover:brightness-105 active:scale-98 text-white text-sm sm:text-base font-black shadow-lg shadow-emerald-500/20 hover:shadow-xl transition-all cursor-pointer group"
-                  >
-                    <WhatsAppIcon className="w-5 h-5 text-white" />
-                    <span>Chat with Our Team on WhatsApp</span>
-                    <ExternalLink className="w-4 h-4 text-white/80 group-hover:translate-x-0.5 transition-transform" />
-                  </a>
-                  <p className="mt-1 text-[11px] text-gray-500 text-center">
-                    Have quick questions? Tap above to message our team directly.
-                  </p>
-                </div>
-
-                {/* 2. VCF Contact Card */}
+              {/* Secondary Actions in 1 Clean Row */}
+              <div className="grid grid-cols-2 gap-2">
                 <button
                   onClick={handleDownloadVCard}
-                  className="w-full inline-flex items-center justify-center gap-2.5 h-12 px-5 rounded-2xl bg-[#180D45] hover:bg-[#25156B] active:scale-98 text-white text-xs sm:text-sm font-bold shadow-md transition-all cursor-pointer"
+                  className="inline-flex items-center justify-center gap-1.5 h-11 px-3 rounded-xl bg-[#180D45] hover:bg-[#25156B] active:scale-98 text-white text-xs font-semibold shadow-xs transition-all cursor-pointer"
                 >
-                  <Download className="w-4 h-4 text-[#84BD3C]" />
-                  <span>Save Wealthy Step Contact (.vcf)</span>
+                  <Download className="w-3.5 h-3.5 text-[#84BD3C]" />
+                  <span>Save Contact (.vcf)</span>
                 </button>
 
-                {/* 3. Instagram Community Card */}
                 <a
                   href="https://www.instagram.com/wealthy.step/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full p-3 rounded-2xl border border-gray-200 hover:border-pink-300 bg-gradient-to-r from-[#FDF5F7] to-white flex items-center justify-between gap-3 text-left transition-all group"
+                  className="inline-flex items-center justify-center gap-1.5 h-11 px-3 rounded-xl border border-gray-200 hover:border-pink-300 hover:bg-pink-50/30 active:scale-98 text-[#180D45] text-xs font-semibold shadow-xs transition-all"
                 >
-                  <div className="flex items-center gap-3 min-w-0">
-                    <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#F58529] via-[#DD2A7B] to-[#8134AF] text-white flex items-center justify-center shrink-0 shadow-xs">
-                      <InstagramIcon className="w-5 h-5" />
-                    </div>
-                    <div className="min-w-0">
-                      <p className="text-xs font-bold text-[#180D45] truncate">
-                        Follow @wealthy.step on Instagram
-                      </p>
-                      <p className="text-[11px] text-gray-500 truncate">
-                        Daily financial education, SIP tips & market awareness
-                      </p>
-                    </div>
-                  </div>
-                  <ExternalLink className="w-4 h-4 text-gray-400 group-hover:text-pink-600 shrink-0 transition-colors" />
+                  <InstagramIcon className="w-3.5 h-3.5 text-pink-600" />
+                  <span>@wealthy.step</span>
+                  <ExternalLink className="w-3 h-3 text-gray-400" />
                 </a>
+              </div>
 
-                {/* 4. Reset Button */}
-                <div className="pt-1">
-                  <button
-                    onClick={handleReset}
-                    className="inline-flex items-center gap-1.5 py-2 px-4 rounded-xl text-xs font-semibold text-gray-500 hover:text-[#180D45] hover:bg-gray-100 transition-all cursor-pointer"
-                  >
-                    <RefreshCw className="w-3.5 h-3.5" />
-                    <span>Submit another response</span>
-                  </button>
-                </div>
+              {/* Submit Another Response */}
+              <div className="pt-2">
+                <button
+                  onClick={handleReset}
+                  className="inline-flex items-center gap-1.5 text-xs text-gray-400 hover:text-gray-700 transition-colors cursor-pointer"
+                >
+                  <RefreshCw className="w-3 h-3" />
+                  <span>Submit another response</span>
+                </button>
               </div>
             </div>
           </div>
