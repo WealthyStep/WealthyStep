@@ -938,7 +938,7 @@ SELECT count(*) AS ready_participants FROM public.program_participants;`;
                   <th className="py-3.5 px-4">Profile</th>
                   <th className="py-3.5 px-4">Interests</th>
                   <th className="py-3.5 px-4">Status</th>
-                  <th className="py-3.5 px-4">Advisor Notes</th>
+                  <th className="py-3.5 px-4">Team Notes</th>
                   <th className="py-3.5 px-4 text-right">Actions</th>
                 </tr>
               </thead>
@@ -1198,7 +1198,7 @@ SELECT count(*) AS ready_participants FROM public.program_participants;`;
         </div>
       )}
 
-      {/* ── 6. ADVISOR NOTES & STATUS EDIT DRAWER / MODAL ── */}
+      {/* ── 6. TEAM NOTES & STATUS EDIT DRAWER / MODAL ── */}
       {activeParticipantForNotes && (
         <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4 animate-fade-in">
           <div className="bg-white rounded-3xl border border-gray-200 shadow-2xl max-w-lg w-full p-6 space-y-4">
@@ -1206,7 +1206,7 @@ SELECT count(*) AS ready_participants FROM public.program_participants;`;
               <div>
                 <h3 className="text-base font-black text-[#180D45] flex items-center gap-1.5">
                   <MessageSquare className="w-4 h-4 text-[#84BD3C]" />
-                  Advisor Notes & Status
+                  Team Notes & Status
                 </h3>
                 <p className="text-xs text-gray-500 mt-0.5">
                   Participant: <strong className="text-gray-900">{activeParticipantForNotes.name}</strong> (+91 {activeParticipantForNotes.mobile})
@@ -1375,7 +1375,7 @@ SELECT count(*) AS ready_participants FROM public.program_participants;`;
               {/* Notes */}
               <div>
                 <span className="text-gray-500 font-bold block mb-1.5 uppercase text-[10px] tracking-wider">
-                  Advisor Notes:
+                  Team Notes:
                 </span>
                 <div className="p-3 rounded-xl bg-gray-50 border border-gray-200 text-gray-800 whitespace-pre-wrap leading-relaxed">
                   {viewingParticipant.notes || "No notes recorded yet."}
@@ -1535,7 +1535,7 @@ SELECT count(*) AS ready_participants FROM public.program_participants;`;
 
               <div>
                 <label className="block text-[11px] font-bold text-gray-700 uppercase tracking-wider mb-1">
-                  Advisor Notes
+                  Team Notes
                 </label>
                 <textarea
                   rows={3}

@@ -16,6 +16,7 @@ import {
   ArrowRight,
   Lock,
   Check,
+  CheckCircle2,
   Download,
   ExternalLink,
   ArrowLeft,
@@ -26,6 +27,7 @@ import {
   Target,
   XCircle,
   ChevronDown,
+  MessageCircle,
 } from "lucide-react";
 import { Turnstile } from "@marsidev/react-turnstile";
 import {
@@ -88,6 +90,22 @@ const GOAL_CONFIG: Record<
     bgAccent: "bg-gray-100 border-gray-200",
   },
 };
+
+function WhatsAppIcon({ className = "w-5 h-5" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766 0-3.18-2.587-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.007c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.275.072.376-.044c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.086s1.011.477 1.184.564.289.13.332.202c.043.073.043.419-.101.824zm-3.392-12.416c-5.518 0-10 4.482-10 10 0 1.761.458 3.414 1.258 4.862l-1.336 4.88 5.009-1.314c1.398.761 2.99 1.192 4.685 1.192 5.518 0 10-4.482 10-10s-4.482-10-10-10z" />
+    </svg>
+  );
+}
+
+function InstagramIcon({ className = "w-5 h-5" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.13-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+    </svg>
+  );
+}
 
 export default function ParticipantFormPage() {
   // Form state
@@ -343,89 +361,182 @@ END:VCARD`;
 
       {/* ─── MAIN CONTENT CONTAINER ─── */}
       <main className="flex-1 w-full max-w-xl mx-auto px-3.5 sm:px-6 py-4 sm:py-6">
-        {/* Sleek Trust Badge & Program Header */}
-        <div className="text-center mb-4 space-y-2">
-          {/* 100% SPAM-FREE High-Trust Pill */}
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-700 text-white shadow-xs text-xs font-black tracking-wide uppercase">
-            <ShieldCheck className="w-4 h-4 text-lime-300 stroke-[2.5]" />
-            <span>100% SPAM-FREE • STRICTLY CONFIDENTIAL</span>
-          </div>
-
-          <div className="space-y-0.5">
-            <div className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#180D45]/5 text-[#446A1B] text-[11px] font-black tracking-wider uppercase">
-              <Sparkles className="w-3 h-3 text-[#446A1B]" />
-              <span>Financial Freedom Awareness Program</span>
+        {/* Sleek Trust Badge & Program Header (Only visible when form is active) */}
+        {!isSubmitted && (
+          <div className="text-center mb-4 space-y-2 animate-fade-in">
+            {/* 100% SPAM-FREE High-Trust Pill */}
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-700 text-white shadow-xs text-xs font-black tracking-wide uppercase">
+              <ShieldCheck className="w-4 h-4 text-lime-300 stroke-[2.5]" />
+              <span>100% SPAM-FREE • STRICTLY CONFIDENTIAL</span>
             </div>
-            <h1 className="text-xl sm:text-2xl font-black text-[#180D45] tracking-tight">
-              Participant Details Form
-            </h1>
-          </div>
-          <p className="text-xs text-gray-600 max-w-md mx-auto leading-relaxed">
-            Please share your details below to receive personalized insights tailored to your financial goals.
-          </p>
-        </div>
 
-        {/* ===================== SUCCESS / CONFIRMATION SCREEN ===================== */}
+            <div className="space-y-0.5">
+              <div className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#180D45]/5 text-[#446A1B] text-[11px] font-black tracking-wider uppercase">
+                <Sparkles className="w-3 h-3 text-[#446A1B]" />
+                <span>Financial Freedom Awareness Program</span>
+              </div>
+              <h1 className="text-xl sm:text-2xl font-black text-[#180D45] tracking-tight">
+                Participant Details Form
+              </h1>
+            </div>
+            <p className="text-xs text-gray-600 max-w-md mx-auto leading-relaxed">
+              Please share your details below to receive personalized insights tailored to your financial goals.
+            </p>
+          </div>
+        )}
+
+        {/* ===================== ULTRA-PREMIUM THANK YOU SCREEN ===================== */}
         {isSubmitted && submittedData ? (
-          <div className="bg-white rounded-3xl border border-[#C7D9A8] shadow-xl p-6 sm:p-8 text-center space-y-5 animate-fade-in">
-            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 shadow-md ring-8 ring-emerald-50 mx-auto">
-              <Check className="w-8 h-8 stroke-[3]" />
-            </div>
+          <div className="space-y-4 animate-fade-in">
+            <div className="bg-white rounded-3xl border border-[#C7D9A8] shadow-2xl p-6 sm:p-8 text-center space-y-6 relative overflow-hidden">
+              {/* Subtle Ambient Glow */}
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-80 h-36 bg-gradient-to-b from-[#84BD3C]/20 via-emerald-100/40 to-transparent blur-2xl pointer-events-none" />
 
-            <div>
-              <span className="inline-block px-3 py-0.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-[11px] font-bold uppercase tracking-wider mb-2">
-                Submission Confirmed
-              </span>
-              <h2 className="text-xl sm:text-2xl font-black text-[#180D45]">
-                Thank You, {submittedData.name}!
-              </h2>
-              <p className="text-xs sm:text-sm text-gray-600 mt-1 max-w-md mx-auto leading-relaxed">
-                Your details have been successfully recorded for the <strong>Financial Freedom Awareness Program</strong>. Our advisory team will reach out with customized insights.
-              </p>
-            </div>
-
-            {/* Submission Summary Card */}
-            <div className="bg-[#FAFBF7] border border-[#E2E8D8] rounded-2xl p-4 text-left text-xs space-y-2">
-              <div className="flex items-center justify-between text-gray-600">
-                <span className="font-semibold">Participant:</span>
-                <span className="font-bold text-[#180D45]">{submittedData.name}</span>
+              {/* Status Pill */}
+              <div className="relative inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-[11px] font-black uppercase tracking-wider shadow-xs">
+                <Check className="w-3.5 h-3.5 text-emerald-600 stroke-[3]" />
+                <span>Response Recorded • 100% Confidential</span>
               </div>
-              <div className="flex items-center justify-between text-gray-600">
-                <span className="font-semibold">Session Date:</span>
-                <span className="font-bold text-[#180D45]">{submittedData.sessionDate}</span>
+
+              {/* Glowing Celebration Checkmark */}
+              <div className="relative mx-auto flex items-center justify-center">
+                <div className="w-20 h-20 rounded-full bg-gradient-to-tr from-[#84BD3C] to-[#1EBE5D] p-1 shadow-xl shadow-emerald-500/25 ring-8 ring-emerald-50">
+                  <div className="w-full h-full rounded-full bg-white flex items-center justify-center">
+                    <Check className="w-10 h-10 text-emerald-600 stroke-[3.5]" />
+                  </div>
+                </div>
               </div>
-              <div className="flex items-center justify-between text-gray-600">
-                <span className="font-semibold">Privacy Status:</span>
-                <span className="font-bold text-emerald-700">🔒 100% Protected & Spam-Free</span>
+
+              {/* Personalized Heading & Description */}
+              <div className="space-y-2 relative">
+                <h1 className="text-2xl sm:text-3xl font-black text-[#180D45] tracking-tight">
+                  Thank You, {submittedData.name}!
+                </h1>
+                <p className="text-xs sm:text-sm text-gray-600 max-w-md mx-auto leading-relaxed">
+                  Your details have been successfully recorded for the{" "}
+                  <strong className="text-[#180D45] font-bold">Financial Freedom Awareness Program</strong>.
+                  Our team will review your selected goals and share tailored financial insights with you shortly.
+                </p>
               </div>
-            </div>
 
-            {/* CTAs */}
-            <div className="space-y-2.5 pt-1">
-              <button
-                onClick={handleDownloadVCard}
-                className="w-full inline-flex items-center justify-center gap-2 py-3.5 px-4 rounded-xl bg-[#180D45] hover:bg-[#25156B] active:scale-98 text-white text-xs sm:text-sm font-bold shadow-md transition-all cursor-pointer"
-              >
-                <Download className="w-4 h-4 text-[#84BD3C]" />
-                <span>Save Wealthy Step Contact (.vcf)</span>
-              </button>
+              {/* 3-Step "What Happens Next" Roadmap */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-1 text-left">
+                <div className="p-3.5 rounded-2xl bg-[#F8F9FA] border border-gray-100 space-y-1">
+                  <div className="w-7 h-7 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center text-xs font-black">
+                    1
+                  </div>
+                  <p className="text-xs font-bold text-[#180D45]">Goal Review</p>
+                  <p className="text-[11px] text-gray-500 leading-tight">
+                    Our team studies your selected priorities & timeframe.
+                  </p>
+                </div>
 
-              <a
-                href="https://wa.me/919000929666?text=Hi%20Wealthy%20Step%2C%20I%20just%20submitted%20the%20Financial%20Freedom%20Program%20form."
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full inline-flex items-center justify-center gap-2 py-3.5 px-4 rounded-xl bg-[#25D366] hover:bg-[#20BA5A] active:scale-98 text-white text-xs sm:text-sm font-bold shadow-sm transition-all cursor-pointer"
-              >
-                <span>Chat with Advisor on WhatsApp</span>
-                <ExternalLink className="w-3.5 h-3.5" />
-              </a>
+                <div className="p-3.5 rounded-2xl bg-[#F8F9FA] border border-gray-100 space-y-1">
+                  <div className="w-7 h-7 rounded-xl bg-emerald-100 text-emerald-800 flex items-center justify-center text-xs font-black">
+                    2
+                  </div>
+                  <p className="text-xs font-bold text-[#180D45]">Custom Insights</p>
+                  <p className="text-[11px] text-gray-500 leading-tight">
+                    Practical wealth strategies tailored to your profile.
+                  </p>
+                </div>
 
-              <button
-                onClick={handleReset}
-                className="w-full py-2 text-xs font-semibold text-gray-500 hover:text-[#180D45] transition-colors"
-              >
-                Submit another response
-              </button>
+                <div className="p-3.5 rounded-2xl bg-[#F8F9FA] border border-gray-100 space-y-1">
+                  <div className="w-7 h-7 rounded-xl bg-blue-100 text-blue-800 flex items-center justify-center text-xs font-black">
+                    3
+                  </div>
+                  <p className="text-xs font-bold text-[#180D45]">Team Support</p>
+                  <p className="text-[11px] text-gray-500 leading-tight">
+                    Direct access whenever you need clarity or guidance.
+                  </p>
+                </div>
+              </div>
+
+              {/* Official Record / Receipt Card */}
+              <div className="bg-[#FAFBF7] border border-[#DDE7CD] rounded-2xl p-4 text-left text-xs space-y-2.5">
+                <div className="flex items-center justify-between pb-2 border-b border-gray-200/60 text-[11px] text-gray-500 font-bold uppercase tracking-wider">
+                  <span>Official Program Record</span>
+                  <span className="text-[#446A1B] font-black">AMFI ARN-322891</span>
+                </div>
+                <div className="flex items-center justify-between text-gray-600">
+                  <span className="font-semibold">Participant:</span>
+                  <span className="font-bold text-[#180D45]">{submittedData.name}</span>
+                </div>
+                <div className="flex items-center justify-between text-gray-600">
+                  <span className="font-semibold">Session Date:</span>
+                  <span className="font-bold text-[#180D45]">{submittedData.sessionDate}</span>
+                </div>
+                <div className="flex items-center justify-between text-gray-600">
+                  <span className="font-semibold">Privacy Status:</span>
+                  <span className="font-bold text-emerald-700 inline-flex items-center gap-1">
+                    <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+                    <span>100% Protected & Spam-Free</span>
+                  </span>
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="space-y-3 pt-2">
+                {/* 1. Primary WhatsApp Action: "Chat with Our Team on WhatsApp" */}
+                <div>
+                  <a
+                    href="https://wa.me/919000929666?text=Hi%20Wealthy%20Step%2C%20I%20just%20submitted%20the%20Financial%20Freedom%20Program%20form."
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full inline-flex items-center justify-center gap-2.5 h-14 px-6 rounded-2xl bg-gradient-to-r from-[#25D366] to-[#1EBE5D] hover:brightness-105 active:scale-98 text-white text-sm sm:text-base font-black shadow-lg shadow-emerald-500/20 hover:shadow-xl transition-all cursor-pointer group"
+                  >
+                    <WhatsAppIcon className="w-5 h-5 text-white" />
+                    <span>Chat with Our Team on WhatsApp</span>
+                    <ExternalLink className="w-4 h-4 text-white/80 group-hover:translate-x-0.5 transition-transform" />
+                  </a>
+                  <p className="mt-1 text-[11px] text-gray-500 text-center">
+                    Have quick questions? Tap above to message our team directly.
+                  </p>
+                </div>
+
+                {/* 2. VCF Contact Card */}
+                <button
+                  onClick={handleDownloadVCard}
+                  className="w-full inline-flex items-center justify-center gap-2.5 h-12 px-5 rounded-2xl bg-[#180D45] hover:bg-[#25156B] active:scale-98 text-white text-xs sm:text-sm font-bold shadow-md transition-all cursor-pointer"
+                >
+                  <Download className="w-4 h-4 text-[#84BD3C]" />
+                  <span>Save Wealthy Step Contact (.vcf)</span>
+                </button>
+
+                {/* 3. Instagram Community Card */}
+                <a
+                  href="https://www.instagram.com/wealthy.step/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full p-3 rounded-2xl border border-gray-200 hover:border-pink-300 bg-gradient-to-r from-[#FDF5F7] to-white flex items-center justify-between gap-3 text-left transition-all group"
+                >
+                  <div className="flex items-center gap-3 min-w-0">
+                    <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#F58529] via-[#DD2A7B] to-[#8134AF] text-white flex items-center justify-center shrink-0 shadow-xs">
+                      <InstagramIcon className="w-5 h-5" />
+                    </div>
+                    <div className="min-w-0">
+                      <p className="text-xs font-bold text-[#180D45] truncate">
+                        Follow @wealthy.step on Instagram
+                      </p>
+                      <p className="text-[11px] text-gray-500 truncate">
+                        Daily financial education, SIP tips & market awareness
+                      </p>
+                    </div>
+                  </div>
+                  <ExternalLink className="w-4 h-4 text-gray-400 group-hover:text-pink-600 shrink-0 transition-colors" />
+                </a>
+
+                {/* 4. Reset Button */}
+                <div className="pt-1">
+                  <button
+                    onClick={handleReset}
+                    className="inline-flex items-center gap-1.5 py-2 px-4 rounded-xl text-xs font-semibold text-gray-500 hover:text-[#180D45] hover:bg-gray-100 transition-all cursor-pointer"
+                  >
+                    <RefreshCw className="w-3.5 h-3.5" />
+                    <span>Submit another response</span>
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         ) : (
@@ -836,7 +947,7 @@ END:VCARD`;
 
             {/* Security Assurance */}
             <div className="text-center text-[10px] text-gray-500 space-y-0.5 pt-1">
-              <p>🔒 256-bit Encrypted • 100% SPAM-FREE • Instant Advisor Notification</p>
+              <p>🔒 256-bit Encrypted • 100% SPAM-FREE • Instant Team Notification</p>
               <p>Wealthy Step™ • AMFI Registered Mutual Fund Distributor • ARN-322891</p>
             </div>
           </form>

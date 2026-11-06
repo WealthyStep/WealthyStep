@@ -162,7 +162,7 @@ export async function sendParticipantNotificationEmail(
                 </tr>
               </table>
 
-              <!-- Quick Action Buttons for Advisor -->
+              <!-- Quick Action Buttons for Team -->
               <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin-bottom: 24px;">
                 <tr>
                   <!-- WhatsApp Button -->
@@ -224,7 +224,7 @@ export async function sendParticipantNotificationEmail(
         },
         body: JSON.stringify({
           sender: { name: senderName, email: senderEmail },
-          to: [{ email: recipientEmail, name: "Wealthy Step Advisor" }],
+          to: [{ email: recipientEmail, name: "Wealthy Step Team" }],
           subject: emailSubject,
           htmlContent,
         }),
