@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { supabaseServer } from "@/lib/supabase-server";
+import { cacheAdminSession } from "@/lib/admin-auth";
 
 export async function POST(request: Request) {
   try {
@@ -54,6 +55,11 @@ export async function POST(request: Request) {
         { error: errorMessage },
         { status: isFetchError ? 503 : 401 }
       );
+    }
+
+    // Cache verified admin session in memory for high-performance zero-latency auth
+    if (data.session.access_token && data.user) {
+      cacheAdminSession(data.session.access_token, data.user);
     }
 
     const response = NextResponse.json({

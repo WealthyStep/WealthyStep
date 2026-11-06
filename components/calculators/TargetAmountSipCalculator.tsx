@@ -236,7 +236,7 @@ export function TargetAmountSipCalculator() {
               
               <div className="bg-navy p-5 rounded-[20px] text-white flex flex-col justify-center">
                 <h3 className="text-[15px] font-bold font-heading mb-2">Need Expert Guidance?</h3>
-                <p className="text-white/80 text-[11px] mb-4">Our advisors can help you structure your investments.</p>
+                <p className="text-white/80 text-[11px] mb-4">Our team can help you structure your investments.</p>
                 <Link href="/contact" className="bg-lime hover:bg-lime/90 text-navy text-[12px] font-bold py-2 px-4 rounded-lg transition-colors inline-flex items-center justify-center gap-2">
                   Book Consultation <Calculator className="w-3 h-3" />
                 </Link>

@@ -319,7 +319,7 @@ export async function generateBrandedQrCard(
 
   ctx.font = "700 16px system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
   ctx.fillStyle = "#84BD3C";
-  ctx.fillText("🔒 100% Spam-Free • Confidential • AMFI Compliant Advisory", width / 2, trustY + trustBoxH / 2);
+  ctx.fillText("🔒 100% Spam-Free • Confidential • AMFI Registered Distributor", width / 2, trustY + trustBoxH / 2);
 
   // 11. Regulatory Footer Disclaimers
   ctx.font = "600 14px system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";

@@ -6,13 +6,25 @@ export type AdminAuthResult =
   | { authenticated: true; user: User }
   | { authenticated: false; response: NextResponse };
 
-// In-memory cache for authenticated admin sessions (TTL: 2 minutes)
+// In-memory cache for authenticated admin sessions (TTL: 15 minutes)
 interface CachedUser {
   user: User;
   expiresAt: number;
 }
 const tokenCache = new Map<string, CachedUser>();
-const CACHE_TTL_MS = 2 * 60 * 1000; // 2 minutes
+const CACHE_TTL_MS = 15 * 60 * 1000; // 15 minutes
+
+/**
+ * Caches an actively verified admin session.
+ * Called immediately upon successful login in /api/admin/login.
+ */
+export function cacheAdminSession(token: string, user: User, ttlMs: number = CACHE_TTL_MS) {
+  if (!token || !user) return;
+  tokenCache.set(token, {
+    user,
+    expiresAt: Date.now() + ttlMs,
+  });
+}
 
 // Prune expired cache entries periodically
 function pruneTokenCache() {
@@ -118,43 +130,23 @@ export async function requireAdmin(request: Request): Promise<AdminAuthResult> {
     }
 
     if (!user) {
-      // Offline / Network Resilience:
-      // If Supabase network check failed due to temporary DNS/timeout,
-      // inspect token JWT payload to check if session is still unexpired.
-      try {
-        const parts = token.split(".");
-        if (parts.length === 3) {
-          const payload = JSON.parse(Buffer.from(parts[1], "base64").toString("utf-8"));
-          const expMs = (payload.exp || 0) * 1000;
-          if (expMs > now && payload.aud === "authenticated") {
-            const fallbackUser: User = {
-              id: payload.sub || "admin",
-              app_metadata: payload.app_metadata || {},
-              user_metadata: payload.user_metadata || {},
-              aud: payload.aud,
-              email: payload.email || "admin@wealthystep.com",
-              created_at: new Date().toISOString(),
-            } as any;
-
-            // Cache the verified user
-            tokenCache.set(token, {
-              user: fallbackUser,
-              expiresAt: Math.min(now + CACHE_TTL_MS, expMs),
-            });
-
-            return { authenticated: true, user: fallbackUser };
-          }
-        }
-      } catch {
-        // Token parse failed
-      }
-
       tokenCache.delete(token);
+
+      const isNetworkTimeout =
+        authError?.name === "AuthRetryableFetchError" ||
+        authError?.message?.toLowerCase().includes("fetch failed") ||
+        authError?.message?.toLowerCase().includes("timeout") ||
+        (authError as any)?.status === 0;
+
       return {
         authenticated: false,
         response: NextResponse.json(
-          { error: "Unauthorized. Invalid or expired session." },
-          { status: 401 }
+          {
+            error: isNetworkTimeout
+              ? "Authentication service temporarily unreachable. Please retry in a moment."
+              : "Unauthorized. Invalid or expired session.",
+          },
+          { status: isNetworkTimeout ? 503 : 401 }
         ),
       };
     }

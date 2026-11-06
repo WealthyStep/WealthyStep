@@ -17,8 +17,8 @@ function getB2Client(): { client: S3Client; bucketName: string } {
   const rawEndpoint = process.env.B2_ENDPOINT || "s3.us-east-005.backblazeb2.com";
   const endpoint = rawEndpoint.startsWith("http") ? rawEndpoint : `https://${rawEndpoint}`;
   const region = process.env.B2_REGION || "us-east-005";
-  const accessKeyId = process.env.B2_KEY_ID || "0053819afe948650000000003";
-  const secretAccessKey = process.env.B2_APPLICATION_KEY || "K005LHy6bhLAX7qFKyOfzRIioInFrxo";
+  const accessKeyId = process.env.B2_KEY_ID || "";
+  const secretAccessKey = process.env.B2_APPLICATION_KEY || "";
   const bucketName = process.env.B2_BUCKET_NAME || "wealthystep";
 
   if (!accessKeyId || !secretAccessKey || !bucketName) {

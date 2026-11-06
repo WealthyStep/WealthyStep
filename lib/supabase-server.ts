@@ -12,7 +12,12 @@ const supabaseUrl =
 
 const supabaseServiceRoleKey =
   process.env.SUPABASE_SERVICE_ROLE_KEY ||
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNmb3Zham5wanhhd3VjdG1ud3V5Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4OTk2MjAzOSwiZXhwIjoyMTA1NTM4MDM5fQ.hgDcAnEokWE9TU9MnPyiPOaffUXMiGOMmD1PGfLhxs8";
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
+  "placeholder-key-for-build";
+
+if (!process.env.SUPABASE_SERVICE_ROLE_KEY && process.env.NODE_ENV === "production") {
+  console.warn("SUPABASE_SERVICE_ROLE_KEY is not configured in server environment.");
+}
 
 export const supabaseServer = createClient(supabaseUrl, supabaseServiceRoleKey, {
   auth: {

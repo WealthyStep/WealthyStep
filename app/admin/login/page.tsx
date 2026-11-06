@@ -112,7 +112,7 @@ export default function AdminLoginPage() {
         <div className="text-center space-y-2">
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#84BD3C]/20 border border-[#84BD3C]/40 text-[#2C4A11] text-[11px] font-extrabold uppercase tracking-wider shadow-2xs">
             <ShieldCheck className="w-3.5 h-3.5 text-[#446A1B]" />
-            <span>Authorized Advisor Portal</span>
+            <span>Authorized Admin Portal</span>
           </div>
 
           <h1 className="text-2xl sm:text-3xl font-black text-[#180D45] tracking-tight">

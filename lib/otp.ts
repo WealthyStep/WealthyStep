@@ -93,7 +93,7 @@ export async function sendOtpEmail({
               <!-- Security Notice -->
               <div style="background-color: #FFF9E6; border-left: 4px solid #F5B921; padding: 12px 16px; border-radius: 6px; margin-bottom: 24px;">
                 <p style="margin: 0; font-size: 12px; line-height: 1.5; color: #8A6508;">
-                  <strong>Security Reminder:</strong> Wealthy Step advisors will never ask you for your OTP over phone or SMS. Do not share this code with anyone.
+                  <strong>Security Reminder:</strong> Wealthy Step team members will never ask you for your OTP over phone or SMS. Do not share this code with anyone.
                 </p>
               </div>
 

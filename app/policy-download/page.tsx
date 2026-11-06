@@ -728,7 +728,7 @@ export default function PolicyDownloadPage() {
                     <FileText className="w-8 h-8 text-gray-300 mx-auto mb-1.5" />
                     <h4 className="text-xs sm:text-sm font-bold text-gray-700">No Documents Uploaded Yet</h4>
                     <p className="text-[11px] text-gray-500 mt-0.5 max-w-sm mx-auto">
-                      Your advisor is preparing your policy bonds. Please check back shortly or reach out to our team.
+                      Our team is preparing your policy documents. Please check back shortly or reach out to us.
                     </p>
                   </div>
                 ) : (
@@ -801,7 +801,7 @@ export default function PolicyDownloadPage() {
               <div className="flex items-center gap-2.5">
                 <Sparkles className="w-4.5 h-4.5 text-[#446A1B] shrink-0" />
                 <p className="text-[11px] text-[#283C15] font-medium">
-                  Have questions regarding your policy documents? Contact your dedicated Wealthy Step advisor anytime.
+                  Have questions regarding your policy documents? Contact our dedicated Wealthy Step team anytime.
                 </p>
               </div>
               <Link

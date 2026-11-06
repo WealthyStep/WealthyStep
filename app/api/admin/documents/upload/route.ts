@@ -69,6 +69,14 @@ export async function POST(request: Request) {
     const arrayBuffer = await file.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
 
+    // Strict validation: Verify genuine PDF file signature (%PDF magic bytes)
+    if (buffer.length < 4 || buffer.subarray(0, 4).toString("ascii") !== "%PDF") {
+      return NextResponse.json(
+        { error: "Invalid PDF format. The uploaded file is not a valid PDF document." },
+        { status: 400 }
+      );
+    }
+
     const cleanName = sanitizeFilename(file.name);
     const documentTitle = titleInput?.trim() || file.name.replace(/\.pdf$/i, "").trim() || "Policy Document";
     const fileKey = `policies/${clientId}/${Date.now()}-${cleanName}`;
