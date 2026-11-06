@@ -45,6 +45,11 @@ export function Navbar() {
         e.preventDefault();
         router.push("/admin/login");
       }
+      // Presentation Stage Hotkey: Ctrl + Shift + Q (Windows/Linux) or Cmd + Shift + Q (Mac)
+      if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key.toLowerCase() === "q") {
+        e.preventDefault();
+        router.push("/presentation");
+      }
     };
 
     window.addEventListener("keydown", handleKeyDown);

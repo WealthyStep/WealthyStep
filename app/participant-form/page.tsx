@@ -270,7 +270,7 @@ END:VCARD`;
       {/* ─── DEDICATED MOBILE-FIRST TOP BAR ─── */}
       <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-2xs">
         <div className="max-w-xl mx-auto px-4 py-2.5 flex items-center justify-between">
-          <Link href="/" className="inline-flex items-center gap-2 group outline-none">
+          <Link href="/" className="inline-flex items-center gap-2 group outline-none" title="Wealthy Step Home">
             <Image
               src="/logo.svg"
               alt="Wealthy Step Logo"
@@ -280,24 +280,13 @@ END:VCARD`;
               className="h-8 sm:h-9 w-auto object-contain transition-transform group-hover:scale-102"
             />
           </Link>
-          <div className="flex items-center gap-2">
-            <Link
-              href="/presentation"
-              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#180D45]/5 hover:bg-[#180D45]/10 text-[#180D45] text-xs font-bold transition-all border border-gray-200"
-              title="View Seminar Presentation Slide & QR"
-            >
-              <QrCode className="w-3.5 h-3.5 text-[#446A1B]" />
-              <span className="hidden sm:inline">Presenter QR</span>
-              <span className="sm:hidden">QR</span>
-            </Link>
-            <Link
-              href="/"
-              className="inline-flex items-center gap-1 text-xs font-semibold text-gray-500 hover:text-[#180D45] transition-colors px-2 py-1"
-            >
-              <ArrowLeft className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">Back</span>
-            </Link>
-          </div>
+          <Link
+            href="/"
+            className="inline-flex items-center gap-1.5 text-xs font-semibold text-gray-500 hover:text-[#180D45] transition-colors px-2.5 py-1 rounded-lg hover:bg-gray-50"
+          >
+            <ArrowLeft className="w-3.5 h-3.5" />
+            <span>wealthystep.com</span>
+          </Link>
         </div>
       </header>
 

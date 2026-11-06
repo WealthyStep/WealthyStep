@@ -106,6 +106,12 @@ export function Footer() {
             </h3>
             <ul className="space-y-4 text-sm text-cream/70">
               <li>
+                <Link href="/participant-form" className="flex items-center justify-between hover:text-lime transition-colors group">
+                  Financial Freedom Program
+                  <ChevronRight className="w-4 h-4 opacity-50 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
+                </Link>
+              </li>
+              <li>
                 <Link href="/policy-download" className="flex items-center justify-between hover:text-lime transition-colors group">
                   Download Policy
                   <ChevronRight className="w-4 h-4 opacity-50 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
