@@ -31,6 +31,7 @@ import {
   ShieldCheck,
   Send,
   MessageCircle,
+  ExternalLink,
 } from "lucide-react";
 import {
   OCCUPATION_OPTIONS,
@@ -611,21 +612,30 @@ SELECT count(*) AS ready_participants FROM public.program_participants;`;
               </div>
             </div>
 
-            <div className="flex items-center gap-2 self-start sm:self-center shrink-0">
+            <div className="flex flex-wrap items-center gap-2 self-start sm:self-center shrink-0">
               <button
                 onClick={handleCopyMigrationSql}
                 className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-amber-800 hover:bg-amber-900 text-white text-xs font-bold transition-all shadow-xs cursor-pointer active:scale-95"
               >
                 {isCopiedSql ? <Check className="w-3.5 h-3.5 text-lime-300" /> : <Copy className="w-3.5 h-3.5" />}
-                <span>{isCopiedSql ? "SQL Copied!" : "Copy SQL Script"}</span>
+                <span>{isCopiedSql ? "SQL Copied!" : "1. Copy SQL Script"}</span>
               </button>
+              <a
+                href="https://supabase.com/dashboard/project/cfovajnpjxawuctmnwuy/sql/new"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-amber-200/80 hover:bg-amber-200 text-amber-950 text-xs font-bold transition-all shadow-xs border border-amber-400/50"
+              >
+                <span>2. Open Supabase SQL</span>
+                <ExternalLink className="w-3.5 h-3.5 text-amber-900" />
+              </a>
               <button
                 onClick={() => fetchParticipants()}
-                className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-white hover:bg-amber-100 text-amber-900 border border-amber-300 text-xs font-bold transition-all shadow-xs cursor-pointer active:scale-95"
+                className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white hover:bg-amber-100 text-amber-900 border border-amber-300 text-xs font-bold transition-all shadow-xs cursor-pointer active:scale-95"
                 title="Check if table is ready"
               >
                 <RefreshCw className="w-3.5 h-3.5" />
-                <span>Re-check Table</span>
+                <span>3. Re-check Table</span>
               </button>
             </div>
           </div>
