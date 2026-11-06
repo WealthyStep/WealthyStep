@@ -1,15 +1,17 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import useSWR from "swr";
 import { ArrowDown, ArrowUp } from "lucide-react";
 import { TickerItem } from "@/types/ticker";
-import { cn } from "@/lib/utils";
+import { cn, isIsolatedRoute } from "@/lib/utils";
 import { useReducedMotion } from "motion/react";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export function TickerBar() {
+  const pathname = usePathname();
   const { data, error, isLoading } = useSWR<TickerItem[]>("/api/ticker", fetcher, {
     refreshInterval: 60000,
     revalidateOnFocus: false,
@@ -17,6 +19,9 @@ export function TickerBar() {
 
   const shouldReduceMotion = useReducedMotion();
   const [isHovered, setIsHovered] = useState(false);
+
+  // Suppress on seminar forms, slides, and admin dashboards
+  if (isIsolatedRoute(pathname)) return null;
 
   // If there's a permanent error and no data, we hide the bar
   if (error && !data) return null;

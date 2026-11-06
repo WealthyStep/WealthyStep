@@ -1,11 +1,14 @@
 "use client";
 
 import React from 'react';
+import { usePathname } from 'next/navigation';
 import { useCookieConsent } from '@/hooks/useCookieConsent';
 import { ShieldCheck } from 'lucide-react';
 import Link from 'next/link';
+import { isIsolatedRoute } from '@/lib/utils';
 
 export function CookieBanner() {
+  const pathname = usePathname();
   const { 
     isBannerVisible, 
     hasInitialized, 
@@ -14,7 +17,7 @@ export function CookieBanner() {
     openPreferencesModal 
   } = useCookieConsent();
 
-  if (!hasInitialized || !isBannerVisible) return null;
+  if (isIsolatedRoute(pathname) || !hasInitialized || !isBannerVisible) return null;
 
   return (
     <div className="fixed bottom-0 left-0 right-0 z-50 p-3 sm:p-5 pointer-events-none flex justify-center">

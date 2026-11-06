@@ -1,9 +1,20 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { ChevronRight, MapPin, Mail, Phone, FileText } from "lucide-react";
 import { CookieSettingsButton } from "@/components/cookie-consent/CookieSettingsButton";
+import { isIsolatedRoute } from "@/lib/utils";
 
 export function Footer() {
+  const pathname = usePathname();
+
+  // Suppress consumer website footer on seminar forms, slides, and admin dashboards
+  if (isIsolatedRoute(pathname)) {
+    return null;
+  }
+
   return (
     <footer className="bg-[#180D45] py-16 text-cream border-t border-white/10 relative z-10">
       <div className="container mx-auto max-w-[1200px] px-4 xl:px-0">

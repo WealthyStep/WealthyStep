@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Menu, X, Phone, ChevronDown, User, Calendar, FileText } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import { usePathname, useRouter } from "next/navigation";
+import { isIsolatedRoute } from "@/lib/utils";
 
 const navLinks = [
   { name: "Home", href: "/" },
@@ -72,6 +73,11 @@ export function Navbar() {
 
     window.scrollTo(0, 0);
   };
+
+  // Suppress standard website navbar on seminar forms, slides, and admin dashboards
+  if (isIsolatedRoute(pathname)) {
+    return null;
+  }
 
   return (
     <>

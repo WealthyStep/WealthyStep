@@ -1,10 +1,12 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import { MessageCircle } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn, isIsolatedRoute } from "@/lib/utils";
 
 export function WhatsAppButton() {
+  const pathname = usePathname();
   const [isVisible, setIsVisible] = useState(false);
   const phoneNumber = "919000929666"; // Standardized format for WhatsApp API
   const message = "Hello! I'm interested in Wealthy Step's financial services and would like to know more.";
@@ -18,6 +20,11 @@ export function WhatsAppButton() {
     }, 1500);
     return () => clearTimeout(timer);
   }, []);
+
+  // Suppress on seminar forms, slides, and admin dashboards
+  if (isIsolatedRoute(pathname)) {
+    return null;
+  }
 
   return (
     <div

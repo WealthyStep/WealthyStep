@@ -1,11 +1,14 @@
 'use client';
 
 import React, { useState } from 'react';
+import { usePathname } from 'next/navigation';
 import { MessageCircle, X } from 'lucide-react';
 import { ChatWindow } from './ChatWindow';
 import { motion, AnimatePresence } from 'motion/react';
+import { isIsolatedRoute } from '@/lib/utils';
 
 export const ChatbotWidget: React.FC = () => {
+  const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [showTooltip, setShowTooltip] = useState(true);
 
@@ -14,6 +17,11 @@ export const ChatbotWidget: React.FC = () => {
     const timer = setTimeout(() => setShowTooltip(false), 8000);
     return () => clearTimeout(timer);
   }, []);
+
+  // Suppress on seminar forms, slides, and admin dashboards
+  if (isIsolatedRoute(pathname)) {
+    return null;
+  }
 
   return (
     <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 flex flex-col items-end pointer-events-none">

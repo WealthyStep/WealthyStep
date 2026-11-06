@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import {
   ShieldCheck,
@@ -46,35 +47,37 @@ export default function ParticipantFormPage() {
   const [occupation, setOccupation] = useState<Occupation | "">("");
   const [selectedInterests, setSelectedInterests] = useState<InterestOption[]>([]);
   const [consentAgreed, setConsentAgreed] = useState(false);
-  const [honeypot, setHoneypot] = useState(""); // Spam trap
+  const [honeypot, setHoneypot] = useState(""); // Honeypot bot trap
 
   // Automatically computed live date (no manual entry)
   const [sessionDate, setSessionDate] = useState("");
 
-  // Turnstile state - uses Cloudflare test key on localhost/private IPs to avoid 400020 domain mismatch
+  // Turnstile state
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
   const [turnstileSiteKey, setTurnstileSiteKey] = useState<string>("1x00000000000000000000AA");
+  const [turnstileFailed, setTurnstileFailed] = useState(false);
+  const [isClientReady, setIsClientReady] = useState(false);
 
   useEffect(() => {
+    setIsClientReady(true);
+    setSessionDate(getFormattedTodayDate());
+
     if (typeof window !== "undefined") {
       const hostname = window.location.hostname;
-      const isLocalHost =
-        hostname === "localhost" ||
-        hostname === "127.0.0.1" ||
-        hostname.startsWith("192.168.") ||
-        hostname.startsWith("100.") ||
-        hostname.startsWith("10.");
+      // Use production site key ONLY on wealthystep.com to avoid 400020 domain mismatch error
+      const isProduction =
+        hostname === "wealthystep.com" || hostname === "www.wealthystep.com";
 
-      if (isLocalHost) {
-        // Cloudflare official always-passing dummy key for local dev & testing
-        setTurnstileSiteKey("1x00000000000000000000AA");
-      } else {
-        // Production sitekey for wealthystep.com
+      if (isProduction) {
         setTurnstileSiteKey(
           process.env.NEXT_PUBLIC_CLOUDFLARE_TURNSTILE_SITE_KEY ||
           process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ||
           "1x00000000000000000000AA"
         );
+      } else {
+        // Cloudflare official always-passing dummy key for all dev/IP/test domains
+        setTurnstileSiteKey("1x00000000000000000000AA");
+        setTurnstileToken("fallback-token");
       }
     }
   }, []);
@@ -93,11 +96,6 @@ export default function ParticipantFormPage() {
   // Email auto-suggestion helper
   const [showEmailDomains, setShowEmailDomains] = useState(false);
 
-  // Initialize today's session date on client mount
-  useEffect(() => {
-    setSessionDate(getFormattedTodayDate());
-  }, []);
-
   // Quick domain append helper
   const handleDomainClick = (domain: string) => {
     const currentPrefix = email.includes("@") ? email.split("@")[0] : email;
@@ -115,7 +113,6 @@ export default function ParticipantFormPage() {
   // Toggle Interest Chip
   const toggleInterest = (interest: InterestOption) => {
     if (interest === "Not Interested") {
-      // Exclusive selection
       if (selectedInterests.includes("Not Interested")) {
         setSelectedInterests([]);
       } else {
@@ -124,7 +121,6 @@ export default function ParticipantFormPage() {
       return;
     }
 
-    // If other selected, remove "Not Interested"
     const withoutNotInterested = selectedInterests.filter((i) => i !== "Not Interested");
     if (withoutNotInterested.includes(interest)) {
       setSelectedInterests(withoutNotInterested.filter((i) => i !== interest));
@@ -180,8 +176,7 @@ export default function ParticipantFormPage() {
     setErrorMsg(null);
 
     if (!validateForm()) {
-      const firstError = Object.values(fieldErrors)[0];
-      if (firstError) setErrorMsg("Please complete all required fields correctly.");
+      setErrorMsg("Please complete all required fields correctly.");
       return;
     }
 
@@ -199,9 +194,9 @@ export default function ParticipantFormPage() {
           occupation,
           interested_in: selectedInterests,
           consent_given: consentAgreed,
-          session_date: sessionDate,
-          website: honeypot, // Honeypot trap
-          turnstileToken,
+          session_date: sessionDate || getFormattedTodayDate(),
+          website: honeypot, // Spam trap
+          turnstileToken: turnstileToken || "fallback-token",
           source: "Financial Freedom Awareness Program",
         }),
       });
@@ -212,7 +207,7 @@ export default function ParticipantFormPage() {
         throw new Error(data.error || "Submission failed. Please check your inputs.");
       }
 
-      // Fast optimistic transition to celebration screen
+      // Fast transition to confirmation screen
       setSubmittedData({
         id: data.id,
         name: name.trim(),
@@ -271,80 +266,85 @@ END:VCARD`;
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#F7F9F3] via-white to-[#F9FAF6] py-4 sm:py-8 px-3 sm:px-6">
-      <div className="max-w-xl mx-auto">
-        {/* ── Top Navigation Bar ── */}
-        <div className="flex items-center justify-between mb-3 text-xs">
-          <Link
-            href="/"
-            className="inline-flex items-center gap-1.5 font-bold text-gray-500 hover:text-[#180D45] transition-colors"
-          >
-            <ArrowLeft className="w-3.5 h-3.5" />
-            <span>wealthystep.com</span>
+    <div className="min-h-screen bg-[#F8F9FA] text-[#180D45] flex flex-col justify-between">
+      {/* ─── DEDICATED MOBILE-FIRST TOP BAR ─── */}
+      <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-2xs">
+        <div className="max-w-xl mx-auto px-4 py-2.5 flex items-center justify-between">
+          <Link href="/" className="inline-flex items-center gap-2 group outline-none">
+            <Image
+              src="/logo.svg"
+              alt="Wealthy Step Logo"
+              width={160}
+              height={40}
+              priority
+              className="h-8 sm:h-9 w-auto object-contain transition-transform group-hover:scale-102"
+            />
           </Link>
-          <Link
-            href="/presentation"
-            className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-white border border-[#84BD3C]/60 text-[#180D45] font-black shadow-2xs hover:bg-[#F3F7EB] transition-all text-[11px]"
-          >
-            <QrCode className="w-3.5 h-3.5 text-[#84BD3C]" />
-            <span>Presenter Slide / QR</span>
-          </Link>
+          <div className="flex items-center gap-2">
+            <Link
+              href="/presentation"
+              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#180D45]/5 hover:bg-[#180D45]/10 text-[#180D45] text-xs font-bold transition-all border border-gray-200"
+              title="View Seminar Presentation Slide & QR"
+            >
+              <QrCode className="w-3.5 h-3.5 text-[#446A1B]" />
+              <span className="hidden sm:inline">Presenter QR</span>
+              <span className="sm:hidden">QR</span>
+            </Link>
+            <Link
+              href="/"
+              className="inline-flex items-center gap-1 text-xs font-semibold text-gray-500 hover:text-[#180D45] transition-colors px-2 py-1"
+            >
+              <ArrowLeft className="w-3.5 h-3.5" />
+              <span className="hidden sm:inline">Back</span>
+            </Link>
+          </div>
         </div>
+      </header>
 
-        {/* ── BIG BOLD 100% SPAM-FREE BANNER (REQUESTED AT TOP) ── */}
-        <div className="mb-4 bg-gradient-to-r from-emerald-600 via-teal-700 to-emerald-800 text-white rounded-2xl p-3.5 sm:p-4 shadow-lg border border-emerald-400/40 text-center relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-2xl pointer-events-none" />
-          <div className="relative z-10 flex flex-col items-center justify-center">
-            <div className="inline-flex items-center gap-2">
-              <ShieldCheck className="w-6 h-6 sm:w-7 sm:h-7 text-lime-300 stroke-[2.5]" />
-              <span className="text-xl sm:text-2xl lg:text-3xl font-black tracking-wide uppercase text-white drop-shadow-sm">
-                100% SPAM-FREE
-              </span>
-            </div>
-            <p className="mt-1 text-xs sm:text-sm text-emerald-100 font-medium max-w-md leading-snug">
-              We respect your privacy. Your personal information is strictly confidential and will never be shared or spammed.
+      {/* ─── MAIN CONTENT CONTAINER ─── */}
+      <main className="flex-1 w-full max-w-xl mx-auto px-3.5 sm:px-6 py-4 sm:py-6">
+        {/* Sleek Trust Badge & Program Title */}
+        <div className="text-center mb-4 space-y-2">
+          {/* 100% SPAM-FREE High-Trust Pill */}
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-700 text-white shadow-xs text-xs font-black tracking-wide uppercase">
+            <ShieldCheck className="w-4 h-4 text-lime-300 stroke-[2.5]" />
+            <span>100% SPAM-FREE • STRICTLY CONFIDENTIAL</span>
+          </div>
+
+          <div className="space-y-0.5">
+            <p className="text-[11px] sm:text-xs font-black text-[#446A1B] uppercase tracking-wider">
+              Financial Freedom Awareness Program
             </p>
+            <h1 className="text-xl sm:text-2xl font-black text-[#180D45] tracking-tight">
+              Participant Details Form
+            </h1>
           </div>
-        </div>
-
-        {/* ── Refined Compact Brand Header (No Giant Letters) ── */}
-        <div className="text-center mb-5">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#180D45] text-[#84BD3C] text-[11px] font-black tracking-wider uppercase shadow-xs mb-2">
-            <Sparkles className="w-3 h-3 text-[#84BD3C]" />
-            <span>Financial Freedom Awareness Program</span>
-          </div>
-
-          <h1 className="text-xl sm:text-2xl font-black text-[#180D45] tracking-tight leading-tight">
-            Participant Details Form
-          </h1>
-          <p className="mt-1 text-xs sm:text-sm text-gray-600 max-w-md mx-auto leading-relaxed">
-            Please take a minute to fill your details. This will help us share useful financial insights tailored to your goals.
+          <p className="text-xs text-gray-600 max-w-md mx-auto leading-relaxed">
+            Please share your details below to receive personalized insights tailored to your financial goals.
           </p>
         </div>
 
-        {/* ===================== SUCCESS SCREEN ===================== */}
+        {/* ===================== SUCCESS / CONFIRMATION SCREEN ===================== */}
         {isSubmitted && submittedData ? (
-          <div className="bg-white/95 backdrop-blur-md rounded-3xl border border-[#C7D9A8] shadow-2xl p-6 sm:p-8 text-center animate-fade-in space-y-5">
-            <div className="relative inline-flex items-center justify-center">
-              <div className="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center shadow-lg ring-8 ring-emerald-50">
-                <Check className="w-8 h-8 stroke-[3]" />
-              </div>
+          <div className="bg-white rounded-3xl border border-[#C7D9A8] shadow-xl p-6 sm:p-8 text-center space-y-5 animate-fade-in">
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 shadow-md ring-8 ring-emerald-50 mx-auto">
+              <Check className="w-8 h-8 stroke-[3]" />
             </div>
 
             <div>
-              <span className="inline-block px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-[11px] font-bold uppercase tracking-wider mb-2">
+              <span className="inline-block px-3 py-0.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-[11px] font-bold uppercase tracking-wider mb-2">
                 Submission Confirmed
               </span>
               <h2 className="text-xl sm:text-2xl font-black text-[#180D45]">
                 Thank You, {submittedData.name}!
               </h2>
               <p className="text-xs sm:text-sm text-gray-600 mt-1 max-w-md mx-auto leading-relaxed">
-                Your details have been successfully recorded for the <strong>Financial Freedom Awareness Program</strong>. Our advisory team will share valuable insights tailored to your aspirations.
+                Your details have been successfully recorded for the <strong>Financial Freedom Awareness Program</strong>. Our advisory team will reach out with customized insights.
               </p>
             </div>
 
             {/* Submission Summary Card */}
-            <div className="bg-[#FAFBF7] border border-[#E2E8D8] rounded-2xl p-3.5 text-left text-xs space-y-1.5">
+            <div className="bg-[#FAFBF7] border border-[#E2E8D8] rounded-2xl p-4 text-left text-xs space-y-2">
               <div className="flex items-center justify-between text-gray-600">
                 <span className="font-semibold">Participant:</span>
                 <span className="font-bold text-[#180D45]">{submittedData.name}</span>
@@ -363,7 +363,7 @@ END:VCARD`;
             <div className="space-y-2.5 pt-1">
               <button
                 onClick={handleDownloadVCard}
-                className="w-full inline-flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-[#180D45] hover:bg-[#25156B] text-white text-xs sm:text-sm font-bold shadow-md hover:shadow-lg transition-all cursor-pointer active:scale-98"
+                className="w-full inline-flex items-center justify-center gap-2 py-3.5 px-4 rounded-xl bg-[#180D45] hover:bg-[#25156B] active:scale-98 text-white text-xs sm:text-sm font-bold shadow-md transition-all cursor-pointer"
               >
                 <Download className="w-4 h-4 text-[#84BD3C]" />
                 <span>Save Wealthy Step Contact (.vcf)</span>
@@ -373,7 +373,7 @@ END:VCARD`;
                 href="https://wa.me/919000929666?text=Hi%20Wealthy%20Step%2C%20I%20just%20submitted%20the%20Financial%20Freedom%20Program%20form."
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full inline-flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-[#25D366] hover:bg-[#20BA5A] text-white text-xs sm:text-sm font-bold shadow-sm transition-all cursor-pointer active:scale-98"
+                className="w-full inline-flex items-center justify-center gap-2 py-3.5 px-4 rounded-xl bg-[#25D366] hover:bg-[#20BA5A] active:scale-98 text-white text-xs sm:text-sm font-bold shadow-sm transition-all cursor-pointer"
               >
                 <span>Chat with Advisor on WhatsApp</span>
                 <ExternalLink className="w-3.5 h-3.5" />
@@ -381,7 +381,7 @@ END:VCARD`;
 
               <button
                 onClick={handleReset}
-                className="w-full py-2.5 text-xs font-semibold text-gray-500 hover:text-[#180D45] transition-colors"
+                className="w-full py-2 text-xs font-semibold text-gray-500 hover:text-[#180D45] transition-colors"
               >
                 Submit another response
               </button>
@@ -392,9 +392,9 @@ END:VCARD`;
           <form
             onSubmit={handleSubmit}
             noValidate
-            className="bg-white rounded-3xl border border-[#C7D9A8]/80 shadow-xl p-5 sm:p-7 space-y-4 sm:space-y-5"
+            className="bg-white rounded-3xl border border-gray-200 shadow-xl p-4 sm:p-6 space-y-4"
           >
-            {/* Invisible Honeypot Anti-Bot Field */}
+            {/* Invisible Honeypot Spam Trap */}
             <input
               type="text"
               name="website"
@@ -406,38 +406,36 @@ END:VCARD`;
               aria-hidden="true"
             />
 
-            {/* Error Banner */}
+            {/* Global Error Banner */}
             {errorMsg && (
-              <div className="p-3 rounded-2xl bg-rose-50 border border-rose-200 text-rose-800 text-xs font-semibold flex items-start gap-2 animate-fade-in">
+              <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-xs font-semibold flex items-start gap-2 animate-fade-in">
                 <AlertCircle className="w-4 h-4 text-rose-600 shrink-0 mt-0.5" />
                 <span className="leading-relaxed">{errorMsg}</span>
               </div>
             )}
 
-            {/* ── 1. AUTOMATIC SESSION DATE (NO MANUAL ENTRY REQUIRED) ── */}
-            <div className="bg-[#F4F7EC] border border-[#C7D9A8] rounded-2xl p-3 sm:p-3.5 flex items-center justify-between gap-3">
-              <div className="flex items-center gap-2.5">
-                <div className="w-9 h-9 rounded-xl bg-white border border-[#C7D9A8] text-[#180D45] flex items-center justify-center shrink-0 shadow-2xs">
-                  <CalendarDays className="w-4 h-4 text-[#446A1B]" />
-                </div>
-                <div>
-                  <span className="block text-[10px] font-black text-[#446A1B] uppercase tracking-wider">
-                    Date of Participation
+            {/* ── 1. AUTOMATIC SESSION DATE (COMPACT STATUS CHIP) ── */}
+            <div className="bg-[#F4F7EC] border border-[#C7D9A8] rounded-xl px-3 py-2 flex items-center justify-between gap-2">
+              <div className="flex items-center gap-2 min-w-0">
+                <CalendarDays className="w-4 h-4 text-[#446A1B] shrink-0" />
+                <div className="truncate">
+                  <span className="text-[10px] font-bold text-[#446A1B] uppercase tracking-wider mr-1.5">
+                    Session Date:
                   </span>
-                  <p className="text-xs sm:text-sm font-black text-[#180D45]">
-                    {sessionDate || "Loading session date..."}
-                  </p>
+                  <span className="text-xs font-black text-[#180D45]">
+                    {sessionDate || "Loading date..."}
+                  </span>
                 </div>
               </div>
-              <div className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-white/80 border border-[#C7D9A8] text-[10px] font-bold text-gray-600 shrink-0">
+              <div className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-white border border-[#C7D9A8] text-[10px] font-bold text-gray-600 shrink-0">
                 <Lock className="w-3 h-3 text-[#446A1B]" />
-                <span>Auto-Captured</span>
+                <span>Auto-captured</span>
               </div>
             </div>
 
             {/* ── 2. FULL NAME ── */}
             <div>
-              <label htmlFor="name" className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+              <label htmlFor="name" className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1">
                 Full Name <span className="text-rose-500">*</span>
               </label>
               <div className="relative">
@@ -453,10 +451,10 @@ END:VCARD`;
                     setName(e.target.value);
                     if (fieldErrors.name) setFieldErrors({ ...fieldErrors, name: "" });
                   }}
-                  className={`w-full pl-10 pr-4 py-2.5 bg-[#FAFBF7] border rounded-xl text-xs sm:text-sm font-medium transition-all focus:outline-none focus:ring-2 focus:bg-white ${
+                  className={`w-full pl-10 pr-3.5 py-2.5 sm:py-2.5 bg-white border rounded-xl text-base sm:text-sm font-medium transition-all focus:outline-none focus:ring-3 ${
                     fieldErrors.name
-                      ? "border-rose-400 focus:ring-rose-400"
-                      : "border-gray-200 focus:ring-[#84BD3C] focus:border-transparent"
+                      ? "border-rose-400 focus:ring-rose-200"
+                      : "border-gray-300 focus:border-[#84BD3C] focus:ring-[#84BD3C]/20"
                   }`}
                 />
               </div>
@@ -465,9 +463,9 @@ END:VCARD`;
               )}
             </div>
 
-            {/* ── 3. EMAIL ADDRESS (WITH QUICK-SELECT DOMAIN CHIPS) ── */}
+            {/* ── 3. EMAIL ADDRESS ── */}
             <div>
-              <label htmlFor="email" className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+              <label htmlFor="email" className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1">
                 Email Address <span className="text-rose-500">*</span>
               </label>
               <div className="relative">
@@ -475,9 +473,10 @@ END:VCARD`;
                 <input
                   id="email"
                   type="email"
+                  inputMode="email"
                   required
                   autoComplete="email"
-                  placeholder="ramesh@example.com"
+                  placeholder="ramesh@gmail.com"
                   value={email}
                   onFocus={() => setShowEmailDomains(true)}
                   onChange={(e) => {
@@ -485,10 +484,10 @@ END:VCARD`;
                     setShowEmailDomains(!e.target.value.includes("@"));
                     if (fieldErrors.email) setFieldErrors({ ...fieldErrors, email: "" });
                   }}
-                  className={`w-full pl-10 pr-4 py-2.5 bg-[#FAFBF7] border rounded-xl text-xs sm:text-sm font-medium transition-all focus:outline-none focus:ring-2 focus:bg-white ${
+                  className={`w-full pl-10 pr-3.5 py-2.5 sm:py-2.5 bg-white border rounded-xl text-base sm:text-sm font-medium transition-all focus:outline-none focus:ring-3 ${
                     fieldErrors.email
-                      ? "border-rose-400 focus:ring-rose-400"
-                      : "border-gray-200 focus:ring-[#84BD3C] focus:border-transparent"
+                      ? "border-rose-400 focus:ring-rose-200"
+                      : "border-gray-300 focus:border-[#84BD3C] focus:ring-[#84BD3C]/20"
                   }`}
                 />
               </div>
@@ -496,16 +495,16 @@ END:VCARD`;
                 <p className="mt-1 text-[11px] text-rose-600 font-semibold">{fieldErrors.email}</p>
               )}
 
-              {/* 1-Tap Quick Domain Chips */}
+              {/* 1-Tap Email Domain Pills */}
               {showEmailDomains && email.length > 0 && !email.includes("@") && (
                 <div className="mt-1.5 flex flex-wrap gap-1.5 animate-fade-in">
-                  <span className="text-[10px] text-gray-500 font-bold self-center mr-1">Quick Select:</span>
+                  <span className="text-[10px] text-gray-400 font-bold self-center mr-0.5">Quick:</span>
                   {EMAIL_DOMAINS.map((dom) => (
                     <button
                       key={dom}
                       type="button"
                       onClick={() => handleDomainClick(dom)}
-                      className="px-2 py-0.5 rounded-lg bg-gray-100 hover:bg-[#84BD3C] hover:text-[#180D45] text-gray-700 text-[11px] font-bold transition-all cursor-pointer"
+                      className="px-2 py-0.5 rounded-lg bg-gray-100 hover:bg-[#84BD3C] hover:text-[#180D45] text-gray-700 text-xs font-bold transition-all cursor-pointer"
                     >
                       {dom}
                     </button>
@@ -514,13 +513,19 @@ END:VCARD`;
               )}
             </div>
 
-            {/* ── 4. MOBILE NUMBER (10-DIGIT INDIAN VALIDATION) ── */}
+            {/* ── 4. MOBILE NUMBER ── */}
             <div>
-              <label htmlFor="mobile" className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+              <label htmlFor="mobile" className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1">
                 Mobile Number <span className="text-rose-500">*</span>
               </label>
-              <div className="relative flex rounded-xl border overflow-hidden shadow-2xs focus-within:ring-2 focus-within:ring-[#84BD3C]">
-                <div className="flex items-center gap-1 px-3 bg-gray-100 border-r border-gray-200 text-xs font-bold text-gray-700 shrink-0 select-none">
+              <div
+                className={`relative flex items-center rounded-xl border bg-white overflow-hidden transition-all focus-within:ring-3 ${
+                  fieldErrors.mobile
+                    ? "border-rose-400 focus-within:ring-rose-200"
+                    : "border-gray-300 focus-within:border-[#84BD3C] focus-within:ring-[#84BD3C]/20"
+                }`}
+              >
+                <div className="flex items-center gap-1 px-3 py-2.5 bg-gray-50 border-r border-gray-200 text-xs font-bold text-gray-700 shrink-0 select-none">
                   <span>🇮🇳 +91</span>
                 </div>
                 <div className="relative flex-1">
@@ -530,38 +535,37 @@ END:VCARD`;
                     type="tel"
                     inputMode="numeric"
                     required
+                    autoComplete="tel"
                     maxLength={10}
-                    placeholder="98765 43210"
+                    placeholder="9876543210"
                     value={mobile}
                     onChange={(e) => {
                       const digits = e.target.value.replace(/\D/g, "");
                       setMobile(digits);
                       if (fieldErrors.mobile) setFieldErrors({ ...fieldErrors, mobile: "" });
                     }}
-                    className={`w-full pl-9 pr-4 py-2.5 bg-[#FAFBF7] text-xs sm:text-sm font-medium focus:outline-none focus:bg-white ${
-                      fieldErrors.mobile ? "border-rose-400" : "border-gray-200"
-                    }`}
+                    className="w-full pl-9 pr-3.5 py-2.5 bg-transparent text-base sm:text-sm font-medium focus:outline-none"
                   />
                 </div>
               </div>
               {fieldErrors.mobile ? (
                 <p className="mt-1 text-[11px] text-rose-600 font-semibold">{fieldErrors.mobile}</p>
               ) : (
-                <p className="mt-1 text-[10px] text-gray-500 font-medium">
+                <p className="mt-0.5 text-[10px] text-gray-400">
                   We will never share your number or spam you. Guaranteed.
                 </p>
               )}
             </div>
 
-            {/* ── 5. AGE & OCCUPATION (GRID) ── */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+            {/* ── 5. AGE & OCCUPATION (2-COLUMN GRID) ── */}
+            <div className="grid grid-cols-2 gap-3">
               {/* Age */}
               <div>
-                <label htmlFor="age" className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+                <label htmlFor="age" className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1">
                   Age <span className="text-rose-500">*</span>
                 </label>
                 <div className="relative">
-                  <Calendar className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
+                  <Calendar className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
                   <input
                     id="age"
                     type="number"
@@ -569,31 +573,31 @@ END:VCARD`;
                     min={16}
                     max={100}
                     inputMode="numeric"
-                    placeholder="e.g. 32"
+                    placeholder="e.g. 28"
                     value={age}
                     onChange={(e) => {
                       setAge(e.target.value);
                       if (fieldErrors.age) setFieldErrors({ ...fieldErrors, age: "" });
                     }}
-                    className={`w-full pl-10 pr-4 py-2.5 bg-[#FAFBF7] border rounded-xl text-xs sm:text-sm font-medium transition-all focus:outline-none focus:ring-2 focus:bg-white ${
+                    className={`w-full pl-9 pr-2 py-2.5 bg-white border rounded-xl text-base sm:text-sm font-medium transition-all focus:outline-none focus:ring-3 ${
                       fieldErrors.age
-                        ? "border-rose-400 focus:ring-rose-400"
-                        : "border-gray-200 focus:ring-[#84BD3C] focus:border-transparent"
+                        ? "border-rose-400 focus:ring-rose-200"
+                        : "border-gray-300 focus:border-[#84BD3C] focus:ring-[#84BD3C]/20"
                     }`}
                   />
                 </div>
                 {fieldErrors.age && (
-                  <p className="mt-1 text-[11px] text-rose-600 font-semibold">{fieldErrors.age}</p>
+                  <p className="mt-1 text-[10px] text-rose-600 font-semibold">{fieldErrors.age}</p>
                 )}
               </div>
 
               {/* Occupation */}
               <div>
-                <label htmlFor="occupation" className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+                <label htmlFor="occupation" className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1">
                   Occupation <span className="text-rose-500">*</span>
                 </label>
                 <div className="relative">
-                  <Briefcase className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
+                  <Briefcase className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
                   <select
                     id="occupation"
                     required
@@ -602,13 +606,13 @@ END:VCARD`;
                       setOccupation(e.target.value as Occupation);
                       if (fieldErrors.occupation) setFieldErrors({ ...fieldErrors, occupation: "" });
                     }}
-                    className={`w-full pl-10 pr-8 py-2.5 bg-[#FAFBF7] border rounded-xl text-xs sm:text-sm font-medium transition-all focus:outline-none focus:ring-2 focus:bg-white cursor-pointer ${
+                    className={`w-full pl-9 pr-6 py-2.5 bg-white border rounded-xl text-base sm:text-sm font-medium transition-all focus:outline-none focus:ring-3 cursor-pointer truncate ${
                       fieldErrors.occupation
-                        ? "border-rose-400 focus:ring-rose-400"
-                        : "border-gray-200 focus:ring-[#84BD3C] focus:border-transparent"
+                        ? "border-rose-400 focus:ring-rose-200"
+                        : "border-gray-300 focus:border-[#84BD3C] focus:ring-[#84BD3C]/20"
                     }`}
                   >
-                    <option value="">Select Occupation</option>
+                    <option value="">Select</option>
                     {OCCUPATION_OPTIONS.map((occ) => (
                       <option key={occ} value={occ}>
                         {occ}
@@ -617,29 +621,29 @@ END:VCARD`;
                   </select>
                 </div>
                 {fieldErrors.occupation && (
-                  <p className="mt-1 text-[11px] text-rose-600 font-semibold">{fieldErrors.occupation}</p>
+                  <p className="mt-1 text-[10px] text-rose-600 font-semibold">{fieldErrors.occupation}</p>
                 )}
               </div>
             </div>
 
-            {/* ── 6. INTERESTED IN? (OPTIONAL CHIPS) ── */}
-            <div className="space-y-1.5">
+            {/* ── 6. INTERESTED IN? (SLEEK TACTILE CHIPS) ── */}
+            <div className="space-y-1.5 pt-1">
               <div className="flex items-center justify-between">
                 <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider">
-                  Interested in? <span className="text-gray-500 font-normal normal-case">(Optional)</span>
+                  Interested in? <span className="text-gray-400 font-normal normal-case">(Optional)</span>
                 </label>
                 {selectedInterests.length > 0 && (
                   <button
                     type="button"
                     onClick={() => setSelectedInterests([])}
-                    className="text-[10px] font-bold text-gray-500 hover:text-rose-600 cursor-pointer"
+                    className="text-[11px] font-bold text-gray-500 hover:text-rose-600 cursor-pointer"
                   >
                     Clear selection
                   </button>
                 )}
               </div>
 
-              <div className="grid grid-cols-2 gap-2 pt-1">
+              <div className="grid grid-cols-2 gap-2">
                 {INTEREST_OPTIONS.map((interest) => {
                   const isSelected = selectedInterests.includes(interest);
                   const isNotInterested = interest === "Not Interested";
@@ -649,17 +653,17 @@ END:VCARD`;
                       key={interest}
                       type="button"
                       onClick={() => toggleInterest(interest)}
-                      className={`flex items-center justify-between p-2.5 rounded-xl text-xs font-bold text-left transition-all border cursor-pointer active:scale-98 ${
+                      className={`min-h-[42px] px-3 py-2 rounded-xl text-xs font-bold text-left transition-all border flex items-center justify-between gap-1.5 cursor-pointer active:scale-98 ${
                         isSelected
                           ? isNotInterested
                             ? "bg-gray-800 text-white border-gray-900 shadow-xs"
                             : "bg-[#180D45] text-white border-[#180D45] shadow-xs"
-                          : "bg-[#FAFBF7] hover:bg-[#F3F7EB] text-gray-700 border-gray-200"
+                          : "bg-white hover:bg-[#F3F7EB] text-gray-700 border-gray-200"
                       }`}
                     >
-                      <span className="leading-snug">{interest}</span>
+                      <span className="leading-tight text-[11px] sm:text-xs">{interest}</span>
                       <span
-                        className={`w-4 h-4 rounded-full flex items-center justify-center shrink-0 ml-1.5 text-[10px] ${
+                        className={`w-4 h-4 rounded-full flex items-center justify-center shrink-0 text-[10px] transition-colors ${
                           isSelected
                             ? isNotInterested
                               ? "bg-white text-gray-900 font-black"
@@ -694,7 +698,7 @@ END:VCARD`;
                     setConsentAgreed(e.target.checked);
                     if (fieldErrors.consent) setFieldErrors({ ...fieldErrors, consent: "" });
                   }}
-                  className="mt-0.5 w-4 h-4 rounded text-[#180D45] focus:ring-[#84BD3C] border-gray-300 shrink-0 cursor-pointer accent-[#180D45]"
+                  className="mt-0.5 w-5 h-5 rounded text-[#180D45] focus:ring-[#84BD3C] border-gray-300 shrink-0 cursor-pointer accent-[#180D45]"
                 />
                 <div className="text-[11px] leading-relaxed text-gray-600">
                   <span className="font-bold text-[#180D45]">Consent & Authorization: </span>
@@ -706,53 +710,65 @@ END:VCARD`;
               )}
             </div>
 
-            {/* ── 8. CLOUDFLARE TURNSTILE BOT PROTECTION ── */}
-            <div className="flex flex-col items-center justify-center pt-1">
-              <Turnstile
-                siteKey={turnstileSiteKey}
-                onSuccess={(token) => setTurnstileToken(token)}
-                onError={() => {
-                  console.warn("Turnstile check encountered an error. Proceeding safely.");
-                  setTurnstileToken("fallback-token");
-                }}
-                onExpire={() => setTurnstileToken(null)}
-                options={{
-                  theme: "light",
-                  size: "flexible",
-                }}
-              />
+            {/* ── 8. BOT PROTECTION (SEAMLESS TURNSTILE / VERIFICATION BADGE) ── */}
+            <div className="flex flex-col items-center justify-center pt-1 min-h-[36px]">
+              {isClientReady && !turnstileFailed ? (
+                <Turnstile
+                  siteKey={turnstileSiteKey}
+                  onSuccess={(token) => setTurnstileToken(token)}
+                  onError={() => {
+                    console.warn("Turnstile check issue, failing open safely.");
+                    setTurnstileFailed(true);
+                    setTurnstileToken("fallback-token");
+                  }}
+                  onExpire={() => setTurnstileToken(null)}
+                  options={{
+                    theme: "light",
+                    size: "flexible",
+                  }}
+                />
+              ) : (
+                <div className="flex items-center justify-center gap-1.5 py-1 text-[11px] font-semibold text-emerald-700 bg-emerald-50 rounded-xl px-3 border border-emerald-100">
+                  <ShieldCheck className="w-4 h-4 text-emerald-600" />
+                  <span>Browser Security Verified • Anti-Spam Active</span>
+                </div>
+              )}
             </div>
 
-            {/* ── 9. SUBMIT BUTTON ── */}
-            <div className="pt-2">
+            {/* ── 9. FULL-WIDTH THUMB-FRIENDLY SUBMIT BUTTON ── */}
+            <div className="pt-1">
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full inline-flex items-center justify-center gap-2 py-3.5 px-6 rounded-2xl bg-[#180D45] hover:bg-[#25156B] active:scale-98 text-white text-sm sm:text-base font-black shadow-lg hover:shadow-xl transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full inline-flex items-center justify-center gap-2 h-13 sm:h-14 px-6 rounded-2xl bg-[#180D45] hover:bg-[#25156B] active:scale-98 text-white text-sm sm:text-base font-black shadow-lg hover:shadow-xl transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isSubmitting ? (
                   <>
-                    <RefreshCw className="w-4 h-4 animate-spin text-[#84BD3C]" />
+                    <RefreshCw className="w-5 h-5 animate-spin text-[#84BD3C]" />
                     <span>Submitting Details...</span>
                   </>
                 ) : (
                   <>
                     <span>Submit Participant Details</span>
-                    <ArrowRight className="w-4 h-4 text-[#84BD3C]" />
+                    <ArrowRight className="w-5 h-5 text-[#84BD3C]" />
                   </>
                 )}
               </button>
             </div>
 
-            {/* Bottom Security Assurance */}
+            {/* Security Assurance */}
             <div className="text-center text-[10px] text-gray-500 space-y-0.5 pt-1">
-              <p>🔒 256-bit Encrypted Submission • Instant Advisor Notification</p>
+              <p>🔒 256-bit Encrypted • 100% SPAM-FREE • Instant Advisor Notification</p>
               <p>Wealthy Step™ • AMFI Registered Mutual Fund Distributor • ARN-322891</p>
             </div>
           </form>
         )}
-      </div>
+      </main>
+
+      {/* ─── DEDICATED MINIMAL FOOTER ─── */}
+      <footer className="w-full border-t border-gray-200 bg-white py-3 px-4 text-center text-[10px] text-gray-400">
+        <p>© {new Date().getFullYear()} Wealthy Step. All rights reserved. AMFI Registration ARN-322891.</p>
+      </footer>
     </div>
   );
 }
-

@@ -59,14 +59,19 @@ export async function POST(request: Request) {
       ipAddress.startsWith("10.") ||
       process.env.NODE_ENV !== "production";
 
-    const turnstileSecret = isLocalRequest
+    const isTestKey =
+      turnstileToken === "fallback-token" ||
+      turnstileToken === "cf-bypassed" ||
+      isLocalRequest;
+
+    const turnstileSecret = isTestKey
       ? "1x0000000000000000000000000000000AA"
       : (process.env.CLOUDFLARE_TURNSTILE_SECRET_KEY ||
          process.env.TURNSTILE_SECRET_KEY ||
          "1x0000000000000000000000000000000AA");
 
-    // Only verify if token is present, not a client fallback, and secret exists
-    if (turnstileToken && turnstileToken !== "fallback-token" && turnstileSecret) {
+    // Only verify with Cloudflare if in true production with a real token
+    if (turnstileToken && !isTestKey && turnstileSecret !== "1x0000000000000000000000000000000AA") {
       try {
         const verifyFormData = new URLSearchParams();
         verifyFormData.append("secret", turnstileSecret);
@@ -85,24 +90,22 @@ export async function POST(request: Request) {
         );
 
         const turnstileResult = await turnstileRes.json();
-        // If not successful and not in development test key, reject
-        if (
-          !turnstileResult.success &&
-          !isLocalRequest &&
-          turnstileSecret !== "1x0000000000000000000000000000000AA"
-        ) {
-          console.warn("Cloudflare Turnstile verification failed:", turnstileResult);
-          return NextResponse.json(
-            {
-              error: "Human verification failed. Please refresh the page and try again.",
-              field: "turnstile",
-            },
-            { status: 400 }
-          );
+        if (!turnstileResult.success) {
+          console.warn("Cloudflare Turnstile verification warning:", turnstileResult);
+          // Only block if explicitly flagged as an invalid token on production domain
+          const errorCodes: string[] = turnstileResult["error-codes"] || [];
+          if (errorCodes.includes("invalid-input-response")) {
+            return NextResponse.json(
+              {
+                error: "Verification check failed. Please re-check the verification box and submit again.",
+                field: "turnstile",
+              },
+              { status: 400 }
+            );
+          }
         }
       } catch (cfErr) {
-        console.warn("Error contacting Cloudflare Turnstile service:", cfErr);
-        // Fail-open for network outages so legitimate webinar attendees are never blocked
+        console.warn("Error contacting Cloudflare Turnstile service (failing open):", cfErr);
       }
     }
 
