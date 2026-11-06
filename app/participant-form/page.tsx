@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -10,7 +10,6 @@ import {
   Phone,
   Calendar,
   Briefcase,
-  CheckCircle2,
   AlertCircle,
   RefreshCw,
   Sparkles,
@@ -19,10 +18,14 @@ import {
   Check,
   Download,
   ExternalLink,
-  ChevronRight,
-  QrCode,
   ArrowLeft,
   CalendarDays,
+  Palmtree,
+  GraduationCap,
+  Home,
+  Target,
+  XCircle,
+  ChevronDown,
 } from "lucide-react";
 import { Turnstile } from "@marsidev/react-turnstile";
 import {
@@ -37,6 +40,54 @@ import {
 } from "@/lib/program-validation";
 
 const EMAIL_DOMAINS = ["@gmail.com", "@yahoo.com", "@outlook.com", "@icloud.com"];
+
+const GOAL_CONFIG: Record<
+  InterestOption,
+  { label: string; description: string; icon: any; iconColor: string; bgAccent: string }
+> = {
+  Retirement: {
+    label: "Retirement Planning",
+    description: "Build a reliable pension corpus & financial peace of mind",
+    icon: Palmtree,
+    iconColor: "text-amber-600",
+    bgAccent: "bg-amber-50 border-amber-200",
+  },
+  "Insurance Planning (Health, Life)": {
+    label: "Insurance Planning (Health & Life)",
+    description: "Protect family health, critical illness & term coverage",
+    icon: ShieldCheck,
+    iconColor: "text-emerald-600",
+    bgAccent: "bg-emerald-50 border-emerald-200",
+  },
+  "Child Education": {
+    label: "Child Education & Higher Studies",
+    description: "Dedicated education fund for graduation & career dreams",
+    icon: GraduationCap,
+    iconColor: "text-blue-600",
+    bgAccent: "bg-blue-50 border-blue-200",
+  },
+  "House Purchase": {
+    label: "House Purchase & Real Estate",
+    description: "Down payment planning & home loan wealth buffer",
+    icon: Home,
+    iconColor: "text-indigo-600",
+    bgAccent: "bg-indigo-50 border-indigo-200",
+  },
+  "Other Goals": {
+    label: "Other Financial Goals",
+    description: "Emergency funds, vacation, car, or general wealth building",
+    icon: Target,
+    iconColor: "text-purple-600",
+    bgAccent: "bg-purple-50 border-purple-200",
+  },
+  "Not Interested": {
+    label: "Not Interested Right Now",
+    description: "I only want general updates and awareness insights",
+    icon: XCircle,
+    iconColor: "text-gray-400",
+    bgAccent: "bg-gray-100 border-gray-200",
+  },
+};
 
 export default function ParticipantFormPage() {
   // Form state
@@ -292,18 +343,19 @@ END:VCARD`;
 
       {/* ─── MAIN CONTENT CONTAINER ─── */}
       <main className="flex-1 w-full max-w-xl mx-auto px-3.5 sm:px-6 py-4 sm:py-6">
-        {/* Sleek Trust Badge & Program Title */}
+        {/* Sleek Trust Badge & Program Header */}
         <div className="text-center mb-4 space-y-2">
           {/* 100% SPAM-FREE High-Trust Pill */}
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-700 text-white shadow-xs text-xs font-black tracking-wide uppercase">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-700 text-white shadow-xs text-xs font-black tracking-wide uppercase">
             <ShieldCheck className="w-4 h-4 text-lime-300 stroke-[2.5]" />
             <span>100% SPAM-FREE • STRICTLY CONFIDENTIAL</span>
           </div>
 
           <div className="space-y-0.5">
-            <p className="text-[11px] sm:text-xs font-black text-[#446A1B] uppercase tracking-wider">
-              Financial Freedom Awareness Program
-            </p>
+            <div className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#180D45]/5 text-[#446A1B] text-[11px] font-black tracking-wider uppercase">
+              <Sparkles className="w-3 h-3 text-[#446A1B]" />
+              <span>Financial Freedom Awareness Program</span>
+            </div>
             <h1 className="text-xl sm:text-2xl font-black text-[#180D45] tracking-tight">
               Participant Details Form
             </h1>
@@ -403,22 +455,24 @@ END:VCARD`;
               </div>
             )}
 
-            {/* ── 1. AUTOMATIC SESSION DATE (COMPACT STATUS CHIP) ── */}
-            <div className="bg-[#F4F7EC] border border-[#C7D9A8] rounded-xl px-3 py-2 flex items-center justify-between gap-2">
-              <div className="flex items-center gap-2 min-w-0">
-                <CalendarDays className="w-4 h-4 text-[#446A1B] shrink-0" />
-                <div className="truncate">
-                  <span className="text-[10px] font-bold text-[#446A1B] uppercase tracking-wider mr-1.5">
-                    Session Date:
+            {/* ── 1. AUTOMATIC SESSION DATE (NEVER TRUNCATED) ── */}
+            <div className="bg-[#F4F7EC] border border-[#C7D9A8] rounded-2xl p-3 sm:p-3.5 flex items-center justify-between gap-3">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-white border border-[#C7D9A8] text-[#446A1B] flex items-center justify-center shrink-0 shadow-2xs">
+                  <CalendarDays className="w-5 h-5 text-[#446A1B]" />
+                </div>
+                <div>
+                  <span className="block text-[10px] font-black text-[#446A1B] uppercase tracking-wider">
+                    Session Date
                   </span>
-                  <span className="text-xs font-black text-[#180D45]">
-                    {sessionDate || "Loading date..."}
-                  </span>
+                  <p className="text-xs sm:text-sm font-black text-[#180D45] leading-snug">
+                    {sessionDate || "Loading session date..."}
+                  </p>
                 </div>
               </div>
-              <div className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-white border border-[#C7D9A8] text-[10px] font-bold text-gray-600 shrink-0">
-                <Lock className="w-3 h-3 text-[#446A1B]" />
-                <span>Auto-captured</span>
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white border border-[#C7D9A8] text-[10px] sm:text-[11px] font-bold text-[#446A1B] shrink-0 shadow-2xs">
+                <Lock className="w-3.5 h-3.5 text-[#446A1B]" />
+                <span>Auto-Captured</span>
               </div>
             </div>
 
@@ -440,7 +494,7 @@ END:VCARD`;
                     setName(e.target.value);
                     if (fieldErrors.name) setFieldErrors({ ...fieldErrors, name: "" });
                   }}
-                  className={`w-full pl-10 pr-3.5 py-2.5 sm:py-2.5 bg-white border rounded-xl text-base sm:text-sm font-medium transition-all focus:outline-none focus:ring-3 ${
+                  className={`w-full pl-10 pr-3.5 py-3 bg-white border rounded-xl text-base sm:text-sm font-medium transition-all focus:outline-none focus:ring-3 ${
                     fieldErrors.name
                       ? "border-rose-400 focus:ring-rose-200"
                       : "border-gray-300 focus:border-[#84BD3C] focus:ring-[#84BD3C]/20"
@@ -448,7 +502,7 @@ END:VCARD`;
                 />
               </div>
               {fieldErrors.name && (
-                <p className="mt-1 text-[11px] text-rose-600 font-semibold">{fieldErrors.name}</p>
+                <p className="mt-1 text-xs text-rose-600 font-semibold">{fieldErrors.name}</p>
               )}
             </div>
 
@@ -473,7 +527,7 @@ END:VCARD`;
                     setShowEmailDomains(!e.target.value.includes("@"));
                     if (fieldErrors.email) setFieldErrors({ ...fieldErrors, email: "" });
                   }}
-                  className={`w-full pl-10 pr-3.5 py-2.5 sm:py-2.5 bg-white border rounded-xl text-base sm:text-sm font-medium transition-all focus:outline-none focus:ring-3 ${
+                  className={`w-full pl-10 pr-3.5 py-3 bg-white border rounded-xl text-base sm:text-sm font-medium transition-all focus:outline-none focus:ring-3 ${
                     fieldErrors.email
                       ? "border-rose-400 focus:ring-rose-200"
                       : "border-gray-300 focus:border-[#84BD3C] focus:ring-[#84BD3C]/20"
@@ -481,7 +535,7 @@ END:VCARD`;
                 />
               </div>
               {fieldErrors.email && (
-                <p className="mt-1 text-[11px] text-rose-600 font-semibold">{fieldErrors.email}</p>
+                <p className="mt-1 text-xs text-rose-600 font-semibold">{fieldErrors.email}</p>
               )}
 
               {/* 1-Tap Email Domain Pills */}
@@ -493,7 +547,7 @@ END:VCARD`;
                       key={dom}
                       type="button"
                       onClick={() => handleDomainClick(dom)}
-                      className="px-2 py-0.5 rounded-lg bg-gray-100 hover:bg-[#84BD3C] hover:text-[#180D45] text-gray-700 text-xs font-bold transition-all cursor-pointer"
+                      className="px-2.5 py-1 rounded-lg bg-gray-100 hover:bg-[#84BD3C] hover:text-[#180D45] text-gray-700 text-xs font-bold transition-all cursor-pointer"
                     >
                       {dom}
                     </button>
@@ -514,7 +568,7 @@ END:VCARD`;
                     : "border-gray-300 focus-within:border-[#84BD3C] focus-within:ring-[#84BD3C]/20"
                 }`}
               >
-                <div className="flex items-center gap-1 px-3 py-2.5 bg-gray-50 border-r border-gray-200 text-xs font-bold text-gray-700 shrink-0 select-none">
+                <div className="flex items-center gap-1 px-3 py-3 bg-gray-50 border-r border-gray-200 text-xs font-bold text-gray-700 shrink-0 select-none">
                   <span>🇮🇳 +91</span>
                 </div>
                 <div className="relative flex-1">
@@ -533,12 +587,12 @@ END:VCARD`;
                       setMobile(digits);
                       if (fieldErrors.mobile) setFieldErrors({ ...fieldErrors, mobile: "" });
                     }}
-                    className="w-full pl-9 pr-3.5 py-2.5 bg-transparent text-base sm:text-sm font-medium focus:outline-none"
+                    className="w-full pl-9 pr-3.5 py-3 bg-transparent text-base sm:text-sm font-medium focus:outline-none"
                   />
                 </div>
               </div>
               {fieldErrors.mobile ? (
-                <p className="mt-1 text-[11px] text-rose-600 font-semibold">{fieldErrors.mobile}</p>
+                <p className="mt-1 text-xs text-rose-600 font-semibold">{fieldErrors.mobile}</p>
               ) : (
                 <p className="mt-0.5 text-[10px] text-gray-400">
                   We will never share your number or spam you. Guaranteed.
@@ -546,132 +600,167 @@ END:VCARD`;
               )}
             </div>
 
-            {/* ── 5. AGE & OCCUPATION (2-COLUMN GRID) ── */}
-            <div className="grid grid-cols-2 gap-3">
-              {/* Age */}
-              <div>
-                <label htmlFor="age" className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1">
-                  Age <span className="text-rose-500">*</span>
-                </label>
-                <div className="relative">
-                  <Calendar className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-                  <input
-                    id="age"
-                    type="number"
-                    required
-                    min={16}
-                    max={100}
-                    inputMode="numeric"
-                    placeholder="e.g. 28"
-                    value={age}
-                    onChange={(e) => {
-                      setAge(e.target.value);
-                      if (fieldErrors.age) setFieldErrors({ ...fieldErrors, age: "" });
-                    }}
-                    className={`w-full pl-9 pr-2 py-2.5 bg-white border rounded-xl text-base sm:text-sm font-medium transition-all focus:outline-none focus:ring-3 ${
-                      fieldErrors.age
-                        ? "border-rose-400 focus:ring-rose-200"
-                        : "border-gray-300 focus:border-[#84BD3C] focus:ring-[#84BD3C]/20"
-                    }`}
-                  />
-                </div>
-                {fieldErrors.age && (
-                  <p className="mt-1 text-[10px] text-rose-600 font-semibold">{fieldErrors.age}</p>
-                )}
+            {/* ── 5. AGE (STACKED FULL WIDTH - ONE UNDER ONE) ── */}
+            <div>
+              <label htmlFor="age" className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1">
+                Age <span className="text-rose-500">*</span>
+              </label>
+              <div className="relative">
+                <Calendar className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
+                <input
+                  id="age"
+                  type="number"
+                  required
+                  min={16}
+                  max={100}
+                  inputMode="numeric"
+                  placeholder="e.g. 28"
+                  value={age}
+                  onChange={(e) => {
+                    setAge(e.target.value);
+                    if (fieldErrors.age) setFieldErrors({ ...fieldErrors, age: "" });
+                  }}
+                  className={`w-full pl-10 pr-4 py-3 bg-white border rounded-xl text-base sm:text-sm font-medium transition-all focus:outline-none focus:ring-3 ${
+                    fieldErrors.age
+                      ? "border-rose-400 focus:ring-rose-200"
+                      : "border-gray-300 focus:border-[#84BD3C] focus:ring-[#84BD3C]/20"
+                  }`}
+                />
               </div>
-
-              {/* Occupation */}
-              <div>
-                <label htmlFor="occupation" className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1">
-                  Occupation <span className="text-rose-500">*</span>
-                </label>
-                <div className="relative">
-                  <Briefcase className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
-                  <select
-                    id="occupation"
-                    required
-                    value={occupation}
-                    onChange={(e) => {
-                      setOccupation(e.target.value as Occupation);
-                      if (fieldErrors.occupation) setFieldErrors({ ...fieldErrors, occupation: "" });
-                    }}
-                    className={`w-full pl-9 pr-6 py-2.5 bg-white border rounded-xl text-base sm:text-sm font-medium transition-all focus:outline-none focus:ring-3 cursor-pointer truncate ${
-                      fieldErrors.occupation
-                        ? "border-rose-400 focus:ring-rose-200"
-                        : "border-gray-300 focus:border-[#84BD3C] focus:ring-[#84BD3C]/20"
-                    }`}
-                  >
-                    <option value="">Select</option>
-                    {OCCUPATION_OPTIONS.map((occ) => (
-                      <option key={occ} value={occ}>
-                        {occ}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                {fieldErrors.occupation && (
-                  <p className="mt-1 text-[10px] text-rose-600 font-semibold">{fieldErrors.occupation}</p>
-                )}
-              </div>
+              {fieldErrors.age && (
+                <p className="mt-1 text-xs text-rose-600 font-semibold">{fieldErrors.age}</p>
+              )}
             </div>
 
-            {/* ── 6. INTERESTED IN? (SLEEK TACTILE CHIPS) ── */}
-            <div className="space-y-1.5 pt-1">
+            {/* ── 6. OCCUPATION (STACKED FULL WIDTH - ONE UNDER ONE) ── */}
+            <div>
+              <label htmlFor="occupation" className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1">
+                Occupation <span className="text-rose-500">*</span>
+              </label>
+              <div className="relative">
+                <Briefcase className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+                <select
+                  id="occupation"
+                  required
+                  value={occupation}
+                  onChange={(e) => {
+                    setOccupation(e.target.value as Occupation);
+                    if (fieldErrors.occupation) setFieldErrors({ ...fieldErrors, occupation: "" });
+                  }}
+                  className={`w-full pl-10 pr-10 py-3 bg-white border rounded-xl text-base sm:text-sm font-medium transition-all focus:outline-none focus:ring-3 cursor-pointer appearance-none ${
+                    fieldErrors.occupation
+                      ? "border-rose-400 focus:ring-rose-200"
+                      : "border-gray-300 focus:border-[#84BD3C] focus:ring-[#84BD3C]/20"
+                  }`}
+                >
+                  <option value="">Select your occupation</option>
+                  {OCCUPATION_OPTIONS.map((occ) => (
+                    <option key={occ} value={occ}>
+                      {occ === "Salaried"
+                        ? "Salaried (Corporate / Private / Govt)"
+                        : occ === "Business"
+                        ? "Business Owner / Entrepreneur"
+                        : "Others (Professional / Consultant / Retired / Student)"}
+                    </option>
+                  ))}
+                </select>
+                <ChevronDown className="w-4 h-4 absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+              </div>
+              {fieldErrors.occupation && (
+                <p className="mt-1 text-xs text-rose-600 font-semibold">{fieldErrors.occupation}</p>
+              )}
+            </div>
+
+            {/* ── 7. INTERESTED IN? (VERTICAL STACKED LIST - ONE BY ONE) ── */}
+            <div className="space-y-2 pt-2 border-t border-gray-100">
               <div className="flex items-center justify-between">
-                <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider">
-                  Interested in? <span className="text-gray-400 font-normal normal-case">(Optional)</span>
-                </label>
+                <div>
+                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider">
+                    Interested in? <span className="text-gray-400 font-normal normal-case">(Optional)</span>
+                  </label>
+                  <p className="text-[11px] text-gray-500">
+                    Select the financial areas you would like insights on:
+                  </p>
+                </div>
                 {selectedInterests.length > 0 && (
                   <button
                     type="button"
                     onClick={() => setSelectedInterests([])}
-                    className="text-[11px] font-bold text-gray-500 hover:text-rose-600 cursor-pointer"
+                    className="text-xs font-bold text-gray-500 hover:text-rose-600 transition-colors cursor-pointer shrink-0"
                   >
-                    Clear selection
+                    Clear all
                   </button>
                 )}
               </div>
 
-              <div className="grid grid-cols-2 gap-2">
+              {/* Vertical Stacked Cards (One by One) */}
+              <div className="flex flex-col gap-2.5 pt-1">
                 {INTEREST_OPTIONS.map((interest) => {
                   const isSelected = selectedInterests.includes(interest);
                   const isNotInterested = interest === "Not Interested";
+                  const config = GOAL_CONFIG[interest];
+                  const Icon = config.icon;
 
                   return (
                     <button
                       key={interest}
                       type="button"
                       onClick={() => toggleInterest(interest)}
-                      className={`min-h-[42px] px-3 py-2 rounded-xl text-xs font-bold text-left transition-all border flex items-center justify-between gap-1.5 cursor-pointer active:scale-98 ${
+                      className={`w-full p-3.5 rounded-2xl border text-left transition-all flex items-center justify-between gap-3 cursor-pointer active:scale-99 ${
                         isSelected
                           ? isNotInterested
-                            ? "bg-gray-800 text-white border-gray-900 shadow-xs"
-                            : "bg-[#180D45] text-white border-[#180D45] shadow-xs"
-                          : "bg-white hover:bg-[#F3F7EB] text-gray-700 border-gray-200"
+                            ? "bg-slate-900 text-white border-slate-950 shadow-md ring-2 ring-slate-800"
+                            : "bg-[#180D45] text-white border-[#180D45] shadow-md ring-2 ring-[#84BD3C]/40"
+                          : "bg-white hover:bg-slate-50 border-gray-200 text-gray-800 hover:border-gray-300 shadow-2xs"
                       }`}
                     >
-                      <span className="leading-tight text-[11px] sm:text-xs">{interest}</span>
-                      <span
-                        className={`w-4 h-4 rounded-full flex items-center justify-center shrink-0 text-[10px] transition-colors ${
+                      <div className="flex items-center gap-3 min-w-0">
+                        {/* Icon badge */}
+                        <div
+                          className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-colors ${
+                            isSelected
+                              ? isNotInterested
+                                ? "bg-white/10 text-white"
+                                : "bg-white/10 text-[#84BD3C]"
+                              : config.bgAccent
+                          }`}
+                        >
+                          <Icon className={`w-5 h-5 ${isSelected ? "text-white" : config.iconColor}`} />
+                        </div>
+
+                        {/* Title & Description */}
+                        <div className="min-w-0">
+                          <p className={`text-xs sm:text-sm font-bold leading-snug truncate ${isSelected ? "text-white" : "text-[#180D45]"}`}>
+                            {config.label}
+                          </p>
+                          <p className={`text-[11px] leading-tight mt-0.5 ${isSelected ? "text-white/70" : "text-gray-500"}`}>
+                            {config.description}
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Selection Checkmark Circle */}
+                      <div
+                        className={`w-5 h-5 rounded-full flex items-center justify-center shrink-0 transition-all ${
                           isSelected
                             ? isNotInterested
-                              ? "bg-white text-gray-900 font-black"
-                              : "bg-[#84BD3C] text-[#180D45] font-black"
-                            : "border border-gray-300"
+                              ? "bg-white text-gray-900 shadow-xs"
+                              : "bg-[#84BD3C] text-[#180D45] shadow-xs"
+                            : "border-2 border-gray-300 bg-white"
                         }`}
                       >
-                        {isSelected ? "✓" : ""}
-                      </span>
+                        {isSelected && <Check className="w-3.5 h-3.5 stroke-[3]" />}
+                      </div>
                     </button>
                   );
                 })}
               </div>
             </div>
 
-            {/* ── 7. MANDATORY LEGAL CONSENT CHECKBOX ── */}
+            {/* ── 8. MANDATORY LEGAL CONSENT CHECKBOX ── */}
             <div className="pt-2 border-t border-gray-100">
               <label
-                className={`flex items-start gap-3 p-3 rounded-2xl border transition-all cursor-pointer ${
+                className={`flex items-start gap-3 p-3.5 rounded-2xl border transition-all cursor-pointer ${
                   consentAgreed
                     ? "bg-[#F3F7EB] border-[#84BD3C]"
                     : fieldErrors.consent
@@ -695,11 +784,11 @@ END:VCARD`;
                 </div>
               </label>
               {fieldErrors.consent && (
-                <p className="mt-1 text-[11px] text-rose-600 font-semibold">{fieldErrors.consent}</p>
+                <p className="mt-1 text-xs text-rose-600 font-semibold">{fieldErrors.consent}</p>
               )}
             </div>
 
-            {/* ── 8. BOT PROTECTION (SEAMLESS TURNSTILE / VERIFICATION BADGE) ── */}
+            {/* ── 9. BOT PROTECTION (SEAMLESS TURNSTILE / VERIFICATION BADGE) ── */}
             <div className="flex flex-col items-center justify-center pt-1 min-h-[36px]">
               {isClientReady && !turnstileFailed ? (
                 <Turnstile
@@ -717,19 +806,19 @@ END:VCARD`;
                   }}
                 />
               ) : (
-                <div className="flex items-center justify-center gap-1.5 py-1 text-[11px] font-semibold text-emerald-700 bg-emerald-50 rounded-xl px-3 border border-emerald-100">
+                <div className="flex items-center justify-center gap-1.5 py-1.5 text-xs font-semibold text-emerald-700 bg-emerald-50 rounded-xl px-3.5 border border-emerald-100">
                   <ShieldCheck className="w-4 h-4 text-emerald-600" />
                   <span>Browser Security Verified • Anti-Spam Active</span>
                 </div>
               )}
             </div>
 
-            {/* ── 9. FULL-WIDTH THUMB-FRIENDLY SUBMIT BUTTON ── */}
+            {/* ── 10. FULL-WIDTH THUMB-FRIENDLY SUBMIT BUTTON ── */}
             <div className="pt-1">
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full inline-flex items-center justify-center gap-2 h-13 sm:h-14 px-6 rounded-2xl bg-[#180D45] hover:bg-[#25156B] active:scale-98 text-white text-sm sm:text-base font-black shadow-lg hover:shadow-xl transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full inline-flex items-center justify-center gap-2 h-14 px-6 rounded-2xl bg-[#180D45] hover:bg-[#25156B] active:scale-98 text-white text-base font-black shadow-lg hover:shadow-xl transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isSubmitting ? (
                   <>
