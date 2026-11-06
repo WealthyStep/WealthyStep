@@ -25,7 +25,16 @@ CREATE TABLE IF NOT EXISTS public.program_participants (
     updated_at TIMESTAMPTZ NOT NULL DEFAULT timezone('utc'::text, now())
 );
 
--- 2. Performance Indexes for Admin Search & Filtering
+-- 2. Ensure all columns exist (safe upgrade if table was previously created)
+ALTER TABLE public.program_participants 
+    ADD COLUMN IF NOT EXISTS session_date TEXT DEFAULT '',
+    ADD COLUMN IF NOT EXISTS status TEXT DEFAULT 'New',
+    ADD COLUMN IF NOT EXISTS notes TEXT DEFAULT '',
+    ADD COLUMN IF NOT EXISTS source TEXT DEFAULT 'Financial Freedom Awareness Program',
+    ADD COLUMN IF NOT EXISTS ip_address TEXT,
+    ADD COLUMN IF NOT EXISTS user_agent TEXT;
+
+-- 3. Performance Indexes for Admin Search & Filtering
 CREATE INDEX IF NOT EXISTS idx_program_participants_created_at 
     ON public.program_participants(created_at DESC);
 
@@ -41,14 +50,15 @@ CREATE INDEX IF NOT EXISTS idx_program_participants_mobile
 CREATE INDEX IF NOT EXISTS idx_program_participants_occupation 
     ON public.program_participants(occupation);
 
--- 3. CRITICAL: Grant Explicit Table Permissions to Supabase Roles
+-- 4. CRITICAL: Grant Schema & Table Permissions to Supabase Roles
 -- (Without these grants, PostgREST hides the table from the schema cache -> PGRST205)
+GRANT USAGE ON SCHEMA public TO postgres, anon, authenticated, service_role;
 GRANT ALL ON TABLE public.program_participants TO postgres, anon, authenticated, service_role;
 
--- 4. Enable Row Level Security (RLS)
+-- 5. Enable Row Level Security (RLS)
 ALTER TABLE public.program_participants ENABLE ROW LEVEL SECURITY;
 
--- 5. Explicit RLS Policies
+-- 6. Explicit RLS Policies
 DROP POLICY IF EXISTS "Allow service_role full access to program_participants" ON public.program_participants;
 CREATE POLICY "Allow service_role full access to program_participants" 
     ON public.program_participants FOR ALL TO service_role USING (true) WITH CHECK (true);
@@ -57,9 +67,9 @@ DROP POLICY IF EXISTS "Allow authenticated full access to program_participants" 
 CREATE POLICY "Allow authenticated full access to program_participants" 
     ON public.program_participants FOR ALL TO authenticated USING (true) WITH CHECK (true);
 
--- 6. Force Supabase PostgREST to Instantly Refresh Its Schema Cache
+-- 7. Force Supabase PostgREST to Instantly Refresh Its Schema Cache
 NOTIFY pgrst, 'reload schema';
 NOTIFY pgrst, 'reload config';
 
--- 7. Verification: Confirm table is ready
-SELECT count(*) AS ready_participants FROM public.program_participants;
+-- 8. Verification: Confirm table is ready
+SELECT count(*) AS total_registered_participants FROM public.program_participants;
