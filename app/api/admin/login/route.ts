@@ -13,21 +13,41 @@ export async function POST(request: Request) {
       );
     }
 
-    // Authenticate securely on the server via Supabase Auth
-    const { data, error } = await supabaseServer.auth.signInWithPassword({
+    // Authenticate securely on the server via Supabase Auth with a 4.5s timeout
+    const authPromise = supabaseServer.auth.signInWithPassword({
       email: String(email).trim(),
       password: String(password),
     });
+    const timeoutPromise = new Promise<never>((_, reject) =>
+      setTimeout(() => reject(new Error("Supabase auth timeout (4500ms limit)")), 4500)
+    );
 
-    if (error || !data.session) {
-      console.error("Server-side Supabase sign-in error:", error);
+    let data: any = null;
+    let error: any = null;
+
+    try {
+      const res = await Promise.race([authPromise, timeoutPromise]);
+      data = res.data;
+      error = res.error;
+    } catch (fetchErr: any) {
+      error = fetchErr;
+    }
+
+    if (error || !data?.session) {
       const isFetchError =
         error?.name === "AuthRetryableFetchError" ||
         error?.message?.toLowerCase().includes("fetch failed") ||
+        error?.message?.toLowerCase().includes("timeout") ||
         (error as any)?.status === 0;
 
+      if (!isFetchError) {
+        console.warn("Invalid admin credentials entered for:", email);
+      } else {
+        console.warn("Supabase auth connection notice: temporarily unreachable or network latency.");
+      }
+
       const errorMessage = isFetchError
-        ? "Unable to connect to Supabase authentication service. Your Supabase project may be paused (free tier inactivity) or the Supabase URL in .env.local is unreachable."
+        ? "Network connection issue: Unable to reach authentication service. Please check your internet connection and try again."
         : (error?.message || "Invalid login credentials. Please check your email and password.");
 
       return NextResponse.json(
