@@ -40,9 +40,7 @@ export async function GET(request: Request) {
     const { data: participants, error } = await dbQuery;
 
     if (error) {
-      console.error("Failed to query program_participants:", error);
-
-      // Handle table not created in Supabase yet (PGRST205 / 42P01)
+      // Handle table not created in Supabase yet (PGRST205 / 42P01) cleanly without console flooding
       if (
         error.code === "PGRST205" ||
         error.code === "42P01" ||
@@ -65,6 +63,7 @@ export async function GET(request: Request) {
         });
       }
 
+      console.error("Failed to query program_participants:", error);
       return NextResponse.json(
         { error: "Failed to fetch participants from database." },
         { status: 500 }
@@ -156,7 +155,6 @@ export async function POST(request: Request) {
       .single();
 
     if (error) {
-      console.error("Failed to insert participant manually:", error);
       if (
         error.code === "PGRST205" ||
         error.code === "42P01" ||
@@ -171,6 +169,7 @@ export async function POST(request: Request) {
           { status: 503 }
         );
       }
+      console.error("Failed to insert participant manually:", error);
       return NextResponse.json(
         { error: "Failed to create participant record." },
         { status: 500 }

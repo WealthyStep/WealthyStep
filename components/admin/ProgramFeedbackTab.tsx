@@ -127,6 +127,7 @@ export function ProgramFeedbackTab({
   const [isDownloadingClean, setIsDownloadingClean] = useState(false);
   const [tableSetupRequired, setTableSetupRequired] = useState(false);
   const [isCopiedSql, setIsCopiedSql] = useState(false);
+  const [isSetupBannerDismissed, setIsSetupBannerDismissed] = useState(false);
 
   // Notes Modal/Drawer State
   const [activeParticipantForNotes, setActiveParticipantForNotes] = useState<ProgramParticipant | null>(null);
@@ -591,9 +592,17 @@ SELECT count(*) AS ready_participants FROM public.program_participants;`;
   return (
     <div className="space-y-6">
       {/* ── 0. DATABASE TABLE SETUP WARNING (IF TABLE NOT YET CREATED IN SUPABASE) ── */}
-      {tableSetupRequired && (
-        <div className="bg-amber-50 border-2 border-amber-300 rounded-3xl p-5 shadow-sm text-amber-950 space-y-3 animate-fade-in">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      {tableSetupRequired && !isSetupBannerDismissed && (
+        <div className="bg-amber-50 border-2 border-amber-300 rounded-3xl p-5 shadow-sm text-amber-950 space-y-3 animate-fade-in relative">
+          <button
+            onClick={() => setIsSetupBannerDismissed(true)}
+            className="absolute top-4 right-4 p-1.5 rounded-full text-amber-700 hover:text-amber-950 hover:bg-amber-200/60 transition-all cursor-pointer"
+            title="Dismiss notification"
+            aria-label="Dismiss setup notice"
+          >
+            <X className="w-4 h-4" />
+          </button>
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pr-6 sm:pr-8">
             <div className="flex items-start gap-3.5">
               <div className="w-10 h-10 rounded-2xl bg-amber-100 border border-amber-300 text-amber-800 flex items-center justify-center shrink-0 shadow-xs">
                 <AlertCircle className="w-5 h-5 text-amber-700" />
@@ -607,7 +616,7 @@ SELECT count(*) AS ready_participants FROM public.program_participants;`;
                 </h3>
                 <p className="text-xs text-amber-800 leading-relaxed max-w-2xl">
                   The <code className="px-1.5 py-0.5 rounded-md bg-amber-200/60 font-mono font-bold text-amber-950 text-[11px]">program_participants</code> table does not exist in your Supabase project yet.
-                  Copy the SQL script below and paste it into your <strong>Supabase Dashboard &gt; SQL Editor</strong> to complete setup.
+                  Copy the script, open Supabase SQL Editor, paste and click the green <strong>"RUN"</strong> button.
                 </p>
               </div>
             </div>
