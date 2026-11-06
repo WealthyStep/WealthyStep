@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { requireAdmin } from "@/lib/admin-auth";
 import { supabaseServer } from "@/lib/supabase-server";
 import { recordAuditLog } from "@/lib/audit";
-import { validateParticipantInput } from "@/lib/feedback-validation";
+import { validateParticipantInput } from "@/lib/program-validation";
 
 export const dynamic = "force-dynamic";
 

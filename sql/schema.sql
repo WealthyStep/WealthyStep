@@ -122,6 +122,9 @@ ALTER TABLE verified_sessions ENABLE ROW LEVEL SECURITY;
 ALTER TABLE audit_logs ENABLE ROW LEVEL SECURITY;
 ALTER TABLE program_participants ENABLE ROW LEVEL SECURITY;
 
+-- Grant permissions to Supabase roles
+GRANT ALL ON TABLE public.program_participants TO postgres, anon, authenticated, service_role;
+
 -- 8. Explicit RLS Policies
 -- Allow service role full access (Backend Server API Routes)
 CREATE POLICY "Allow service_role full access to clients" ON clients FOR ALL TO service_role USING (true) WITH CHECK (true);
