@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { supabaseBrowser } from "@/lib/supabase-browser";
 import { ShieldCheck, Lock, Mail, ArrowRight, RefreshCw, AlertCircle, Eye, EyeOff, KeyRound } from "lucide-react";
 import Link from "next/link";
@@ -91,17 +92,32 @@ export default function AdminLoginPage() {
   };
 
   return (
-    <div className="bg-gradient-to-b from-[#FAFBF7] via-[#F4F7EE] to-[#E9EFE0] py-6 sm:py-10 px-4 sm:px-6 lg:px-8 flex flex-col justify-center items-center font-sans selection:bg-[#84BD3C]/30 text-gray-800">
-      <div className="w-full max-w-md mx-auto space-y-4 sm:space-y-5">
-        {/* Header Badge & Title */}
-        <div className="text-center space-y-2">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#84BD3C]/20 border border-[#84BD3C]/40 text-[#2C4A11] text-[11px] font-extrabold uppercase tracking-wider shadow-2xs">
-            <ShieldCheck className="w-3.5 h-3.5 text-[#446A1B]" />
+    <div className="min-h-screen bg-gradient-to-b from-[#F5F8FE] via-[#FFFFFF] to-[#F1F6ED] py-8 sm:py-12 px-4 sm:px-6 lg:px-8 flex flex-col justify-center items-center font-sans selection:bg-[#84BD3C]/30 text-gray-800 relative overflow-hidden">
+      {/* Ambient Lighting Gradients */}
+      <div className="absolute -top-32 -left-32 w-96 h-96 bg-[#84BD3C]/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute -bottom-32 -right-32 w-96 h-96 bg-[#180D45]/5 rounded-full blur-3xl pointer-events-none" />
+
+      <div className="w-full max-w-md mx-auto space-y-4 sm:space-y-5 relative z-10">
+        {/* WealthyStep Logo & Header */}
+        <div className="text-center space-y-2.5">
+          <Link href="/" className="inline-block transition-transform hover:scale-[1.02]">
+            <Image
+              src="/logo.svg"
+              alt="Wealthy Step - Legacy Through Mindful Steps"
+              width={240}
+              height={70}
+              className="h-10 sm:h-11 w-auto object-contain mx-auto"
+              priority
+            />
+          </Link>
+
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white border border-[#84BD3C]/50 text-[#180D45] text-[11px] font-bold uppercase tracking-wider shadow-2xs">
+            <ShieldCheck className="w-3.5 h-3.5 text-[#84BD3C]" />
             <span>Authorized Admin Portal</span>
           </div>
 
           <h1 className="text-2xl sm:text-3xl font-black text-[#180D45] tracking-tight">
-            Admin <span className="text-[#446A1B]">Vault Console</span>
+            Admin <span className="text-[#84BD3C]">Vault Console</span>
           </h1>
 
           <p className="text-xs sm:text-sm text-gray-600 max-w-sm mx-auto leading-relaxed">
@@ -110,10 +126,10 @@ export default function AdminLoginPage() {
         </div>
 
         {/* Login Form Card */}
-        <div className="bg-white/95 backdrop-blur-md rounded-3xl border border-[#C7D9A8] shadow-xl shadow-[#180D45]/5 p-5 sm:p-7">
+        <div className="bg-white rounded-3xl border border-gray-200/90 shadow-xl shadow-[#180D45]/5 p-6 sm:p-7">
           <div className="flex items-center gap-3 pb-3.5 mb-4 border-b border-gray-100">
-            <div className="w-9 h-9 rounded-2xl bg-[#F3F7EB] flex items-center justify-center text-[#3C6415] shadow-2xs">
-              <KeyRound className="w-4.5 h-4.5" />
+            <div className="w-9 h-9 rounded-2xl bg-[#180D45]/5 flex items-center justify-center text-[#180D45] shadow-2xs">
+              <KeyRound className="w-4.5 h-4.5 text-[#84BD3C]" />
             </div>
             <div>
               <h2 className="text-sm sm:text-base font-extrabold text-[#180D45]">Sign in with Credentials</h2>
@@ -144,7 +160,7 @@ export default function AdminLoginPage() {
                   placeholder="admin@wealthystep.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2.5 bg-[#FAFBF7] border border-gray-200 rounded-xl text-xs sm:text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#84BD3C] focus:bg-white transition-all shadow-2xs"
+                  className="w-full pl-10 pr-4 py-2.5 bg-[#FAFBFD] border border-gray-200 rounded-xl text-xs sm:text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#180D45] focus:bg-white transition-all shadow-2xs"
                 />
               </div>
             </div>
@@ -164,7 +180,7 @@ export default function AdminLoginPage() {
                   placeholder="••••••••••••"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full pl-10 pr-11 py-2.5 bg-[#FAFBF7] border border-gray-200 rounded-xl text-xs sm:text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#84BD3C] focus:bg-white transition-all shadow-2xs"
+                  className="w-full pl-10 pr-11 py-2.5 bg-[#FAFBFD] border border-gray-200 rounded-xl text-xs sm:text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#180D45] focus:bg-white transition-all shadow-2xs"
                 />
                 <button
                   type="button"
@@ -187,7 +203,7 @@ export default function AdminLoginPage() {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full flex items-center justify-center gap-2 py-3 px-5 rounded-2xl bg-[#180D45] hover:bg-[#25156B] text-white font-extrabold text-xs sm:text-sm transition-all shadow-md hover:shadow-xl disabled:opacity-60 cursor-pointer active:scale-98"
+                className="w-full flex items-center justify-center gap-2 py-3 px-5 rounded-xl bg-[#180D45] hover:bg-[#25156B] text-white font-extrabold text-xs sm:text-sm transition-all shadow-md hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-60 cursor-pointer"
               >
                 {isLoading ? (
                   <>

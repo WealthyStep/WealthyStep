@@ -122,9 +122,9 @@ export function Navbar() {
         <div className="border-b border-gray-100">
           <div className="container mx-auto max-w-[1400px] px-4 xl:px-0">
             {/* Main row: Logo + Actions */}
-            <div className="flex items-center justify-between h-14 md:h-16">
+            <div className="flex items-center justify-between h-16 md:h-20 py-1 md:py-2">
               {/* Left: Logo + AMFI (desktop) */}
-              <div className="flex items-center gap-3 xl:gap-4">
+              <div className="flex items-center gap-3 xl:gap-5">
                 <Link
                   href="/"
                   onClick={handleLogoClick}
@@ -133,9 +133,9 @@ export function Navbar() {
                   <Image
                     src="/logo.svg"
                     alt="Wealthy Step - AMFI Registered Mutual Fund Distributor Logo"
-                    width={280}
-                    height={80}
-                    className="h-10 md:h-11 lg:h-12 w-auto object-contain select-none"
+                    width={320}
+                    height={95}
+                    className="h-11 sm:h-12 md:h-14 lg:h-[56px] xl:h-[60px] w-auto object-contain select-none"
                     priority
                     loading="eager"
                     fetchPriority="high"
@@ -144,7 +144,7 @@ export function Navbar() {
 
                 {/* AMFI Registration Info — Desktop/Tablet (md and up) */}
                 <div className="hidden md:flex items-center gap-3 xl:gap-4 pl-1">
-                  <div className="w-[1.5px] h-10 bg-gray-200" />
+                  <div className="w-[1.5px] h-11 md:h-12 bg-gray-200" />
                   <div className="flex flex-col text-[12px] leading-[1.3] font-semibold text-navy/85 whitespace-nowrap">
                     <span className="tracking-tight text-navy/80">AMFI REGISTERED MUTUAL FUND DISTRIBUTOR</span>
                     <span className="tracking-tight text-navy/80">
@@ -204,6 +204,16 @@ export function Navbar() {
                   >
                     <Calendar className="w-3.5 h-3.5" />
                     Book a Call
+                  </Link>
+                </Button>
+
+                {/* Contact Us Button (as in Image 2) */}
+                <Button
+                  className="hidden xl:flex h-9 rounded-full bg-white border-2 border-navy px-5 text-xs font-bold text-navy transition-all hover:bg-navy hover:text-white whitespace-nowrap"
+                  asChild
+                >
+                  <Link href="/contact">
+                    Contact Us
                   </Link>
                 </Button>
 
