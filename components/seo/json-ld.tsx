@@ -40,10 +40,10 @@ export function getOrganizationSchema() {
     slogan: "Every journey begins with a step. Every step deserves trust.",
     knowsAbout: [
       "Mutual Fund Investments",
-      "Systematic Investment Plans (SIP)",
+      "Systematic Investments (SIP)",
       "Life & Health Insurance",
       "NRI Investment Coordination",
-      "Goal-based Financial Planning",
+      "Goal-Based Investment Solutions",
     ],
     identifier: [
       {
@@ -142,8 +142,8 @@ export function getSiteNavigationSchema() {
   const siteUrl = SITE_CONFIG.siteUrl;
 
   const navigationItems = [
-    { name: "Mutual Fund Investments", url: `${siteUrl}/investments/` },
-    { name: "Insurance Solutions", url: `${siteUrl}/insurance/` },
+    { name: "Mutual Fund Investments", url: `${siteUrl}/services/investments/indian-investments/` },
+    { name: "Insurance Solutions", url: `${siteUrl}/services/insurance/group-insurance/` },
     { name: "SIP & Goal Calculators", url: `${siteUrl}/goal-calculators/` },
     { name: "NRI Services", url: `${siteUrl}/nri-services/` },
     { name: "About Us", url: `${siteUrl}/about/` },
@@ -174,14 +174,14 @@ export function getItemListSchema() {
   const siteUrl = SITE_CONFIG.siteUrl;
 
   const keyPages = [
-    { name: "Mutual Fund Investments", url: `${siteUrl}/investments/`, description: "Explore equity, debt, and hybrid mutual fund solutions with SIP planning guidance." },
-    { name: "Insurance Solutions", url: `${siteUrl}/insurance/`, description: "Life, health, and group insurance solutions for individuals and corporates." },
+    { name: "Mutual Fund Investments", url: `${siteUrl}/services/investments/indian-investments/`, description: "Explore equity, debt, and hybrid mutual fund solutions with SIP distribution assistance." },
+    { name: "Insurance Solutions", url: `${siteUrl}/services/insurance/group-insurance/`, description: "Life, health, and group insurance solutions for individuals and corporates." },
     { name: "SIP & Goal Calculators", url: `${siteUrl}/goal-calculators/`, description: "Free SIP, retirement, education, and lumpsum financial goal calculators." },
     { name: "NRI Investment Services", url: `${siteUrl}/nri-services/`, description: "Mutual fund distribution and coordination support for NRIs in India." },
     { name: "About Wealthy Step", url: `${siteUrl}/about/`, description: "Learn about our AMFI registration, team, and investment philosophy." },
-    { name: "Contact Us", url: `${siteUrl}/contact/`, description: "Get in touch for personalized mutual fund and insurance planning." },
-    { name: "Knowledge Center", url: `${siteUrl}/knowledge/`, description: "Expert guides on mutual funds, compounding, NRI taxation, and insurance." },
-    { name: "Blog", url: `${siteUrl}/blogs/`, description: "Insights on SIP, market trends, tax planning, and wealth creation." },
+    { name: "Contact Us", url: `${siteUrl}/contact/`, description: "Get in touch for personalized mutual fund distribution and insurance solutions." },
+    { name: "Knowledge Center", url: `${siteUrl}/knowledge/`, description: "Educational resources on mutual funds, compounding, NRI taxation, and insurance." },
+    { name: "Blog", url: `${siteUrl}/blogs/`, description: "Insights on SIP, market trends, tax-efficient investing, and wealth creation." },
   ];
 
   return {

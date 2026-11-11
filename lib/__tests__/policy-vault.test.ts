@@ -28,6 +28,37 @@ describe("Policy Vault & Security Suite", () => {
       const hash2 = hashOtp("123457");
       expect(hash1).not.toBe(hash2);
     });
+
+    it("should throw in production if OTP_PEPPER is missing", () => {
+      const originalEnv = process.env.NODE_ENV;
+      const originalPepper = process.env.OTP_PEPPER;
+
+      try {
+        (process.env as any).NODE_ENV = "production";
+        delete process.env.OTP_PEPPER;
+
+        expect(() => hashOtp("123456")).toThrow(/CRITICAL SECURITY CONFIGURATION/);
+      } finally {
+        (process.env as any).NODE_ENV = originalEnv;
+        if (originalPepper) process.env.OTP_PEPPER = originalPepper;
+      }
+    });
+
+    it("should demonstrate key rotation sensitivity (different peppers invalidate old hashes)", () => {
+      const originalPepper = process.env.OTP_PEPPER;
+      try {
+        process.env.OTP_PEPPER = "secret-pepper-version-1";
+        const hashV1 = hashOtp("654321");
+
+        process.env.OTP_PEPPER = "secret-pepper-version-2";
+        const hashV2 = hashOtp("654321");
+
+        expect(hashV1).not.toBe(hashV2);
+      } finally {
+        if (originalPepper) process.env.OTP_PEPPER = originalPepper;
+        else delete process.env.OTP_PEPPER;
+      }
+    });
   });
 
   describe("Admin Authorization Middleware (requireAdmin)", () => {
@@ -55,6 +86,40 @@ describe("Policy Vault & Security Suite", () => {
       expect(result.authenticated).toBe(false);
       if (!result.authenticated) {
         expect(result.response.status).toBe(401);
+      }
+    });
+
+    it("should reject cross-origin state-changing mutations with 403 Forbidden (CSRF protection)", async () => {
+      const req = new Request("http://localhost:3000/api/admin/clients", {
+        method: "POST",
+        headers: {
+          Host: "localhost:3000",
+          Origin: "http://malicious-attacker.com",
+          Authorization: "Bearer some-token",
+        },
+      });
+
+      const result = await requireAdmin(req);
+      expect(result.authenticated).toBe(false);
+      if (!result.authenticated) {
+        expect(result.response.status).toBe(403);
+      }
+    });
+
+    it("should reject malformed Origin headers on state-changing mutations with 403 Forbidden", async () => {
+      const req = new Request("http://localhost:3000/api/admin/clients", {
+        method: "POST",
+        headers: {
+          Host: "localhost:3000",
+          Origin: "not-a-valid-url",
+          Authorization: "Bearer some-token",
+        },
+      });
+
+      const result = await requireAdmin(req);
+      expect(result.authenticated).toBe(false);
+      if (!result.authenticated) {
+        expect(result.response.status).toBe(403);
       }
     });
   });

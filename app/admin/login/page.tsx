@@ -28,26 +28,19 @@ export default function AdminLoginPage() {
         return;
       }
 
-      const stored = typeof window !== "undefined" ? localStorage.getItem("ws_admin_session") : null;
-      if (stored) {
-        try {
-          const parsed = JSON.parse(stored);
-          const isExpired = parsed?.expires_at ? parsed.expires_at * 1000 <= Date.now() : false;
-          if (parsed?.access_token && !isExpired) {
-            router.push("/admin/dashboard");
-            return;
-          } else {
-            localStorage.removeItem("ws_admin_session");
-          }
-        } catch {
-          localStorage.removeItem("ws_admin_session");
-        }
+      // Clear any legacy localStorage token
+      if (typeof window !== "undefined") {
+        localStorage.removeItem("ws_admin_session");
       }
 
+      // Check active session via HttpOnly cookie
       try {
-        const { data: { session } } = await supabaseBrowser.auth.getSession();
-        if (session?.user && session?.access_token) {
-          router.push("/admin/dashboard");
+        const res = await fetch("/api/admin/me");
+        if (res.ok) {
+          const data = await res.json();
+          if (data?.authenticated) {
+            router.push("/admin/dashboard");
+          }
         }
       } catch {}
     }
@@ -77,25 +70,17 @@ export default function AdminLoginPage() {
 
       const data = await res.json();
 
-      if (!res.ok || !data.session) {
+      if (!res.ok || !data.success) {
         setErrorMessage(data.error || "Invalid login credentials. Please verify your email and password.");
         return;
       }
 
-      // Store session in localStorage for reliable persistence
+      // Clear any legacy localStorage token to ensure zero token residency
       if (typeof window !== "undefined") {
-        localStorage.setItem("ws_admin_session", JSON.stringify(data.session));
+        localStorage.removeItem("ws_admin_session");
       }
 
-      // Sync the Supabase browser session asynchronously
-      supabaseBrowser.auth
-        .setSession({
-          access_token: data.session.access_token,
-          refresh_token: data.session.refresh_token,
-        })
-        .catch(() => {});
-
-      // Instant client-side redirect to dashboard
+      // Secure session established exclusively via HttpOnly cookie; navigate directly to dashboard
       router.push("/admin/dashboard");
     } catch (err: any) {
       console.error("Unexpected login error:", err);

@@ -48,14 +48,14 @@ const GOAL_CONFIG: Record<
   { label: string; description: string; icon: any; iconColor: string; bgAccent: string }
 > = {
   Retirement: {
-    label: "Retirement Planning",
+    label: "Retirement Solutions",
     description: "Build a reliable pension corpus & financial peace of mind",
     icon: Palmtree,
     iconColor: "text-amber-600",
     bgAccent: "bg-amber-50 border-amber-200",
   },
-  "Insurance Planning (Health, Life)": {
-    label: "Insurance Planning (Health & Life)",
+  "Insurance Protection (Health, Life)": {
+    label: "Insurance Protection (Health & Life)",
     description: "Protect family health, critical illness & term coverage",
     icon: ShieldCheck,
     iconColor: "text-emerald-600",
@@ -70,7 +70,7 @@ const GOAL_CONFIG: Record<
   },
   "House Purchase": {
     label: "House Purchase & Real Estate",
-    description: "Down payment planning & home loan wealth buffer",
+    description: "Down payment fund & home loan wealth buffer",
     icon: Home,
     iconColor: "text-indigo-600",
     bgAccent: "bg-indigo-50 border-indigo-200",
@@ -304,7 +304,7 @@ TEL;TYPE=WORK,VOICE:+919000929666
 EMAIL;TYPE=PREF,INTERNET:info@wealthystep.com
 URL:https://wealthystep.com
 ADR;TYPE=WORK:;;Pranava Business Park, 7th Floor, Kothaguda;Hyderabad;Telangana;500081;India
-NOTE:Wealthy Step - Goal-Based Investments, Mutual Funds & Insurance Planning
+NOTE:Wealthy Step - Goal-Based Investments, Mutual Funds & Insurance Services
 END:VCARD`;
 
     const blob = new Blob([vCardData], { type: "text/vcard;charset=utf-8;" });

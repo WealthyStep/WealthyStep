@@ -191,6 +191,7 @@ export default function AdminDashboardPage() {
     setAdminUser(null);
     setAuthToken(null);
     try {
+      fetch("/api/admin/logout", { method: "POST" }).catch(() => {});
       supabaseBrowser.auth.signOut();
     } catch {}
     window.location.href = "/admin/login?expired=1";
@@ -380,6 +381,7 @@ export default function AdminDashboardPage() {
       document.cookie = "sb-access-token=; path=/; max-age=0";
     }
     try {
+      await fetch("/api/admin/logout", { method: "POST" }).catch(() => {});
       await supabaseBrowser.auth.signOut();
     } catch {}
     window.location.href = "/admin/login";

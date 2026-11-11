@@ -29,7 +29,7 @@ export default function RiskFactorsPage() {
               <li><strong>Interest Rate Risk:</strong> Debt fund values are sensitive to interest rate changes. Rising interest rates may negatively impact returns.</li>
               <li><strong>Inflation Risk:</strong> Over time, inflation may reduce the real value of your investment returns.</li>
               <li><strong>Managerial Risk:</strong> Fund performance depends on the decisions of the fund manager. Incorrect calls or strategy may lead to underperformance.</li>
-              <li><strong>Scheme-Specific Risks:</strong> Each mutual fund scheme carries unique risks. Investors are advised to read the Scheme Information Document (SID) before investing.</li>
+              <li><strong>Scheme-Specific Risks:</strong> Each mutual fund scheme carries unique risks. Investors must read the Scheme Information Document (SID) before investing.</li>
             </ul>
 
             <div className="bg-gray-50 p-6 rounded-xl border border-gray-100 text-sm text-text-body space-y-3">
@@ -37,7 +37,7 @@ export default function RiskFactorsPage() {
                 <strong>Statutory Notice:</strong> Mutual Fund investments are subject to market risks, read all scheme related documents carefully. Past performance is not indicative of future results.
               </p>
               <p>
-                Wealthy Step is an AMFI-registered Mutual Fund Distributor (ARN-322891). We distribute mutual fund schemes and earn commission from Asset Management Companies. We are not a SEBI-registered Investment Adviser and do not provide investment advice.
+                Wealthy Step is an AMFI-registered Mutual Fund Distributor (ARN-322891). We distribute mutual fund schemes and earn distribution commission from Asset Management Companies. We do not operate as an RIA entity and do not provide fee-based portfolio consultancy.
               </p>
               <p>
                 Insurance products are offered through licensed insurance partners. Insurance is the subject matter of solicitation. Please read the sales brochure and policy wording carefully before concluding a sale. IRDAI does not sell insurance policies, announce bonuses or invest premiums; report spurious calls to the police.

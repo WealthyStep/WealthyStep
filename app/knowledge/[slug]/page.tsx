@@ -52,7 +52,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
     image: article.image,
     date: article.date,
     updatedAt: article.updatedAt || article.date,
-    author: article.author?.name || "Wealthy Step Research Team",
+    author: article.author?.name || "Wealthy Step Editorial Desk",
   });
 
   return (

@@ -1,4 +1,3 @@
-
 import React from "react";
 import { FadeIn } from "@/components/ui/fade-in";
 import { Users, Target, ShieldCheck, TrendingUp } from "lucide-react";
@@ -12,12 +11,12 @@ const stats = [
 
 export function ImpactSection() {
   return (
-    <section className="relative bg-white pt-4 pb-10 overflow-hidden z-20 border-b border-border-sage/20">
-      {/* ── Background SVG Waves & Dots ── */}
+    <section className="relative bg-white pt-4 pb-6 sm:pb-8 overflow-hidden z-20 border-b border-border-sage/20">
+      {/* ── Background SVG Waves & Accents ── */}
 
       {/* Left subtle purple wave */}
       <svg
-        className="absolute top-0 left-0 w-[400px] lg:w-[600px] h-full pointer-events-none opacity-20 -z-10"
+        className="absolute top-0 left-0 w-[300px] lg:w-[450px] h-full pointer-events-none opacity-15 -z-10"
         viewBox="0 0 600 800"
         preserveAspectRatio="none"
       >
@@ -35,7 +34,7 @@ export function ImpactSection() {
 
       {/* Right subtle green wave */}
       <svg
-        className="absolute top-0 right-0 w-[500px] lg:w-[800px] h-full pointer-events-none opacity-20 -z-10"
+        className="absolute top-0 right-0 w-[350px] lg:w-[550px] h-full pointer-events-none opacity-15 -z-10"
         viewBox="0 0 800 800"
         preserveAspectRatio="none"
       >
@@ -51,101 +50,64 @@ export function ImpactSection() {
         </defs>
       </svg>
 
-      {/* Decorative Dots Top-Right */}
-      <svg
-        className="absolute top-16 right-16 opacity-30 pointer-events-none hidden lg:block"
-        width="100"
-        height="100"
-        viewBox="0 0 100 100"
-      >
-        {Array.from({ length: 25 }).map((_, i) => (
-          <circle
-            key={i}
-            cx={10 + (i % 5) * 20}
-            cy={10 + Math.floor(i / 5) * 20}
-            r="2"
-            fill="#84BD3C"
-          />
-        ))}
-      </svg>
+      <div className="container mx-auto max-w-[1200px] px-3.5 sm:px-6 xl:px-0 relative z-10">
 
-      {/* Decorative Dots Bottom-Left */}
-      <svg
-        className="absolute bottom-24 left-12 opacity-20 pointer-events-none hidden lg:block"
-        width="80"
-        height="80"
-        viewBox="0 0 80 80"
-      >
-        {Array.from({ length: 16 }).map((_, i) => (
-          <circle
-            key={i}
-            cx={10 + (i % 4) * 20}
-            cy={10 + Math.floor(i / 4) * 20}
-            r="2"
-            fill="#180D45"
-          />
-        ))}
-      </svg>
-
-
-      <div className="container mx-auto max-w-[1200px] px-4 xl:px-0 relative z-10">
-
-        {/* ── Header Section ── */}
-        <div className="text-center max-w-3xl mx-auto mb-6">
+        {/* ── Header Section (Compact & Proportionate) ── */}
+        <div className="text-center max-w-2xl mx-auto mb-4 sm:mb-5">
           <FadeIn direction="up">
             {/* Eyebrow */}
-            <div className="flex items-center justify-center gap-3 mb-4">
-              <div className="w-12 h-px bg-lime relative">
+            <div className="flex items-center justify-center gap-2.5 mb-2 sm:mb-2.5">
+              <div className="w-8 sm:w-10 h-px bg-lime relative">
                 <div className="absolute right-0 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-lime" />
               </div>
-              <span className="text-sm font-bold uppercase tracking-[0.15em] text-lime font-heading">
+              <span className="text-xs font-bold uppercase tracking-[0.15em] text-lime font-heading">
                 OUR IMPACT
               </span>
-              <div className="w-12 h-px bg-lime relative">
+              <div className="w-8 sm:w-10 h-px bg-lime relative">
                 <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-lime" />
               </div>
             </div>
 
             {/* Headline */}
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold leading-[1.15] text-text-dark font-heading tracking-tight mb-3">
-              Growing With You,<br className="hidden sm:block" />
+            <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold leading-tight text-text-dark font-heading tracking-tight mb-1.5">
+              Growing With You,{" "}
               <span className="text-accent-purple">Every Step</span> of the Way.
             </h2>
 
             {/* Subtitle */}
-            <p className="text-text-body text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
+            <p className="text-text-body text-xs sm:text-sm max-w-xl mx-auto leading-relaxed">
               A commitment to goal-based support, trusted relationships, and long-term investing.
             </p>
           </FadeIn>
         </div>
 
-        {/* ── Cards Grid ── */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
+        {/* ── Cards Grid (2x2 on Mobile • 4 Columns on Desktop • Compact & Responsive) ── */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3.5 lg:gap-4">
           {stats.map((stat, i) => (
             <FadeIn
               key={i}
-              delay={i * 0.15}
+              delay={i * 0.08}
               direction="up"
-              className="bg-white rounded-[1.5rem] p-5 pb-6 border border-border-sage/30 shadow-[0_4px_15px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_25px_rgb(0,0,0,0.08)] transition-all duration-300 hover:-translate-y-1 flex flex-col items-center justify-center text-center relative overflow-hidden group"
+              className="bg-white rounded-xl sm:rounded-2xl p-3 sm:p-4 pb-3.5 sm:pb-4.5 border border-border-sage/30 shadow-[0_4px_12px_rgb(0,0,0,0.03)] hover:shadow-[0_8px_20px_rgb(0,0,0,0.06)] transition-all duration-300 hover:-translate-y-0.5 flex flex-col items-center justify-center text-center relative overflow-hidden group"
             >
               {/* Green bottom border accent */}
-              <div className="absolute bottom-0 left-0 w-full h-[3px] bg-lime transition-colors duration-300 group-hover:bg-accent-purple" />
+              <div className="absolute bottom-0 left-0 w-full h-[2.5px] bg-lime transition-colors duration-300 group-hover:bg-accent-purple" />
 
-              {/* Icon Container with dashed circle */}
-              <div className="relative mb-5 w-14 h-14 flex items-center justify-center">
-                <div className="absolute inset-0 rounded-full border-[1.5px] border-dashed border-lime/40 group-hover:rotate-90 transition-transform duration-700 ease-in-out" />
-                <div className="w-10 h-10 rounded-full bg-lime/10 flex items-center justify-center transition-colors duration-300 group-hover:bg-lime/20">
-                  <stat.icon className="h-5 w-5 text-lime transition-transform duration-300 group-hover:scale-110" strokeWidth={2} />
+              {/* Icon Container with subtle dashed border */}
+              <div className="relative mb-2.5 sm:mb-3 w-10 h-10 sm:w-11 sm:h-11 flex items-center justify-center">
+                <div className="absolute inset-0 rounded-full border border-dashed border-lime/40 group-hover:rotate-90 transition-transform duration-500 ease-in-out" />
+                <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-lime/10 flex items-center justify-center transition-colors duration-300 group-hover:bg-lime/20">
+                  <stat.icon className="h-4 w-4 sm:h-4.5 sm:w-4.5 text-lime transition-transform duration-300 group-hover:scale-110" strokeWidth={2} />
                 </div>
               </div>
 
               {/* Value proposition */}
-              <div className="text-lg lg:text-xl font-bold text-navy mb-1.5 font-heading tracking-tight leading-tight">
+              <div className="text-xs sm:text-sm lg:text-base font-bold text-navy mb-1 font-heading tracking-tight leading-tight">
                 {stat.value}
               </div>
 
               {/* Label */}
-              <div className="text-xs font-medium text-text-body leading-snug whitespace-pre-line">
+              <div className="text-[10px] sm:text-xs font-medium text-text-body leading-snug whitespace-pre-line">
                 {stat.label}
               </div>
             </FadeIn>

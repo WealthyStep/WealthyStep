@@ -78,7 +78,7 @@ const QUICK_NOTE_PRESETS = [
   "Call Weekend (Sat / Sun)",
   "Follow Up Tomorrow",
   "Wants Retirement Calculation",
-  "Child Education Planning",
+  "Child Education Goal",
   "Busy / Requested Callback",
   "Not Interested Right Now",
 ];

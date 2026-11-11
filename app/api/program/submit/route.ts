@@ -279,7 +279,7 @@ export async function POST(request: Request) {
     const data = insertedRecord!;
 
     // 6. Fast Concurrent Email Notification (Non-blocking)
-    // Dispatches the modern, high-converting notification email to the advisor/client
+    // Dispatches the notification email to the desk/client
     sendParticipantNotificationEmail({
       id: data.id,
       name,

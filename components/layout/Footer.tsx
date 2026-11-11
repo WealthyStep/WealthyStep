@@ -73,13 +73,13 @@ export function Footer() {
             </h3>
             <ul className="space-y-4 text-sm text-cream/70">
               <li>
-                <Link href="/investments" className="flex items-center justify-between hover:text-lime transition-colors group">
+                <Link href="/services/investments/indian-investments/" className="flex items-center justify-between hover:text-lime transition-colors group">
                   Investments
                   <ChevronRight className="w-4 h-4 opacity-50 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
                 </Link>
               </li>
               <li>
-                <Link href="/insurance" className="flex items-center justify-between hover:text-lime transition-colors group">
+                <Link href="/services/insurance/retail-insurance/" className="flex items-center justify-between hover:text-lime transition-colors group">
                   Insurances
                   <ChevronRight className="w-4 h-4 opacity-50 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
                 </Link>
@@ -91,7 +91,7 @@ export function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/insurance#corporate-group-insurance" className="flex items-center justify-between hover:text-lime transition-colors group">
+                <Link href="/services/insurance/group-insurance/" className="flex items-center justify-between hover:text-lime transition-colors group">
                   Employer & Employee Benefits
                   <ChevronRight className="w-4 h-4 opacity-50 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
                 </Link>
@@ -108,12 +108,6 @@ export function Footer() {
               <li>
                 <Link href="/participant-form" className="flex items-center justify-between hover:text-lime transition-colors group">
                   Financial Freedom Program
-                  <ChevronRight className="w-4 h-4 opacity-50 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
-                </Link>
-              </li>
-              <li>
-                <Link href="/policy-download" className="flex items-center justify-between hover:text-lime transition-colors group">
-                  Download Policy
                   <ChevronRight className="w-4 h-4 opacity-50 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
                 </Link>
               </li>
@@ -216,13 +210,10 @@ export function Footer() {
             <div className="text-white text-base md:text-lg font-semibold tracking-wide text-center uppercase leading-tight">
               AMFI REGISTERED MUTUAL FUND DISTRIBUTOR
             </div>
-            <div className="text-white text-base md:text-lg font-semibold tracking-wide text-center uppercase leading-tight mt-1">
-              AMFI REGISTERED SIF DISTRIBUTOR
-            </div>
             <div className="text-white text-base md:text-lg font-semibold tracking-widest text-center mt-1">
               ARN - 322891
             </div>
-            <p className="text-sm text-cream/70 mt-2 text-center tracking-widest">MUTUAL FUND | INSURANCE</p>
+            <p className="text-sm text-cream/70 mt-2 text-center tracking-widest">MUTUAL FUNDS • SIF • INSURANCE</p>
             <p className="text-base text-cream font-semibold mt-1 text-center tracking-widest">Mr. Anil Kumar</p>
           </div>
           <div className="bg-white rounded-md px-3 py-2 flex items-center justify-center min-w-[200px] h-[60px]">
@@ -236,7 +227,7 @@ export function Footer() {
             <strong className="text-white font-semibold">Disclaimer:</strong> Mutual Fund investments are subject to market risks, read all scheme related documents carefully.
           </p>
           <p>
-            Wealthy Step is an AMFI-registered Mutual Fund Distributor (ARN-322891). We distribute mutual fund schemes and earn commission from Asset Management Companies. We are not a SEBI-registered Investment Adviser and do not provide investment advice.
+            Wealthy Step is an AMFI-registered Mutual Fund Distributor (ARN-322891). We distribute mutual fund schemes and earn distribution commission from Asset Management Companies. We do not operate as an RIA entity and do not provide fee-based portfolio consultancy.
           </p>
           <p>
             Insurance products are offered through licensed insurance partners. Insurance is the subject matter of solicitation. Please read the sales brochure and policy wording carefully before concluding a sale. IRDAI does not sell insurance policies, announce bonuses or invest premiums; report spurious calls to the police.

@@ -26,23 +26,43 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
+        source: '/investments',
+        destination: '/services/investments/indian-investments/',
+        permanent: true,
+      },
+      {
+        source: '/services/investments/indian_investments',
+        destination: '/services/investments/indian-investments/',
+        permanent: true,
+      },
+      {
+        source: '/services/investments/indian_investments/',
+        destination: '/services/investments/indian-investments/',
+        permanent: true,
+      },
+      {
+        source: '/insurance',
+        destination: '/services/insurance/group-insurance/',
+        permanent: true,
+      },
+      {
         source: '/services',
-        destination: '/investments/',
+        destination: '/services/investments/indian-investments/',
         permanent: true,
       },
       {
         source: '/our-services',
-        destination: '/investments/',
+        destination: '/services/investments/indian-investments/',
         permanent: true,
       },
       {
         source: '/mutual-funds',
-        destination: '/investments/',
+        destination: '/services/investments/mutual-funds/',
         permanent: true,
       },
       {
         source: '/insurance-services',
-        destination: '/insurance/',
+        destination: '/services/insurance/group-insurance/',
         permanent: true,
       },
       {
@@ -133,7 +153,7 @@ const nextConfig: NextConfig = {
   },
   async headers() {
     const isDev = process.env.NODE_ENV !== "production";
-    const cspHeader = `default-src 'self'; script-src 'self' 'unsafe-inline' ${isDev ? "'unsafe-eval'" : ""} https://www.googletagmanager.com https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https://*.supabase.co https://www.google-analytics.com https://region1.google-analytics.com https://challenges.cloudflare.com; frame-src 'self' blob: https://challenges.cloudflare.com;`.replace(/\s{2,}/g, " ").trim();
+    const cspHeader = `default-src 'self'; script-src 'self' 'unsafe-inline' ${isDev ? "'unsafe-eval'" : ""} https://www.googletagmanager.com https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https://*.supabase.co https://www.google-analytics.com https://region1.google-analytics.com https://challenges.cloudflare.com; frame-src 'self' blob: https://challenges.cloudflare.com https://www.google.com https://maps.google.com https://*.openstreetmap.org;`.replace(/\s{2,}/g, " ").trim();
 
     const securityHeaders = [
       {

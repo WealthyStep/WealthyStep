@@ -74,9 +74,15 @@ export function TickerBar() {
             {/* Double the data array to create a seamless loop */}
             {data.map((item, idx) => renderItem(item, idx))}
             {data.map((item, idx) => renderItem(item, idx + data.length))}
+            <div className="px-6 text-[10px] text-white/40 uppercase tracking-wider shrink-0 border-l border-white/10">
+              Delayed Public Quotes · Not Real-Time Exchange Feeds
+            </div>
           </div>
         ) : (
-          <div className="px-8 text-white/50 text-sm">Market data currently unavailable.</div>
+          <div className="px-8 text-white/60 text-xs flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-amber-400/80 animate-pulse" />
+            <span>Market indicators currently unavailable. Live external feeds temporarily paused.</span>
+          </div>
         )}
       </div>
     </div>

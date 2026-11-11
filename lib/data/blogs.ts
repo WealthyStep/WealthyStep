@@ -9,7 +9,7 @@ export const blogs = [
       <p>Navigating the world of investments isn't as simple as it may seem. It requires careful consideration of your financial goals, risk tolerance, and time horizon to choose the right approach. One of the decisions you'll face is whether to opt for SIP or lump sum investments. Let's delve into both options to help you make an informed choice.</p>
       
       <h3>Understanding SIP and Lump Sum Investments</h3>
-      <p><strong>SIP (Systematic Investment Plan):</strong> In SIP, you invest a fixed amount of money at regular intervals, typically monthly. This approach allows you to spread out your investments over time, regardless of market fluctuations. It's like setting aside a portion of your income for investment each month.</p>
+      <p><strong>SIP (Systematic Investment):</strong> In SIP, you invest a fixed amount of money at regular intervals, typically monthly. This approach allows you to spread out your investments over time, regardless of market fluctuations. It's like setting aside a portion of your income for investment each month.</p>
       
       <p><strong>Lump Sum Investment:</strong> Lump sum investment involves investing a large sum of money in one go. Instead of spreading out your investments, you make a single, substantial contribution upfront. It's like making a big-ticket purchase in one shot.</p>
 
@@ -79,7 +79,7 @@ export const blogs = [
     slug: "what-are-the-benefits-of-goal-based-investing",
     title: "What Are the Benefits of Goal-Based Investing?",
     date: "23 Jul 2025",
-    image: "/images/blogs/financial-planning.png",
+    image: "/images/blogs/goal-investing.png",
     excerpt: "Navigating through different stages of life requires careful goal-based investing, akin to charting a course through changing landscapes...",
     content: `
       <p>Navigating through different stages of life requires careful goal-based investing, akin to charting a course through changing landscapes. Unlike preparing for a weekend getaway, goal-based investing demands a thorough understanding of various factors at play. From managing everyday expenses to preparing for major life events, each stage brings its own set of challenges and opportunities.</p>

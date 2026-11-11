@@ -12,7 +12,7 @@ export default function KnowledgePage() {
       <InnerHero
         title="Knowledge Center"
         subtitle="Insights & Research"
-        description="Stay informed with our latest market analysis, financial guides, and investment strategies."
+        description="Stay informed with our latest market analysis, investor resources, and investment strategies."
         icon={BookOpen}
       />
 

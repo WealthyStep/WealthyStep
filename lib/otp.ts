@@ -18,10 +18,26 @@ export function generateOtp(): string {
 
 /**
  * Hashes an OTP with a secret pepper to prevent plaintext storage in the database.
+ * Prefers a dedicated OTP_PEPPER secret for cryptographic separation of duties.
  */
 export function hashOtp(otp: string): string {
-  const pepper = process.env.OTP_PEPPER || "wealthystep-default-secure-pepper-2026";
-  return crypto.createHmac("sha256", pepper).update(otp.trim()).digest("hex");
+  const dedicatedPepper = process.env.OTP_PEPPER;
+  
+  if (dedicatedPepper) {
+    return crypto.createHmac("sha256", dedicatedPepper).update(otp.trim()).digest("hex");
+  }
+
+  // Strict failure in production: dedicated OTP_PEPPER is MANDATORY
+  // Service-role key fallback is strictly prohibited in production to enforce cryptographic key separation
+  if (process.env.NODE_ENV === "production") {
+    throw new Error(
+      "[CRITICAL SECURITY CONFIGURATION] process.env.OTP_PEPPER must be explicitly configured in production. " +
+      "Service-role key fallback is disallowed to preserve cryptographic separation of duties."
+    );
+  }
+
+  // Development/test fallback only (never used in production)
+  return crypto.createHmac("sha256", "wealthystep-dev-fallback-pepper-2026").update(otp.trim()).digest("hex");
 }
 
 /**

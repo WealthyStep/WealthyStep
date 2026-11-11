@@ -8,7 +8,7 @@ export type Occupation = (typeof OCCUPATION_OPTIONS)[number];
 
 export const INTEREST_OPTIONS = [
   "Retirement",
-  "Insurance Planning (Health, Life)",
+  "Insurance Protection (Health, Life)",
   "Child Education",
   "House Purchase",
   "Other Goals",
@@ -31,7 +31,7 @@ export const STATUS_OPTIONS = [
 export type ParticipantStatus = (typeof STATUS_OPTIONS)[number];
 
 export const MANDATORY_CONSENT_TEXT =
-  "I hereby provide my consent to Wealthy Step™ to collect, store, and use my personal information for the purpose of financial planning, insurance planning, and investment-related services. I understand that the information shared by me will be kept confidential and will not be disclosed to third parties without my consent, except as required for service delivery or as per applicable regulations.";
+  "I hereby provide my consent to Wealthy Step™ to collect, store, and use my personal information for the purpose of mutual fund distribution, insurance facilitation, and investment-related services. I understand that the information shared by me will be kept confidential and will not be disclosed to third parties without my consent, except as required for service delivery or as per applicable regulations.";
 
 /**
  * Returns today's formatted readable Indian date (e.g. "Friday, 06 November 2026")

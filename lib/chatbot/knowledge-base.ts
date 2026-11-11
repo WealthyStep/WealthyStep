@@ -9,7 +9,7 @@ export const knowledgeBase: Record<ChatbotIntent, Partial<KnowledgeBaseEntry>> =
   },
   
   SIP: {
-    answer: "A Systematic Investment Plan (SIP) allows you to invest a fixed amount regularly (e.g., monthly) in a mutual fund. It helps inculcate financial discipline and uses the power of compounding and rupee cost averaging over time.",
+    answer: "A Systematic Investment method (SIP) allows you to invest a fixed amount regularly (e.g., monthly) in a mutual fund. It helps inculcate financial discipline and uses the power of compounding and rupee cost averaging over time.",
     quickReplies: ['Try SIP Calculator', 'What is Step-Up SIP?', 'Mutual Fund Solutions', 'Contact Our Team'],
     complianceNote: "Mutual fund investments are subject to market risks.",
     richCard: {
@@ -36,7 +36,7 @@ export const knowledgeBase: Record<ChatbotIntent, Partial<KnowledgeBaseEntry>> =
   },
   
   SWP: {
-    answer: "A Systematic Withdrawal Plan (SWP) allows you to withdraw a fixed amount from your mutual fund investment at regular intervals. It's often used by investors seeking a regular cash flow, such as during retirement.",
+    answer: "A Systematic Withdrawal route (SWP) allows you to withdraw a fixed amount from your mutual fund investment at regular intervals. It's often used by investors seeking a regular cash flow, such as during retirement.",
     quickReplies: ['Try SWP Calculator', 'Retirement Calculator', 'Contact Our Team'],
   },
   
@@ -105,7 +105,7 @@ export const knowledgeBase: Record<ChatbotIntent, Partial<KnowledgeBaseEntry>> =
   },
   
   CALCULATOR_HELP: {
-    answer: "Wealthy Step offers several financial calculators to help you plan your goals. They provide illustrative estimates to help you plan.",
+    answer: "Wealthy Step offers several financial calculators to help you project your goals. They provide illustrative estimates for decision making.",
     quickReplies: ['SIP Calculator', 'Retirement Calculator', 'Contact Our Team'],
     complianceNote: "Calculator results are illustrative estimates and do not guarantee future outcomes.",
     richCard: {
@@ -128,7 +128,7 @@ export const knowledgeBase: Record<ChatbotIntent, Partial<KnowledgeBaseEntry>> =
   },
   
   TERM_INSURANCE: {
-    answer: "Term insurance provides financial coverage to the policyholder's family for a specific time period (the 'term') in exchange for a premium. It is a pure protection plan without maturity benefits.",
+    answer: "Term insurance provides financial coverage to the policyholder's family for a specific time period (the 'term') in exchange for a premium. It is a pure protection policy without maturity benefits.",
     quickReplies: ['Insurance', 'Contact Our Team'],
   },
   
@@ -163,7 +163,7 @@ export const knowledgeBase: Record<ChatbotIntent, Partial<KnowledgeBaseEntry>> =
   },
   
   RISK_FACTORS: {
-    answer: "Mutual fund investments are subject to market risks, read all scheme related documents carefully. Wealthy Step is a distributor and does not provide guaranteed returns or personalized investment advisory services.",
+    answer: "Mutual fund investments are subject to market risks, read all scheme related documents carefully. Wealthy Step is a distributor and does not provide guaranteed returns or personalized portfolio management.",
     quickReplies: ['Contact Our Team'],
   },
   

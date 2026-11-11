@@ -1,5 +1,19 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import dynamic from 'next/dynamic';
+import { 
+  Calculator, 
+  CheckCircle2, 
+  ShieldCheck, 
+  LineChart, 
+  TrendingUp, 
+  Users, 
+  GraduationCap, 
+  Coins, 
+  Wallet, 
+  Landmark, 
+  PiggyBank 
+} from "lucide-react";
+import { constructMetadata, ROUTES_SEO } from "@/lib/seo";
 
 const SipCalculator = dynamic(() => import('@/components/calculators/SipCalculator').then(mod => mod.SipCalculator));
 const LumpsumCalculator = dynamic(() => import('@/components/calculators/LumpsumCalculator').then(mod => mod.LumpsumCalculator));
@@ -11,184 +25,136 @@ const SwpCalculator = dynamic(() => import('@/components/calculators/SwpCalculat
 const AnnualSipCalculator = dynamic(() => import('@/components/calculators/AnnualSipCalculator').then(mod => mod.AnnualSipCalculator));
 const TargetAmountSipCalculator = dynamic(() => import('@/components/calculators/TargetAmountSipCalculator').then(mod => mod.TargetAmountSipCalculator));
 const LumpsumTargetCalculator = dynamic(() => import('@/components/calculators/LumpsumTargetCalculator').then(mod => mod.LumpsumTargetCalculator));
-import { Calculator, CheckCircle2, ShieldCheck, LineChart, TrendingUp, Users, GraduationCap, Coins, Wallet, Landmark, PiggyBank } from "lucide-react";
-import { constructMetadata, ROUTES_SEO } from "@/lib/seo";
 
 export const metadata = constructMetadata(ROUTES_SEO.goalCalculators);
 
+const CALCULATORS = [
+  { id: "sip", name: "SIP Calculator", icon: TrendingUp },
+  { id: "step-up", name: "Step-Up SIP", icon: LineChart },
+  { id: "lumpsum", name: "Lumpsum", icon: Landmark },
+  { id: "swp", name: "SWP Calculator", icon: Wallet },
+  { id: "retirement", name: "Retirement", icon: Users },
+  { id: "education", name: "Education", icon: GraduationCap },
+  { id: "target-sip", name: "Target SIP", icon: PiggyBank },
+  { id: "lumpsum-target", name: "Lumpsum Target", icon: Landmark },
+  { id: "annual-sip", name: "Annual SIP", icon: TrendingUp },
+  { id: "emi", name: "EMI Calculator", icon: Coins },
+];
+
 export default function GoalCalculatorsPage() {
   return (
-    <main className="bg-[#FAFAFA] min-h-screen pb-10">
+    <main className="bg-[#F8FAFC] min-h-screen pb-10">
       
-      {/* Header Section */}
-      <section className="bg-white pt-6 md:pt-8 pb-6 md:pb-8 shadow-sm relative z-20">
-        <div className="container mx-auto max-w-[1300px] px-4 xl:px-0 text-center">
+      {/* ── Compact, High-Impact Header Strip (Zero Wasted Space) ── */}
+      <section className="bg-white border-b border-gray-200/80 pt-3 pb-3 px-4 shadow-2xs relative z-20">
+        <div className="container mx-auto max-w-[1340px] px-0 flex flex-col md:flex-row md:items-center justify-between gap-2.5">
           
-          <div className="w-12 h-12 bg-lime/10 rounded-xl flex items-center justify-center mx-auto mb-4">
-            <Calculator className="w-6 h-6 text-lime" />
+          {/* Left: Compact Title, Icon & Description */}
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-[#180D45] text-white flex items-center justify-center shrink-0 shadow-xs">
+              <Calculator className="w-5 h-5 text-[#84BD3C]" />
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <h1 className="text-lg sm:text-xl md:text-2xl font-black text-navy font-heading tracking-tight leading-none">
+                  Goal Calculators
+                </h1>
+                <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-200/80 px-2 py-0.5 rounded-full">
+                  AMFI Aligned
+                </span>
+              </div>
+              <p className="text-xs text-text-body font-normal mt-0.5 line-clamp-1">
+                Explore mutual fund growth scenarios, compound interest projections, and goal estimates.
+              </p>
+            </div>
           </div>
-          
-          <h1 className="text-3xl sm:text-4xl md:text-[42px] font-bold text-navy font-heading leading-tight mb-4 tracking-tight">
-            Goal Calculators
-          </h1>
-          <p className="text-text-body text-sm sm:text-base max-w-2xl mx-auto mb-8">
-            Explore mutual fund scenarios and project possible outcomes based on your assumptions.
-          </p>
 
-          <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-10">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-full bg-lime/10 flex items-center justify-center shrink-0">
-                <CheckCircle2 className="w-4 h-4 text-lime" />
-              </div>
-              <div className="text-left">
-                <div className="text-sm font-bold text-navy leading-tight">Real-time Results</div>
-                <div className="text-[11px] text-text-body">See results as you change inputs</div>
-              </div>
+          {/* Right: Sleek Micro-Trust Pills in a Single Clean Strip */}
+          <div className="hidden lg:flex items-center gap-2">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-50 border border-slate-200/90 text-slate-700 font-semibold text-[11px]">
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+              <span>Instant Output</span>
             </div>
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-full bg-lime/10 flex items-center justify-center shrink-0">
-                <ShieldCheck className="w-4 h-4 text-lime" />
-              </div>
-              <div className="text-left">
-                <div className="text-sm font-bold text-navy leading-tight">Real-Time Estimates</div>
-                <div className="text-[11px] text-text-body">Projections based on assumed rates</div>
-              </div>
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-50 border border-slate-200/90 text-slate-700 font-semibold text-[11px]">
+              <LineChart className="w-3.5 h-3.5 text-sky-600 shrink-0" />
+              <span>Dynamic Visualizer</span>
             </div>
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-full bg-lime/10 flex items-center justify-center shrink-0">
-                <LineChart className="w-4 h-4 text-lime" />
-              </div>
-              <div className="text-left">
-                <div className="text-sm font-bold text-navy leading-tight">Smart Investing</div>
-                <div className="text-[11px] text-text-body">Make data-driven financial decisions</div>
-              </div>
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-50 border border-slate-200/90 text-slate-700 font-semibold text-[11px]">
+              <ShieldCheck className="w-3.5 h-3.5 text-purple-600 shrink-0" />
+              <span>Hypothetical Projections</span>
             </div>
           </div>
-          
+
         </div>
       </section>
 
-      {/* Tabs and Calculators */}
-      <section className="pt-4">
-        <div className="container mx-auto max-w-[1300px] px-4 xl:px-0">
+      {/* ── Tabs & Interactive Calculator Engine ── */}
+      <section className="pt-3 sm:pt-4">
+        <div className="container mx-auto max-w-[1340px] px-3.5 sm:px-4">
           <Tabs defaultValue="sip" className="w-full flex flex-col">
             
-            <div className="w-full mb-2 px-1 overflow-x-auto hide-scrollbar">
-              <TabsList className="bg-transparent h-auto p-0 flex flex-row flex-nowrap sm:flex-wrap gap-2 w-max sm:w-full justify-start sm:justify-center">
-                <TabsTrigger 
-                  value="sip"
-                  className="data-[state=active]:bg-navy data-[state=active]:text-white bg-white text-navy border border-gray-200 px-6 py-3 rounded-[12px] font-bold text-[13px] shadow-sm data-[state=active]:shadow-md transition-all flex items-center gap-2 shrink-0 whitespace-nowrap"
-                >
-                  <TrendingUp className="w-4 h-4 text-lime" />
-                  SIP Calculator
-                </TabsTrigger>
-                <TabsTrigger 
-                  value="step-up"
-                  className="data-[state=active]:bg-navy data-[state=active]:text-white bg-white text-navy border border-gray-200 px-6 py-3 rounded-[12px] font-bold text-[13px] shadow-sm transition-all flex items-center gap-2 shrink-0 whitespace-nowrap"
-                >
-                  <LineChart className="w-4 h-4" />
-                  Step-Up SIP Calculator
-                </TabsTrigger>
-                <TabsTrigger 
-                  value="lumpsum"
-                  className="data-[state=active]:bg-navy data-[state=active]:text-white bg-white text-navy border border-gray-200 px-6 py-3 rounded-[12px] font-bold text-[13px] shadow-sm data-[state=active]:shadow-md transition-all flex items-center gap-2 shrink-0 whitespace-nowrap"
-                >
-                  <Landmark className="w-4 h-4" />
-                  Lumpsum Calculator
-                </TabsTrigger>
-                <TabsTrigger 
-                  value="swp"
-                  className="data-[state=active]:bg-navy data-[state=active]:text-white bg-white text-navy border border-gray-200 px-6 py-3 rounded-[12px] font-bold text-[13px] shadow-sm transition-all flex items-center gap-2 shrink-0 whitespace-nowrap"
-                >
-                  <Wallet className="w-4 h-4" />
-                  SWP Calculator
-                </TabsTrigger>
-                <TabsTrigger 
-                  value="retirement"
-                  className="data-[state=active]:bg-navy data-[state=active]:text-white bg-white text-navy border border-gray-200 px-6 py-3 rounded-[12px] font-bold text-[13px] shadow-sm transition-all flex items-center gap-2 shrink-0 whitespace-nowrap"
-                >
-                  <Users className="w-4 h-4" />
-                  Retirement Calculator
-                </TabsTrigger>
-                <TabsTrigger 
-                  value="education"
-                  className="data-[state=active]:bg-navy data-[state=active]:text-white bg-white text-navy border border-gray-200 px-6 py-3 rounded-[12px] font-bold text-[13px] shadow-sm transition-all flex items-center gap-2 shrink-0 whitespace-nowrap"
-                >
-                  <GraduationCap className="w-4 h-4" />
-                  Education Calculator
-                </TabsTrigger>
-                <TabsTrigger 
-                  value="emi"
-                  className="data-[state=active]:bg-navy data-[state=active]:text-white bg-white text-navy border border-gray-200 px-6 py-3 rounded-[12px] font-bold text-[13px] shadow-sm transition-all flex items-center gap-2 shrink-0 whitespace-nowrap"
-                >
-                  <Coins className="w-4 h-4" />
-                  EMI Calculator
-                </TabsTrigger>
-                <TabsTrigger 
-                  value="annual-sip"
-                  className="data-[state=active]:bg-navy data-[state=active]:text-white bg-white text-navy border border-gray-200 px-6 py-3 rounded-[12px] font-bold text-[13px] shadow-sm transition-all flex items-center gap-2 shrink-0 whitespace-nowrap"
-                >
-                  <TrendingUp className="w-4 h-4" />
-                  Annual SIP Calculator
-                </TabsTrigger>
-                <TabsTrigger 
-                  value="target-sip"
-                  className="data-[state=active]:bg-navy data-[state=active]:text-white bg-white text-navy border border-gray-200 px-6 py-3 rounded-[12px] font-bold text-[13px] shadow-sm transition-all flex items-center gap-2 shrink-0 whitespace-nowrap"
-                >
-                  <PiggyBank className="w-4 h-4" />
-                  Target SIP Calculator
-                </TabsTrigger>
-                <TabsTrigger 
-                  value="lumpsum-target"
-                  className="data-[state=active]:bg-navy data-[state=active]:text-white bg-white text-navy border border-gray-200 px-6 py-3 rounded-[12px] font-bold text-[13px] shadow-sm transition-all flex items-center gap-2 shrink-0 whitespace-nowrap"
-                >
-                  <Landmark className="w-4 h-4" />
-                  Lumpsum Target Calculator
-                </TabsTrigger>
+            {/* Structured, Modern Horizontal Tab Pill Selector */}
+            <div className="w-full mb-3 overflow-x-auto hide-scrollbar pb-1">
+              <TabsList className="bg-white p-1 rounded-2xl border border-gray-200/90 shadow-2xs flex flex-nowrap md:flex-wrap items-center gap-1 w-max md:w-full justify-start md:justify-center h-auto">
+                {CALCULATORS.map((calc) => {
+                  const IconComponent = calc.icon;
+                  return (
+                    <TabsTrigger 
+                      key={calc.id}
+                      value={calc.id}
+                      className="data-[state=active]:bg-[#180D45] data-[state=active]:text-white text-gray-700 hover:text-navy hover:bg-gray-50 px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-xl font-bold text-xs transition-all flex items-center gap-1.5 shrink-0 whitespace-nowrap cursor-pointer shadow-none data-[state=active]:shadow-xs"
+                    >
+                      <IconComponent className="w-3.5 h-3.5 text-[#84BD3C] shrink-0" />
+                      <span>{calc.name}</span>
+                    </TabsTrigger>
+                  );
+                })}
               </TabsList>
             </div>
 
-            <div className="w-full mt-2">
-              <TabsContent value="sip" className="mt-0">
+            {/* Calculators Content (Starts Immediately Above The Fold) */}
+            <div className="w-full">
+              <TabsContent value="sip" className="mt-0 focus-visible:outline-hidden">
                 <SipCalculator />
               </TabsContent>
-              <TabsContent value="step-up" className="mt-0">
+              <TabsContent value="step-up" className="mt-0 focus-visible:outline-hidden">
                 <StepUpSipCalculator />
               </TabsContent>
-              <TabsContent value="lumpsum" className="mt-0">
+              <TabsContent value="lumpsum" className="mt-0 focus-visible:outline-hidden">
                 <LumpsumCalculator />
               </TabsContent>
-              <TabsContent value="swp" className="mt-0">
+              <TabsContent value="swp" className="mt-0 focus-visible:outline-hidden">
                 <SwpCalculator />
               </TabsContent>
-              <TabsContent value="retirement" className="mt-0">
+              <TabsContent value="retirement" className="mt-0 focus-visible:outline-hidden">
                 <RetirementCalculator />
               </TabsContent>
-              <TabsContent value="education" className="mt-0">
+              <TabsContent value="education" className="mt-0 focus-visible:outline-hidden">
                 <EducationCalculator />
               </TabsContent>
-              <TabsContent value="emi" className="mt-0">
+              <TabsContent value="emi" className="mt-0 focus-visible:outline-hidden">
                 <EmiCalculator />
               </TabsContent>
-              <TabsContent value="annual-sip" className="mt-0">
+              <TabsContent value="annual-sip" className="mt-0 focus-visible:outline-hidden">
                 <AnnualSipCalculator />
               </TabsContent>
-              <TabsContent value="target-sip" className="mt-0">
+              <TabsContent value="target-sip" className="mt-0 focus-visible:outline-hidden">
                 <TargetAmountSipCalculator />
               </TabsContent>
-              <TabsContent value="lumpsum-target" className="mt-0">
+              <TabsContent value="lumpsum-target" className="mt-0 focus-visible:outline-hidden">
                 <LumpsumTargetCalculator />
               </TabsContent>
             </div>
 
           </Tabs>
 
-          {/* Regulatory Calculator Disclaimer */}
-          <div className="mt-8 p-4 bg-white rounded-xl border border-border-sage/20 text-center max-w-4xl mx-auto">
-            <p className="text-xs text-text-body leading-relaxed">
-              <strong>Disclaimer:</strong> Calculator results are for illustration only and assume a constant rate of return. Mutual Fund investments are subject to market risks, read all scheme related documents carefully. Past performance may or may not be sustained in the future and is not a guarantee of future returns. Tax benefits are subject to prevailing tax laws.
+          {/* Statutory Calculator Disclaimer */}
+          <div className="mt-6 p-4 bg-white rounded-2xl border border-gray-200/80 text-center max-w-4xl mx-auto shadow-2xs">
+            <p className="text-[11px] sm:text-xs text-gray-500 leading-relaxed">
+              <strong className="text-navy">Regulatory Notice:</strong> Calculator illustrations are provided for informational and financial scenario planning only, assuming a hypothetical constant rate of return. Mutual Fund investments are subject to market risks, read all scheme related documents carefully. Past performance may or may not be sustained in the future and does not guarantee future results.
             </p>
           </div>
+
         </div>
       </section>
 

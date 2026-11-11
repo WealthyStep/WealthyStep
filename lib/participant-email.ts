@@ -19,7 +19,7 @@ export interface ParticipantNotificationData {
 }
 
 /**
- * Sends a modern, ultra-premium, responsive notification email to the advisor/admin
+ * Sends a modern, ultra-premium, responsive notification email to the support desk/admin
  * whenever a participant submits their details in the Financial Freedom Awareness Program.
  */
 export async function sendParticipantNotificationEmail(
@@ -29,10 +29,10 @@ export async function sendParticipantNotificationEmail(
   const senderEmail = process.env.BREVO_SENDER_EMAIL || process.env.EMAIL_FROM || "noreply@wealthystep.com";
   const senderName = "Wealthy Step™ | Awareness Program";
   
-  // Recipient: configured EMAIL_TO or advisor notification email, fallback to info@wealthystep.com
+  // Recipient: configured EMAIL_TO or desk notification email, fallback to info@wealthystep.com
   const recipientEmail =
     process.env.EMAIL_TO ||
-    process.env.ADVISOR_NOTIFICATION_EMAIL ||
+    process.env.ADMIN_NOTIFICATION_EMAIL ||
     "info@wealthystep.com";
 
   const emailSubject = `🚀 New Participant: ${data.name} (+91 ${data.mobile}) — Financial Freedom Program`;
@@ -40,7 +40,7 @@ export async function sendParticipantNotificationEmail(
   const interestsList =
     data.interested_in && data.interested_in.length > 0
       ? data.interested_in
-      : ["General Financial Guidance"];
+      : ["General Financial Assistance"];
 
   const interestsBadgesHtml = interestsList
     .map(

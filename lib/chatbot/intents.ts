@@ -4,15 +4,15 @@ import { ChatbotIntent } from './types';
 export const intentMappings: Record<ChatbotIntent, string[]> = {
   GREETING: ['hi', 'hello', 'hey', 'good morning', 'good afternoon', 'good evening', 'namaste'],
   
-  SIP: ['sip', 'systematic investment plan', 'monthly investment', 'invest every month', 'start sip'],
+  SIP: ['sip', 'systematic investment', 'monthly investment', 'invest every month', 'start sip'],
   
   STEP_UP_SIP: ['step up sip', 'step-up sip', 'increase sip', 'grow sip', 'step up', 'stepup'],
   
   LUMPSUM: ['lumpsum', 'lump sum', 'one time investment', 'one-time investment', 'invest once'],
   
-  SWP: ['swp', 'systematic withdrawal plan', 'withdraw monthly', 'monthly income', 'regular income from mutual fund'],
+  SWP: ['swp', 'systematic withdrawal', 'withdraw monthly', 'monthly income', 'regular income from mutual fund'],
   
-  RETIREMENT_CALCULATOR: ['retirement calculator', 'calculate retirement', 'retirement planning', 'retire early'],
+  RETIREMENT_CALCULATOR: ['retirement calculator', 'calculate retirement', 'retirement corpus', 'retire early'],
   
   EDUCATION_CALCULATOR: ['education calculator', 'child education', 'college fund', 'school fees investment'],
   
@@ -36,7 +36,7 @@ export const intentMappings: Record<ChatbotIntent, string[]> = {
   
   INSURANCE: ['insurance', 'life insurance', 'buy insurance', 'get insurance'],
   
-  TERM_INSURANCE: ['term insurance', 'term plan', 'term life', 'pure protection'],
+  TERM_INSURANCE: ['term insurance', 'term cover', 'term life', 'pure protection'],
   
   HEALTH_INSURANCE: ['health insurance', 'mediclaim', 'medical insurance', 'health cover'],
   
@@ -46,7 +46,7 @@ export const intentMappings: Record<ChatbotIntent, string[]> = {
   
   CONTACT: ['contact', 'address', 'phone number', 'email id', 'where are you located', 'location'],
   
-  HUMAN_SUPPORT: ['help', 'call me', 'contact me', 'talk to someone', 'human support', 'your team', 'need assistance', 'advisor', 'speak to', 'i want someone to contact me'],
+  HUMAN_SUPPORT: ['help', 'call me', 'contact me', 'talk to someone', 'human support', 'your team', 'need assistance', 'expert', 'speak to', 'i want someone to contact me'],
   
   COMMISSION_DISCLOSURE: ['commission', 'disclosure', 'how do you earn', 'brokerage'],
   
