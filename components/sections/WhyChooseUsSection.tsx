@@ -107,14 +107,14 @@ export function WhyChooseUsSection() {
               </p>
               
               <div className="relative w-full max-w-[360px] sm:max-w-[400px] mx-auto lg:mx-0">
-                {/* Support Meeting Image (Compact Aspect Ratio) */}
-                <div className="relative w-full aspect-[16/11] rounded-2xl overflow-hidden shadow-lg border-2 border-white">
+                {/* Support Meeting Image (Matching 16:9 Aspect Ratio) */}
+                <div className="relative w-full aspect-[16/9.5] sm:aspect-[16/9] rounded-2xl overflow-hidden shadow-lg border-2 border-white">
                   <Image 
                     src="/advisor-meeting.jpg" 
                     alt="Wealthy Step Financial Advisors Support Meeting"
                     fill
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 45vw, 400px"
-                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 45vw, 420px"
+                    className="object-cover object-center"
                     priority
                   />
                 </div>
