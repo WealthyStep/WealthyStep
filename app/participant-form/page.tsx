@@ -338,20 +338,20 @@ END:VCARD`;
     <div className="min-h-screen bg-[#F8F9FA] text-[#180D45] flex flex-col justify-between">
       {/* ─── DEDICATED MOBILE-FIRST TOP BAR ─── */}
       <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-2xs">
-        <div className="max-w-xl mx-auto px-4 py-2.5 flex items-center justify-between">
-          <Link href="/" className="inline-flex items-center gap-2 group outline-none" title="Wealthy Step Home">
+        <div className="max-w-xl mx-auto px-3.5 sm:px-4 py-2.5 flex items-center justify-between gap-2">
+          <Link href="/" className="inline-flex items-center gap-2 group outline-none shrink-0" title="Wealthy Step Home">
             <Image
               src="/logo.svg"
               alt="Wealthy Step Logo"
-              width={160}
-              height={40}
+              width={150}
+              height={38}
               priority
-              className="h-8 sm:h-9 w-auto object-contain transition-transform group-hover:scale-102"
+              className="h-7 sm:h-8 w-auto object-contain transition-transform group-hover:scale-102"
             />
           </Link>
           <Link
             href="/"
-            className="inline-flex items-center gap-1.5 text-xs font-semibold text-gray-500 hover:text-[#180D45] transition-colors px-2.5 py-1 rounded-lg hover:bg-gray-50"
+            className="inline-flex items-center gap-1 text-[11px] sm:text-xs font-semibold text-gray-500 hover:text-[#180D45] transition-colors px-2 py-1 rounded-lg hover:bg-gray-50 shrink-0"
           >
             <ArrowLeft className="w-3.5 h-3.5" />
             <span>wealthystep.com</span>
@@ -360,26 +360,25 @@ END:VCARD`;
       </header>
 
       {/* ─── MAIN CONTENT CONTAINER ─── */}
-      <main className="flex-1 w-full max-w-xl mx-auto px-3.5 sm:px-6 py-4 sm:py-6">
+      <main className="flex-1 w-full max-w-xl mx-auto px-3.5 sm:px-6 py-3.5 sm:py-5">
         {/* Sleek Trust Badge & Program Header (Only visible when form is active) */}
         {!isSubmitted && (
-          <div className="text-center mb-4 space-y-2 animate-fade-in">
-            {/* 100% SPAM-FREE High-Trust Pill */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-700 text-white shadow-xs text-xs font-black tracking-wide uppercase">
-              <ShieldCheck className="w-4 h-4 text-lime-300 stroke-[2.5]" />
-              <span>100% SPAM-FREE • STRICTLY CONFIDENTIAL</span>
+          <div className="text-center mb-3.5 space-y-1.5 animate-fade-in">
+            {/* Single Clean Trust Badge */}
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-[11px] sm:text-xs font-bold tracking-tight shadow-2xs">
+              <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+              <span>100% Spam-Free • Strictly Confidential</span>
             </div>
 
-            <div className="space-y-0.5">
-              <div className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#180D45]/5 text-[#446A1B] text-[11px] font-black tracking-wider uppercase">
-                <Sparkles className="w-3 h-3 text-[#446A1B]" />
-                <span>Financial Freedom Awareness Program</span>
-              </div>
+            <div className="pt-0.5">
+              <span className="text-[10px] sm:text-[11px] font-bold text-[#84BD3C] uppercase tracking-wider block mb-0.5">
+                Financial Freedom Awareness Program
+              </span>
               <h1 className="text-xl sm:text-2xl font-black text-[#180D45] tracking-tight">
                 Participant Details Form
               </h1>
             </div>
-            <p className="text-xs text-gray-600 max-w-md mx-auto leading-relaxed">
+            <p className="text-[11px] sm:text-xs text-gray-600 max-w-md mx-auto leading-relaxed">
               Please share your details below to receive personalized insights tailored to your financial goals.
             </p>
           </div>
@@ -604,7 +603,7 @@ END:VCARD`;
                 }`}
               >
                 <div className="flex items-center gap-1 px-3 py-3 bg-gray-50 border-r border-gray-200 text-xs font-bold text-gray-700 shrink-0 select-none">
-                  <span>🇮🇳 +91</span>
+                  <span className="text-[12px] font-bold text-gray-700 whitespace-nowrap">+91</span>
                 </div>
                 <div className="relative flex-1">
                   <Phone className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
@@ -825,7 +824,7 @@ END:VCARD`;
 
             {/* ── 9. BOT PROTECTION (SEAMLESS TURNSTILE / VERIFICATION BADGE) ── */}
             <div className="flex flex-col items-center justify-center pt-1 min-h-[36px]">
-              {isClientReady && !turnstileFailed ? (
+              {isClientReady && !turnstileFailed && turnstileSiteKey !== "1x00000000000000000000AA" ? (
                 <Turnstile
                   siteKey={turnstileSiteKey}
                   onSuccess={(token) => setTurnstileToken(token)}
@@ -843,7 +842,7 @@ END:VCARD`;
               ) : (
                 <div className="flex items-center justify-center gap-1.5 py-1.5 text-xs font-semibold text-emerald-700 bg-emerald-50 rounded-xl px-3.5 border border-emerald-100">
                   <ShieldCheck className="w-4 h-4 text-emerald-600" />
-                  <span>Browser Security Verified • Anti-Spam Active</span>
+                  <span>Security Verified • 100% Spam-Free</span>
                 </div>
               )}
             </div>
@@ -853,17 +852,17 @@ END:VCARD`;
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full inline-flex items-center justify-center gap-2 h-14 px-6 rounded-2xl bg-[#180D45] hover:bg-[#25156B] active:scale-98 text-white text-base font-black shadow-lg hover:shadow-xl transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full inline-flex items-center justify-center gap-2 min-h-[50px] py-3.5 px-4 rounded-2xl bg-[#180D45] hover:bg-[#25156B] active:scale-98 text-white text-sm sm:text-base font-bold shadow-lg hover:shadow-xl transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isSubmitting ? (
                   <>
-                    <RefreshCw className="w-5 h-5 animate-spin text-[#84BD3C]" />
+                    <RefreshCw className="w-4 h-4 sm:w-5 sm:h-5 animate-spin text-[#84BD3C] shrink-0" />
                     <span>Submitting Details...</span>
                   </>
                 ) : (
                   <>
-                    <span>Submit Participant Details</span>
-                    <ArrowRight className="w-5 h-5 text-[#84BD3C]" />
+                    <span className="whitespace-nowrap">Submit Participant Details</span>
+                    <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 text-[#84BD3C] shrink-0" />
                   </>
                 )}
               </button>

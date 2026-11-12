@@ -207,16 +207,6 @@ export function Navbar() {
                   </Link>
                 </Button>
 
-                {/* Contact Us Button (as in Image 2) */}
-                <Button
-                  className="hidden xl:flex h-9 rounded-full bg-white border-2 border-navy px-5 text-xs font-bold text-navy transition-all hover:bg-navy hover:text-white whitespace-nowrap"
-                  asChild
-                >
-                  <Link href="/contact">
-                    Contact Us
-                  </Link>
-                </Button>
-
                 {/* Login Button */}
                 <Button
                   className="hidden lg:flex h-9 rounded-full bg-lime px-5 text-xs font-bold text-navy transition-all hover:bg-cta-green hover:text-white whitespace-nowrap gap-2"
