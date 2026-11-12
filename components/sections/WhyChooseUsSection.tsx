@@ -110,11 +110,12 @@ export function WhyChooseUsSection() {
                 {/* Support Meeting Image (Compact Aspect Ratio) */}
                 <div className="relative w-full aspect-[16/11] rounded-2xl overflow-hidden shadow-lg border-2 border-white">
                   <Image 
-                    src="/images/services/group-corporate-insurance.jpg" 
-                    alt="Wealthy Step Support Meeting"
+                    src="/advisor-meeting.jpg" 
+                    alt="Wealthy Step Financial Advisors Support Meeting"
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 45vw, 400px"
                     className="object-cover"
+                    priority
                   />
                 </div>
                 
