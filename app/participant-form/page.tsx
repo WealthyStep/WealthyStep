@@ -252,7 +252,7 @@ export default function ParticipantFormPage() {
     setIsSubmitting(true);
 
     try {
-      const res = await fetch("/api/program/submit", {
+      const res = await fetch("/api/program/submit/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
