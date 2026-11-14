@@ -218,6 +218,7 @@ export default function LifeInsuranceFormPage() {
         delete next[field];
         return next;
       });
+      setGlobalError(null);
     }
   };
 
@@ -399,11 +400,11 @@ export default function LifeInsuranceFormPage() {
         <div className="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2 group">
             <Image
-              src="/images/logo/wealthystep-logo.png"
+              src="/logo.svg"
               alt="Wealthy Step Logo"
               width={140}
               height={36}
-              className="h-8 w-auto object-contain"
+              className="h-7 sm:h-8 w-auto object-contain"
               priority
             />
           </Link>
@@ -423,7 +424,7 @@ export default function LifeInsuranceFormPage() {
       </header>
 
       {/* ── Main Container ── */}
-      <main className="max-w-3xl mx-auto px-4 py-6 sm:py-10">
+      <main className="max-w-3xl mx-auto px-3.5 sm:px-6 pt-5 sm:pt-8 pb-28 sm:pb-16">
         {/* Intro Card */}
         <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-[#E2E8D8] mb-6 relative overflow-hidden">
           <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-bl from-[#84BD3C]/10 to-transparent rounded-bl-full pointer-events-none" />
@@ -577,8 +578,8 @@ export default function LifeInsuranceFormPage() {
                 />
               </div>
 
-              {/* Step Pills */}
-              <div className="grid grid-cols-6 gap-1 mt-3">
+              {/* Step Pills on Tablet/Desktop */}
+              <div className="hidden sm:grid sm:grid-cols-6 gap-1.5 mt-3">
                 {STEPS.map((step) => (
                   <button
                     key={step.id}
@@ -587,15 +588,15 @@ export default function LifeInsuranceFormPage() {
                     onClick={() => {
                       if (step.id < currentStep) setCurrentStep(step.id);
                     }}
-                    className={`text-center py-1.5 px-0.5 rounded-lg text-[9px] sm:text-[10px] font-bold transition-all ${
+                    className={`text-center py-2 px-1 rounded-xl text-[10px] sm:text-[11px] font-bold transition-all ${
                       currentStep === step.id
                         ? "bg-[#180D45] text-white shadow-xs"
                         : step.id < currentStep
-                        ? "bg-emerald-50 text-emerald-800 cursor-pointer"
+                        ? "bg-emerald-50 text-emerald-800 hover:bg-emerald-100 cursor-pointer"
                         : "bg-gray-50 text-gray-400 cursor-not-allowed"
                     }`}
                   >
-                    <span className="block truncate">{step.id}. {step.title.split(" ")[0]}</span>
+                    <span className="block truncate">{step.id}. {step.title}</span>
                   </button>
                 ))}
               </div>
@@ -1895,7 +1896,11 @@ export default function LifeInsuranceFormPage() {
                         type="checkbox"
                         checked={formData.consentContactAccepted}
                         onChange={(e) => {
-                          setFormData((prev) => ({ ...prev, consentContactAccepted: e.target.checked }));
+                          const checked = e.target.checked;
+                          setFormData((prev) => ({ ...prev, consentContactAccepted: checked }));
+                          if (checked) {
+                            setGlobalError(null);
+                          }
                           if (fieldErrors.consentContactAccepted) {
                             setFieldErrors((prev) => {
                               const next = { ...prev };
@@ -1926,7 +1931,11 @@ export default function LifeInsuranceFormPage() {
                         type="checkbox"
                         checked={formData.consentDisclosureAccepted}
                         onChange={(e) => {
-                          setFormData((prev) => ({ ...prev, consentDisclosureAccepted: e.target.checked }));
+                          const checked = e.target.checked;
+                          setFormData((prev) => ({ ...prev, consentDisclosureAccepted: checked }));
+                          if (checked) {
+                            setGlobalError(null);
+                          }
                           if (fieldErrors.consentDisclosureAccepted) {
                             setFieldErrors((prev) => {
                               const next = { ...prev };
@@ -2031,3 +2040,4 @@ export default function LifeInsuranceFormPage() {
     </div>
   );
 }
+

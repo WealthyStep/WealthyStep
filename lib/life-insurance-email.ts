@@ -351,3 +351,4 @@ export async function sendLifeInsuranceNotificationEmails(
     userMessageId: `mock-life-user-${Date.now()}`,
   };
 }
+

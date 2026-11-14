@@ -1076,3 +1076,4 @@ CREATE POLICY "Service role full access on life_insurance_proposals" ON public.l
     </div>
   );
 }
+

@@ -118,3 +118,4 @@ CREATE POLICY "Service role full access on life_insurance_proposals"
     TO service_role
     USING (true)
     WITH CHECK (true);
+

@@ -107,6 +107,17 @@ export function sanitizeDigits(val: any, maxLen?: number): string {
   return maxLen ? cleaned.slice(0, maxLen) : cleaned;
 }
 
+export function sanitizeMobile(val: any): string {
+  if (!val) return "";
+  let digits = String(val).replace(/\D/g, "");
+  if (digits.length === 12 && digits.startsWith("91")) {
+    digits = digits.slice(2);
+  } else if (digits.length === 11 && digits.startsWith("0")) {
+    digits = digits.slice(1);
+  }
+  return digits.slice(0, 10);
+}
+
 /**
  * Validates a specific step or the entire form.
  * @param input The raw input payload
@@ -120,7 +131,7 @@ export function validateBseStarAccountOpening(
 
   const sanitized: BseStarAccountOpeningInput = {
     fullName: sanitizeText(input.fullName),
-    mobile: sanitizeDigits(input.mobile, 10),
+    mobile: sanitizeMobile(input.mobile),
     email: sanitizeText(input.email).toLowerCase(),
     dob: sanitizeText(input.dob),
     placeOfBirth: sanitizeText(input.placeOfBirth),
@@ -290,7 +301,7 @@ export function validateBseStarAccountOpening(
         errors[`${prefix}_dob`] = `Nominee ${i + 1}: Date of birth is required.`;
       }
 
-      const nomMobile = sanitizeDigits(nom.mobile, 10);
+      const nomMobile = sanitizeMobile(nom.mobile);
       if (!nomMobile || !MOBILE_REGEX.test(nomMobile)) {
         errors[`${prefix}_mobile`] = `Nominee ${i + 1}: Valid 10-digit mobile number is required.`;
       }
