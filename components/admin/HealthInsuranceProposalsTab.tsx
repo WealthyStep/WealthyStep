@@ -945,3 +945,4 @@ export function HealthInsuranceProposalsTab({
     </div>
   );
 }
+

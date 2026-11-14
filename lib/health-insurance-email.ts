@@ -346,3 +346,4 @@ export async function sendHealthInsuranceProposalEmail(
   // Local / dev mock
   return { success: true, messageId: `mock-email-${Date.now()}` };
 }
+

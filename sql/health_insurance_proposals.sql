@@ -95,3 +95,4 @@ CREATE POLICY "Service role full access on health_insurance_proposals"
     TO service_role
     USING (true)
     WITH CHECK (true);
+
