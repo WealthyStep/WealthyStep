@@ -31,6 +31,8 @@ import {
   Mail,
   MapPin,
   TrendingUp,
+  WifiOff,
+  Check,
 } from "lucide-react";
 import {
   BseStarAccountOpeningInput,
@@ -100,11 +102,11 @@ const INITIAL_FORM_DATA: BseStarAccountOpeningInput = {
 };
 
 const STEPS = [
-  { id: 1, title: "Personal Details", subtitle: "Applicant Information" },
-  { id: 2, title: "KYC & Documents", subtitle: "Aadhaar & PAN Verification" },
-  { id: 3, title: "Bank Details", subtitle: "Mandate & Bank Account" },
-  { id: 4, title: "Nominee Details", subtitle: "Beneficiary Allocation" },
-  { id: 5, title: "Declaration", subtitle: "Consent & Verification" },
+  { id: 1, title: "Personal Details", short: "Personal", subtitle: "Applicant Information" },
+  { id: 2, title: "KYC & Documents", short: "KYC", subtitle: "Aadhaar & PAN Verification" },
+  { id: 3, title: "Bank Details", short: "Bank", subtitle: "Mandate & Bank Account" },
+  { id: 4, title: "Nominee Details", short: "Nominee", subtitle: "Beneficiary Allocation" },
+  { id: 5, title: "Declaration & Security", short: "Declaration", subtitle: "Consent & Verification" },
 ];
 
 export default function BseStarMutualFundFormPage() {
@@ -112,6 +114,7 @@ export default function BseStarMutualFundFormPage() {
   const [formData, setFormData] = useState<BseStarAccountOpeningInput>(INITIAL_FORM_DATA);
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
   const [globalError, setGlobalError] = useState<string | null>(null);
+  const [isOnline, setIsOnline] = useState<boolean>(true);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -131,6 +134,14 @@ export default function BseStarMutualFundFormPage() {
   // 1. Restore draft on mount
   useEffect(() => {
     setIsClientReady(true);
+    setIsOnline(typeof navigator !== "undefined" ? navigator.onLine : true);
+
+    const handleOnline = () => setIsOnline(true);
+    const handleOffline = () => setIsOnline(false);
+
+    window.addEventListener("online", handleOnline);
+    window.addEventListener("offline", handleOffline);
+
     try {
       const saved = localStorage.getItem(DRAFT_STORAGE_KEY);
       if (saved) {
@@ -150,6 +161,11 @@ export default function BseStarMutualFundFormPage() {
     } catch (e) {
       console.warn("Failed to read draft from localStorage:", e);
     }
+
+    return () => {
+      window.removeEventListener("online", handleOnline);
+      window.removeEventListener("offline", handleOffline);
+    };
   }, []);
 
   // 2. Auto-save draft on data change
@@ -458,104 +474,41 @@ export default function BseStarMutualFundFormPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F6F8F2] text-[#180D45]">
+    <div className="min-h-screen bg-[#F6F8F2] text-[#180D45] flex flex-col font-sans">
       {/* ── Header Bar ── */}
-      <header className="bg-white border-b border-gray-200 sticky top-0 z-40 shadow-xs">
-        <div className="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2 group">
+      <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-2xs">
+        <div className="max-w-2xl mx-auto px-3.5 sm:px-6 py-2.5 flex items-center justify-between gap-2">
+          <Link href="/" className="inline-flex items-center gap-2 group outline-none shrink-0" title="Wealthy Step Home">
             <Image
               src="/logo.svg"
               alt="Wealthy Step Logo"
-              width={140}
-              height={36}
-              className="h-7 sm:h-8 w-auto object-contain"
+              width={150}
+              height={38}
               priority
+              className="h-7 sm:h-8 w-auto object-contain transition-transform group-hover:scale-102"
             />
           </Link>
-          <div className="flex items-center gap-3">
-            <span className="hidden sm:inline-flex items-center gap-1.5 text-xs font-bold text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200">
-              <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
-              100% Confidential &bull; IRDAI &amp; AMFI Compliant
-            </span>
+
+          <div className="flex items-center gap-2">
+            {!isOnline && (
+              <span className="inline-flex items-center gap-1 text-[11px] font-bold text-amber-700 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded-full">
+                <WifiOff className="w-3 h-3 text-amber-600" />
+                <span className="hidden sm:inline">Offline</span>
+              </span>
+            )}
             <Link
               href="/"
-              className="text-xs font-bold text-gray-500 hover:text-navy transition-colors"
+              className="inline-flex items-center gap-1 text-[11px] sm:text-xs font-semibold text-gray-500 hover:text-[#180D45] transition-colors px-2 py-1 rounded-lg hover:bg-gray-50 shrink-0"
             >
-              &larr; Back to Home
+              <ArrowLeft className="w-3.5 h-3.5" />
+              <span>wealthystep.com</span>
             </Link>
           </div>
         </div>
       </header>
 
-      {/* ── Main Container ── */}
-      <main className="max-w-3xl mx-auto px-3.5 sm:px-6 pt-5 sm:pt-8 pb-28 sm:pb-16">
-        {/* Intro Card */}
-        <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-[#E2E8D8] mb-6 relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-bl from-[#84BD3C]/10 to-transparent rounded-bl-full pointer-events-none" />
-
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-extrabold uppercase tracking-wider mb-3">
-            <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
-            BSE Star Mutual Fund &bull; Account Creation
-          </div>
-
-          <h1 className="text-xl sm:text-2xl font-black text-[#180D45] tracking-tight mb-2">
-            Wealthy Step &mdash; BSE Star Mutual Fund account creation details
-          </h1>
-
-          <p className="text-xs sm:text-sm text-gray-600 leading-relaxed mb-4">
-            At <strong>Wealthy Step™</strong>, we believe in helping individuals and families take mindful steps towards building and protecting their financial future. Founded by <strong>Qualified Personal Finance Professionals (QPFP®)</strong>, Certified <strong>NISM CRISIL Wealth Manager</strong>. We follow a client-first approach, ensuring that your financial decisions align with your life goals.
-          </p>
-
-          <p className="text-xs sm:text-sm font-semibold text-emerald-800 flex items-center gap-1.5 mb-4">
-            <span>Let&apos;s build your Wealthy Future, step by step! 🌱</span>
-          </p>
-
-          {/* Trust Badges */}
-          <div className="flex flex-wrap items-center gap-2 pt-3 border-t border-gray-100 text-[11px] text-gray-500 font-medium">
-            <span className="flex items-center gap-1 bg-gray-50 px-2.5 py-1 rounded-lg border border-gray-200">
-              <Award className="w-3.5 h-3.5 text-[#84BD3C]" />
-              AMFI ARN-322891
-            </span>
-            <span className="flex items-center gap-1 bg-gray-50 px-2.5 py-1 rounded-lg border border-gray-200">
-              <UserCheck className="w-3.5 h-3.5 text-blue-600" />
-              QPFP® &amp; NISM CRISIL
-            </span>
-            <span className="flex items-center gap-1 bg-gray-50 px-2.5 py-1 rounded-lg border border-gray-200">
-              <Lock className="w-3.5 h-3.5 text-emerald-600" />
-              256-bit Encrypted
-            </span>
-            <span className="text-gray-400 ml-auto">All information kept 100% confidential</span>
-          </div>
-
-          {/* Draft Notification */}
-          {isRestoredFromDraft && (
-            <div className="mt-4 p-2.5 rounded-xl bg-amber-50 border border-amber-200 flex items-center justify-between text-xs text-amber-900">
-              <span className="flex items-center gap-1.5 font-medium">
-                <RotateCcw className="w-3.5 h-3.5 text-amber-700" />
-                Draft restored from your last session.
-              </span>
-              <button
-                type="button"
-                onClick={handleClearDraft}
-                className="text-rose-600 hover:text-rose-800 font-bold underline ml-2"
-              >
-                Clear &amp; Start Fresh
-              </button>
-            </div>
-          )}
-        </div>
-
-        {/* Global Error Banner */}
-        {globalError && (
-          <div className="mb-6 p-4 rounded-2xl bg-rose-50 border border-rose-200 text-rose-800 text-xs sm:text-sm flex items-start gap-3 shadow-xs animate-shake">
-            <AlertCircle className="w-5 h-5 text-rose-600 shrink-0 mt-0.5" />
-            <div className="flex-1">
-              <p className="font-bold">Please review the error:</p>
-              <p className="mt-0.5 text-rose-700">{globalError}</p>
-            </div>
-          </div>
-        )}
-
+      {/* ── Main Content Container ── */}
+      <main className="flex-1 w-full max-w-2xl mx-auto px-3.5 sm:px-6 py-3.5 sm:py-5">
         {/* ── Success Screen ── */}
         {isSubmitted && submissionResult ? (
           <div className="bg-white rounded-3xl p-6 sm:p-10 shadow-sm border border-[#E2E8D8] text-center space-y-6">
@@ -579,7 +532,7 @@ export default function BseStarMutualFundFormPage() {
               <span className="text-[11px] text-gray-500 uppercase tracking-wider font-bold block mb-1">
                 Your Tracking Reference ID
               </span>
-              <span className="text-base sm:text-lg font-mono font-black text-[#180D45]">
+              <span className="text-base sm:lg font-mono font-black text-[#180D45]">
                 {submissionResult.id}
               </span>
             </div>
@@ -606,7 +559,7 @@ export default function BseStarMutualFundFormPage() {
                   setSubmissionResult(null);
                   setCurrentStep(1);
                 }}
-                className="w-full sm:w-auto px-6 py-3 rounded-xl bg-gray-100 text-gray-700 font-bold text-xs hover:bg-gray-200 transition-colors"
+                className="w-full sm:w-auto px-6 py-3 rounded-xl bg-gray-100 text-gray-700 font-bold text-xs hover:bg-gray-200 transition-colors cursor-pointer"
               >
                 Submit Another Response
               </button>
@@ -621,50 +574,109 @@ export default function BseStarMutualFundFormPage() {
           </div>
         ) : (
           /* ── Multi-Step Form Wizard ── */
-          <div className="space-y-6">
-            {/* Stepper Progress Bar */}
-            <div className="bg-white rounded-2xl p-4 shadow-2xs border border-[#E2E8D8]">
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-xs font-black text-[#180D45]">
-                  Step {currentStep} of 5: {STEPS[currentStep - 1].title}
+          <div className="space-y-3.5">
+            {/* ─── SLEEK TRUST HEADER ─── */}
+            <div className="text-center space-y-1.5 animate-fade-in pt-1 pb-1">
+              <div className="flex items-center justify-center gap-2">
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-[11px] font-bold tracking-tight shadow-2xs">
+                  <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                  <span>100% Confidential • AMFI Registered &amp; BSE Star Desk</span>
+                </div>
+                {isRestoredFromDraft && (
+                  <span className="hidden sm:inline-flex items-center gap-1 text-[11px] text-gray-500 bg-white border border-gray-200 px-2.5 py-0.5 rounded-full shadow-2xs">
+                    <CheckCircle2 className="w-3 h-3 text-emerald-600" />
+                    <span>Draft restored</span>
+                    <button
+                      type="button"
+                      onClick={handleClearDraft}
+                      className="ml-1 text-rose-600 underline font-semibold hover:text-rose-800 cursor-pointer"
+                    >
+                      Clear
+                    </button>
+                  </span>
+                )}
+              </div>
+
+              <div>
+                <span className="text-[10px] sm:text-[11px] font-bold text-[#84BD3C] uppercase tracking-wider block mb-0.5">
+                  Wealthy Step™ Mutual Funds &amp; SIF
                 </span>
-                <span className="text-xs font-bold text-[#84BD3C]">
-                  {Math.round((currentStep / 5) * 100)}% Complete
+                <h1 className="text-xl sm:text-2xl font-black text-[#180D45] tracking-tight">
+                  BSE Star MF — Account Creation Details
+                </h1>
+              </div>
+
+              <p className="text-[11px] sm:text-xs text-gray-600 max-w-md mx-auto leading-relaxed">
+                Take mindful steps towards building your wealth. Founded by Qualified Personal Finance Professionals (QPFP®) &amp; Certified NISM CRISIL Wealth Managers.
+              </p>
+
+              {/* Compact Benefits Pills */}
+              <div className="flex flex-wrap items-center justify-center gap-1 pt-0.5 text-[10px] sm:text-[11px] font-semibold text-gray-600">
+                <span className="bg-white border border-gray-200 px-2 py-0.5 rounded-md shadow-2xs">🌱 Wealth Building</span>
+                <span className="bg-white border border-gray-200 px-2 py-0.5 rounded-md shadow-2xs">📜 BSE Star Platform</span>
+                <span className="bg-white border border-gray-200 px-2 py-0.5 rounded-md shadow-2xs">⚡ Fast Online KYC</span>
+                <span className="bg-white border border-gray-200 px-2 py-0.5 rounded-md shadow-2xs">🔒 ARN-322891</span>
+              </div>
+            </div>
+
+            {/* ─── GOOGLE FORM-STYLE SECTION PROGRESS BAR ─── */}
+            <div className="bg-white rounded-2xl border border-gray-200/90 shadow-2xs p-3 sm:p-4 space-y-2.5">
+              <div className="flex items-center justify-between gap-2">
+                <div className="flex items-center gap-2 min-w-0">
+                  <span className="px-2 py-0.5 rounded-md bg-[#180D45] text-white text-[10px] sm:text-[11px] font-black shrink-0">
+                    Step {currentStep} of {STEPS.length}
+                  </span>
+                  <span className="text-xs sm:text-sm font-bold text-[#180D45] truncate">
+                    {STEPS[currentStep - 1].title}
+                  </span>
+                </div>
+                <span className="text-xs font-black text-[#446A1B] shrink-0 font-mono">
+                  {Math.round((currentStep / STEPS.length) * 100)}%
                 </span>
               </div>
-              <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
+              
+              {/* Progress Bar Track */}
+              <div className="w-full bg-gray-100 rounded-full h-2 overflow-hidden">
                 <div
-                  className="h-full bg-gradient-to-r from-[#180D45] to-[#84BD3C] transition-all duration-300"
-                  style={{ width: `${(currentStep / 5) * 100}%` }}
+                  className="bg-gradient-to-r from-[#180D45] via-[#84BD3C] to-[#25D366] h-full transition-all duration-300 rounded-full"
+                  style={{ width: `${(currentStep / STEPS.length) * 100}%` }}
                 />
               </div>
 
               {/* Step Pills on Tablet/Desktop */}
-              <div className="hidden sm:grid sm:grid-cols-5 gap-1.5 mt-3">
-                {STEPS.map((step) => (
+              <div className="hidden sm:grid grid-cols-5 gap-1.5 pt-1 text-center">
+                {STEPS.map((s) => (
                   <button
-                    key={step.id}
+                    key={s.id}
                     type="button"
-                    disabled={step.id > currentStep}
                     onClick={() => {
-                      if (step.id < currentStep) setCurrentStep(step.id);
+                      if (s.id < currentStep) setCurrentStep(s.id);
                     }}
-                    className={`text-center py-2 px-1.5 rounded-xl text-[11px] font-bold transition-all ${
-                      currentStep === step.id
-                        ? "bg-[#180D45] text-white shadow-xs"
-                        : step.id < currentStep
+                    disabled={s.id > currentStep}
+                    className={`py-1 px-2 rounded-lg text-[10px] font-bold transition-all text-left ${
+                      s.id === currentStep
+                        ? "bg-[#180D45] text-white shadow-2xs"
+                        : s.id < currentStep
                         ? "bg-emerald-50 text-emerald-800 hover:bg-emerald-100 cursor-pointer"
-                        : "bg-gray-50 text-gray-400 cursor-not-allowed"
+                        : "text-gray-400 cursor-not-allowed"
                     }`}
                   >
-                    <span className="block truncate">{step.id}. {step.title}</span>
+                    <span className="block truncate">{s.id}. {s.short}</span>
                   </button>
                 ))}
               </div>
             </div>
 
+            {/* Global Error Alert Banner */}
+            {globalError && (
+              <div className="bg-rose-50 border border-rose-200 rounded-2xl p-3 text-xs text-rose-700 flex items-center gap-2 animate-fade-in shadow-2xs">
+                <AlertCircle className="w-4 h-4 text-rose-600 shrink-0" />
+                <span className="font-medium">{globalError}</span>
+              </div>
+            )}
+
             {/* Form Card */}
-            <form onSubmit={handleSubmit} noValidate className="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-[#E2E8D8] space-y-6">
+            <form onSubmit={handleSubmit} noValidate className="space-y-3.5">
               
               {/* ============================================================== */}
               {/* STEP 1: Personal Details */}
@@ -1764,35 +1776,35 @@ export default function BseStarMutualFundFormPage() {
                 </div>
               )}
 
-              {/* ── Navigation Buttons ── */}
-              <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+              {/* ─── NAVIGATION BUTTONS ─── */}
+              <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2">
                 {currentStep > 1 ? (
                   <button
                     type="button"
                     onClick={handleBack}
-                    className="inline-flex items-center gap-1.5 px-4 sm:px-6 py-2.5 rounded-xl border border-gray-300 text-xs font-bold text-gray-700 hover:bg-gray-50 transition-colors cursor-pointer"
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 h-12 px-6 rounded-xl bg-white border border-gray-300 hover:bg-gray-50 active:scale-98 text-gray-700 font-bold text-xs sm:text-sm shadow-2xs transition-all cursor-pointer order-2 sm:order-1"
                   >
-                    <ArrowLeft className="w-3.5 h-3.5" />
-                    <span>Back</span>
+                    <ArrowLeft className="w-4 h-4 text-gray-500" />
+                    <span>Previous Step</span>
                   </button>
                 ) : (
-                  <div />
+                  <div className="hidden sm:block" />
                 )}
 
                 {currentStep < 5 ? (
                   <button
                     type="button"
                     onClick={handleNext}
-                    className="inline-flex items-center gap-1.5 px-6 sm:px-8 py-3 rounded-xl bg-[#180D45] text-white text-xs font-bold hover:bg-[#25156B] transition-all shadow-sm cursor-pointer ml-auto"
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 h-12 px-8 rounded-xl bg-[#180D45] hover:bg-[#25156B] active:scale-98 text-white font-bold text-xs sm:text-sm shadow-md hover:shadow-lg transition-all cursor-pointer order-1 sm:order-2"
                   >
                     <span>Continue to Step {currentStep + 1}</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
+                    <ArrowRight className="w-4 h-4 text-[#84BD3C]" />
                   </button>
                 ) : (
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="inline-flex items-center gap-2 px-8 py-3 rounded-xl bg-gradient-to-r from-[#180D45] to-[#84BD3C] text-white text-xs font-extrabold hover:opacity-95 transition-all shadow-md cursor-pointer ml-auto disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 h-12 px-8 rounded-xl bg-[#180D45] hover:bg-[#25156B] active:scale-98 text-white font-bold text-xs sm:text-sm shadow-lg hover:shadow-xl transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed order-1 sm:order-2"
                   >
                     {isSubmitting ? (
                       <>
@@ -1801,17 +1813,28 @@ export default function BseStarMutualFundFormPage() {
                       </>
                     ) : (
                       <>
-                        <CheckCircle2 className="w-4 h-4" />
-                        <span>Submit Details</span>
+                        <span>Submit BSE Star MF Details</span>
+                        <ArrowRight className="w-4 h-4 text-[#84BD3C]" />
                       </>
                     )}
                   </button>
                 )}
               </div>
+
+              {/* Security Assurance */}
+              <div className="text-center text-[10px] text-gray-400 space-y-0.5 pt-1">
+                <p>🔒 256-bit Encrypted • Strictly Confidential • Instant Desk Notification</p>
+                <p>Wealthy Step™ • AMFI Registered Mutual Fund &amp; SIF Distributor • ARN-322891</p>
+              </div>
             </form>
           </div>
         )}
       </main>
+
+      {/* ─── DEDICATED MINIMAL FOOTER ─── */}
+      <footer className="w-full border-t border-gray-200 bg-white py-3 px-4 text-center text-[10px] sm:text-[11px] text-gray-400">
+        <p>© {new Date().getFullYear()} Wealthy Step. All rights reserved. AMFI Registration ARN-322891.</p>
+      </footer>
 
       {/* Draft Saved Toast Indicator */}
       {draftSavedToast && (
