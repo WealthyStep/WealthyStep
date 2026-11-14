@@ -144,7 +144,7 @@ export function BseStarAccountsTab({
       if (statusFilter !== "ALL") params.set("status", statusFilter);
       if (kycFilter !== "ALL") params.set("isKycDone", kycFilter);
 
-      const res = await fetch(`/api/admin/bse-star-accounts?${params.toString()}`, {
+      const res = await fetch(`/api/admin/bse-star-accounts/?${params.toString()}`, {
         headers: { Authorization: `Bearer ${authToken}` },
       });
 
@@ -182,7 +182,7 @@ export function BseStarAccountsTab({
     if (!authToken) return;
 
     try {
-      const res = await fetch(`/api/admin/bse-star-accounts/${id}`, {
+      const res = await fetch(`/api/admin/bse-star-accounts/${id}/`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -219,7 +219,7 @@ export function BseStarAccountsTab({
     setIsAddingFollowup(true);
 
     try {
-      const res = await fetch(`/api/admin/bse-star-accounts/${selectedAccount.id}`, {
+      const res = await fetch(`/api/admin/bse-star-accounts/${selectedAccount.id}/`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -259,7 +259,7 @@ export function BseStarAccountsTab({
     setIsDeleting(true);
 
     try {
-      const res = await fetch(`/api/admin/bse-star-accounts/${accountToDelete.id}`, {
+      const res = await fetch(`/api/admin/bse-star-accounts/${accountToDelete.id}/`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${authToken}` },
       });
@@ -376,7 +376,7 @@ export function BseStarAccountsTab({
       const parsed = JSON.parse(importJsonText);
       const items = Array.isArray(parsed) ? parsed : [parsed];
 
-      const res = await fetch("/api/admin/bse-star-accounts", {
+      const res = await fetch("/api/admin/bse-star-accounts/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

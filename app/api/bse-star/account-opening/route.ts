@@ -198,7 +198,7 @@ export async function POST(request: Request) {
       persistedVia = "audit_log_fallback";
     }
 
-    // 6. Record in Audit Log
+    // 6. Record in Audit Log (Stores 100% of data for seamless fallback)
     try {
       await recordAuditLog({
         actor: sanitized.email || "applicant",
@@ -206,15 +206,7 @@ export async function POST(request: Request) {
         targetType: "bse_star_mf_account",
         targetId: recordId,
         details: {
-          fullName: sanitized.fullName,
-          mobile: sanitized.mobile,
-          email: sanitized.email,
-          pan: sanitized.panNumber,
-          isKycDone: sanitized.isKycDone,
-          bankName: sanitized.bankName,
-          accountNumberLast4: sanitized.accountNumber.slice(-4),
-          ifscCode: sanitized.ifscCode,
-          nomineesCount: sanitized.nomineesCount,
+          ...sanitized,
           persistedVia,
           submissionTime,
         },

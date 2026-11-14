@@ -417,7 +417,7 @@ export default function BseStarMutualFundFormPage() {
         turnstileToken: turnstileToken || "fallback-token",
       };
 
-      const response = await fetch("/api/bse-star/account-opening", {
+      const response = await fetch("/api/bse-star/account-opening/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
