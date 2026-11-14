@@ -107,16 +107,23 @@ export function InsuranceDropdown({ onItemClick }: InsuranceDropdownProps) {
               </li>
             </ul>
 
-            {/* Specialised Health Highlight Card */}
-            <div className="p-2 rounded-lg bg-emerald-50/80 border border-emerald-200/80 mb-2">
-              <div className="flex items-center gap-1 text-[10px] font-bold text-emerald-800">
-                <ShieldCheck className="w-3 h-3 text-emerald-600" />
-                <span>Specialised Health Cover</span>
+            {/* Specialised Health Highlight Card -> Direct Form Link */}
+            <Link
+              href="/health-insurance-form"
+              onClick={onItemClick}
+              className="block p-2 rounded-lg bg-emerald-50/90 border border-emerald-200 hover:bg-emerald-100/80 transition-colors mb-2 group/card"
+            >
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-1 text-[10px] font-bold text-emerald-800">
+                  <ShieldCheck className="w-3 h-3 text-emerald-600" />
+                  <span>Health Insurance Form</span>
+                </div>
+                <ArrowRight className="w-2.5 h-2.5 text-emerald-700 group-hover/card:translate-x-0.5 transition-transform" />
               </div>
               <p className="text-[9.5px] text-emerald-900/80 leading-tight mt-0.5">
-                Pre-existing &amp; chronic conditions · Unconditional cover.
+                Personal details intake &amp; 80D tax planning proposal.
               </p>
-            </div>
+            </Link>
           </div>
 
           <div className="pt-3 border-t border-gray-100">
