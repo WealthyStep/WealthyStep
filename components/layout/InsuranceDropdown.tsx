@@ -10,6 +10,7 @@ import {
   Building2,
   FileCheck2,
   ShieldCheck,
+  Shield,
   ArrowRight,
 } from "lucide-react";
 
@@ -122,6 +123,24 @@ export function InsuranceDropdown({ onItemClick }: InsuranceDropdownProps) {
               </div>
               <p className="text-[9.5px] text-emerald-900/80 leading-tight mt-0.5">
                 Personal details intake &amp; 80D tax planning proposal.
+              </p>
+            </Link>
+
+            {/* Life & Term Insurance Link */}
+            <Link
+              href="/life-insurance-form"
+              onClick={onItemClick}
+              className="block p-2 rounded-lg bg-blue-50/90 border border-blue-200 hover:bg-blue-100/80 transition-colors mb-2 group/card"
+            >
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-1 text-[10px] font-bold text-blue-800">
+                  <Shield className="w-3 h-3 text-blue-600" />
+                  <span>Life Insurance Form</span>
+                </div>
+                <ArrowRight className="w-2.5 h-2.5 text-blue-700 group-hover/card:translate-x-0.5 transition-transform" />
+              </div>
+              <p className="text-[9.5px] text-blue-900/80 leading-tight mt-0.5">
+                Life &amp; term proposal, 80C certificate &amp; KYC intake.
               </p>
             </Link>
           </div>

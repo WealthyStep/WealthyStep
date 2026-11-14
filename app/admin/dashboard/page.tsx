@@ -42,6 +42,7 @@ import { PremiumDatePicker } from "@/components/ui/PremiumDatePicker";
 import { PdfViewerModal } from "@/components/ui/PdfViewerModal";
 import { ProgramFeedbackTab } from "@/components/admin/ProgramFeedbackTab";
 import { HealthInsuranceProposalsTab } from "@/components/admin/HealthInsuranceProposalsTab";
+import { LifeInsuranceProposalsTab } from "@/components/admin/LifeInsuranceProposalsTab";
 import { BseStarAccountsTab } from "@/components/admin/BseStarAccountsTab";
 
 interface StorageMetrics {
@@ -123,10 +124,11 @@ export default function AdminDashboardPage() {
   const router = useRouter();
   const [adminUser, setAdminUser] = useState<any>(null);
   const [authToken, setAuthToken] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<"clients" | "proposals" | "bse-star" | "feedback" | "audit">("clients");
+  const [activeTab, setActiveTab] = useState<"clients" | "proposals" | "life-insurance" | "bse-star" | "feedback" | "audit">("clients");
   const [feedbackCount, setFeedbackCount] = useState(0);
   const [proposalsCount, setProposalsCount] = useState(0);
   const [bseStarCount, setBseStarCount] = useState(0);
+  const [lifeInsuranceCount, setLifeInsuranceCount] = useState(0);
 
   // Clients state
   const [clients, setClients] = useState<Client[]>([]);
@@ -1007,6 +1009,27 @@ export default function AdminDashboardPage() {
             </button>
 
             <button
+              onClick={() => setActiveTab("life-insurance")}
+              className={`flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                activeTab === "life-insurance"
+                  ? "bg-[#180D45] text-white shadow-xs"
+                  : "text-gray-500 hover:text-[#180D45] hover:bg-gray-100/60"
+              }`}
+            >
+              <ShieldCheck className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0 text-blue-400" />
+              <span className="truncate">Life Insurance</span>
+              {lifeInsuranceCount > 0 && (
+                <span
+                  className={`px-1.5 sm:px-2 py-0.5 rounded-full text-[10px] font-black shrink-0 ${
+                    activeTab === "life-insurance" ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-700"
+                  }`}
+                >
+                  {lifeInsuranceCount}
+                </span>
+              )}
+            </button>
+
+            <button
               onClick={() => setActiveTab("bse-star")}
               className={`flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                 activeTab === "bse-star"
@@ -1321,6 +1344,16 @@ export default function AdminDashboardPage() {
             handleSessionExpired={handleSessionExpired}
             showFeedback={showFeedback}
             onTotalCountChange={setProposalsCount}
+          />
+        )}
+
+        {/* ======================= TAB: LIFE INSURANCE PROPOSALS ======================= */}
+        {activeTab === "life-insurance" && (
+          <LifeInsuranceProposalsTab
+            authToken={authToken}
+            handleSessionExpired={handleSessionExpired}
+            showFeedback={showFeedback}
+            onTotalCountChange={setLifeInsuranceCount}
           />
         )}
 

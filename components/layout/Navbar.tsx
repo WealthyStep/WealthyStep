@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Menu, X, Phone, ChevronDown, ChevronRight, User, Calendar, Globe, TrendingUp, Layers, Users, HeartPulse, Car, Building2, ShieldCheck } from "lucide-react";
+import { Menu, X, Phone, ChevronDown, ChevronRight, User, Calendar, Globe, TrendingUp, Layers, Users, HeartPulse, Car, Building2, ShieldCheck, Shield } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { isIsolatedRoute } from "@/lib/utils";
@@ -565,6 +565,18 @@ export function Navbar() {
                         <span>Health Insurance Proposal Form</span>
                       </span>
                       <ChevronRight className="w-3.5 h-3.5 text-emerald-600" />
+                    </Link>
+
+                    <Link
+                      href="/life-insurance-form"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="flex items-center justify-between p-2.5 rounded-xl bg-blue-50 hover:bg-blue-100/70 text-xs font-bold text-navy min-h-[44px] border border-blue-200"
+                    >
+                      <span className="flex items-center gap-2">
+                        <Shield className="w-3.5 h-3.5 text-blue-600" />
+                        <span>Life Insurance Proposal Form</span>
+                      </span>
+                      <ChevronRight className="w-3.5 h-3.5 text-blue-600" />
                     </Link>
 
                     <Link
