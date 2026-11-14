@@ -13,6 +13,8 @@ export function isIsolatedRoute(pathname: string | null): boolean {
   if (!pathname) return false;
   return (
     pathname.startsWith("/participant-form") ||
+    pathname.startsWith("/health-insurance-form") ||
+    pathname.startsWith("/insurance-form") ||
     pathname.startsWith("/presentation") ||
     pathname.startsWith("/feedback") ||
     pathname.startsWith("/admin")
