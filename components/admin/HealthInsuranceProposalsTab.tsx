@@ -165,6 +165,74 @@ export function HealthInsuranceProposalsTab({
   const [isImportModalOpen, setIsImportModalOpen] = useState(false);
   const [importJsonText, setImportJsonText] = useState("");
   const [isImporting, setIsImporting] = useState(false);
+  const [isCopiedSql, setIsCopiedSql] = useState(false);
+
+  const handleCopySqlSetup = () => {
+    const sql = `-- Health Insurance Schema for Supabase
+CREATE TABLE IF NOT EXISTS public.health_insurance_proposals (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    proposer_name TEXT NOT NULL,
+    proposer_pan TEXT NOT NULL,
+    proposer_dob TEXT NOT NULL,
+    proposer_aadhar TEXT DEFAULT '',
+    proposer_mobile TEXT NOT NULL,
+    proposer_email TEXT NOT NULL,
+    proposer_address TEXT NOT NULL,
+    employment_status TEXT NOT NULL DEFAULT 'Salaried Employee (PF credit)',
+    corporate_email TEXT DEFAULT '',
+    policy_type TEXT NOT NULL DEFAULT 'New Policy',
+    adults_count INTEGER NOT NULL DEFAULT 1,
+    kids_count INTEGER NOT NULL DEFAULT 0,
+    relation_adult_2 TEXT DEFAULT '',
+    relation_kids TEXT DEFAULT '',
+    members JSONB NOT NULL DEFAULT '[]'::jsonb,
+    insured_email TEXT NOT NULL,
+    insured_mobile TEXT NOT NULL,
+    has_pre_existing_illness BOOLEAN NOT NULL DEFAULT false,
+    pre_existing_details TEXT DEFAULT '',
+    has_tobacco_alcohol_habits BOOLEAN NOT NULL DEFAULT false,
+    habits_details TEXT DEFAULT '',
+    current_address TEXT NOT NULL,
+    nominee_name TEXT NOT NULL,
+    nominee_dob TEXT NOT NULL,
+    nominee_relation TEXT DEFAULT '',
+    nominee_address TEXT NOT NULL,
+    nominee_mobile TEXT NOT NULL,
+    nominee_email TEXT NOT NULL,
+    nominee_bank_name TEXT NOT NULL,
+    nominee_bank_account_name TEXT NOT NULL,
+    nominee_bank_ifsc TEXT NOT NULL,
+    nominee_bank_account_number TEXT NOT NULL,
+    nominee_bank_account_type TEXT NOT NULL DEFAULT 'Savings',
+    consent_contact_accepted BOOLEAN NOT NULL DEFAULT true,
+    consent_disclosure_accepted BOOLEAN NOT NULL DEFAULT true,
+    status TEXT NOT NULL DEFAULT 'New',
+    priority TEXT NOT NULL DEFAULT 'Medium',
+    notes TEXT DEFAULT '',
+    followup_notes JSONB DEFAULT '[]'::jsonb,
+    source TEXT DEFAULT 'Health Insurance Portal',
+    ip_address TEXT,
+    user_agent TEXT,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT timezone('utc'::text, now()),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT timezone('utc'::text, now())
+);
+
+CREATE INDEX IF NOT EXISTS idx_health_proposals_created_at ON public.health_insurance_proposals(created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_health_proposals_status ON public.health_insurance_proposals(status);
+CREATE INDEX IF NOT EXISTS idx_health_proposals_pan ON public.health_insurance_proposals(proposer_pan);
+CREATE INDEX IF NOT EXISTS idx_health_proposals_mobile ON public.health_insurance_proposals(proposer_mobile);
+
+GRANT USAGE ON SCHEMA public TO postgres, anon, authenticated, service_role;
+GRANT ALL ON TABLE public.health_insurance_proposals TO postgres, anon, authenticated, service_role;
+ALTER TABLE public.health_insurance_proposals ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "Service role full access on health_insurance_proposals" ON public.health_insurance_proposals;
+CREATE POLICY "Service role full access on health_insurance_proposals" ON public.health_insurance_proposals FOR ALL TO service_role USING (true) WITH CHECK (true);`;
+
+    navigator.clipboard.writeText(sql);
+    setIsCopiedSql(true);
+    showFeedback("success", "Supabase SQL Script copied to clipboard! Paste and run in Supabase SQL Editor.");
+    setTimeout(() => setIsCopiedSql(false), 2500);
+  };
 
   // Fetch Proposals
   const fetchProposals = useCallback(async () => {
@@ -479,6 +547,16 @@ export function HealthInsuranceProposalsTab({
           >
             <Upload className="w-3.5 h-3.5" />
             <span>Import</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={handleCopySqlSetup}
+            className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-purple-50 hover:bg-purple-100 text-purple-700 border border-purple-200 text-xs font-bold transition-all cursor-pointer"
+            title="Copy PostgreSQL SQL migration to run in Supabase"
+          >
+            {isCopiedSql ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5 text-purple-600" />}
+            <span>{isCopiedSql ? "SQL Copied!" : "Supabase SQL"}</span>
           </button>
         </div>
       </div>
