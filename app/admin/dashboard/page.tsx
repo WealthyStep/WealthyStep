@@ -36,11 +36,13 @@ import {
   ArrowUpRight,
   Filter,
   HeartPulse,
+  TrendingUp,
 } from "lucide-react";
 import { PremiumDatePicker } from "@/components/ui/PremiumDatePicker";
 import { PdfViewerModal } from "@/components/ui/PdfViewerModal";
 import { ProgramFeedbackTab } from "@/components/admin/ProgramFeedbackTab";
 import { HealthInsuranceProposalsTab } from "@/components/admin/HealthInsuranceProposalsTab";
+import { BseStarAccountsTab } from "@/components/admin/BseStarAccountsTab";
 
 interface StorageMetrics {
   b2: {
@@ -121,9 +123,10 @@ export default function AdminDashboardPage() {
   const router = useRouter();
   const [adminUser, setAdminUser] = useState<any>(null);
   const [authToken, setAuthToken] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<"clients" | "proposals" | "feedback" | "audit">("clients");
+  const [activeTab, setActiveTab] = useState<"clients" | "proposals" | "bse-star" | "feedback" | "audit">("clients");
   const [feedbackCount, setFeedbackCount] = useState(0);
   const [proposalsCount, setProposalsCount] = useState(0);
+  const [bseStarCount, setBseStarCount] = useState(0);
 
   // Clients state
   const [clients, setClients] = useState<Client[]>([]);
@@ -1004,6 +1007,27 @@ export default function AdminDashboardPage() {
             </button>
 
             <button
+              onClick={() => setActiveTab("bse-star")}
+              className={`flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                activeTab === "bse-star"
+                  ? "bg-[#180D45] text-white shadow-xs"
+                  : "text-gray-500 hover:text-[#180D45] hover:bg-gray-100/60"
+              }`}
+            >
+              <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0 text-purple-400" />
+              <span className="truncate">BSE Star MF</span>
+              {bseStarCount > 0 && (
+                <span
+                  className={`px-1.5 sm:px-2 py-0.5 rounded-full text-[10px] font-black shrink-0 ${
+                    activeTab === "bse-star" ? "bg-purple-600 text-white" : "bg-gray-200 text-gray-700"
+                  }`}
+                >
+                  {bseStarCount}
+                </span>
+              )}
+            </button>
+
+            <button
               onClick={() => setActiveTab("feedback")}
               className={`flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                 activeTab === "feedback"
@@ -1297,6 +1321,16 @@ export default function AdminDashboardPage() {
             handleSessionExpired={handleSessionExpired}
             showFeedback={showFeedback}
             onTotalCountChange={setProposalsCount}
+          />
+        )}
+
+        {/* ======================= TAB: BSE STAR MUTUAL FUND ACCOUNTS ======================= */}
+        {activeTab === "bse-star" && (
+          <BseStarAccountsTab
+            authToken={authToken}
+            handleSessionExpired={handleSessionExpired}
+            showFeedback={showFeedback}
+            onTotalCountChange={setBseStarCount}
           />
         )}
 

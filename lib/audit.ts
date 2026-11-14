@@ -8,7 +8,7 @@ if (typeof window !== "undefined") {
 export interface AuditLogEntry {
   actor: string; // e.g. admin email or 'client:uuid' or 'system'
   action: string; // e.g. 'CLIENT_CREATED', 'DOCUMENT_UPLOADED', 'DOCUMENT_DOWNLOADED', 'OTP_REQUESTED'
-  targetType: "client" | "document" | "otp" | "session" | "auth" | "system" | "program_participants" | "health_insurance_proposals";
+  targetType: "client" | "document" | "otp" | "session" | "auth" | "system" | "program_participants" | "health_insurance_proposals" | "bse_star_mf_accounts" | "bse_star_mf_account";
   targetId?: string | null;
   details?: Record<string, any>;
   ipAddress?: string | null;

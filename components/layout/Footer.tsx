@@ -118,6 +118,12 @@ export function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/bse-star-mutual-fund-form" className="flex items-center justify-between hover:text-lime transition-colors group">
+                  BSE Star MF Account Form
+                  <ChevronRight className="w-4 h-4 opacity-50 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
+                </Link>
+              </li>
+              <li>
                 <Link href="/about" className="flex items-center justify-between hover:text-lime transition-colors group">
                   About Us
                   <ChevronRight className="w-4 h-4 opacity-50 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />

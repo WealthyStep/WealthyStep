@@ -468,6 +468,17 @@ export function Navbar() {
                           <ChevronRight className="w-3.5 h-3.5 text-emerald-600" />
                         </Link>
                         <Link
+                          href="/bse-star-mutual-fund-form"
+                          onClick={() => setIsMobileMenuOpen(false)}
+                          className="flex items-center justify-between p-2.5 rounded-xl bg-emerald-50 hover:bg-emerald-100/70 text-xs font-bold text-navy min-h-[44px] border border-emerald-200"
+                        >
+                          <span className="flex items-center gap-2">
+                            <TrendingUp className="w-3.5 h-3.5 text-emerald-600" />
+                            <span>BSE Star MF Account Form</span>
+                          </span>
+                          <ChevronRight className="w-3.5 h-3.5 text-emerald-600" />
+                        </Link>
+                        <Link
                           href="/services/investments/sif/"
                           onClick={() => setIsMobileMenuOpen(false)}
                           className="flex items-center justify-between p-2.5 rounded-xl bg-purple-50/50 hover:bg-purple-50 text-xs font-bold text-navy min-h-[44px]"
