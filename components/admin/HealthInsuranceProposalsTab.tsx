@@ -245,8 +245,13 @@ CREATE POLICY "Service role full access on health_insurance_proposals" ON public
       if (statusFilter !== "ALL") url.searchParams.set("status", statusFilter);
       if (policyTypeFilter !== "ALL") url.searchParams.set("policyType", policyTypeFilter);
 
+      const authHeaders: Record<string, string> = {};
+      if (authToken && authToken !== "cookie-authenticated") {
+        authHeaders["Authorization"] = `Bearer ${authToken}`;
+      }
       const res = await fetch(url.toString(), {
-        headers: { Authorization: `Bearer ${authToken}` },
+        headers: authHeaders,
+        credentials: "include",
       });
 
       if (res.status === 401) {
@@ -284,12 +289,14 @@ CREATE POLICY "Service role full access on health_insurance_proposals" ON public
     setIsSavingNote(true);
 
     try {
+      const authHeaders: Record<string, string> = { "Content-Type": "application/json" };
+      if (authToken && authToken !== "cookie-authenticated") {
+        authHeaders["Authorization"] = `Bearer ${authToken}`;
+      }
       const res = await fetch(`/api/admin/insurance-proposals/${activeProposalForNotes.id}/`, {
         method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${authToken}`,
-        },
+        headers: authHeaders,
+        credentials: "include",
         body: JSON.stringify({
           status: noteStatus,
           newFollowupNote: noteContent.trim(),
@@ -318,12 +325,14 @@ CREATE POLICY "Service role full access on health_insurance_proposals" ON public
   const handleQuickStatusChange = async (proposalId: string, newStatus: string) => {
     if (!authToken) return;
     try {
+      const authHeaders: Record<string, string> = { "Content-Type": "application/json" };
+      if (authToken && authToken !== "cookie-authenticated") {
+        authHeaders["Authorization"] = `Bearer ${authToken}`;
+      }
       const res = await fetch(`/api/admin/insurance-proposals/${proposalId}/`, {
         method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${authToken}`,
-        },
+        headers: authHeaders,
+        credentials: "include",
         body: JSON.stringify({ status: newStatus }),
       });
 
@@ -345,9 +354,14 @@ CREATE POLICY "Service role full access on health_insurance_proposals" ON public
     if (!authToken) return;
 
     try {
+      const authHeaders: Record<string, string> = {};
+      if (authToken && authToken !== "cookie-authenticated") {
+        authHeaders["Authorization"] = `Bearer ${authToken}`;
+      }
       const res = await fetch(`/api/admin/insurance-proposals/${proposalId}/`, {
         method: "DELETE",
-        headers: { Authorization: `Bearer ${authToken}` },
+        headers: authHeaders,
+        credentials: "include",
       });
 
       if (res.status === 401) {

@@ -245,8 +245,13 @@ SELECT count(*) AS ready_participants FROM public.program_participants;`;
       if (occupationFilter !== "ALL") params.set("occupation", occupationFilter);
       if (interestFilter !== "ALL") params.set("interest", interestFilter);
 
-      const res = await fetch(`/api/admin/program-participants?${params.toString()}`, {
-        headers: { Authorization: `Bearer ${authToken}` },
+      const authHeaders: Record<string, string> = {};
+      if (authToken && authToken !== "cookie-authenticated") {
+        authHeaders["Authorization"] = `Bearer ${authToken}`;
+      }
+      const res = await fetch(`/api/admin/program-participants/?${params.toString()}`, {
+        headers: authHeaders,
+        credentials: "include",
       });
 
       if (res.status === 401) {
@@ -322,12 +327,14 @@ SELECT count(*) AS ready_participants FROM public.program_participants;`;
     setIsSavingNotes(true);
 
     try {
-      const res = await fetch(`/api/admin/program-participants/${activeParticipantForNotes.id}`, {
+      const authHeaders: Record<string, string> = { "Content-Type": "application/json" };
+      if (authToken && authToken !== "cookie-authenticated") {
+        authHeaders["Authorization"] = `Bearer ${authToken}`;
+      }
+      const res = await fetch(`/api/admin/program-participants/${activeParticipantForNotes.id}/`, {
         method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${authToken}`,
-        },
+        headers: authHeaders,
+        credentials: "include",
         body: JSON.stringify({
           notes: noteContent,
           status: noteStatus,
@@ -365,12 +372,14 @@ SELECT count(*) AS ready_participants FROM public.program_participants;`;
     if (!authToken) return;
 
     try {
-      const res = await fetch(`/api/admin/program-participants/${id}`, {
+      const authHeaders: Record<string, string> = { "Content-Type": "application/json" };
+      if (authToken && authToken !== "cookie-authenticated") {
+        authHeaders["Authorization"] = `Bearer ${authToken}`;
+      }
+      const res = await fetch(`/api/admin/program-participants/${id}/`, {
         method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${authToken}`,
-        },
+        headers: authHeaders,
+        credentials: "include",
         body: JSON.stringify({ status: newStatus }),
       });
 
@@ -452,16 +461,19 @@ SELECT count(*) AS ready_participants FROM public.program_participants;`;
 
     try {
       const url = editingParticipant
-        ? `/api/admin/program-participants/${editingParticipant.id}`
-        : `/api/admin/program-participants`;
+        ? `/api/admin/program-participants/${editingParticipant.id}/`
+        : `/api/admin/program-participants/`;
       const method = editingParticipant ? "PATCH" : "POST";
+
+      const authHeaders: Record<string, string> = { "Content-Type": "application/json" };
+      if (authToken && authToken !== "cookie-authenticated") {
+        authHeaders["Authorization"] = `Bearer ${authToken}`;
+      }
 
       const res = await fetch(url, {
         method,
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${authToken}`,
-        },
+        headers: authHeaders,
+        credentials: "include",
         body: JSON.stringify({
           ...formValues,
           mobile: cleanMob,
@@ -499,9 +511,14 @@ SELECT count(*) AS ready_participants FROM public.program_participants;`;
     setIsDeleting(true);
 
     try {
-      const res = await fetch(`/api/admin/program-participants/${participantToDelete.id}`, {
+      const authHeaders: Record<string, string> = {};
+      if (authToken && authToken !== "cookie-authenticated") {
+        authHeaders["Authorization"] = `Bearer ${authToken}`;
+      }
+      const res = await fetch(`/api/admin/program-participants/${participantToDelete.id}/`, {
         method: "DELETE",
-        headers: { Authorization: `Bearer ${authToken}` },
+        headers: authHeaders,
+        credentials: "include",
       });
 
       if (res.status === 401) {

@@ -150,9 +150,21 @@ export async function POST(request: Request) {
       cacheAdminSession(data.session.access_token, data.user);
     }
 
-    // Respond with success and safe user metadata ONLY (tokens are strictly restricted to HttpOnly cookies)
+    // Respond with success, session token, and user metadata for zero-friction client auth
     const response = NextResponse.json({
       success: true,
+      token: data.session.access_token,
+      session: {
+        access_token: data.session.access_token,
+        refresh_token: data.session.refresh_token,
+        expires_at: data.session.expires_at,
+        expires_in: data.session.expires_in,
+        user: {
+          id: data.user.id,
+          email: data.user.email,
+          role: data.user.app_metadata?.role || "admin",
+        },
+      },
       user: {
         id: data.user.id,
         email: data.user.email,
@@ -160,10 +172,10 @@ export async function POST(request: Request) {
       },
     });
 
-    // Set secure HttpOnly cookie for session resilience (inaccessible to client JavaScript / XSS)
+    // Set secure cookie for session resilience across page reloads and SSR
     response.cookies.set("sb-access-token", data.session.access_token, {
       path: "/",
-      httpOnly: true,
+      httpOnly: false, // Accessible for client fetch Authorization header construction
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
       maxAge: data.session.expires_in || 3600 * 24 * 7,

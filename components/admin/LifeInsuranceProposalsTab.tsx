@@ -164,8 +164,13 @@ export function LifeInsuranceProposalsTab({
       if (statusFilter !== "ALL") params.set("status", statusFilter);
       if (empFilter !== "ALL") params.set("employmentType", empFilter);
 
+      const authHeaders: Record<string, string> = {};
+      if (authToken && authToken !== "cookie-authenticated") {
+        authHeaders["Authorization"] = `Bearer ${authToken}`;
+      }
       const res = await fetch(`/api/admin/life-insurance-proposals/?${params.toString()}`, {
-        headers: { Authorization: `Bearer ${authToken}` },
+        headers: authHeaders,
+        credentials: "include",
       });
 
       if (res.status === 401) {
@@ -202,12 +207,14 @@ export function LifeInsuranceProposalsTab({
     if (!authToken) return;
 
     try {
+      const authHeaders: Record<string, string> = { "Content-Type": "application/json" };
+      if (authToken && authToken !== "cookie-authenticated") {
+        authHeaders["Authorization"] = `Bearer ${authToken}`;
+      }
       const res = await fetch(`/api/admin/life-insurance-proposals/${id}/`, {
         method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${authToken}`,
-        },
+        headers: authHeaders,
+        credentials: "include",
         body: JSON.stringify({ status: newStatus }),
       });
 
@@ -239,12 +246,14 @@ export function LifeInsuranceProposalsTab({
     setIsAddingFollowup(true);
 
     try {
+      const authHeaders: Record<string, string> = { "Content-Type": "application/json" };
+      if (authToken && authToken !== "cookie-authenticated") {
+        authHeaders["Authorization"] = `Bearer ${authToken}`;
+      }
       const res = await fetch(`/api/admin/life-insurance-proposals/${selectedProposal.id}/`, {
         method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${authToken}`,
-        },
+        headers: authHeaders,
+        credentials: "include",
         body: JSON.stringify({ newFollowupNote: newFollowupText.trim() }),
       });
 
@@ -279,9 +288,14 @@ export function LifeInsuranceProposalsTab({
     setIsDeleting(true);
 
     try {
+      const authHeaders: Record<string, string> = {};
+      if (authToken && authToken !== "cookie-authenticated") {
+        authHeaders["Authorization"] = `Bearer ${authToken}`;
+      }
       const res = await fetch(`/api/admin/life-insurance-proposals/${proposalToDelete.id}/`, {
         method: "DELETE",
-        headers: { Authorization: `Bearer ${authToken}` },
+        headers: authHeaders,
+        credentials: "include",
       });
 
       if (res.status === 401) {

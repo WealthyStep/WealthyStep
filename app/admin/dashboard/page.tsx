@@ -194,15 +194,17 @@ export default function AdminDashboardPage() {
   const handleSessionExpired = useCallback(() => {
     if (typeof window !== "undefined") {
       localStorage.removeItem("ws_admin_session");
-      document.cookie = "sb-access-token=; path=/; max-age=0";
+      document.cookie = "sb-access-token=; path=/; max-age=0; expires=Thu, 01 Jan 1970 00:00:00 GMT";
     }
     setAdminUser(null);
     setAuthToken(null);
     try {
-      fetch("/api/admin/logout", { method: "POST" }).catch(() => {});
-      supabaseBrowser.auth.signOut();
+      fetch("/api/admin/logout/", { method: "POST", credentials: "include" }).catch(() => {});
+      supabaseBrowser.auth.signOut().catch(() => {});
     } catch {}
-    window.location.href = "/admin/login?expired=1";
+    if (typeof window !== "undefined" && !window.location.pathname.includes("/admin/login")) {
+      window.location.href = "/admin/login/?expired=1";
+    }
   }, []);
 
   // 1. Authenticate Session
@@ -236,6 +238,30 @@ export default function AdminDashboardPage() {
         } catch {}
       }
 
+      // 3. Fallback: Check active server session via cookie on /api/admin/me/
+      if (!token || !user) {
+        try {
+          const meRes = await fetch("/api/admin/me/", { credentials: "include" });
+          if (meRes.ok) {
+            const meData = await meRes.json();
+            if (meData?.authenticated && meData?.user) {
+              user = meData.user;
+              token = meData.token || "cookie-authenticated";
+              if (typeof window !== "undefined") {
+                localStorage.setItem(
+                  "ws_admin_session",
+                  JSON.stringify({
+                    access_token: token,
+                    user,
+                    expires_at: Math.floor(Date.now() / 1000) + 3600 * 24 * 7,
+                  })
+                );
+              }
+            }
+          }
+        } catch {}
+      }
+
       if (token && user) {
         setAdminUser(user);
         setAuthToken(token);
@@ -246,13 +272,23 @@ export default function AdminDashboardPage() {
     checkAuth();
   }, [handleSessionExpired]);
 
+  // Helper for authenticated headers
+  const getAuthHeaders = useCallback((additionalHeaders: Record<string, string> = {}) => {
+    const headers: Record<string, string> = { ...additionalHeaders };
+    if (authToken && authToken !== "cookie-authenticated") {
+      headers["Authorization"] = `Bearer ${authToken}`;
+    }
+    return headers;
+  }, [authToken]);
+
   // 2. Fetch Clients List
   const fetchClients = useCallback(async (silent = false) => {
     if (!authToken) return;
     if (!silent) setIsLoadingClients(true);
     try {
-      const res = await fetch("/api/admin/clients", {
-        headers: { Authorization: `Bearer ${authToken}` },
+      const res = await fetch("/api/admin/clients/", {
+        headers: getAuthHeaders(),
+        credentials: "include",
       });
 
       if (res.status === 401) {
@@ -271,7 +307,7 @@ export default function AdminDashboardPage() {
     } finally {
       setIsLoadingClients(false);
     }
-  }, [authToken, handleSessionExpired]);
+  }, [authToken, getAuthHeaders, handleSessionExpired]);
 
   // 3. Fetch Audit Logs
   const fetchAuditLogs = useCallback(
@@ -279,8 +315,9 @@ export default function AdminDashboardPage() {
       if (!authToken) return;
       if (!silent) setIsLoadingAudit(true);
       try {
-        const res = await fetch(`/api/admin/audit-logs?page=${page}&limit=25`, {
-          headers: { Authorization: `Bearer ${authToken}` },
+        const res = await fetch(`/api/admin/audit-logs/?page=${page}&limit=25`, {
+          headers: getAuthHeaders(),
+          credentials: "include",
         });
 
         if (res.status === 401) {
@@ -302,7 +339,7 @@ export default function AdminDashboardPage() {
         setIsLoadingAudit(false);
       }
     },
-    [authToken, handleSessionExpired]
+    [authToken, getAuthHeaders, handleSessionExpired]
   );
 
   // 4. Fetch Real-time Cloud & DB Storage Metrics
@@ -311,8 +348,9 @@ export default function AdminDashboardPage() {
       if (!authToken) return;
       setIsLoadingMetrics(true);
       try {
-        const res = await fetch(`/api/admin/storage/metrics${fresh ? "?fresh=true" : ""}`, {
-          headers: { Authorization: `Bearer ${authToken}` },
+        const res = await fetch(`/api/admin/storage/metrics/${fresh ? "?fresh=true" : ""}`, {
+          headers: getAuthHeaders(),
+          credentials: "include",
         });
 
         if (res.status === 401) {
@@ -330,7 +368,7 @@ export default function AdminDashboardPage() {
         setIsLoadingMetrics(false);
       }
     },
-    [authToken, handleSessionExpired]
+    [authToken, getAuthHeaders, handleSessionExpired]
   );
 
   // Initial load once authToken is available
@@ -354,12 +392,10 @@ export default function AdminDashboardPage() {
 
     setIsPurgingLogs(true);
     try {
-      const res = await fetch("/api/admin/audit-logs/cleanup", {
+      const res = await fetch("/api/admin/audit-logs/cleanup/", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${authToken}`,
-        },
+        headers: getAuthHeaders({ "Content-Type": "application/json" }),
+        credentials: "include",
         body: JSON.stringify({ days }),
       });
 
@@ -389,10 +425,10 @@ export default function AdminDashboardPage() {
       document.cookie = "sb-access-token=; path=/; max-age=0";
     }
     try {
-      await fetch("/api/admin/logout", { method: "POST" }).catch(() => {});
+      await fetch("/api/admin/logout/", { method: "POST", credentials: "include" }).catch(() => {});
       await supabaseBrowser.auth.signOut();
     } catch {}
-    window.location.href = "/admin/login";
+    window.location.href = "/admin/login/";
   };
 
   // Open Add/Edit Client Modal
@@ -451,15 +487,13 @@ export default function AdminDashboardPage() {
 
     setIsSavingClient(true);
     try {
-      const url = editingClient ? `/api/admin/clients/${editingClient.id}` : "/api/admin/clients";
+      const url = editingClient ? `/api/admin/clients/${editingClient.id}/` : "/api/admin/clients/";
       const method = editingClient ? "PUT" : "POST";
 
       const res = await fetch(url, {
         method,
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${authToken}`,
-        },
+        headers: getAuthHeaders({ "Content-Type": "application/json" }),
+        credentials: "include",
         body: JSON.stringify(clientForm),
       });
 
@@ -495,9 +529,10 @@ export default function AdminDashboardPage() {
     setIsDeletingClient(true);
 
     try {
-      const res = await fetch(`/api/admin/clients/${clientToDelete.id}`, {
+      const res = await fetch(`/api/admin/clients/${clientToDelete.id}/`, {
         method: "DELETE",
-        headers: { Authorization: `Bearer ${authToken}` },
+        headers: getAuthHeaders(),
+        credentials: "include",
       });
 
       if (res.status === 401) {
@@ -575,9 +610,10 @@ export default function AdminDashboardPage() {
         formData.append("title", file.name.replace(/\.pdf$/i, ""));
         formData.append("file", file);
 
-        const res = await fetch("/api/admin/documents/upload", {
+        const res = await fetch("/api/admin/documents/upload/", {
           method: "POST",
-          headers: { Authorization: `Bearer ${authToken}` },
+          headers: getAuthHeaders(),
+          credentials: "include",
           body: formData,
         });
 
@@ -596,8 +632,9 @@ export default function AdminDashboardPage() {
 
     // Refresh client docs
     try {
-      const clientRes = await fetch(`/api/admin/clients/${selectedClientForDocs.id}`, {
-        headers: { Authorization: `Bearer ${authToken}` },
+      const clientRes = await fetch(`/api/admin/clients/${selectedClientForDocs.id}/`, {
+        headers: getAuthHeaders(),
+        credentials: "include",
       });
       if (clientRes.status === 401) {
         handleSessionExpired();
@@ -626,9 +663,10 @@ export default function AdminDashboardPage() {
 
     setDeletingDocId(docId);
     try {
-      const res = await fetch(`/api/admin/documents/${docId}`, {
+      const res = await fetch(`/api/admin/documents/${docId}/`, {
         method: "DELETE",
-        headers: { Authorization: `Bearer ${authToken}` },
+        headers: getAuthHeaders(),
+        credentials: "include",
       });
 
       if (res.status === 401) {
@@ -642,8 +680,9 @@ export default function AdminDashboardPage() {
       showFeedback("success", "Document deleted from storage.");
 
       if (selectedClientForDocs) {
-        const clientRes = await fetch(`/api/admin/clients/${selectedClientForDocs.id}`, {
-          headers: { Authorization: `Bearer ${authToken}` },
+        const clientRes = await fetch(`/api/admin/clients/${selectedClientForDocs.id}/`, {
+          headers: getAuthHeaders(),
+          credentials: "include",
         });
         if (clientRes.status === 401) {
           handleSessionExpired();
@@ -668,8 +707,9 @@ export default function AdminDashboardPage() {
     if (!authToken) return;
     setPreviewLoadingId(docId);
     try {
-      const res = await fetch(`/api/admin/documents/${docId}/preview?stream=1`, {
-        headers: { Authorization: `Bearer ${authToken}` },
+      const res = await fetch(`/api/admin/documents/${docId}/preview/?stream=1`, {
+        headers: getAuthHeaders(),
+        credentials: "include",
       });
 
       if (res.status === 401) {
@@ -706,8 +746,9 @@ export default function AdminDashboardPage() {
     if (!authToken) return;
     setDownloadingDocId(docId);
     try {
-      const res = await fetch(`/api/admin/documents/${docId}/download`, {
-        headers: { Authorization: `Bearer ${authToken}` },
+      const res = await fetch(`/api/admin/documents/${docId}/download/`, {
+        headers: getAuthHeaders(),
+        credentials: "include",
       });
 
       if (res.status === 401) {

@@ -41,7 +41,14 @@ export function isAuthorizedAdmin(user: User): boolean {
     .map((e) => e.trim().toLowerCase())
     .filter(Boolean);
 
-  const allowedEmails = new Set([defaultAdmin, envAdmin, ...envAllowlist].filter(Boolean));
+  const allowedEmails = new Set([
+    defaultAdmin,
+    "mrsivagoram@gmail.com",
+    "info@wealthystep.com",
+    "siva@wealthystep.com",
+    envAdmin,
+    ...envAllowlist,
+  ].filter(Boolean));
   return allowedEmails.has(userEmail);
 }
 
@@ -198,7 +205,10 @@ export async function requireAdmin(request: Request): Promise<AdminAuthResult> {
     // 1. Check Authorization Header (Bearer <token>)
     const authHeader = request.headers.get("authorization") || request.headers.get("Authorization");
     if (authHeader && authHeader.startsWith("Bearer ")) {
-      token = authHeader.substring(7).trim();
+      const candidate = authHeader.substring(7).trim();
+      if (candidate && candidate !== "cookie-authenticated" && candidate !== "undefined" && candidate !== "null") {
+        token = candidate;
+      }
     }
 
     // 2. Check cookies if no Bearer token in header

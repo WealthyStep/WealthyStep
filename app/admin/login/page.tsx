@@ -29,18 +29,28 @@ export default function AdminLoginPage() {
         return;
       }
 
-      // Clear any legacy localStorage token
+      // Check if user already has an active valid session in localStorage
       if (typeof window !== "undefined") {
-        localStorage.removeItem("ws_admin_session");
+        const stored = localStorage.getItem("ws_admin_session");
+        if (stored) {
+          try {
+            const parsed = JSON.parse(stored);
+            const isExpired = parsed?.expires_at ? parsed.expires_at * 1000 <= Date.now() : false;
+            if (parsed?.access_token && !isExpired) {
+              window.location.href = "/admin/dashboard/";
+              return;
+            }
+          } catch {}
+        }
       }
 
-      // Check active session via HttpOnly cookie
+      // Check active session via cookie on /api/admin/me/
       try {
-        const res = await fetch("/api/admin/me");
+        const res = await fetch("/api/admin/me/", { credentials: "include" });
         if (res.ok) {
           const data = await res.json();
           if (data?.authenticated) {
-            router.push("/admin/dashboard");
+            window.location.href = "/admin/dashboard/";
           }
         }
       } catch {}
@@ -60,9 +70,10 @@ export default function AdminLoginPage() {
     setIsLoading(true);
 
     try {
-      const res = await fetch("/api/admin/login", {
+      const res = await fetch("/api/admin/login/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({
           email: email.trim(),
           password: password,
@@ -76,13 +87,27 @@ export default function AdminLoginPage() {
         return;
       }
 
-      // Clear any legacy localStorage token to ensure zero token residency
+      // Store session for client components and dashboard
       if (typeof window !== "undefined") {
-        localStorage.removeItem("ws_admin_session");
+        const sessionPayload = data.session || {
+          access_token: data.token,
+          user: data.user,
+          expires_at: Math.floor(Date.now() / 1000) + 604800,
+        };
+        localStorage.setItem("ws_admin_session", JSON.stringify(sessionPayload));
+        if (data.token) {
+          document.cookie = `sb-access-token=${data.token}; path=/; max-age=604800; SameSite=Lax`;
+          try {
+            await supabaseBrowser.auth.setSession({
+              access_token: data.token,
+              refresh_token: data.session?.refresh_token || "",
+            });
+          } catch {}
+        }
       }
 
-      // Secure session established exclusively via HttpOnly cookie; navigate directly to dashboard
-      router.push("/admin/dashboard");
+      // Navigate directly to dashboard
+      window.location.href = "/admin/dashboard/";
     } catch (err: any) {
       console.error("Unexpected login error:", err);
       setErrorMessage(err.message || "An unexpected authentication error occurred. Please try again.");

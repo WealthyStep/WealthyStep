@@ -144,8 +144,13 @@ export function BseStarAccountsTab({
       if (statusFilter !== "ALL") params.set("status", statusFilter);
       if (kycFilter !== "ALL") params.set("isKycDone", kycFilter);
 
+      const authHeaders: Record<string, string> = {};
+      if (authToken && authToken !== "cookie-authenticated") {
+        authHeaders["Authorization"] = `Bearer ${authToken}`;
+      }
       const res = await fetch(`/api/admin/bse-star-accounts/?${params.toString()}`, {
-        headers: { Authorization: `Bearer ${authToken}` },
+        headers: authHeaders,
+        credentials: "include",
       });
 
       if (res.status === 401) {
@@ -182,12 +187,14 @@ export function BseStarAccountsTab({
     if (!authToken) return;
 
     try {
+      const authHeaders: Record<string, string> = { "Content-Type": "application/json" };
+      if (authToken && authToken !== "cookie-authenticated") {
+        authHeaders["Authorization"] = `Bearer ${authToken}`;
+      }
       const res = await fetch(`/api/admin/bse-star-accounts/${id}/`, {
         method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${authToken}`,
-        },
+        headers: authHeaders,
+        credentials: "include",
         body: JSON.stringify({ status: newStatus }),
       });
 
@@ -219,12 +226,14 @@ export function BseStarAccountsTab({
     setIsAddingFollowup(true);
 
     try {
+      const authHeaders: Record<string, string> = { "Content-Type": "application/json" };
+      if (authToken && authToken !== "cookie-authenticated") {
+        authHeaders["Authorization"] = `Bearer ${authToken}`;
+      }
       const res = await fetch(`/api/admin/bse-star-accounts/${selectedAccount.id}/`, {
         method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${authToken}`,
-        },
+        headers: authHeaders,
+        credentials: "include",
         body: JSON.stringify({ newFollowupNote: newFollowupText.trim() }),
       });
 
@@ -259,9 +268,14 @@ export function BseStarAccountsTab({
     setIsDeleting(true);
 
     try {
+      const authHeaders: Record<string, string> = {};
+      if (authToken && authToken !== "cookie-authenticated") {
+        authHeaders["Authorization"] = `Bearer ${authToken}`;
+      }
       const res = await fetch(`/api/admin/bse-star-accounts/${accountToDelete.id}/`, {
         method: "DELETE",
-        headers: { Authorization: `Bearer ${authToken}` },
+        headers: authHeaders,
+        credentials: "include",
       });
 
       if (res.status === 401) {
