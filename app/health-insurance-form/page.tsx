@@ -158,6 +158,9 @@ export default function HealthInsuranceFormPage() {
       if (saved) {
         const parsed = JSON.parse(saved);
         if (parsed.data) {
+          if (parsed.data.proposerAadhar && parsed.data.proposerAadhar.length > 12) {
+            parsed.data.proposerAadhar = parsed.data.proposerAadhar.slice(0, 12);
+          }
           setFormData((prev) => ({ ...prev, ...parsed.data }));
           if (parsed.step && parsed.step >= 1 && parsed.step <= 5) {
             setCurrentStep(parsed.step);
@@ -250,16 +253,21 @@ export default function HealthInsuranceFormPage() {
   };
 
   const handleInputChange = (field: keyof HealthInsuranceProposalInput, value: any) => {
+    let processedValue = value;
+    if (field === "proposerAadhar") {
+      processedValue = String(value).replace(/\D/g, "").slice(0, 12);
+    }
+
     setFormData((prev) => {
-      const updated = { ...prev, [field]: value };
+      const updated = { ...prev, [field]: processedValue };
       if (field === "proposerAddress" && prev.sameAsProposerAddress) {
-        updated.currentAddress = value;
+        updated.currentAddress = processedValue;
       }
       if (field === "proposerMobile" && !prev.insuredMobile) {
-        updated.insuredMobile = value;
+        updated.insuredMobile = processedValue;
       }
       if (field === "proposerEmail" && !prev.insuredEmail) {
-        updated.insuredEmail = value;
+        updated.insuredEmail = processedValue;
       }
       return updated;
     });
@@ -286,7 +294,8 @@ export default function HealthInsuranceFormPage() {
     const validation = validateHealthInsuranceProposal(formData, currentStep);
     if (!validation.isValid) {
       setFieldErrors(validation.errors);
-      setGlobalError("Please fill all required fields in this section to proceed.");
+      const firstError = Object.values(validation.errors)[0];
+      setGlobalError(firstError || "Please check the highlighted fields to proceed.");
       window.scrollTo({ top: 0, behavior: "smooth" });
       return;
     }
@@ -724,9 +733,16 @@ END:VCARD`;
                         maxLength={12}
                         placeholder="12-digit Aadhaar number"
                         value={formData.proposerAadhar}
-                        onChange={(e) => handleInputChange("proposerAadhar", e.target.value.replace(/\D/g, ""))}
-                        className="w-full h-11 px-3.5 rounded-xl border border-gray-200 text-sm transition-all focus:outline-none focus:border-[#180D45] focus:ring-2 focus:ring-[#84BD3C]/20"
+                        onChange={(e) => handleInputChange("proposerAadhar", e.target.value)}
+                        className={`w-full h-11 px-3.5 rounded-xl border text-sm transition-all focus:outline-none ${
+                          fieldErrors.proposerAadhar
+                            ? "border-rose-400 bg-rose-50/20 text-rose-950"
+                            : "border-gray-200 focus:border-[#180D45] focus:ring-2 focus:ring-[#84BD3C]/20"
+                        }`}
                       />
+                      {fieldErrors.proposerAadhar && (
+                        <p className="text-[11px] text-rose-600 mt-1 font-semibold">{fieldErrors.proposerAadhar}</p>
+                      )}
                     </div>
 
                     {/* Proposer Mobile Number */}
@@ -817,8 +833,15 @@ END:VCARD`;
                         placeholder="ramesh@company.com"
                         value={formData.corporateEmail || ""}
                         onChange={(e) => handleInputChange("corporateEmail", e.target.value)}
-                        className="w-full h-11 px-3.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-[#180D45]"
+                        className={`w-full h-11 px-3.5 rounded-xl border text-sm transition-all focus:outline-none ${
+                          fieldErrors.corporateEmail
+                            ? "border-rose-400 bg-rose-50/20 text-rose-950"
+                            : "border-gray-200 focus:border-[#180D45]"
+                        }`}
                       />
+                      {fieldErrors.corporateEmail && (
+                        <p className="text-[11px] text-rose-600 mt-1 font-semibold">{fieldErrors.corporateEmail}</p>
+                      )}
                     </div>
 
                     {/* Policy Type */}

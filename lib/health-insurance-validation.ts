@@ -135,17 +135,16 @@ export function validateHealthInsuranceProposal(
       errors.proposerDob = "Proposer Date of Birth is required.";
     } else {
       const parsedDate = new Date(dob);
-      const now = new Date();
-      if (isNaN(parsedDate.getTime()) || parsedDate > now) {
-        errors.proposerDob = "Please select a valid past date of birth.";
+      if (isNaN(parsedDate.getTime())) {
+        errors.proposerDob = "Please select a valid date of birth.";
       }
     }
     sanitized.proposerDob = dob;
 
     // Proposer Aadhaar (Optional but checked if provided)
-    const aadharDigits = (input.proposerAadhar || "").replace(/\D/g, "");
+    const aadharDigits = (input.proposerAadhar || "").replace(/\D/g, "").slice(0, 12);
     if (aadharDigits && aadharDigits.length !== 12) {
-      errors.proposerAadhar = "Aadhaar number must be exactly 12 digits.";
+      errors.proposerAadhar = "Aadhaar number must be exactly 12 digits (or leave blank).";
     }
     sanitized.proposerAadhar = aadharDigits || "";
 
@@ -252,13 +251,17 @@ export function validateHealthInsuranceProposal(
     if (membersList.length > 0) {
       const firstMember = membersList[0];
       if (!firstMember.fullName || firstMember.fullName.trim().length < 2) {
-        errors.member_0_fullName = "Full name is required.";
+        if (input.proposerName && input.proposerName.trim().length >= 2) {
+          firstMember.fullName = input.proposerName.trim();
+        } else {
+          errors.member_0_fullName = "Full name is required for primary insured member.";
+        }
       }
-      if (!firstMember.dob) {
-        errors.member_0_dob = "Date of birth is required.";
+      if (!firstMember.dob && input.proposerDob) {
+        firstMember.dob = input.proposerDob;
       }
       if (!firstMember.gender) {
-        errors.member_0_gender = "Gender is required.";
+        firstMember.gender = "Male";
       }
     }
   }
