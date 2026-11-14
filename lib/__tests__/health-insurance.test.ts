@@ -101,3 +101,4 @@ describe("Health Insurance Validation Suite", () => {
     expect(result.sanitized.proposerPan).toBe("ABCDE1234F");
   });
 });
+
