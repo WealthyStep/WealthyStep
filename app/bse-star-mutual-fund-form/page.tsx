@@ -302,7 +302,7 @@ export default function BseStarMutualFundFormPage() {
     });
   };
 
-  // File Upload Helper
+  // File Upload Helper (supports instant replacement for single files)
   const handleFileUpload = (
     field: "aadharFiles" | "panFiles" | "bankFiles",
     files: FileList | null,
@@ -311,13 +311,18 @@ export default function BseStarMutualFundFormPage() {
     if (!files || files.length === 0) return;
 
     const currentFiles = formData[field] || [];
-    if (currentFiles.length >= maxCount) {
-      alert(`You can only upload up to ${maxCount} file(s) for this section.`);
-      return;
-    }
+    let filesToRead: File[] = [];
 
-    const availableSlots = maxCount - currentFiles.length;
-    const filesToRead = Array.from(files).slice(0, availableSlots);
+    if (maxCount === 1) {
+      filesToRead = [files[0]];
+    } else {
+      if (currentFiles.length >= maxCount) {
+        alert(`You can only upload up to ${maxCount} file(s) for this section.`);
+        return;
+      }
+      const availableSlots = maxCount - currentFiles.length;
+      filesToRead = Array.from(files).slice(0, availableSlots);
+    }
 
     filesToRead.forEach((file) => {
       if (file.size > MAX_FILE_SIZE_BYTES) {
@@ -344,7 +349,7 @@ export default function BseStarMutualFundFormPage() {
 
         setFormData((prev) => ({
           ...prev,
-          [field]: [...(prev[field] || []), newFileMeta],
+          [field]: maxCount === 1 ? [newFileMeta] : [...(prev[field] || []), newFileMeta],
         }));
       };
       reader.readAsDataURL(file);
@@ -1086,7 +1091,8 @@ export default function BseStarMutualFundFormPage() {
                             <div key={f.id} className="flex items-center justify-between p-2 rounded-lg bg-white border border-gray-200 text-xs">
                               <span className="flex items-center gap-1.5 truncate max-w-[280px] font-medium text-gray-700">
                                 <FileText className="w-3.5 h-3.5 text-blue-600 shrink-0" />
-                                {f.fileName}
+                                <span className="truncate">{f.fileName}</span>
+                                <span className="text-[10px] text-gray-400 shrink-0">({Math.round(f.fileSize / 1024)} KB)</span>
                               </span>
                               <button
                                 type="button"
@@ -1135,7 +1141,8 @@ export default function BseStarMutualFundFormPage() {
                             <div key={f.id} className="flex items-center justify-between p-2 rounded-lg bg-white border border-gray-200 text-xs">
                               <span className="flex items-center gap-1.5 truncate max-w-[280px] font-medium text-gray-700">
                                 <FileImage className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-                                {f.fileName}
+                                <span className="truncate">{f.fileName}</span>
+                                <span className="text-[10px] text-gray-400 shrink-0">({Math.round(f.fileSize / 1024)} KB)</span>
                               </span>
                               <button
                                 type="button"
@@ -1200,7 +1207,8 @@ export default function BseStarMutualFundFormPage() {
                           <div key={f.id} className="flex items-center justify-between p-2 rounded-lg bg-white border border-gray-200 text-xs">
                             <span className="flex items-center gap-1.5 truncate max-w-[280px] font-medium text-gray-700">
                               <FileText className="w-3.5 h-3.5 text-blue-600 shrink-0" />
-                              {f.fileName}
+                              <span className="truncate">{f.fileName}</span>
+                              <span className="text-[10px] text-gray-400 shrink-0">({Math.round(f.fileSize / 1024)} KB)</span>
                             </span>
                             <button
                               type="button"

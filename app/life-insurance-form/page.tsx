@@ -249,7 +249,7 @@ export default function LifeInsuranceFormPage() {
     }
   };
 
-  // File Upload Helper
+  // File Upload Helper (supports instant replacement for single files)
   const handleFileUpload = (
     field: keyof LifeInsuranceProposalInput,
     files: FileList | null,
@@ -258,13 +258,18 @@ export default function LifeInsuranceFormPage() {
     if (!files || files.length === 0) return;
 
     const currentFiles = (formData[field] as LifeInsuranceFileMeta[]) || [];
-    if (currentFiles.length >= maxCount) {
-      alert(`You can only upload up to ${maxCount} file(s) for this section.`);
-      return;
-    }
+    let filesToRead: File[] = [];
 
-    const availableSlots = maxCount - currentFiles.length;
-    const filesToRead = Array.from(files).slice(0, availableSlots);
+    if (maxCount === 1) {
+      filesToRead = [files[0]];
+    } else {
+      if (currentFiles.length >= maxCount) {
+        alert(`You can only upload up to ${maxCount} file(s) for this section.`);
+        return;
+      }
+      const availableSlots = maxCount - currentFiles.length;
+      filesToRead = Array.from(files).slice(0, availableSlots);
+    }
 
     filesToRead.forEach((file) => {
       if (file.size > MAX_FILE_SIZE_BYTES) {
@@ -285,7 +290,7 @@ export default function LifeInsuranceFormPage() {
 
         setFormData((prev) => ({
           ...prev,
-          [field]: [...((prev[field] as LifeInsuranceFileMeta[]) || []), newFileMeta],
+          [field]: maxCount === 1 ? [newFileMeta] : [...((prev[field] as LifeInsuranceFileMeta[]) || []), newFileMeta],
         }));
       };
       reader.readAsDataURL(file);
@@ -1595,148 +1600,309 @@ export default function LifeInsuranceFormPage() {
                   {/* Document Upload Boxes */}
                   <div className="space-y-3 pt-2">
                     {/* Aadhaar Card File */}
-                    <div className="p-3.5 rounded-2xl bg-gray-50 border border-gray-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                      <div>
-                        <span className="text-xs font-bold text-[#180D45] flex items-center gap-1.5">
-                          <CreditCard className="w-4 h-4 text-emerald-600" />
-                          Aadhaar Card Copy <span className="text-rose-500">*</span>
-                        </span>
-                        <span className="text-[10px] text-gray-400">PDF or Image &bull; Max 10 MB</span>
+                    <div className="p-3.5 rounded-2xl bg-gray-50 border border-gray-200 flex flex-col gap-2">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                        <div>
+                          <span className="text-xs font-bold text-[#180D45] flex items-center gap-1.5">
+                            <CreditCard className="w-4 h-4 text-emerald-600" />
+                            Aadhaar Card Copy <span className="text-rose-500">*</span>
+                          </span>
+                          <span className="text-[10px] text-gray-400">PDF or Image &bull; Max 10 MB</span>
+                        </div>
+                        <label className="inline-flex items-center justify-center gap-2 px-3.5 py-2 rounded-xl bg-white border border-gray-300 text-xs font-bold text-[#180D45] hover:bg-gray-50 cursor-pointer shadow-2xs">
+                          <UploadCloud className="w-4 h-4 text-gray-500" />
+                          <span>{formData.aadharFiles?.length ? "Replace File" : "Upload Aadhaar"}</span>
+                          <input
+                            type="file"
+                            accept="image/*,.pdf"
+                            onChange={(e) => handleFileUpload("aadharFiles", e.target.files, 1)}
+                            className="hidden"
+                          />
+                        </label>
                       </div>
-                      <label className="inline-flex items-center justify-center gap-2 px-3.5 py-2 rounded-xl bg-white border border-gray-300 text-xs font-bold text-[#180D45] hover:bg-gray-50 cursor-pointer shadow-2xs">
-                        <UploadCloud className="w-4 h-4 text-gray-500" />
-                        <span>{formData.aadharFiles?.length ? "1 File Attached" : "Upload Aadhaar"}</span>
-                        <input
-                          type="file"
-                          accept="image/*,.pdf"
-                          onChange={(e) => handleFileUpload("aadharFiles", e.target.files, 1)}
-                          className="hidden"
-                        />
-                      </label>
+                      {formData.aadharFiles && formData.aadharFiles.length > 0 && (
+                        <div className="space-y-1 pt-1">
+                          {formData.aadharFiles.map((f) => (
+                            <div key={f.id} className="flex items-center justify-between p-2 rounded-lg bg-white border border-gray-200 text-xs">
+                              <span className="flex items-center gap-1.5 truncate max-w-[280px] font-medium text-gray-700">
+                                <FileImage className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                                <span className="truncate">{f.fileName}</span>
+                                <span className="text-[10px] text-gray-400 shrink-0">({Math.round(f.fileSize / 1024)} KB)</span>
+                              </span>
+                              <button
+                                type="button"
+                                onClick={() => removeFile("aadharFiles", f.id)}
+                                className="text-rose-500 hover:text-rose-700 p-1 cursor-pointer"
+                                title="Remove file"
+                              >
+                                <X className="w-3.5 h-3.5" />
+                              </button>
+                            </div>
+                          ))}
+                        </div>
+                      )}
                     </div>
 
                     {/* PAN Card File */}
-                    <div className="p-3.5 rounded-2xl bg-gray-50 border border-gray-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                      <div>
-                        <span className="text-xs font-bold text-[#180D45] flex items-center gap-1.5">
-                          <CreditCard className="w-4 h-4 text-blue-600" />
-                          PAN Card Copy <span className="text-rose-500">*</span>
-                        </span>
-                        <span className="text-[10px] text-gray-400">PDF or Image &bull; Max 10 MB</span>
+                    <div className="p-3.5 rounded-2xl bg-gray-50 border border-gray-200 flex flex-col gap-2">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                        <div>
+                          <span className="text-xs font-bold text-[#180D45] flex items-center gap-1.5">
+                            <CreditCard className="w-4 h-4 text-blue-600" />
+                            PAN Card Copy <span className="text-rose-500">*</span>
+                          </span>
+                          <span className="text-[10px] text-gray-400">PDF or Image &bull; Max 10 MB</span>
+                        </div>
+                        <label className="inline-flex items-center justify-center gap-2 px-3.5 py-2 rounded-xl bg-white border border-gray-300 text-xs font-bold text-[#180D45] hover:bg-gray-50 cursor-pointer shadow-2xs">
+                          <UploadCloud className="w-4 h-4 text-gray-500" />
+                          <span>{formData.panFiles?.length ? "Replace File" : "Upload PAN"}</span>
+                          <input
+                            type="file"
+                            accept="image/*,.pdf"
+                            onChange={(e) => handleFileUpload("panFiles", e.target.files, 1)}
+                            className="hidden"
+                          />
+                        </label>
                       </div>
-                      <label className="inline-flex items-center justify-center gap-2 px-3.5 py-2 rounded-xl bg-white border border-gray-300 text-xs font-bold text-[#180D45] hover:bg-gray-50 cursor-pointer shadow-2xs">
-                        <UploadCloud className="w-4 h-4 text-gray-500" />
-                        <span>{formData.panFiles?.length ? "1 File Attached" : "Upload PAN"}</span>
-                        <input
-                          type="file"
-                          accept="image/*,.pdf"
-                          onChange={(e) => handleFileUpload("panFiles", e.target.files, 1)}
-                          className="hidden"
-                        />
-                      </label>
+                      {formData.panFiles && formData.panFiles.length > 0 && (
+                        <div className="space-y-1 pt-1">
+                          {formData.panFiles.map((f) => (
+                            <div key={f.id} className="flex items-center justify-between p-2 rounded-lg bg-white border border-gray-200 text-xs">
+                              <span className="flex items-center gap-1.5 truncate max-w-[280px] font-medium text-gray-700">
+                                <FileText className="w-3.5 h-3.5 text-blue-600 shrink-0" />
+                                <span className="truncate">{f.fileName}</span>
+                                <span className="text-[10px] text-gray-400 shrink-0">({Math.round(f.fileSize / 1024)} KB)</span>
+                              </span>
+                              <button
+                                type="button"
+                                onClick={() => removeFile("panFiles", f.id)}
+                                className="text-rose-500 hover:text-rose-700 p-1 cursor-pointer"
+                                title="Remove file"
+                              >
+                                <X className="w-3.5 h-3.5" />
+                              </button>
+                            </div>
+                          ))}
+                        </div>
+                      )}
                     </div>
 
                     {/* Live Photo / Selfie */}
-                    <div className="p-3.5 rounded-2xl bg-gray-50 border border-gray-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                      <div>
-                        <span className="text-xs font-bold text-[#180D45] flex items-center gap-1.5">
-                          <Camera className="w-4 h-4 text-purple-600" />
-                          Live Photo (Selfie) <span className="text-rose-500">*</span>
-                        </span>
-                        <span className="text-[10px] text-gray-400">Clear frontal photo &bull; Max 10 MB</span>
+                    <div className="p-3.5 rounded-2xl bg-gray-50 border border-gray-200 flex flex-col gap-2">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                        <div>
+                          <span className="text-xs font-bold text-[#180D45] flex items-center gap-1.5">
+                            <Camera className="w-4 h-4 text-purple-600" />
+                            Live Photo (Selfie) <span className="text-rose-500">*</span>
+                          </span>
+                          <span className="text-[10px] text-gray-400">Clear frontal photo &bull; Max 10 MB</span>
+                        </div>
+                        <label className="inline-flex items-center justify-center gap-2 px-3.5 py-2 rounded-xl bg-white border border-gray-300 text-xs font-bold text-[#180D45] hover:bg-gray-50 cursor-pointer shadow-2xs">
+                          <Camera className="w-4 h-4 text-gray-500" />
+                          <span>{formData.selfieFiles?.length ? "Replace Selfie" : "Upload Selfie"}</span>
+                          <input
+                            type="file"
+                            accept="image/*"
+                            onChange={(e) => handleFileUpload("selfieFiles", e.target.files, 1)}
+                            className="hidden"
+                          />
+                        </label>
                       </div>
-                      <label className="inline-flex items-center justify-center gap-2 px-3.5 py-2 rounded-xl bg-white border border-gray-300 text-xs font-bold text-[#180D45] hover:bg-gray-50 cursor-pointer shadow-2xs">
-                        <Camera className="w-4 h-4 text-gray-500" />
-                        <span>{formData.selfieFiles?.length ? "Selfie Attached" : "Upload Selfie"}</span>
-                        <input
-                          type="file"
-                          accept="image/*"
-                          onChange={(e) => handleFileUpload("selfieFiles", e.target.files, 1)}
-                          className="hidden"
-                        />
-                      </label>
+                      {formData.selfieFiles && formData.selfieFiles.length > 0 && (
+                        <div className="space-y-1 pt-1">
+                          {formData.selfieFiles.map((f) => (
+                            <div key={f.id} className="flex items-center justify-between p-2 rounded-lg bg-white border border-gray-200 text-xs">
+                              <span className="flex items-center gap-1.5 truncate max-w-[280px] font-medium text-gray-700">
+                                <Camera className="w-3.5 h-3.5 text-purple-600 shrink-0" />
+                                <span className="truncate">{f.fileName}</span>
+                                <span className="text-[10px] text-gray-400 shrink-0">({Math.round(f.fileSize / 1024)} KB)</span>
+                              </span>
+                              <button
+                                type="button"
+                                onClick={() => removeFile("selfieFiles", f.id)}
+                                className="text-rose-500 hover:text-rose-700 p-1 cursor-pointer"
+                                title="Remove file"
+                              >
+                                <X className="w-3.5 h-3.5" />
+                              </button>
+                            </div>
+                          ))}
+                        </div>
+                      )}
                     </div>
 
                     {/* Cancelled Cheque / Statement */}
-                    <div className="p-3.5 rounded-2xl bg-gray-50 border border-gray-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                      <div>
-                        <span className="text-xs font-bold text-[#180D45] flex items-center gap-1.5">
-                          <Building2 className="w-4 h-4 text-amber-600" />
-                          Cancelled Cheque or Bank Statement / Passbook <span className="text-rose-500">*</span>
-                        </span>
-                        <span className="text-[10px] text-gray-400">Showing Account number &amp; IFSC</span>
+                    <div className="p-3.5 rounded-2xl bg-gray-50 border border-gray-200 flex flex-col gap-2">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                        <div>
+                          <span className="text-xs font-bold text-[#180D45] flex items-center gap-1.5">
+                            <Building2 className="w-4 h-4 text-amber-600" />
+                            Cancelled Cheque or Bank Statement / Passbook <span className="text-rose-500">*</span>
+                          </span>
+                          <span className="text-[10px] text-gray-400">Showing Account number &amp; IFSC</span>
+                        </div>
+                        <label className="inline-flex items-center justify-center gap-2 px-3.5 py-2 rounded-xl bg-white border border-gray-300 text-xs font-bold text-[#180D45] hover:bg-gray-50 cursor-pointer shadow-2xs">
+                          <UploadCloud className="w-4 h-4 text-gray-500" />
+                          <span>{formData.chequeFiles?.length ? "Replace File" : "Upload Cheque"}</span>
+                          <input
+                            type="file"
+                            accept="image/*,.pdf"
+                            onChange={(e) => handleFileUpload("chequeFiles", e.target.files, 1)}
+                            className="hidden"
+                          />
+                        </label>
                       </div>
-                      <label className="inline-flex items-center justify-center gap-2 px-3.5 py-2 rounded-xl bg-white border border-gray-300 text-xs font-bold text-[#180D45] hover:bg-gray-50 cursor-pointer shadow-2xs">
-                        <UploadCloud className="w-4 h-4 text-gray-500" />
-                        <span>{formData.chequeFiles?.length ? "Cheque Attached" : "Upload Cheque"}</span>
-                        <input
-                          type="file"
-                          accept="image/*,.pdf"
-                          onChange={(e) => handleFileUpload("chequeFiles", e.target.files, 1)}
-                          className="hidden"
-                        />
-                      </label>
+                      {formData.chequeFiles && formData.chequeFiles.length > 0 && (
+                        <div className="space-y-1 pt-1">
+                          {formData.chequeFiles.map((f) => (
+                            <div key={f.id} className="flex items-center justify-between p-2 rounded-lg bg-white border border-gray-200 text-xs">
+                              <span className="flex items-center gap-1.5 truncate max-w-[280px] font-medium text-gray-700">
+                                <FileText className="w-3.5 h-3.5 text-amber-600 shrink-0" />
+                                <span className="truncate">{f.fileName}</span>
+                                <span className="text-[10px] text-gray-400 shrink-0">({Math.round(f.fileSize / 1024)} KB)</span>
+                              </span>
+                              <button
+                                type="button"
+                                onClick={() => removeFile("chequeFiles", f.id)}
+                                className="text-rose-500 hover:text-rose-700 p-1 cursor-pointer"
+                                title="Remove file"
+                              >
+                                <X className="w-3.5 h-3.5" />
+                              </button>
+                            </div>
+                          ))}
+                        </div>
+                      )}
                     </div>
 
                     {/* Company ID Card (Salaried) */}
-                    <div className="p-3.5 rounded-2xl bg-gray-50 border border-gray-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                      <div>
-                        <span className="text-xs font-bold text-gray-700 flex items-center gap-1.5">
-                          <Briefcase className="w-4 h-4 text-teal-600" />
-                          Company ID Card Photo
-                        </span>
-                        <span className="text-[10px] text-emerald-700 font-bold">Must for Salaried Employees for discount</span>
+                    <div className="p-3.5 rounded-2xl bg-gray-50 border border-gray-200 flex flex-col gap-2">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                        <div>
+                          <span className="text-xs font-bold text-gray-700 flex items-center gap-1.5">
+                            <Briefcase className="w-4 h-4 text-teal-600" />
+                            Company ID Card Photo
+                          </span>
+                          <span className="text-[10px] text-emerald-700 font-bold">Must for Salaried Employees for discount</span>
+                        </div>
+                        <label className="inline-flex items-center justify-center gap-2 px-3.5 py-2 rounded-xl bg-white border border-gray-300 text-xs font-bold text-gray-700 hover:bg-gray-50 cursor-pointer shadow-2xs">
+                          <UploadCloud className="w-4 h-4 text-gray-500" />
+                          <span>{formData.companyIdFiles?.length ? "Replace File" : "Upload ID Card"}</span>
+                          <input
+                            type="file"
+                            accept="image/*,.pdf"
+                            onChange={(e) => handleFileUpload("companyIdFiles", e.target.files, 1)}
+                            className="hidden"
+                          />
+                        </label>
                       </div>
-                      <label className="inline-flex items-center justify-center gap-2 px-3.5 py-2 rounded-xl bg-white border border-gray-300 text-xs font-bold text-gray-700 hover:bg-gray-50 cursor-pointer shadow-2xs">
-                        <UploadCloud className="w-4 h-4 text-gray-500" />
-                        <span>{formData.companyIdFiles?.length ? "ID Attached" : "Upload ID Card"}</span>
-                        <input
-                          type="file"
-                          accept="image/*,.pdf"
-                          onChange={(e) => handleFileUpload("companyIdFiles", e.target.files, 1)}
-                          className="hidden"
-                        />
-                      </label>
+                      {formData.companyIdFiles && formData.companyIdFiles.length > 0 && (
+                        <div className="space-y-1 pt-1">
+                          {formData.companyIdFiles.map((f) => (
+                            <div key={f.id} className="flex items-center justify-between p-2 rounded-lg bg-white border border-gray-200 text-xs">
+                              <span className="flex items-center gap-1.5 truncate max-w-[280px] font-medium text-gray-700">
+                                <Briefcase className="w-3.5 h-3.5 text-teal-600 shrink-0" />
+                                <span className="truncate">{f.fileName}</span>
+                                <span className="text-[10px] text-gray-400 shrink-0">({Math.round(f.fileSize / 1024)} KB)</span>
+                              </span>
+                              <button
+                                type="button"
+                                onClick={() => removeFile("companyIdFiles", f.id)}
+                                className="text-rose-500 hover:text-rose-700 p-1 cursor-pointer"
+                                title="Remove file"
+                              >
+                                <X className="w-3.5 h-3.5" />
+                              </button>
+                            </div>
+                          ))}
+                        </div>
+                      )}
                     </div>
 
                     {/* Last 3 months pay slip (Up to 5 files) */}
-                    <div className="p-3.5 rounded-2xl bg-gray-50 border border-gray-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                      <div>
-                        <span className="text-xs font-bold text-gray-700 flex items-center gap-1.5">
-                          <FileText className="w-4 h-4 text-blue-600" />
-                          Last 3 Months Pay Slip
-                        </span>
-                        <span className="text-[10px] text-gray-400">Up to 5 files &bull; PDF / Image</span>
+                    <div className="p-3.5 rounded-2xl bg-gray-50 border border-gray-200 flex flex-col gap-2">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                        <div>
+                          <span className="text-xs font-bold text-gray-700 flex items-center gap-1.5">
+                            <FileText className="w-4 h-4 text-blue-600" />
+                            Last 3 Months Pay Slip
+                          </span>
+                          <span className="text-[10px] text-gray-400">Up to 5 files &bull; PDF / Image</span>
+                        </div>
+                        <label className="inline-flex items-center justify-center gap-2 px-3.5 py-2 rounded-xl bg-white border border-gray-300 text-xs font-bold text-gray-700 hover:bg-gray-50 cursor-pointer shadow-2xs">
+                          <UploadCloud className="w-4 h-4 text-gray-500" />
+                          <span>{formData.payslipFiles?.length ? `${formData.payslipFiles.length}/5 File(s)` : "Upload Payslips"}</span>
+                          <input
+                            type="file"
+                            multiple
+                            accept="image/*,.pdf"
+                            onChange={(e) => handleFileUpload("payslipFiles", e.target.files, 5)}
+                            className="hidden"
+                          />
+                        </label>
                       </div>
-                      <label className="inline-flex items-center justify-center gap-2 px-3.5 py-2 rounded-xl bg-white border border-gray-300 text-xs font-bold text-gray-700 hover:bg-gray-50 cursor-pointer shadow-2xs">
-                        <UploadCloud className="w-4 h-4 text-gray-500" />
-                        <span>{formData.payslipFiles?.length ? `${formData.payslipFiles.length} Payslip(s)` : "Upload Payslips"}</span>
-                        <input
-                          type="file"
-                          multiple
-                          accept="image/*,.pdf"
-                          onChange={(e) => handleFileUpload("payslipFiles", e.target.files, 5)}
-                          className="hidden"
-                        />
-                      </label>
+                      {formData.payslipFiles && formData.payslipFiles.length > 0 && (
+                        <div className="space-y-1 pt-1">
+                          {formData.payslipFiles.map((f) => (
+                            <div key={f.id} className="flex items-center justify-between p-2 rounded-lg bg-white border border-gray-200 text-xs">
+                              <span className="flex items-center gap-1.5 truncate max-w-[280px] font-medium text-gray-700">
+                                <FileText className="w-3.5 h-3.5 text-blue-600 shrink-0" />
+                                <span className="truncate">{f.fileName}</span>
+                                <span className="text-[10px] text-gray-400 shrink-0">({Math.round(f.fileSize / 1024)} KB)</span>
+                              </span>
+                              <button
+                                type="button"
+                                onClick={() => removeFile("payslipFiles", f.id)}
+                                className="text-rose-500 hover:text-rose-700 p-1 cursor-pointer"
+                                title="Remove file"
+                              >
+                                <X className="w-3.5 h-3.5" />
+                              </button>
+                            </div>
+                          ))}
+                        </div>
+                      )}
                     </div>
 
                     {/* Any Other Document */}
-                    <div className="p-3.5 rounded-2xl bg-gray-50 border border-gray-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                      <div>
-                        <span className="text-xs font-bold text-gray-700">Any Other Document</span>
-                        <span className="text-[10px] text-gray-400 block">ITR, Form 16, or existing policy schedule</span>
+                    <div className="p-3.5 rounded-2xl bg-gray-50 border border-gray-200 flex flex-col gap-2">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                        <div>
+                          <span className="text-xs font-bold text-gray-700">Any Other Document</span>
+                          <span className="text-[10px] text-gray-400 block">ITR, Form 16, or existing policy schedule</span>
+                        </div>
+                        <label className="inline-flex items-center justify-center gap-2 px-3.5 py-2 rounded-xl bg-white border border-gray-300 text-xs font-bold text-gray-700 hover:bg-gray-50 cursor-pointer shadow-2xs">
+                          <UploadCloud className="w-4 h-4 text-gray-500" />
+                          <span>{formData.otherFiles?.length ? "Replace File" : "Upload Document"}</span>
+                          <input
+                            type="file"
+                            accept="image/*,.pdf,.doc,.docx"
+                            onChange={(e) => handleFileUpload("otherFiles", e.target.files, 1)}
+                            className="hidden"
+                          />
+                        </label>
                       </div>
-                      <label className="inline-flex items-center justify-center gap-2 px-3.5 py-2 rounded-xl bg-white border border-gray-300 text-xs font-bold text-gray-700 hover:bg-gray-50 cursor-pointer shadow-2xs">
-                        <UploadCloud className="w-4 h-4 text-gray-500" />
-                        <span>{formData.otherFiles?.length ? "File Attached" : "Upload Document"}</span>
-                        <input
-                          type="file"
-                          accept="image/*,.pdf,.doc,.docx"
-                          onChange={(e) => handleFileUpload("otherFiles", e.target.files, 1)}
-                          className="hidden"
-                        />
-                      </label>
+                      {formData.otherFiles && formData.otherFiles.length > 0 && (
+                        <div className="space-y-1 pt-1">
+                          {formData.otherFiles.map((f) => (
+                            <div key={f.id} className="flex items-center justify-between p-2 rounded-lg bg-white border border-gray-200 text-xs">
+                              <span className="flex items-center gap-1.5 truncate max-w-[280px] font-medium text-gray-700">
+                                <FileText className="w-3.5 h-3.5 text-gray-600 shrink-0" />
+                                <span className="truncate">{f.fileName}</span>
+                                <span className="text-[10px] text-gray-400 shrink-0">({Math.round(f.fileSize / 1024)} KB)</span>
+                              </span>
+                              <button
+                                type="button"
+                                onClick={() => removeFile("otherFiles", f.id)}
+                                className="text-rose-500 hover:text-rose-700 p-1 cursor-pointer"
+                                title="Remove file"
+                              >
+                                <X className="w-3.5 h-3.5" />
+                              </button>
+                            </div>
+                          ))}
+                        </div>
+                      )}
                     </div>
                   </div>
 
