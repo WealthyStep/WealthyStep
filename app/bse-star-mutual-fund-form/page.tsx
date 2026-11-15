@@ -172,10 +172,16 @@ export default function BseStarMutualFundFormPage() {
   const saveDraftToStorage = useCallback(
     (data: BseStarAccountOpeningInput, step: number) => {
       try {
+        const safeData = {
+          ...data,
+          aadharFiles: (data.aadharFiles || []).map(({ base64, ...rest }) => rest),
+          panFiles: (data.panFiles || []).map(({ base64, ...rest }) => rest),
+          bankFiles: (data.bankFiles || []).map(({ base64, ...rest }) => rest),
+        };
         localStorage.setItem(
           DRAFT_STORAGE_KEY,
           JSON.stringify({
-            data,
+            data: safeData,
             step,
             updatedAt: new Date().toISOString(),
           })

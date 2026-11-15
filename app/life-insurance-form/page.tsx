@@ -180,10 +180,21 @@ export default function LifeInsuranceFormPage() {
   const saveDraftToStorage = useCallback(
     (data: LifeInsuranceProposalInput, step: number) => {
       try {
+        const stripBase64 = (arr?: any[]) => (arr || []).map(({ base64, ...rest }) => rest);
+        const safeData = {
+          ...data,
+          aadharFiles: stripBase64(data.aadharFiles),
+          panFiles: stripBase64(data.panFiles),
+          selfieFiles: stripBase64(data.selfieFiles),
+          chequeFiles: stripBase64(data.chequeFiles),
+          companyIdFiles: stripBase64(data.companyIdFiles),
+          payslipFiles: stripBase64(data.payslipFiles),
+          otherFiles: stripBase64(data.otherFiles),
+        };
         localStorage.setItem(
           DRAFT_STORAGE_KEY,
           JSON.stringify({
-            data,
+            data: safeData,
             step,
             updatedAt: new Date().toISOString(),
           })
