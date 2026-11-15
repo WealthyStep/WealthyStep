@@ -52,11 +52,11 @@ export interface HealthInsuranceProposalInput {
   nomineeCustomAddress?: string;
   nomineeMobile: string;
   nomineeEmail: string;
-  nomineeBankName: string;
-  nomineeBankAccountName: string;
-  nomineeBankIfsc: string;
-  nomineeBankAccountNumber: string;
-  nomineeBankAccountType: "Savings" | "Current" | "Others" | "";
+  nomineeBankName?: string;
+  nomineeBankAccountName?: string;
+  nomineeBankIfsc?: string;
+  nomineeBankAccountNumber?: string;
+  nomineeBankAccountType?: "Savings" | "Current" | "Others" | "";
 
   // Step 5: Declarations
   consentContactAccepted: boolean;
@@ -328,27 +328,21 @@ export function validateHealthInsuranceProposal(
     }
     sanitized.nomineeEmail = nomEmail;
 
-    // Nominee Bank details
+    // Nominee Bank details (Optional - not mandatory for proposal intake)
     const bankName = (input.nomineeBankName || "").trim();
-    if (!bankName) errors.nomineeBankName = "Bank Name is required.";
     sanitized.nomineeBankName = bankName;
 
     const nameInBank = (input.nomineeBankAccountName || "").trim();
-    if (!nameInBank) errors.nomineeBankAccountName = "Account holder name as per bank records is required.";
     sanitized.nomineeBankAccountName = nameInBank;
 
     const ifsc = normalizeIfsc(input.nomineeBankIfsc || "");
-    if (!ifsc) {
-      errors.nomineeBankIfsc = "Bank IFSC code is required.";
-    } else if (!IFSC_REGEX.test(ifsc)) {
+    if (ifsc && !IFSC_REGEX.test(ifsc)) {
       errors.nomineeBankIfsc = "Please enter a valid 11-character Indian IFSC code (e.g. HDFC0001234).";
     }
     sanitized.nomineeBankIfsc = ifsc;
 
     const accNum = (input.nomineeBankAccountNumber || "").replace(/\s/g, "");
-    if (!accNum) {
-      errors.nomineeBankAccountNumber = "Bank account number is required.";
-    } else if (!/^\d{9,18}$/.test(accNum)) {
+    if (accNum && !/^\d{9,18}$/.test(accNum)) {
       errors.nomineeBankAccountNumber = "Please enter a valid bank account number (9 to 18 digits).";
     }
     sanitized.nomineeBankAccountNumber = accNum;

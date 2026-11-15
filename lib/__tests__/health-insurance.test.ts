@@ -100,5 +100,59 @@ describe("Health Insurance Validation Suite", () => {
     expect(Object.keys(result.errors).length).toBe(0);
     expect(result.sanitized.proposerPan).toBe("ABCDE1234F");
   });
+
+  it("accepts health proposal even when nominee bank account details are left blank (optional)", () => {
+    const proposalWithoutNomineeBank = {
+      proposerName: "Siva Goram",
+      proposerPan: "ABCDE1234F",
+      proposerDob: "1992-05-10",
+      proposerMobile: "9876543210",
+      proposerEmail: "siva@example.com",
+      proposerAddress: "Plot 101, Financial District, Hyderabad 500032",
+      employmentStatus: "Salaried Employee (PF credit)" as const,
+      policyType: "New Policy" as const,
+      adultsCount: 1,
+      kidsCount: 0,
+      members: [
+        {
+          id: "member-1",
+          role: "Adult 1 (Self)" as const,
+          relation: "Self",
+          fullName: "Siva Goram",
+          dob: "1992-05-10",
+          gender: "Male" as const,
+          height: "178 cm",
+          weight: "74 kg",
+        },
+      ],
+      insuredEmail: "siva@example.com",
+      insuredMobile: "9876543210",
+      hasPreExistingIllness: false,
+      hasTobaccoAlcoholHabits: false,
+      currentAddress: "Plot 101, Financial District, Hyderabad 500032",
+      nomineeName: "Priya Goram",
+      nomineeDob: "1995-08-12",
+      nomineeRelation: "Wife",
+      nomineeAddressOption: "Same as Proposer person address" as const,
+      nomineeMobile: "9876543211",
+      nomineeEmail: "priya@example.com",
+      // Nominee bank details intentionally left blank
+      nomineeBankName: "",
+      nomineeBankAccountName: "",
+      nomineeBankIfsc: "",
+      nomineeBankAccountNumber: "",
+      nomineeBankAccountType: "Savings" as const,
+      consentContactAccepted: true,
+      consentDisclosureAccepted: true,
+    };
+
+    const result = validateHealthInsuranceProposal(proposalWithoutNomineeBank);
+    expect(result.isValid).toBe(true);
+    expect(result.errors.nomineeBankName).toBeUndefined();
+    expect(result.errors.nomineeBankAccountName).toBeUndefined();
+    expect(result.errors.nomineeBankIfsc).toBeUndefined();
+    expect(result.errors.nomineeBankAccountNumber).toBeUndefined();
+    expect(result.sanitized.nomineeBankName).toBe("");
+  });
 });
 

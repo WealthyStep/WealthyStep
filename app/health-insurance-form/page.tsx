@@ -1474,11 +1474,16 @@ END:VCARD`;
                   {/* Nominee Bank Details */}
                   <div className="pt-3 border-t border-gray-100 space-y-3">
                     <div>
-                      <h3 className="text-xs font-bold text-gray-700 uppercase tracking-wider">
-                        Nominee Bank Account Details (Claim Settlement)
-                      </h3>
-                      <p className="text-[11px] text-gray-500">
-                        Required by insurers to verify authentic beneficiary credentials.
+                      <div className="flex items-center gap-2">
+                        <h3 className="text-xs font-bold text-gray-700 uppercase tracking-wider">
+                          Nominee Bank Account Details
+                        </h3>
+                        <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-gray-100 text-gray-600 border border-gray-200">
+                          Optional
+                        </span>
+                      </div>
+                      <p className="text-[11px] text-gray-500 mt-0.5">
+                        Optional at proposal stage. Insurers can also collect or update this during claim settlement.
                       </p>
                     </div>
 
@@ -1486,7 +1491,7 @@ END:VCARD`;
                       {/* Bank Name */}
                       <div>
                         <label className="block text-xs font-bold text-gray-700 mb-1.5">
-                          Bank Name <span className="text-rose-500">*</span>
+                          Bank Name <span className="text-[11px] font-normal text-gray-400">(Optional)</span>
                         </label>
                         <input
                           type="text"
@@ -1507,7 +1512,7 @@ END:VCARD`;
                       {/* Name in Bank */}
                       <div>
                         <label className="block text-xs font-bold text-gray-700 mb-1.5">
-                          Account Holder Name (As per passbook) <span className="text-rose-500">*</span>
+                          Account Holder Name <span className="text-[11px] font-normal text-gray-400">(Optional)</span>
                         </label>
                         <input
                           type="text"
@@ -1528,7 +1533,7 @@ END:VCARD`;
                       {/* IFSC Code */}
                       <div>
                         <label className="block text-xs font-bold text-gray-700 mb-1.5">
-                          Bank IFSC Code <span className="text-rose-500">*</span>
+                          Bank IFSC Code <span className="text-[11px] font-normal text-gray-400">(Optional)</span>
                         </label>
                         <input
                           type="text"
@@ -1550,7 +1555,7 @@ END:VCARD`;
                       {/* Account Number */}
                       <div>
                         <label className="block text-xs font-bold text-gray-700 mb-1.5">
-                          Account Number <span className="text-rose-500">*</span>
+                          Account Number <span className="text-[11px] font-normal text-gray-400">(Optional)</span>
                         </label>
                         <input
                           type="text"
@@ -1571,7 +1576,7 @@ END:VCARD`;
                       {/* Account Type */}
                       <div className="sm:col-span-2">
                         <label className="block text-xs font-bold text-gray-700 mb-1.5">
-                          Account Type <span className="text-rose-500">*</span>
+                          Account Type <span className="text-[11px] font-normal text-gray-400">(Optional)</span>
                         </label>
                         <select
                           value={formData.nomineeBankAccountType}
@@ -1695,7 +1700,13 @@ END:VCARD`;
                         </button>
                       </div>
                       <p className="text-gray-800 font-semibold">{formData.nomineeName} ({formData.nomineeRelation})</p>
-                      <p className="text-gray-600">Bank: {formData.nomineeBankName} • A/C: ••••••••{formData.nomineeBankAccountNumber.slice(-4)} • IFSC: {formData.nomineeBankIfsc}</p>
+                      {formData.nomineeBankName || formData.nomineeBankAccountNumber ? (
+                        <p className="text-gray-600">
+                          Bank: {formData.nomineeBankName || "Not Provided"} • A/C: ••••••••{(formData.nomineeBankAccountNumber || "").slice(-4)} • IFSC: {formData.nomineeBankIfsc || "N/A"}
+                        </p>
+                      ) : (
+                        <p className="text-gray-500 italic text-[11px]">Bank details: Not provided (optional at proposal stage)</p>
+                      )}
                     </div>
                   </div>
 
