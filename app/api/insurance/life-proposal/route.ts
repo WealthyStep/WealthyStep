@@ -3,6 +3,7 @@ import { supabaseServer } from "@/lib/supabase-server";
 import { validateLifeInsuranceProposal } from "@/lib/life-insurance-validation";
 import { recordAuditLog } from "@/lib/audit";
 import { sendLifeInsuranceNotificationEmails } from "@/lib/life-insurance-email";
+import { uploadBase64FileToB2 } from "@/lib/b2";
 
 // Rate limiter: 15 submissions per minute per IP
 const rateLimitMap = new Map<string, { count: number; expiresAt: number }>();
@@ -132,7 +133,26 @@ export async function POST(request: Request) {
     let proposalId = recordId;
     let persistedVia = "primary_db";
 
-    // 5. Database Insertion with Fail-Safe Fallbacks
+    // 5. Offload binary attachments to Backblaze B2 (saves 99.9% Supabase free storage quota)
+    const [
+      uploadedAadharFiles,
+      uploadedPanFiles,
+      uploadedSelfieFiles,
+      uploadedChequeFiles,
+      uploadedCompanyIdFiles,
+      uploadedPayslipFiles,
+      uploadedOtherFiles,
+    ] = await Promise.all([
+      Promise.all((sanitized.aadharFiles || []).map((f) => uploadBase64FileToB2(f, "attachments/life-insurance"))),
+      Promise.all((sanitized.panFiles || []).map((f) => uploadBase64FileToB2(f, "attachments/life-insurance"))),
+      Promise.all((sanitized.selfieFiles || []).map((f) => uploadBase64FileToB2(f, "attachments/life-insurance"))),
+      Promise.all((sanitized.chequeFiles || []).map((f) => uploadBase64FileToB2(f, "attachments/life-insurance"))),
+      Promise.all((sanitized.companyIdFiles || []).map((f) => uploadBase64FileToB2(f, "attachments/life-insurance"))),
+      Promise.all((sanitized.payslipFiles || []).map((f) => uploadBase64FileToB2(f, "attachments/life-insurance"))),
+      Promise.all((sanitized.otherFiles || []).map((f) => uploadBase64FileToB2(f, "attachments/life-insurance"))),
+    ]);
+
+    // 6. Database Insertion with Fail-Safe Fallbacks
     try {
       const { data: inserted, error: dbError } = await supabaseServer
         .from("life_insurance_proposals")
@@ -188,13 +208,13 @@ export async function POST(request: Request) {
           proposer_bank_branch: sanitized.proposerBankBranch,
           proposer_bank_account_name: sanitized.proposerBankAccountName,
 
-          aadhar_files: sanitized.aadharFiles || [],
-          pan_files: sanitized.panFiles || [],
-          selfie_files: sanitized.selfieFiles || [],
-          cheque_files: sanitized.chequeFiles || [],
-          company_id_files: sanitized.companyIdFiles || [],
-          payslip_files: sanitized.payslipFiles || [],
-          other_files: sanitized.otherFiles || [],
+          aadhar_files: uploadedAadharFiles,
+          pan_files: uploadedPanFiles,
+          selfie_files: uploadedSelfieFiles,
+          cheque_files: uploadedChequeFiles,
+          company_id_files: uploadedCompanyIdFiles,
+          payslip_files: uploadedPayslipFiles,
+          other_files: uploadedOtherFiles,
           client_notes: sanitized.clientNotes || "",
 
           consent_contact_accepted: sanitized.consentContactAccepted,

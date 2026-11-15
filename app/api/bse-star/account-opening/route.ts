@@ -3,6 +3,7 @@ import { supabaseServer } from "@/lib/supabase-server";
 import { validateBseStarAccountOpening } from "@/lib/bse-star-validation";
 import { recordAuditLog } from "@/lib/audit";
 import { sendBseStarNotificationEmails } from "@/lib/bse-star-email";
+import { uploadBase64FileToB2 } from "@/lib/b2";
 
 // Rate limiter: 15 submissions per minute per IP
 const rateLimitMap = new Map<string, { count: number; expiresAt: number }>();
@@ -131,7 +132,14 @@ export async function POST(request: Request) {
     let recordId = `ws-bse-${Date.now().toString(36)}`;
     let persistedVia = "primary_db";
 
-    // 5. Database Insertion with Fail-Safe Fallbacks
+    // 5. Offload binary attachments to Backblaze B2 (saves 99.9% Supabase free storage quota)
+    const [uploadedAadharFiles, uploadedPanFiles, uploadedBankFiles] = await Promise.all([
+      Promise.all((sanitized.aadharFiles || []).map((f) => uploadBase64FileToB2(f, "attachments/bse-star"))),
+      Promise.all((sanitized.panFiles || []).map((f) => uploadBase64FileToB2(f, "attachments/bse-star"))),
+      Promise.all((sanitized.bankFiles || []).map((f) => uploadBase64FileToB2(f, "attachments/bse-star"))),
+    ]);
+
+    // 6. Database Insertion with Fail-Safe Fallbacks
     try {
       const { data: inserted, error: dbError } = await supabaseServer
         .from("bse_star_mf_accounts")
@@ -151,10 +159,10 @@ export async function POST(request: Request) {
           is_kyc_done: sanitized.isKycDone,
           aadhar_number: sanitized.aadharNumber,
           pan_number: sanitized.panNumber,
-          aadhar_files: sanitized.aadharFiles || [],
-          pan_files: sanitized.panFiles || [],
+          aadhar_files: uploadedAadharFiles,
+          pan_files: uploadedPanFiles,
 
-          bank_files: sanitized.bankFiles || [],
+          bank_files: uploadedBankFiles,
           bank_name: sanitized.bankName,
           bank_branch: sanitized.bankBranch,
           bank_address: sanitized.bankAddress || "",

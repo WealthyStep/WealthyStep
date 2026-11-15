@@ -929,43 +929,43 @@ CREATE POLICY "Service role full access on life_insurance_proposals" ON public.l
                   <span className="font-bold text-gray-600 block text-[10px] uppercase">Uploaded Files:</span>
                   <div className="flex flex-wrap gap-2">
                     {selectedProposal.aadhar_files?.map((f, i) => (
-                      <a key={f.id || i} href={f.base64 || f.fileUrl || "#"} download={f.fileName} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white border border-gray-200 text-xs font-bold text-emerald-700 hover:bg-emerald-50">
+                      <a key={f.id || i} href={f.fileUrl || (f.fileKey ? `/api/admin/attachments/view?key=${encodeURIComponent(f.fileKey)}` : f.base64 || "#")} download={f.fileName} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white border border-gray-200 text-xs font-bold text-emerald-700 hover:bg-emerald-50">
                         <FileImage className="w-3.5 h-3.5" />
                         <span>Aadhaar: {f.fileName}</span>
                       </a>
                     ))}
                     {selectedProposal.pan_files?.map((f, i) => (
-                      <a key={f.id || i} href={f.base64 || f.fileUrl || "#"} download={f.fileName} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white border border-gray-200 text-xs font-bold text-blue-700 hover:bg-blue-50">
+                      <a key={f.id || i} href={f.fileUrl || (f.fileKey ? `/api/admin/attachments/view?key=${encodeURIComponent(f.fileKey)}` : f.base64 || "#")} download={f.fileName} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white border border-gray-200 text-xs font-bold text-blue-700 hover:bg-blue-50">
                         <FileText className="w-3.5 h-3.5" />
                         <span>PAN: {f.fileName}</span>
                       </a>
                     ))}
                     {selectedProposal.selfie_files?.map((f, i) => (
-                      <a key={f.id || i} href={f.base64 || f.fileUrl || "#"} download={f.fileName} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white border border-gray-200 text-xs font-bold text-purple-700 hover:bg-purple-50">
+                      <a key={f.id || i} href={f.fileUrl || (f.fileKey ? `/api/admin/attachments/view?key=${encodeURIComponent(f.fileKey)}` : f.base64 || "#")} download={f.fileName} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white border border-gray-200 text-xs font-bold text-purple-700 hover:bg-purple-50">
                         <Camera className="w-3.5 h-3.5" />
                         <span>Selfie: {f.fileName}</span>
                       </a>
                     ))}
                     {selectedProposal.cheque_files?.map((f, i) => (
-                      <a key={f.id || i} href={f.base64 || f.fileUrl || "#"} download={f.fileName} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white border border-gray-200 text-xs font-bold text-amber-700 hover:bg-amber-50">
+                      <a key={f.id || i} href={f.fileUrl || (f.fileKey ? `/api/admin/attachments/view?key=${encodeURIComponent(f.fileKey)}` : f.base64 || "#")} download={f.fileName} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white border border-gray-200 text-xs font-bold text-amber-700 hover:bg-amber-50">
                         <Building2 className="w-3.5 h-3.5" />
                         <span>Cheque: {f.fileName}</span>
                       </a>
                     ))}
                     {selectedProposal.company_id_files?.map((f, i) => (
-                      <a key={f.id || i} href={f.base64 || f.fileUrl || "#"} download={f.fileName} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white border border-gray-200 text-xs font-bold text-teal-700 hover:bg-teal-50">
+                      <a key={f.id || i} href={f.fileUrl || (f.fileKey ? `/api/admin/attachments/view?key=${encodeURIComponent(f.fileKey)}` : f.base64 || "#")} download={f.fileName} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white border border-gray-200 text-xs font-bold text-teal-700 hover:bg-teal-50">
                         <Briefcase className="w-3.5 h-3.5" />
                         <span>ID Card: {f.fileName}</span>
                       </a>
                     ))}
                     {selectedProposal.payslip_files?.map((f, i) => (
-                      <a key={f.id || i} href={f.base64 || f.fileUrl || "#"} download={f.fileName} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white border border-gray-200 text-xs font-bold text-indigo-700 hover:bg-indigo-50">
+                      <a key={f.id || i} href={f.fileUrl || (f.fileKey ? `/api/admin/attachments/view?key=${encodeURIComponent(f.fileKey)}` : f.base64 || "#")} download={f.fileName} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white border border-gray-200 text-xs font-bold text-indigo-700 hover:bg-indigo-50">
                         <FileText className="w-3.5 h-3.5" />
                         <span>Payslip: {f.fileName}</span>
                       </a>
                     ))}
                     {selectedProposal.other_files?.map((f, i) => (
-                      <a key={f.id || i} href={f.base64 || f.fileUrl || "#"} download={f.fileName} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white border border-gray-200 text-xs font-bold text-gray-700 hover:bg-gray-100">
+                      <a key={f.id || i} href={f.fileUrl || (f.fileKey ? `/api/admin/attachments/view?key=${encodeURIComponent(f.fileKey)}` : f.base64 || "#")} download={f.fileName} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white border border-gray-200 text-xs font-bold text-gray-700 hover:bg-gray-100">
                         <FileText className="w-3.5 h-3.5" />
                         <span>Doc: {f.fileName}</span>
                       </a>

@@ -826,7 +826,7 @@ CREATE POLICY "Service role full access on bse_star_mf_accounts" ON public.bse_s
                     {selectedAccount.pan_files?.map((f, i) => (
                       <a
                         key={f.id || i}
-                        href={f.base64 || f.fileUrl || "#"}
+                        href={f.fileUrl || (f.fileKey ? `/api/admin/attachments/view?key=${encodeURIComponent(f.fileKey)}` : f.base64 || "#")}
                         download={f.fileName}
                         target="_blank"
                         rel="noreferrer"
@@ -839,7 +839,7 @@ CREATE POLICY "Service role full access on bse_star_mf_accounts" ON public.bse_s
                     {selectedAccount.aadhar_files?.map((f, i) => (
                       <a
                         key={f.id || i}
-                        href={f.base64 || f.fileUrl || "#"}
+                        href={f.fileUrl || (f.fileKey ? `/api/admin/attachments/view?key=${encodeURIComponent(f.fileKey)}` : f.base64 || "#")}
                         download={f.fileName}
                         target="_blank"
                         rel="noreferrer"
@@ -852,7 +852,7 @@ CREATE POLICY "Service role full access on bse_star_mf_accounts" ON public.bse_s
                     {selectedAccount.bank_files?.map((f, i) => (
                       <a
                         key={f.id || i}
-                        href={f.base64 || f.fileUrl || "#"}
+                        href={f.fileUrl || (f.fileKey ? `/api/admin/attachments/view?key=${encodeURIComponent(f.fileKey)}` : f.base64 || "#")}
                         download={f.fileName}
                         target="_blank"
                         rel="noreferrer"

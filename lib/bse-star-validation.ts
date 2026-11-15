@@ -8,6 +8,7 @@ export interface BseStarFileMeta {
   fileName: string;
   fileType: string;
   fileSize: number;
+  fileKey?: string;
   fileUrl?: string;
   base64?: string;
 }
