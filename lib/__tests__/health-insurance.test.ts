@@ -154,5 +154,52 @@ describe("Health Insurance Validation Suite", () => {
     expect(result.errors.nomineeBankAccountNumber).toBeUndefined();
     expect(result.sanitized.nomineeBankName).toBe("");
   });
+
+  it("requires all details (fullName, dob, gender, height, weight) for every family member in Step 2", () => {
+    const incompleteMembersProposal = {
+      proposerName: "Siva Goram",
+      proposerPan: "ABCDE1234F",
+      proposerDob: "1992-05-10",
+      proposerMobile: "9876543210",
+      proposerEmail: "siva@example.com",
+      proposerAddress: "Plot 101, Hyderabad 500032",
+      employmentStatus: "Salaried Employee (PF credit)" as const,
+      policyType: "New Policy" as const,
+      adultsCount: 2,
+      kidsCount: 1,
+      members: [
+        {
+          id: "member-1",
+          role: "Adult 1 (Self)" as const,
+          relation: "Self",
+          fullName: "Siva Goram",
+          dob: "1992-05-10",
+          gender: "Male" as const,
+          height: "178 cm",
+          weight: "74 kg",
+        },
+        {
+          id: "member-2",
+          role: "Adult 2" as const,
+          relation: "Wife",
+          fullName: "", // Missing
+          dob: "",      // Missing
+          gender: "" as any, // Missing
+          height: "",   // Missing
+          weight: "",   // Missing
+        },
+      ],
+      insuredEmail: "siva@example.com",
+      insuredMobile: "9876543210",
+    };
+
+    const result = validateHealthInsuranceProposal(incompleteMembersProposal, 2);
+    expect(result.isValid).toBe(false);
+    expect(result.errors.member_1_fullName).toBeDefined();
+    expect(result.errors.member_1_dob).toBeDefined();
+    expect(result.errors.member_1_gender).toBeDefined();
+    expect(result.errors.member_1_height).toBeDefined();
+    expect(result.errors.member_1_weight).toBeDefined();
+  });
 });
 

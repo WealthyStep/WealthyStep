@@ -286,6 +286,13 @@ export default function HealthInsuranceFormPage() {
     if (updated[index]) {
       updated[index] = { ...updated[index], [subField]: value };
       setFormData((prev) => ({ ...prev, members: updated }));
+      if (fieldErrors[`member_${index}_${subField}`]) {
+        setFieldErrors((prev) => {
+          const next = { ...prev };
+          delete next[`member_${index}_${subField}`];
+          return next;
+        });
+      }
     }
   };
 
@@ -1003,59 +1010,114 @@ END:VCARD`;
 
                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
                           <div className="sm:col-span-2">
-                            <label className="block text-[11px] font-semibold text-gray-600 mb-1">Full Name</label>
+                            <label className="block text-[11px] font-semibold text-gray-600 mb-1">
+                              Full Name <span className="text-rose-500">*</span>
+                            </label>
                             <input
                               type="text"
                               placeholder="Name as per legal ID"
                               value={member.fullName}
                               onChange={(e) => handleMemberChange(idx, "fullName", e.target.value)}
-                              className="w-full h-10 px-3 rounded-xl border border-gray-200 text-xs focus:outline-none focus:border-[#180D45]"
+                              className={`w-full h-10 px-3 rounded-xl border text-xs focus:outline-none transition-all ${
+                                fieldErrors[`member_${idx}_fullName`]
+                                  ? "border-rose-400 bg-rose-50/20 text-rose-950 focus:border-rose-500"
+                                  : "border-gray-200 focus:border-[#180D45]"
+                              }`}
                             />
+                            {fieldErrors[`member_${idx}_fullName`] && (
+                              <p className="text-[10px] text-rose-600 font-semibold mt-1">
+                                {fieldErrors[`member_${idx}_fullName`]}
+                              </p>
+                            )}
                           </div>
 
                           <div>
-                            <label className="block text-[11px] font-semibold text-gray-600 mb-1">Date of Birth</label>
+                            <label className="block text-[11px] font-semibold text-gray-600 mb-1">
+                              Date of Birth <span className="text-rose-500">*</span>
+                            </label>
                             <input
                               type="date"
                               value={member.dob}
                               onChange={(e) => handleMemberChange(idx, "dob", e.target.value)}
-                              className="w-full h-10 px-3 rounded-xl border border-gray-200 text-xs focus:outline-none focus:border-[#180D45]"
+                              className={`w-full h-10 px-3 rounded-xl border text-xs focus:outline-none transition-all ${
+                                fieldErrors[`member_${idx}_dob`]
+                                  ? "border-rose-400 bg-rose-50/20 text-rose-950 focus:border-rose-500"
+                                  : "border-gray-200 focus:border-[#180D45]"
+                              }`}
                             />
+                            {fieldErrors[`member_${idx}_dob`] && (
+                              <p className="text-[10px] text-rose-600 font-semibold mt-1">
+                                {fieldErrors[`member_${idx}_dob`]}
+                              </p>
+                            )}
                           </div>
 
                           <div>
-                            <label className="block text-[11px] font-semibold text-gray-600 mb-1">Gender</label>
+                            <label className="block text-[11px] font-semibold text-gray-600 mb-1">
+                              Gender <span className="text-rose-500">*</span>
+                            </label>
                             <select
                               value={member.gender}
                               onChange={(e) => handleMemberChange(idx, "gender", e.target.value)}
-                              className="w-full h-10 px-2.5 rounded-xl border border-gray-200 text-xs bg-white focus:outline-none focus:border-[#180D45]"
+                              className={`w-full h-10 px-2.5 rounded-xl border text-xs bg-white focus:outline-none transition-all ${
+                                fieldErrors[`member_${idx}_gender`]
+                                  ? "border-rose-400 bg-rose-50/20 text-rose-950 focus:border-rose-500"
+                                  : "border-gray-200 focus:border-[#180D45]"
+                              }`}
                             >
                               <option value="Male">Male</option>
                               <option value="Female">Female</option>
                               <option value="Other">Other</option>
                             </select>
+                            {fieldErrors[`member_${idx}_gender`] && (
+                              <p className="text-[10px] text-rose-600 font-semibold mt-1">
+                                {fieldErrors[`member_${idx}_gender`]}
+                              </p>
+                            )}
                           </div>
 
                           <div>
-                            <label className="block text-[11px] font-semibold text-gray-600 mb-1">Height (cm / ft-in)</label>
+                            <label className="block text-[11px] font-semibold text-gray-600 mb-1">
+                              Height (cm / ft-in) <span className="text-rose-500">*</span>
+                            </label>
                             <input
                               type="text"
                               placeholder="e.g. 175 cm or 5'9"
                               value={member.height}
                               onChange={(e) => handleMemberChange(idx, "height", e.target.value)}
-                              className="w-full h-10 px-3 rounded-xl border border-gray-200 text-xs focus:outline-none focus:border-[#180D45]"
+                              className={`w-full h-10 px-3 rounded-xl border text-xs focus:outline-none transition-all ${
+                                fieldErrors[`member_${idx}_height`]
+                                  ? "border-rose-400 bg-rose-50/20 text-rose-950 focus:border-rose-500"
+                                  : "border-gray-200 focus:border-[#180D45]"
+                              }`}
                             />
+                            {fieldErrors[`member_${idx}_height`] && (
+                              <p className="text-[10px] text-rose-600 font-semibold mt-1">
+                                {fieldErrors[`member_${idx}_height`]}
+                              </p>
+                            )}
                           </div>
 
                           <div>
-                            <label className="block text-[11px] font-semibold text-gray-600 mb-1">Weight (kg)</label>
+                            <label className="block text-[11px] font-semibold text-gray-600 mb-1">
+                              Weight (kg) <span className="text-rose-500">*</span>
+                            </label>
                             <input
                               type="text"
                               placeholder="e.g. 70 kg"
                               value={member.weight}
                               onChange={(e) => handleMemberChange(idx, "weight", e.target.value)}
-                              className="w-full h-10 px-3 rounded-xl border border-gray-200 text-xs focus:outline-none focus:border-[#180D45]"
+                              className={`w-full h-10 px-3 rounded-xl border text-xs focus:outline-none transition-all ${
+                                fieldErrors[`member_${idx}_weight`]
+                                  ? "border-rose-400 bg-rose-50/20 text-rose-950 focus:border-rose-500"
+                                  : "border-gray-200 focus:border-[#180D45]"
+                              }`}
                             />
+                            {fieldErrors[`member_${idx}_weight`] && (
+                              <p className="text-[10px] text-rose-600 font-semibold mt-1">
+                                {fieldErrors[`member_${idx}_weight`]}
+                              </p>
+                            )}
                           </div>
                         </div>
                       </div>

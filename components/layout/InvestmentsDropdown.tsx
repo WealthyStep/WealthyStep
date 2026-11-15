@@ -195,9 +195,9 @@ export function InvestmentsDropdown({ onItemClick }: InvestmentsDropdownProps) {
                 </div>
               </Link>
 
-              {/* 3. BSE Star Mutual Fund Account Creation */}
+              {/* 3. Mutual Fund Account Creation */}
               <Link
-                href="/bse-star-mutual-fund-form"
+                href="/mutual-funds-form"
                 onClick={onItemClick}
                 className="group block p-2.5 rounded-xl bg-gradient-to-r from-emerald-50 to-[#F6F8F2] border border-emerald-200/80 hover:border-emerald-400 hover:shadow-xs transition-all"
               >
@@ -205,7 +205,7 @@ export function InvestmentsDropdown({ onItemClick }: InvestmentsDropdownProps) {
                   <div className="flex items-center gap-2">
                     <span className="w-2 h-2 rounded-full bg-emerald-600 animate-pulse" />
                     <span className="text-xs font-black text-navy group-hover:text-emerald-700 transition-colors">
-                      BSE Star MF Account Opening Form
+                      Mutual Funds Account Opening Form
                     </span>
                   </div>
                   <span className="text-[10px] font-bold text-emerald-800 bg-white px-2 py-0.5 rounded border border-emerald-200 group-hover:bg-emerald-600 group-hover:text-white transition-colors">

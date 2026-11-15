@@ -247,23 +247,42 @@ export function validateHealthInsuranceProposal(
       weight: (m.weight || "").trim(),
     }));
 
-    // Check first member (Self)
-    if (membersList.length > 0) {
-      const firstMember = membersList[0];
-      if (!firstMember.fullName || firstMember.fullName.trim().length < 2) {
-        if (input.proposerName && input.proposerName.trim().length >= 2) {
-          firstMember.fullName = input.proposerName.trim();
+    // Check and validate all covered family members (Adults & Kids) as mandatory
+    sanitized.members.forEach((m: InsuredMember, idx: number) => {
+      const roleName = m.role || (m.relation ? `${m.relation}` : `Member #${idx + 1}`);
+
+      if (!m.fullName || m.fullName.trim().length < 2) {
+        if (idx === 0 && input.proposerName && input.proposerName.trim().length >= 2) {
+          m.fullName = input.proposerName.trim();
         } else {
-          errors.member_0_fullName = "Full name is required for primary insured member.";
+          errors[`member_${idx}_fullName`] = `Full name is required for ${roleName}.`;
         }
       }
-      if (!firstMember.dob && input.proposerDob) {
-        firstMember.dob = input.proposerDob;
+
+      if (!m.dob || !m.dob.trim()) {
+        if (idx === 0 && input.proposerDob) {
+          m.dob = input.proposerDob;
+        } else {
+          errors[`member_${idx}_dob`] = `Date of birth is required for ${roleName}.`;
+        }
       }
-      if (!firstMember.gender) {
-        firstMember.gender = "Male";
+
+      if (!m.gender) {
+        if (idx === 0) {
+          m.gender = "Male";
+        } else {
+          errors[`member_${idx}_gender`] = `Gender is required for ${roleName}.`;
+        }
       }
-    }
+
+      if (!m.height || !m.height.trim()) {
+        errors[`member_${idx}_height`] = `Height is required for ${roleName}.`;
+      }
+
+      if (!m.weight || !m.weight.trim()) {
+        errors[`member_${idx}_weight`] = `Weight is required for ${roleName}.`;
+      }
+    });
   }
 
   // Step 3 Validations
