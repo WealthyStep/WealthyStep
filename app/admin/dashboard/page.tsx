@@ -371,13 +371,84 @@ export default function AdminDashboardPage() {
     [authToken, getAuthHeaders, handleSessionExpired]
   );
 
+  // Fetch initial counts for navigation badges
+  const fetchBadgeCounts = useCallback(async () => {
+    if (!authToken) return;
+    try {
+      const headers = getAuthHeaders();
+      const [hRes, lRes, bRes, fRes] = await Promise.allSettled([
+        fetch("/api/admin/insurance-proposals/?limit=1", { headers, credentials: "include" }),
+        fetch("/api/admin/life-insurance-proposals/?limit=1", { headers, credentials: "include" }),
+        fetch("/api/admin/bse-star-accounts/?limit=1", { headers, credentials: "include" }),
+        fetch("/api/admin/feedback/?limit=1", { headers, credentials: "include" }),
+      ]);
+
+      if (hRes.status === "fulfilled" && hRes.value.ok) {
+        const d = await hRes.value.json();
+        if (d.proposals) setProposalsCount(d.total ?? d.proposals.length ?? 0);
+      }
+      if (lRes.status === "fulfilled" && lRes.value.ok) {
+        const d = await lRes.value.json();
+        if (d.total !== undefined) setLifeInsuranceCount(d.total);
+        else if (d.proposals) setLifeInsuranceCount(d.proposals.length);
+      }
+      if (bRes.status === "fulfilled" && bRes.value.ok) {
+        const d = await bRes.value.json();
+        if (d.total !== undefined) setBseStarCount(d.total);
+        else if (d.accounts) setBseStarCount(d.accounts.length);
+      }
+      if (fRes.status === "fulfilled" && fRes.value.ok) {
+        const d = await fRes.value.json();
+        if (d.feedback) setFeedbackCount(d.total ?? d.feedback.length ?? 0);
+      }
+    } catch {
+      // silent
+    }
+  }, [authToken, getAuthHeaders]);
+
   // Initial load once authToken is available
   useEffect(() => {
     if (authToken) {
       fetchClients();
       fetchStorageMetrics();
+      fetchBadgeCounts();
     }
-  }, [authToken, fetchClients, fetchStorageMetrics]);
+  }, [authToken, fetchClients, fetchStorageMetrics, fetchBadgeCounts]);
+
+  // Real-time listener for badge counts across all tables
+  useEffect(() => {
+    if (!authToken) return;
+
+    const channel = supabaseBrowser
+      .channel("realtime-dashboard-badges")
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "health_insurance_proposals" },
+        () => fetchBadgeCounts()
+      )
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "life_insurance_proposals" },
+        () => fetchBadgeCounts()
+      )
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "bse_star_mf_accounts" },
+        () => fetchBadgeCounts()
+      )
+      .subscribe();
+
+    const interval = setInterval(() => {
+      if (typeof document !== "undefined" && document.visibilityState === "visible") {
+        fetchBadgeCounts();
+      }
+    }, 20000);
+
+    return () => {
+      supabaseBrowser.removeChannel(channel);
+      clearInterval(interval);
+    };
+  }, [authToken, fetchBadgeCounts]);
 
   // Load audit tab when first switched to
   useEffect(() => {

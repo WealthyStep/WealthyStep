@@ -34,6 +34,7 @@ import {
   Database,
 } from "lucide-react";
 import { BseStarNominee, BseStarFileMeta } from "@/lib/bse-star-validation";
+import { supabaseBrowser } from "@/lib/supabase-browser";
 
 export interface BseStarAccountRecord {
   id: string;
@@ -133,10 +134,10 @@ export function BseStarAccountsTab({
   // Copied SQL state
   const [isSqlCopied, setIsSqlCopied] = useState(false);
 
-  // 1. Fetch Accounts
-  const fetchAccounts = useCallback(async () => {
+  // 1. Fetch Accounts (supports silent background sync for live updates)
+  const fetchAccounts = useCallback(async (isSilent = false) => {
     if (!authToken) return;
-    setIsLoading(true);
+    if (!isSilent) setIsLoading(true);
 
     try {
       const params = new URLSearchParams();
@@ -160,8 +161,8 @@ export function BseStarAccountsTab({
 
       if (!res.ok) {
         const err = await res.json();
-        showFeedback("error", err.error || "Failed to load BSE Star accounts");
-        setIsLoading(false);
+        if (!isSilent) showFeedback("error", err.error || "Failed to load BSE Star accounts");
+        if (!isSilent) setIsLoading(false);
         return;
       }
 
@@ -172,15 +173,42 @@ export function BseStarAccountsTab({
       }
     } catch (err: any) {
       console.error("fetchAccounts error:", err);
-      showFeedback("error", "Network error while loading BSE Star accounts");
+      if (!isSilent) showFeedback("error", "Network error while loading BSE Star accounts");
     } finally {
-      setIsLoading(false);
+      if (!isSilent) setIsLoading(false);
     }
   }, [authToken, searchQuery, statusFilter, kycFilter, handleSessionExpired, showFeedback, onTotalCountChange]);
 
   useEffect(() => {
     fetchAccounts();
   }, [fetchAccounts]);
+
+  // Real-time Supabase subscription + fallback polling
+  useEffect(() => {
+    if (!authToken) return;
+
+    const channel = supabaseBrowser
+      .channel("realtime-bse-star-accounts")
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "bse_star_mf_accounts" },
+        () => {
+          fetchAccounts(true);
+        }
+      )
+      .subscribe();
+
+    const interval = setInterval(() => {
+      if (typeof document !== "undefined" && document.visibilityState === "visible") {
+        fetchAccounts(true);
+      }
+    }, 15000);
+
+    return () => {
+      supabaseBrowser.removeChannel(channel);
+      clearInterval(interval);
+    };
+  }, [authToken, fetchAccounts]);
 
   // Status Update Helper
   const handleStatusUpdate = async (id: string, newStatus: string) => {
@@ -485,6 +513,10 @@ CREATE POLICY "Service role full access on bse_star_mf_accounts" ON public.bse_s
             <span className="px-2.5 py-0.5 rounded-full text-xs font-black bg-purple-100 text-purple-800">
               {accounts.length} Total
             </span>
+            <span className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+              Live Sync
+            </span>
           </div>
           <p className="text-xs text-gray-500 mt-1">
             Manage applicant KYC, bank accounts, nominee shares, follow-up notes, and export BSE Star onboardings.
@@ -495,7 +527,7 @@ CREATE POLICY "Service role full access on bse_star_mf_accounts" ON public.bse_s
         <div className="flex flex-wrap items-center gap-2">
           <button
             type="button"
-            onClick={fetchAccounts}
+            onClick={() => fetchAccounts()}
             className="p-2 rounded-xl border border-gray-200 text-gray-600 hover:bg-gray-100 transition-colors"
             title="Refresh"
           >

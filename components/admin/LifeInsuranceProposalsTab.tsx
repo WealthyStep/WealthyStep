@@ -29,6 +29,7 @@ import {
   Award,
 } from "lucide-react";
 import { LifeInsuranceFileMeta } from "@/lib/life-insurance-validation";
+import { supabaseBrowser } from "@/lib/supabase-browser";
 
 export interface LifeInsuranceProposalRecord {
   id: string;
@@ -160,10 +161,10 @@ export function LifeInsuranceProposalsTab({
   // Copied SQL state
   const [isSqlCopied, setIsSqlCopied] = useState(false);
 
-  // 1. Fetch Proposals
-  const fetchProposals = useCallback(async () => {
+  // 1. Fetch Proposals (supports silent background sync for live updates)
+  const fetchProposals = useCallback(async (isSilent = false) => {
     if (!authToken) return;
-    setIsLoading(true);
+    if (!isSilent) setIsLoading(true);
 
     try {
       const params = new URLSearchParams();
@@ -187,8 +188,8 @@ export function LifeInsuranceProposalsTab({
 
       if (!res.ok) {
         const err = await res.json();
-        showFeedback("error", err.error || "Failed to load life insurance proposals");
-        setIsLoading(false);
+        if (!isSilent) showFeedback("error", err.error || "Failed to load life insurance proposals");
+        if (!isSilent) setIsLoading(false);
         return;
       }
 
@@ -199,15 +200,42 @@ export function LifeInsuranceProposalsTab({
       }
     } catch (err: any) {
       console.error("fetchProposals error:", err);
-      showFeedback("error", "Network error while loading life insurance proposals");
+      if (!isSilent) showFeedback("error", "Network error while loading life insurance proposals");
     } finally {
-      setIsLoading(false);
+      if (!isSilent) setIsLoading(false);
     }
   }, [authToken, searchQuery, statusFilter, empFilter, handleSessionExpired, showFeedback, onTotalCountChange]);
 
   useEffect(() => {
     fetchProposals();
   }, [fetchProposals]);
+
+  // Real-time Supabase subscription + fallback polling
+  useEffect(() => {
+    if (!authToken) return;
+
+    const channel = supabaseBrowser
+      .channel("realtime-life-insurance-proposals")
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "life_insurance_proposals" },
+        () => {
+          fetchProposals(true);
+        }
+      )
+      .subscribe();
+
+    const interval = setInterval(() => {
+      if (typeof document !== "undefined" && document.visibilityState === "visible") {
+        fetchProposals(true);
+      }
+    }, 15000);
+
+    return () => {
+      supabaseBrowser.removeChannel(channel);
+      clearInterval(interval);
+    };
+  }, [authToken, fetchProposals]);
 
   // Status Update Helper
   const handleStatusUpdate = async (id: string, newStatus: string) => {
@@ -534,6 +562,10 @@ CREATE POLICY "Service role full access on life_insurance_proposals" ON public.l
             <span className="px-2.5 py-0.5 rounded-full text-xs font-black bg-emerald-100 text-emerald-800">
               {proposals.length} Total
             </span>
+            <span className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+              Live Sync
+            </span>
           </div>
           <p className="text-xs text-gray-500 mt-1">
             Review proposer financial eligibility, corporate salary profiles, medical disclosures, nominees, and documents.
@@ -544,7 +576,7 @@ CREATE POLICY "Service role full access on life_insurance_proposals" ON public.l
         <div className="flex flex-wrap items-center gap-2">
           <button
             type="button"
-            onClick={fetchProposals}
+            onClick={() => fetchProposals()}
             className="p-2 rounded-xl border border-gray-200 text-gray-600 hover:bg-gray-100 transition-colors"
             title="Refresh"
           >
