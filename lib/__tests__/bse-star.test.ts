@@ -174,4 +174,13 @@ describe("BSE Star Mutual Fund Account Creation Validation Suite", () => {
       expect(sanitizeDigits("1234-5678-9012", 12)).toBe("123456789012");
     });
   });
+
+  describe("Mutual Funds Validation Re-export Compatibility", () => {
+    it("should validate seamlessly via validateMutualFundAccountOpening alias", async () => {
+      const { validateMutualFundAccountOpening } = await import("../mutual-funds-validation");
+      const res = validateMutualFundAccountOpening(validPayload);
+      expect(res.isValid).toBe(true);
+      expect(Object.keys(res.errors).length).toBe(0);
+    });
+  });
 });
