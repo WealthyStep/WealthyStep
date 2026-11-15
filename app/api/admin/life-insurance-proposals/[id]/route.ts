@@ -23,7 +23,22 @@ export async function GET(
       .maybeSingle();
 
     if (proposal) {
-      return NextResponse.json({ proposal });
+      const mapped = {
+        ...proposal,
+        status:
+          proposal.status === "new"
+            ? "New"
+            : proposal.status === "under_review"
+            ? "Under Review"
+            : proposal.status === "medical_pending"
+            ? "Medical Scheduled"
+            : proposal.status === "policy_issued"
+            ? "Policy Issued"
+            : proposal.status === "rejected"
+            ? "Rejected"
+            : proposal.status || "New",
+      };
+      return NextResponse.json({ proposal: mapped });
     }
 
     // 2. Audit Log Fallback
@@ -140,25 +155,28 @@ export async function PATCH(
         updated_at: new Date().toISOString(),
       };
 
-      if (body.status !== undefined) updates.status = body.status;
-      if (body.priority !== undefined) updates.priority = body.priority;
-      if (body.admin_notes !== undefined) updates.admin_notes = body.admin_notes;
+      if (body.status !== undefined) {
+        const statusMap: Record<string, string> = {
+          "New": "new",
+          "new": "new",
+          "Under Review": "under_review",
+          "under_review": "under_review",
+          "Medical Scheduled": "medical_pending",
+          "medical_pending": "medical_pending",
+          "Policy Issued": "policy_issued",
+          "policy_issued": "policy_issued",
+          "Rejected": "rejected",
+          "rejected": "rejected",
+        };
+        updates.status = statusMap[body.status] || body.status.toLowerCase();
+      }
 
       if (body.newFollowupNote) {
-        const existingFollowups = Array.isArray(dbExisting.followup_notes)
-          ? dbExisting.followup_notes
-          : [];
-
-        const newEntry = {
-          id: `fn-${Date.now()}`,
-          text: String(body.newFollowupNote).trim(),
-          createdAt: new Date().toISOString(),
-          author: auth.user.email || "Admin",
-        };
-
-        updates.followup_notes = [newEntry, ...existingFollowups];
-      } else if (body.followup_notes !== undefined) {
-        updates.followup_notes = body.followup_notes;
+        const timestamp = new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
+        const noteLine = `[${timestamp} | ${auth.user.email || "Admin"}]: ${String(body.newFollowupNote).trim()}`;
+        updates.notes = dbExisting.notes ? `${noteLine}\n\n${dbExisting.notes}` : noteLine;
+      } else if (body.admin_notes !== undefined || body.notes !== undefined) {
+        updates.notes = body.notes ?? body.admin_notes;
       }
 
       const { data: updated, error: updateErr } = await supabaseServer

@@ -89,6 +89,8 @@ export interface LifeInsuranceProposalRecord {
   payslip_files: LifeInsuranceFileMeta[];
   other_files: LifeInsuranceFileMeta[];
   client_notes?: string;
+  notes?: string;
+  proposal_ref?: string;
 
   status: string;
   priority: string;
@@ -114,11 +116,16 @@ interface LifeInsuranceProposalsTabProps {
 
 const STATUS_COLORS: Record<string, { bg: string; text: string; border: string }> = {
   New: { bg: "bg-blue-50", text: "text-blue-700", border: "border-blue-200" },
+  new: { bg: "bg-blue-50", text: "text-blue-700", border: "border-blue-200" },
   "Under Review": { bg: "bg-amber-50", text: "text-amber-700", border: "border-amber-200" },
+  under_review: { bg: "bg-amber-50", text: "text-amber-700", border: "border-amber-200" },
   "Medical Scheduled": { bg: "bg-purple-50", text: "text-purple-700", border: "border-purple-200" },
+  medical_pending: { bg: "bg-purple-50", text: "text-purple-700", border: "border-purple-200" },
   "Policy Issued": { bg: "bg-emerald-50", text: "text-emerald-700", border: "border-emerald-200" },
+  policy_issued: { bg: "bg-emerald-50", text: "text-emerald-700", border: "border-emerald-200" },
   "Follow-up Needed": { bg: "bg-orange-50", text: "text-orange-700", border: "border-orange-200" },
   Rejected: { bg: "bg-rose-50", text: "text-rose-700", border: "border-rose-200" },
+  rejected: { bg: "bg-rose-50", text: "text-rose-700", border: "border-rose-200" },
 };
 
 export function LifeInsuranceProposalsTab({
@@ -971,6 +978,12 @@ CREATE POLICY "Service role full access on life_insurance_proposals" ON public.l
                 </div>
 
                 <div className="space-y-2 max-h-48 overflow-y-auto pt-2">
+                  {selectedProposal.notes && (
+                    <div className="p-2.5 rounded-xl bg-blue-50/60 border border-blue-100 text-xs whitespace-pre-line text-gray-800 mb-2">
+                      <span className="font-bold text-[#180D45] block mb-1">Internal Notes:</span>
+                      {selectedProposal.notes}
+                    </div>
+                  )}
                   {selectedProposal.followup_notes && selectedProposal.followup_notes.length > 0 ? (
                     selectedProposal.followup_notes.map((fn) => (
                       <div key={fn.id} className="p-2.5 rounded-xl bg-gray-50 border border-gray-200 text-xs">
@@ -981,9 +994,9 @@ CREATE POLICY "Service role full access on life_insurance_proposals" ON public.l
                         <p className="text-gray-700">{fn.text}</p>
                       </div>
                     ))
-                  ) : (
+                  ) : !selectedProposal.notes ? (
                     <p className="text-gray-400 italic text-center py-2">No follow-up notes logged yet.</p>
-                  )}
+                  ) : null}
                 </div>
               </div>
             </div>

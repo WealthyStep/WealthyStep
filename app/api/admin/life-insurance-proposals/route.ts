@@ -22,7 +22,8 @@ export async function GET(request: Request) {
       .order("created_at", { ascending: false });
 
     if (status && status !== "ALL") {
-      dbQuery = dbQuery.eq("status", status);
+      const lower = status.toLowerCase();
+      dbQuery = dbQuery.or(`status.eq.${status},status.eq.${lower}`);
     }
     if (employmentType && employmentType !== "ALL") {
       dbQuery = dbQuery.eq("employment_type", employmentType);
@@ -148,9 +149,25 @@ export async function GET(request: Request) {
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
+    const mappedProposals = (proposals || []).map((p: any) => ({
+      ...p,
+      status:
+        p.status === "new"
+          ? "New"
+          : p.status === "under_review"
+          ? "Under Review"
+          : p.status === "medical_pending"
+          ? "Medical Scheduled"
+          : p.status === "policy_issued"
+          ? "Policy Issued"
+          : p.status === "rejected"
+          ? "Rejected"
+          : p.status || "New",
+    }));
+
     return NextResponse.json({
-      proposals: proposals || [],
-      total: proposals ? proposals.length : 0,
+      proposals: mappedProposals,
+      total: mappedProposals.length,
       source: "primary_db",
     });
   } catch (err: any) {

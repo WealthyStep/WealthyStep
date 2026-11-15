@@ -128,7 +128,8 @@ export async function POST(request: Request) {
       timeZone: "Asia/Kolkata",
     }).format(new Date());
 
-    let proposalId = `ws-lip-${Date.now().toString(36)}`;
+    const recordId = `WS-LIP-${Date.now().toString(36).toUpperCase()}`;
+    let proposalId = recordId;
     let persistedVia = "primary_db";
 
     // 5. Database Insertion with Fail-Safe Fallbacks
@@ -136,6 +137,7 @@ export async function POST(request: Request) {
       const { data: inserted, error: dbError } = await supabaseServer
         .from("life_insurance_proposals")
         .insert({
+          proposal_ref: recordId,
           full_name: sanitized.fullName,
           proposer_email: sanitized.proposerEmail,
           proposer_mobile: sanitized.proposerMobile,
@@ -168,6 +170,7 @@ export async function POST(request: Request) {
           nominee_relation: sanitized.nomineeRelation,
           nominee_dob: sanitized.nomineeDob,
           nominee_address_option: sanitized.nomineeAddressOption,
+          nominee_custom_address: sanitized.nomineeCustomAddress || "",
           nominee_address: sanitized.nomineeAddress,
           nominee_mobile: sanitized.nomineeMobile,
           nominee_email: sanitized.nomineeEmail,
@@ -196,11 +199,8 @@ export async function POST(request: Request) {
 
           consent_contact_accepted: sanitized.consentContactAccepted,
           consent_disclosure_accepted: sanitized.consentDisclosureAccepted,
-          status: "New",
-          priority: "Medium",
-          admin_notes: "",
-          followup_notes: [],
-          source: "Life Insurance Form",
+          status: "new",
+          notes: "",
           ip_address: ipAddress,
           user_agent: userAgent,
           created_at: submissionTime,
