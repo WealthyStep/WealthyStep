@@ -18,7 +18,12 @@ export async function GET(request: Request) {
     }
 
     // Security Check: prevent directory traversal or accessing arbitrary paths
-    if (!key.startsWith("attachments/") && !key.startsWith("policies/")) {
+    if (
+      (!key.startsWith("attachments/") && !key.startsWith("policies/")) ||
+      key.includes("..") ||
+      key.includes("\0") ||
+      /[<>:"\\|?*]/.test(key)
+    ) {
       return NextResponse.json({ error: "Unauthorized file access." }, { status: 403 });
     }
 
@@ -32,8 +37,10 @@ export async function GET(request: Request) {
         "Content-Type": contentType || "application/octet-stream",
         "Content-Disposition": `${dispositionType}; filename="${encodeURIComponent(fileName)}"`,
         "Content-Length": String(contentLength || buffer.length),
-        "Cache-Control": "private, max-age=3600",
+        "Cache-Control": "private, no-transform, max-age=3600",
+        "X-Content-Type-Options": "nosniff",
         "X-Frame-Options": "SAMEORIGIN",
+        "Content-Security-Policy": "default-src 'none'; sandbox",
       },
     });
   } catch (err: any) {
@@ -41,3 +48,4 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: "Failed to retrieve attachment from storage." }, { status: 404 });
   }
 }
+

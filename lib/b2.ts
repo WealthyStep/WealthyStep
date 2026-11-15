@@ -109,6 +109,25 @@ export async function uploadBase64FileToB2(
     const base64Data = fileItem.base64.replace(/^data:[^;]+;base64,/, "");
     const buffer = Buffer.from(base64Data, "base64");
 
+    // 1. Strict Size Limit Enforcement (10 MB)
+    if (buffer.length > 10 * 1024 * 1024) {
+      console.warn(`[File Upload Rejected] File exceeds 10 MB limit: ${cleanName}`);
+      throw new Error(`File "${cleanName}" exceeds 10 MB limit.`);
+    }
+
+    // 2. Allowed Extensions & MIME verification
+    const allowedExts = /\.(pdf|jpg|jpeg|png|webp|doc|docx)$/i;
+    if (!cleanName.match(allowedExts)) {
+      console.warn(`[File Upload Rejected] Unsupported file extension: ${cleanName}`);
+      throw new Error(`File "${cleanName}" has an unsupported format.`);
+    }
+
+    // 3. Magic Bytes File Signature Verification
+    if (cleanName.endsWith(".pdf") && (buffer.length < 4 || buffer.subarray(0, 4).toString("ascii") !== "%PDF")) {
+      console.warn(`[File Upload Rejected] Malformed PDF signature: ${cleanName}`);
+      throw new Error(`File "${cleanName}" is not a valid PDF document.`);
+    }
+
     await uploadBufferToB2(buffer, fileKey, mimeType);
 
     // Return clean metadata WITHOUT the heavy base64 string (saving 99.9% database space!)
