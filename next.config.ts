@@ -115,6 +115,26 @@ const nextConfig: NextConfig = {
         destination: '/participant-form/',
         permanent: true,
       },
+      {
+        source: '/bse-star-mutual-fund-form',
+        destination: '/mutual-funds-form/',
+        permanent: true,
+      },
+      {
+        source: '/bse-star-mutual-fund-form/',
+        destination: '/mutual-funds-form/',
+        permanent: true,
+      },
+      {
+        source: '/bse-star-form',
+        destination: '/mutual-funds-form/',
+        permanent: true,
+      },
+      {
+        source: '/bse-star-form/',
+        destination: '/mutual-funds-form/',
+        permanent: true,
+      },
 
       // Legacy WordPress Uploads & Media Assets
       {
