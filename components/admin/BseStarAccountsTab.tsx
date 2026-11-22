@@ -149,7 +149,7 @@ export function BseStarAccountsTab({
       if (authToken && authToken !== "cookie-authenticated") {
         authHeaders["Authorization"] = `Bearer ${authToken}`;
       }
-      const res = await fetch(`/api/admin/mutual-fund-accounts/?${params.toString()}`, {
+      const res = await fetch(`/api/admin/bse-star-accounts/?${params.toString()}`, {
         headers: authHeaders,
         credentials: "include",
       });
@@ -161,7 +161,7 @@ export function BseStarAccountsTab({
 
       if (!res.ok) {
         const err = await res.json();
-        if (!isSilent) showFeedback("error", err.error || "Failed to load Mutual Fund accounts");
+        if (!isSilent) showFeedback("error", err.error || "Failed to load BSE Star accounts");
         if (!isSilent) setIsLoading(false);
         return;
       }
@@ -173,7 +173,7 @@ export function BseStarAccountsTab({
       }
     } catch (err: any) {
       console.error("fetchAccounts error:", err);
-      if (!isSilent) showFeedback("error", "Network error while loading Mutual Fund accounts");
+      if (!isSilent) showFeedback("error", "Network error while loading BSE Star accounts");
     } finally {
       if (!isSilent) setIsLoading(false);
     }
@@ -219,7 +219,7 @@ export function BseStarAccountsTab({
       if (authToken && authToken !== "cookie-authenticated") {
         authHeaders["Authorization"] = `Bearer ${authToken}`;
       }
-      const res = await fetch(`/api/admin/mutual-fund-accounts/${id}/`, {
+      const res = await fetch(`/api/admin/bse-star-accounts/${id}/`, {
         method: "PATCH",
         headers: authHeaders,
         credentials: "include",
@@ -258,7 +258,7 @@ export function BseStarAccountsTab({
       if (authToken && authToken !== "cookie-authenticated") {
         authHeaders["Authorization"] = `Bearer ${authToken}`;
       }
-      const res = await fetch(`/api/admin/mutual-fund-accounts/${selectedAccount.id}/`, {
+      const res = await fetch(`/api/admin/bse-star-accounts/${selectedAccount.id}/`, {
         method: "PATCH",
         headers: authHeaders,
         credentials: "include",
@@ -300,7 +300,7 @@ export function BseStarAccountsTab({
       if (authToken && authToken !== "cookie-authenticated") {
         authHeaders["Authorization"] = `Bearer ${authToken}`;
       }
-      const res = await fetch(`/api/admin/mutual-fund-accounts/${accountToDelete.id}/`, {
+      const res = await fetch(`/api/admin/bse-star-accounts/${accountToDelete.id}/`, {
         method: "DELETE",
         headers: authHeaders,
         credentials: "include",
@@ -387,7 +387,7 @@ export function BseStarAccountsTab({
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement("a");
     link.setAttribute("href", encodedUri);
-    link.setAttribute("download", `mutual-fund-accounts-${new Date().toISOString().slice(0, 10)}.csv`);
+    link.setAttribute("download", `bse-star-mf-accounts-${new Date().toISOString().slice(0, 10)}.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -403,7 +403,7 @@ export function BseStarAccountsTab({
     const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(accounts, null, 2));
     const dlAnchor = document.createElement("a");
     dlAnchor.setAttribute("href", dataStr);
-    dlAnchor.setAttribute("download", `mutual-fund-accounts-${new Date().toISOString().slice(0, 10)}.json`);
+    dlAnchor.setAttribute("download", `bse-star-mf-accounts-${new Date().toISOString().slice(0, 10)}.json`);
     document.body.appendChild(dlAnchor);
     dlAnchor.click();
     dlAnchor.remove();
@@ -418,7 +418,7 @@ export function BseStarAccountsTab({
       const parsed = JSON.parse(importJsonText);
       const items = Array.isArray(parsed) ? parsed : [parsed];
 
-      const res = await fetch("/api/admin/mutual-fund-accounts/", {
+      const res = await fetch("/api/admin/bse-star-accounts/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -448,7 +448,7 @@ export function BseStarAccountsTab({
 
   // Copy Supabase SQL
   const handleCopySql = () => {
-    const sqlCode = `-- Supabase Table Creation Script for Mutual Fund Accounts
+    const sqlCode = `-- Supabase Table Creation Script for BSE Star Mutual Fund Accounts
 CREATE TABLE IF NOT EXISTS public.bse_star_mf_accounts (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     full_name TEXT NOT NULL,
@@ -509,7 +509,7 @@ CREATE POLICY "Service role full access on bse_star_mf_accounts" ON public.bse_s
             <span className="p-2 rounded-xl bg-purple-50 text-purple-700">
               <TrendingUp className="w-5 h-5" />
             </span>
-            <h2 className="text-base font-black text-[#180D45]">Mutual Fund Accounts</h2>
+            <h2 className="text-base font-black text-[#180D45]">BSE Star Mutual Fund Accounts</h2>
             <span className="px-2.5 py-0.5 rounded-full text-xs font-black bg-purple-100 text-purple-800">
               {accounts.length} Total
             </span>
@@ -519,7 +519,7 @@ CREATE POLICY "Service role full access on bse_star_mf_accounts" ON public.bse_s
             </span>
           </div>
           <p className="text-xs text-gray-500 mt-1">
-            Manage applicant KYC, bank accounts, nominee shares, follow-up notes, and export mutual fund onboardings.
+            Manage applicant KYC, bank accounts, nominee shares, follow-up notes, and export BSE Star onboardings.
           </p>
         </div>
 
@@ -618,7 +618,7 @@ CREATE POLICY "Service role full access on bse_star_mf_accounts" ON public.bse_s
         {isLoading ? (
           <div className="p-12 text-center text-xs text-gray-500">
             <div className="w-6 h-6 border-2 border-[#180D45] border-t-transparent rounded-full animate-spin mx-auto mb-2" />
-            Loading Mutual Fund applications...
+            Loading BSE Star Mutual Fund applications...
           </div>
         ) : accounts.length === 0 ? (
           <div className="p-12 text-center text-xs text-gray-500">
@@ -734,7 +734,7 @@ CREATE POLICY "Service role full access on bse_star_mf_accounts" ON public.bse_s
 
                           <a
                             href={`https://wa.me/91${acc.mobile}?text=${encodeURIComponent(
-                              `Hello ${acc.full_name}, this is from Wealthy Step regarding your Mutual Fund account creation.`
+                              `Hello ${acc.full_name}, this is from Wealthy Step regarding your BSE Star MF account creation.`
                             )}`}
                             target="_blank"
                             rel="noopener noreferrer"
@@ -932,7 +932,7 @@ CREATE POLICY "Service role full access on bse_star_mf_accounts" ON public.bse_s
                 <div className="flex gap-2">
                   <input
                     type="text"
-                    placeholder="Add follow-up notes (e.g. signature verified, PAN verified with KRA...)"
+                    placeholder="Add follow-up notes (e.g. BSE signature verified, PAN verified with KRA...)"
                     value={newFollowupText}
                     onChange={(e) => setNewFollowupText(e.target.value)}
                     onKeyDown={(e) => e.key === "Enter" && handleAddFollowup()}
@@ -1028,7 +1028,7 @@ CREATE POLICY "Service role full access on bse_star_mf_accounts" ON public.bse_s
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-fade-in">
           <div className="bg-white rounded-3xl max-w-xl w-full p-6 space-y-4 shadow-xl border border-gray-100">
             <div className="flex items-center justify-between border-b border-gray-100 pb-3">
-              <h4 className="text-base font-black text-[#180D45]">Import Mutual Fund Accounts</h4>
+              <h4 className="text-base font-black text-[#180D45]">Import BSE Star MF Accounts</h4>
               <button
                 type="button"
                 onClick={() => setIsImportModalOpen(false)}
@@ -1038,7 +1038,7 @@ CREATE POLICY "Service role full access on bse_star_mf_accounts" ON public.bse_s
               </button>
             </div>
             <p className="text-xs text-gray-500">
-              Paste JSON array of mutual fund account objects to bulk import them into the system.
+              Paste JSON array of BSE Star MF account objects to bulk import them into the system.
             </p>
             <textarea
               rows={8}

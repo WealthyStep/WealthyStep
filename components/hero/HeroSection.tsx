@@ -8,7 +8,7 @@ import {
   ArrowRight,
   ShieldCheck,
   CheckCircle2,
-  Handshake,
+  FileText,
   Users2,
   Lock,
   ChevronRight,
@@ -19,7 +19,7 @@ import {
 
 /* ────────────────────────────────────────────────────────────
    SERVICE CARDS DATA (01 to 05)
-   Restored to original high-converting 2x2 + foundation UI
+   Exact match to the approved Wealthy Step Homepage Hero UI
    ──────────────────────────────────────────────────────────── */
 interface ServiceCardData {
   id: string;
@@ -49,10 +49,10 @@ const SERVICE_CARDS: ServiceCardData[] = [
     href: "/services/investments/global-investments/",
     colorScheme: {
       orderColor: "text-sky-500",
-      cardBg: "bg-gradient-to-br from-white/95 via-[#F1F7FD]/90 to-[#E3F0FC]/75",
+      cardBg: "bg-gradient-to-br from-white via-[#F5F9FD] to-[#EAF2FB]",
       cardBorder: "border-sky-100/90",
       cardHoverBorder: "hover:border-sky-300",
-      shadow: "shadow-[0_6px_20px_-4px_rgba(14,165,233,0.12)]",
+      shadow: "shadow-[0_6px_20px_-4px_rgba(14,165,233,0.10)]",
     },
   },
   {
@@ -65,10 +65,10 @@ const SERVICE_CARDS: ServiceCardData[] = [
     href: "/services/investments/indian-investments/",
     colorScheme: {
       orderColor: "text-emerald-500",
-      cardBg: "bg-gradient-to-br from-white/95 via-[#F0FDF4]/90 to-[#DCFCE7]/75",
+      cardBg: "bg-gradient-to-br from-white via-[#F6FBF7] to-[#EDF7EF]",
       cardBorder: "border-emerald-100/90",
       cardHoverBorder: "hover:border-emerald-300",
-      shadow: "shadow-[0_6px_20px_-4px_rgba(16,185,129,0.12)]",
+      shadow: "shadow-[0_6px_20px_-4px_rgba(16,185,129,0.10)]",
     },
   },
   {
@@ -81,10 +81,10 @@ const SERVICE_CARDS: ServiceCardData[] = [
     href: "/services/insurance/group-insurance/",
     colorScheme: {
       orderColor: "text-purple-600",
-      cardBg: "bg-gradient-to-br from-white/95 via-[#FAF5FF]/90 to-[#F3E8FF]/75",
+      cardBg: "bg-gradient-to-br from-white via-[#FAF7FD] to-[#F3EDFB]",
       cardBorder: "border-purple-100/90",
       cardHoverBorder: "hover:border-purple-300",
-      shadow: "shadow-[0_6px_20px_-4px_rgba(147,51,234,0.12)]",
+      shadow: "shadow-[0_6px_20px_-4px_rgba(147,51,234,0.10)]",
     },
   },
   {
@@ -96,11 +96,11 @@ const SERVICE_CARDS: ServiceCardData[] = [
     imageAlt: "3D Airplane and sedan vehicle - Motor and Travel Insurance",
     href: "/services/insurance/general-insurance/",
     colorScheme: {
-      orderColor: "text-amber-600",
-      cardBg: "bg-gradient-to-br from-white/95 via-[#FFF7ED]/90 to-[#FFEDD5]/75",
+      orderColor: "text-amber-500",
+      cardBg: "bg-gradient-to-br from-white via-[#FDF9F5] to-[#FBF2EA]",
       cardBorder: "border-amber-100/90",
       cardHoverBorder: "hover:border-amber-300",
-      shadow: "shadow-[0_6px_20px_-4px_rgba(245,158,11,0.12)]",
+      shadow: "shadow-[0_6px_20px_-4px_rgba(245,158,11,0.10)]",
     },
   },
 ];
@@ -114,11 +114,11 @@ const COMMERCIAL_CARD: ServiceCardData = {
   imageAlt: "3D Modern glass headquarters - Commercial Insurance",
   href: "/services/insurance/commercial-insurance/",
   colorScheme: {
-    orderColor: "text-emerald-600",
-    cardBg: "bg-gradient-to-r from-white/95 via-[#F0FDF4]/90 to-[#E6F4EA]/80",
-    cardBorder: "border-emerald-100/90",
-    cardHoverBorder: "hover:border-emerald-300",
-    shadow: "shadow-[0_6px_20px_-4px_rgba(16,185,129,0.12)]",
+    orderColor: "text-teal-600",
+    cardBg: "bg-gradient-to-r from-white via-[#F5FAFA] to-[#EDF6F6]",
+    cardBorder: "border-teal-100/90",
+    cardHoverBorder: "hover:border-teal-300",
+    shadow: "shadow-[0_6px_20px_-4px_rgba(20,184,166,0.10)]",
   },
 };
 
@@ -128,7 +128,7 @@ const TRUST_METRICS = [
     label: "Trusted & Transparent Services",
   },
   {
-    icon: Handshake,
+    icon: FileText,
     label: "Wide Range of Investment & Insurance Solutions",
   },
   {
@@ -146,7 +146,7 @@ export function HeroSection() {
   const [isHealthModalOpen, setIsHealthModalOpen] = useState(false);
 
   return (
-    <section className="relative bg-[#F5F9FD] text-[#180D45] overflow-hidden border-b border-gray-200/70 pt-1.5 pb-0 sm:pt-2.5 sm:pb-0 lg:pt-3.5">
+    <section className="relative bg-[#F5F9FD] text-[#180D45] overflow-hidden border-b border-gray-200/70 pt-2 pb-0 sm:pt-4 sm:pb-0 lg:pt-5">
       
       {/* ── 1. MASTER FINTECH DAYLIGHT BACKGROUND ARTWORK ── */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden select-none z-0">
@@ -195,7 +195,7 @@ export function HeroSection() {
       <div className="container mx-auto max-w-[1360px] px-3.5 sm:px-6 lg:px-8 relative z-10">
         
         {/* ── 2. MAIN HERO TWO-COLUMN COMPOSITION (Responsive: Mobile Stack • Desktop 12-Col) ── */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-8 xl:gap-12 items-center pt-1.5 sm:pt-4 pb-5 sm:pb-8 lg:pb-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-8 xl:gap-12 items-center pt-2 sm:pt-4 pb-6 sm:pb-8 lg:pb-10">
           
           {/* ══════════════════════════════════════════════════════════
               LEFT SIDE: BRAND HEADLINE, PITCH & SIDE-BY-SIDE PILL CTAS
@@ -207,16 +207,14 @@ export function HeroSection() {
               initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: -6 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3 }}
-              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/95 border border-emerald-300/80 shadow-2xs backdrop-blur-md w-fit mb-2 sm:mb-2.5"
+              className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/95 border border-emerald-400/80 shadow-2xs backdrop-blur-md w-fit mb-3 sm:mb-3.5"
             >
-              <div className="w-3.5 h-3.5 rounded-full bg-emerald-500 text-white flex items-center justify-center shrink-0">
-                <CheckCircle2 className="w-3 h-3" />
-              </div>
-              <span className="text-[11px] sm:text-xs font-bold text-[#180D45] tracking-tight">
+              <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />
+              <span className="text-xs sm:text-[13px] font-bold text-[#180D45] tracking-tight">
                 Trusted Financial Services
               </span>
-              <span className="text-gray-300 hidden sm:inline">•</span>
-              <span className="text-[10px] sm:text-[11px] font-semibold text-emerald-800 font-mono hidden sm:inline">
+              <span className="text-emerald-500 font-bold">•</span>
+              <span className="text-xs sm:text-[13px] font-bold text-emerald-700 font-mono">
                 ARN-322891
               </span>
             </motion.div>
@@ -226,7 +224,7 @@ export function HeroSection() {
               initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.35, delay: 0.05 }}
-              className="text-3xl sm:text-4xl md:text-[40px] xl:text-[48px] font-black tracking-tight leading-[1.1] text-[#180D45] mb-2 sm:mb-2.5"
+              className="text-3xl sm:text-4xl md:text-[42px] xl:text-[50px] font-black tracking-tight leading-[1.1] text-[#180D45] mb-2 sm:mb-3"
             >
               <span>Your Financial World.</span>
               <br />
@@ -238,7 +236,7 @@ export function HeroSection() {
               initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 6 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.35, delay: 0.1 }}
-              className="text-sm sm:text-base md:text-lg font-bold text-[#180D45]/90 leading-snug mb-2 sm:mb-2.5"
+              className="text-sm sm:text-base md:text-lg font-bold text-[#180D45] leading-snug mb-2 sm:mb-3"
             >
               Investment &amp; Insurance Services for Individuals, Families &amp; Businesses.
             </motion.h2>
@@ -248,7 +246,7 @@ export function HeroSection() {
               initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 6 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.35, delay: 0.15 }}
-              className="text-xs sm:text-sm md:text-[14px] text-gray-600 font-normal leading-relaxed max-w-lg mb-4 sm:mb-5"
+              className="text-xs sm:text-sm md:text-[14px] text-gray-600 font-normal leading-relaxed max-w-lg mb-5 sm:mb-6"
             >
               Explore investment opportunities across Indian and global markets, along with
               insurance solutions for individuals, families, employees and businesses.
@@ -264,7 +262,7 @@ export function HeroSection() {
               {/* Primary CTA */}
               <Link
                 href="#services"
-                className="inline-flex items-center justify-center gap-2 px-5 sm:px-6 py-2.5 sm:py-3 rounded-full bg-[#180D45] hover:bg-[#240C7A] text-white text-xs sm:text-sm font-bold transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 cursor-pointer shrink-0"
+                className="inline-flex items-center justify-center gap-2 px-6 sm:px-7 py-3 rounded-full bg-[#180D45] hover:bg-[#240C7A] text-white text-xs sm:text-sm font-bold transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 cursor-pointer shrink-0"
               >
                 <Compass className="w-4 h-4 text-[#84BD3C] shrink-0" />
                 <span>Explore Our Services</span>
@@ -274,7 +272,7 @@ export function HeroSection() {
               {/* Secondary CTA (Side-by-Side Matching Pill) */}
               <Link
                 href="/contact"
-                className="inline-flex items-center justify-center gap-2 px-5 sm:px-6 py-2.5 sm:py-3 rounded-full bg-white hover:bg-gray-50 border-2 border-[#180D45] text-[#180D45] text-xs sm:text-sm font-bold transition-all shadow-xs hover:shadow-sm hover:-translate-y-0.5 active:translate-y-0 cursor-pointer shrink-0"
+                className="inline-flex items-center justify-center gap-2 px-6 sm:px-7 py-3 rounded-full bg-white hover:bg-gray-50 border-2 border-[#180D45] text-[#180D45] text-xs sm:text-sm font-bold transition-all shadow-xs hover:shadow-sm hover:-translate-y-0.5 active:translate-y-0 cursor-pointer shrink-0"
               >
                 <span>Contact Us</span>
                 <ArrowRight className="w-4 h-4 text-[#180D45] shrink-0" />
@@ -287,10 +285,10 @@ export function HeroSection() {
               RIGHT SIDE: THE 5 MAIN SERVICE CARDS + HEALTH COVER
               Spacious, High-Contrast & Beautifully Proportionate
               ══════════════════════════════════════════════════════════ */}
-          <div id="services" className="lg:col-span-7 flex flex-col gap-2.5 sm:gap-3">
+          <div id="services" className="lg:col-span-7 flex flex-col gap-3 sm:gap-3.5">
             
             {/* Top 2x2 Grid: Cards 01 to 04 */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-3.5">
               {SERVICE_CARDS.map((card, idx) => (
                 <motion.div
                   key={card.id}
@@ -302,16 +300,16 @@ export function HeroSection() {
                 >
                   <Link
                     href={card.href}
-                    className={`block rounded-2xl sm:rounded-3xl p-2.5 sm:p-3 xl:p-3.5 ${card.colorScheme.cardBg} border ${card.colorScheme.cardBorder} ${card.colorScheme.cardHoverBorder} ${card.colorScheme.shadow} hover:shadow-xl transition-all duration-200 relative overflow-hidden h-full backdrop-blur-xs`}
+                    className={`block rounded-2xl sm:rounded-3xl p-3 sm:p-3.5 xl:p-4 ${card.colorScheme.cardBg} border ${card.colorScheme.cardBorder} ${card.colorScheme.cardHoverBorder} ${card.colorScheme.shadow} hover:shadow-xl transition-all duration-200 relative overflow-hidden h-full backdrop-blur-xs`}
                   >
-                    <div className="flex items-center gap-2.5 sm:gap-3">
-                      {/* Left: 3D Visual Artwork (Prominent, High-Resolution Size) */}
-                      <div className="relative w-14 h-14 sm:w-15 sm:h-15 xl:w-17 xl:h-17 shrink-0 flex items-center justify-center transform group-hover:scale-105 transition-transform duration-200">
+                    <div className="flex items-center gap-3 sm:gap-3.5">
+                      {/* Left: 3D Visual Artwork */}
+                      <div className="relative w-14 h-14 sm:w-16 sm:h-16 xl:w-18 xl:h-18 shrink-0 flex items-center justify-center transform group-hover:scale-105 transition-transform duration-200">
                         <Image
                           src={card.image}
                           alt={card.imageAlt}
-                          width={68}
-                          height={68}
+                          width={72}
+                          height={72}
                           className="w-full h-full object-contain drop-shadow-md"
                           priority={idx < 2}
                         />
@@ -324,7 +322,7 @@ export function HeroSection() {
                         >
                           {card.order}
                         </span>
-                        <h3 className="text-sm sm:text-[15px] xl:text-base font-black text-[#180D45] group-hover:text-black transition-colors leading-tight mb-1">
+                        <h3 className="text-sm sm:text-base font-black text-[#180D45] group-hover:text-black transition-colors leading-tight mb-0.5 sm:mb-1">
                           {card.title}
                         </h3>
                         <p className="text-[11px] sm:text-xs text-gray-500 font-medium leading-tight line-clamp-2">
@@ -347,16 +345,16 @@ export function HeroSection() {
             >
               <Link
                 href={COMMERCIAL_CARD.href}
-                className={`block rounded-2xl sm:rounded-3xl p-2.5 sm:p-3 xl:p-3.5 ${COMMERCIAL_CARD.colorScheme.cardBg} border ${COMMERCIAL_CARD.colorScheme.cardBorder} ${COMMERCIAL_CARD.colorScheme.cardHoverBorder} ${COMMERCIAL_CARD.colorScheme.shadow} hover:shadow-xl transition-all duration-200 relative overflow-hidden backdrop-blur-xs`}
+                className={`block rounded-2xl sm:rounded-3xl p-3 sm:p-3.5 xl:p-4 ${COMMERCIAL_CARD.colorScheme.cardBg} border ${COMMERCIAL_CARD.colorScheme.cardBorder} ${COMMERCIAL_CARD.colorScheme.cardHoverBorder} ${COMMERCIAL_CARD.colorScheme.shadow} hover:shadow-xl transition-all duration-200 relative overflow-hidden backdrop-blur-xs`}
               >
-                <div className="flex items-center gap-3 sm:gap-3.5">
+                <div className="flex items-center gap-3.5 sm:gap-4">
                   {/* Left: 3D Glass Tower Visual */}
-                  <div className="relative w-16 h-13 sm:w-20 sm:h-15 xl:w-22 xl:h-16 shrink-0 flex items-center justify-center transform group-hover:scale-105 transition-transform duration-200">
+                  <div className="relative w-16 h-14 sm:w-20 sm:h-16 xl:w-24 xl:h-18 shrink-0 flex items-center justify-center transform group-hover:scale-105 transition-transform duration-200">
                     <Image
                       src={COMMERCIAL_CARD.image}
                       alt={COMMERCIAL_CARD.imageAlt}
-                      width={88}
-                      height={64}
+                      width={96}
+                      height={72}
                       className="w-full h-full object-contain drop-shadow-md"
                     />
                   </div>
@@ -368,7 +366,7 @@ export function HeroSection() {
                     >
                       {COMMERCIAL_CARD.order}
                     </span>
-                    <h3 className="text-sm sm:text-[15px] xl:text-base font-black text-[#180D45] group-hover:text-black transition-colors leading-tight mb-1">
+                    <h3 className="text-sm sm:text-base font-black text-[#180D45] group-hover:text-black transition-colors leading-tight mb-0.5 sm:mb-1">
                       {COMMERCIAL_CARD.title}
                     </h3>
                     <p className="text-[11px] sm:text-xs text-gray-500 font-medium leading-tight">
