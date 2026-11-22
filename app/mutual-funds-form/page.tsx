@@ -538,21 +538,11 @@ export default function BseStarMutualFundFormPage() {
               </p>
             </div>
 
-            {/* Reference Badge */}
-            <div className="p-4 rounded-2xl bg-gray-50 border border-gray-200 max-w-md mx-auto">
-              <span className="text-[11px] text-gray-500 uppercase tracking-wider font-bold block mb-1">
-                Your Tracking Reference ID
-              </span>
-              <span className="text-base sm:lg font-mono font-black text-[#180D45]">
-                {submissionResult.id}
-              </span>
-            </div>
-
             {/* Direct WhatsApp Assistance */}
             <div className="pt-4 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-center gap-3">
               <a
                 href={`https://wa.me/91${formData.mobile}?text=${encodeURIComponent(
-                  `Hello Wealthy Step, I just submitted my Mutual Fund account creation form with Ref ID: ${submissionResult.id}.`
+                  `Hello Wealthy Step, I just submitted my Mutual Fund account creation form.`
                 )}`}
                 target="_blank"
                 rel="noopener noreferrer"

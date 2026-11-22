@@ -479,19 +479,10 @@ export default function LifeInsuranceFormPage() {
               </p>
             </div>
 
-            <div className="p-4 rounded-2xl bg-gray-50 border border-gray-200 max-w-md mx-auto">
-              <span className="text-[11px] text-gray-500 uppercase tracking-wider font-bold block mb-1">
-                Your Tracking Reference ID
-              </span>
-              <span className="text-base sm:text-lg font-mono font-black text-[#180D45]">
-                {submissionResult.id}
-              </span>
-            </div>
-
             <div className="pt-4 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-center gap-3">
               <a
                 href={`https://wa.me/91${formData.proposerMobile}?text=${encodeURIComponent(
-                  `Hello Wealthy Step, I just submitted my Life & Term Insurance proposal with Ref ID: ${submissionResult.id}.`
+                  `Hello Wealthy Step, I just submitted my Life & Term Insurance proposal.`
                 )}`}
                 target="_blank"
                 rel="noopener noreferrer"

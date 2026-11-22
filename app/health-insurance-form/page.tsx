@@ -472,20 +472,14 @@ END:VCARD`;
               </p>
             </div>
 
-            {/* Reference Card */}
+            {/* Summary Card */}
             <div className="bg-[#FAFBF7] border border-[#E2E8D8] rounded-2xl p-4 text-xs text-left space-y-2">
               <div className="flex items-center justify-between border-b border-gray-200/80 pb-2">
-                <span className="text-gray-500 font-medium">Reference Number:</span>
-                <span className="font-mono font-bold text-[#180D45] bg-white px-2 py-0.5 rounded border border-gray-200">
-                  {submittedProposalId}
-                </span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-gray-500">Plan Type:</span>
+                <span className="text-gray-500 font-medium">Plan Type:</span>
                 <span className="font-bold text-gray-800">{formData.policyType} ({formData.adultsCount} Adults, {formData.kidsCount} Kids)</span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-gray-500">Proposer PAN:</span>
+                <span className="text-gray-500 font-medium">Proposer PAN:</span>
                 <span className="font-mono font-semibold text-gray-800">{formData.proposerPan}</span>
               </div>
             </div>
@@ -494,7 +488,7 @@ END:VCARD`;
             <div className="space-y-2.5 pt-1">
               <a
                 href={`https://wa.me/919000929666?text=${encodeURIComponent(
-                  `Hi Wealthy Step, I just submitted the Health Insurance Proposal (Ref: ${submittedProposalId}). Please provide plan options.`
+                  `Hi Wealthy Step, I just submitted the Health Insurance Proposal. Please provide plan options.`
                 )}`}
                 target="_blank"
                 rel="noopener noreferrer"
