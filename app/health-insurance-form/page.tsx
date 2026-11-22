@@ -232,13 +232,29 @@ export default function HealthInsuranceFormPage() {
     for (let k = 1; k <= kids; k++) {
       const roleName = `Kid ${k}` as any;
       const existing = formData.members.find((m) => m.role === roleName);
+
+      let defaultRelation = "Son";
+      let defaultGender: "Male" | "Female" = "Male";
+      if (formData.relationKids === "Daughter") {
+        defaultRelation = "Daughter";
+        defaultGender = "Female";
+      } else if (formData.relationKids === "Both (Son & Daughter)") {
+        if (k % 2 === 0) {
+          defaultRelation = "Daughter";
+          defaultGender = "Female";
+        } else {
+          defaultRelation = "Son";
+          defaultGender = "Male";
+        }
+      }
+
       newMembers.push({
         id: existing?.id || `member-kid-${k}`,
         role: roleName,
-        relation: existing?.relation || formData.relationKids || (k === 1 ? "Son" : "Daughter"),
+        relation: existing?.relation || defaultRelation,
         fullName: existing?.fullName || "",
         dob: existing?.dob || "",
-        gender: existing?.gender || (k === 1 ? "Male" : "Female"),
+        gender: existing?.gender || (existing?.relation === "Daughter" ? "Female" : defaultGender),
         height: existing?.height || "",
         weight: existing?.weight || "",
       });
@@ -269,6 +285,30 @@ export default function HealthInsuranceFormPage() {
       if (field === "proposerEmail" && !prev.insuredEmail) {
         updated.insuredEmail = processedValue;
       }
+      if (field === "relationKids") {
+        updated.members = (prev.members || []).map((m, idx) => {
+          if (!m.role?.startsWith("Kid")) return m;
+          const kidNum = parseInt(m.role.replace("Kid ", ""), 10) || (idx + 1);
+          let newRel = m.relation;
+          let newGender: "" | "Male" | "Female" | "Other" = m.gender;
+          if (processedValue === "Son") {
+            newRel = "Son";
+            newGender = "Male";
+          } else if (processedValue === "Daughter") {
+            newRel = "Daughter";
+            newGender = "Female";
+          } else if (processedValue === "Both (Son & Daughter)") {
+            if (kidNum % 2 === 0) {
+              newRel = "Daughter";
+              newGender = "Female";
+            } else {
+              newRel = "Son";
+              newGender = "Male";
+            }
+          }
+          return { ...m, relation: newRel, gender: newGender };
+        });
+      }
       return updated;
     });
 
@@ -284,7 +324,26 @@ export default function HealthInsuranceFormPage() {
   const handleMemberChange = (index: number, subField: keyof InsuredMember, value: any) => {
     const updated = [...formData.members];
     if (updated[index]) {
-      updated[index] = { ...updated[index], [subField]: value };
+      const current = { ...updated[index], [subField]: value };
+
+      // Auto-sync relation and gender for kids
+      if (current.role?.startsWith("Kid")) {
+        if (subField === "gender") {
+          if (value === "Female") {
+            current.relation = "Daughter";
+          } else if (value === "Male") {
+            current.relation = "Son";
+          }
+        } else if (subField === "relation") {
+          if (value === "Daughter") {
+            current.gender = "Female";
+          } else if (value === "Son") {
+            current.gender = "Male";
+          }
+        }
+      }
+
+      updated[index] = current;
       setFormData((prev) => ({ ...prev, members: updated }));
       if (fieldErrors[`member_${index}_${subField}`]) {
         setFieldErrors((prev) => {
@@ -997,7 +1056,9 @@ END:VCARD`;
                         <div className="flex items-center justify-between border-b border-gray-100 pb-2">
                           <span className="text-xs font-bold text-[#180D45] flex items-center gap-1.5">
                             <span className="w-2 h-2 rounded-full bg-[#84BD3C]" />
-                            {member.role} ({member.relation || "Self"})
+                            {member.role === "Adult 1 (Self)"
+                              ? "Adult 1 (Self)"
+                              : `${member.role} (${member.relation || (member.gender === "Female" ? "Daughter" : "Son")})`}
                           </span>
                           <span className="text-[10px] text-gray-400 font-mono">#{idx + 1}</span>
                         </div>
@@ -1048,21 +1109,36 @@ END:VCARD`;
 
                           <div>
                             <label className="block text-[11px] font-semibold text-gray-600 mb-1">
-                              Gender <span className="text-rose-500">*</span>
+                              {member.role?.startsWith("Kid") ? "Child Relation & Gender" : "Gender"} <span className="text-rose-500">*</span>
                             </label>
-                            <select
-                              value={member.gender}
-                              onChange={(e) => handleMemberChange(idx, "gender", e.target.value)}
-                              className={`w-full h-10 px-2.5 rounded-xl border text-xs bg-white focus:outline-none transition-all ${
-                                fieldErrors[`member_${idx}_gender`]
-                                  ? "border-rose-400 bg-rose-50/20 text-rose-950 focus:border-rose-500"
-                                  : "border-gray-200 focus:border-[#180D45]"
-                              }`}
-                            >
-                              <option value="Male">Male</option>
-                              <option value="Female">Female</option>
-                              <option value="Other">Other</option>
-                            </select>
+                            {member.role?.startsWith("Kid") ? (
+                              <select
+                                value={member.gender}
+                                onChange={(e) => handleMemberChange(idx, "gender", e.target.value)}
+                                className={`w-full h-10 px-2.5 rounded-xl border text-xs bg-white focus:outline-none transition-all ${
+                                  fieldErrors[`member_${idx}_gender`]
+                                    ? "border-rose-400 bg-rose-50/20 text-rose-950 focus:border-rose-500"
+                                    : "border-gray-200 focus:border-[#180D45]"
+                                }`}
+                              >
+                                <option value="Male">Son (Male)</option>
+                                <option value="Female">Daughter (Female)</option>
+                              </select>
+                            ) : (
+                              <select
+                                value={member.gender}
+                                onChange={(e) => handleMemberChange(idx, "gender", e.target.value)}
+                                className={`w-full h-10 px-2.5 rounded-xl border text-xs bg-white focus:outline-none transition-all ${
+                                  fieldErrors[`member_${idx}_gender`]
+                                    ? "border-rose-400 bg-rose-50/20 text-rose-950 focus:border-rose-500"
+                                    : "border-gray-200 focus:border-[#180D45]"
+                                }`}
+                              >
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                              </select>
+                            )}
                             {fieldErrors[`member_${idx}_gender`] && (
                               <p className="text-[10px] text-rose-600 font-semibold mt-1">
                                 {fieldErrors[`member_${idx}_gender`]}
@@ -1709,7 +1785,7 @@ END:VCARD`;
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-[11px] text-gray-700 pt-1">
                         {formData.members.map((m) => (
                           <div key={m.id} className="bg-white p-2 rounded-lg border border-gray-200">
-                            <strong>{m.role}:</strong> {m.fullName || "—"} ({m.relation})<br />
+                            <strong>{m.role === "Adult 1 (Self)" ? "Adult 1" : m.role}:</strong> {m.fullName || "—"} ({m.relation || (m.gender === "Female" ? "Daughter" : "Son")})<br />
                             <span className="text-gray-500">Ht: {m.height || "—"} | Wt: {m.weight || "—"}</span>
                           </div>
                         ))}

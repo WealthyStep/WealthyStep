@@ -236,16 +236,30 @@ export function validateHealthInsuranceProposal(
 
     // Members validation
     const membersList = Array.isArray(input.members) ? input.members : [];
-    sanitized.members = membersList.map((m) => ({
-      id: m.id || `member-${Math.random().toString(36).substring(2, 9)}`,
-      role: m.role,
-      relation: (m.relation || "").trim(),
-      fullName: (m.fullName || "").trim(),
-      dob: (m.dob || "").trim(),
-      gender: m.gender || "",
-      height: (m.height || "").trim(),
-      weight: (m.weight || "").trim(),
-    }));
+    sanitized.members = membersList.map((m) => {
+      let rel = (m.relation || "").trim();
+      if (m.role === "Adult 1 (Self)") {
+        rel = "Self";
+      } else if (m.role?.startsWith("Kid")) {
+        if (!rel || rel === "Both (Son & Daughter)") {
+          if (m.gender === "Female") {
+            rel = "Daughter";
+          } else if (m.gender === "Male") {
+            rel = "Son";
+          }
+        }
+      }
+      return {
+        id: m.id || `member-${Math.random().toString(36).substring(2, 9)}`,
+        role: m.role,
+        relation: rel,
+        fullName: (m.fullName || "").trim(),
+        dob: (m.dob || "").trim(),
+        gender: m.gender || "",
+        height: (m.height || "").trim(),
+        weight: (m.weight || "").trim(),
+      };
+    });
 
     // Check and validate all covered family members (Adults & Kids) as mandatory
     sanitized.members.forEach((m: InsuredMember, idx: number) => {
