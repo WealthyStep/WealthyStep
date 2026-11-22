@@ -690,7 +690,7 @@ CREATE POLICY "Service role full access on health_insurance_proposals" ON public
                       {/* Nominee */}
                       <td className="py-3.5 px-4">
                         <div className="font-semibold text-gray-800">{item.nominee_name}</div>
-                        <div className="text-[10px] text-gray-500">{item.nominee_bank_name}</div>
+                        <div className="text-[10px] text-gray-500">{item.nominee_bank_name || item.nominee_relation || "Nominee"}</div>
                       </td>
 
                       {/* Status Dropdown */}
@@ -816,7 +816,18 @@ CREATE POLICY "Service role full access on health_insurance_proposals" ON public
                 <div><span className="text-gray-500">Full Name:</span> <strong>{viewingProposal.proposer_name}</strong></div>
                 <div><span className="text-gray-500">PAN Number:</span> <strong className="font-mono bg-amber-50 px-1.5 py-0.5 rounded border border-amber-200">{viewingProposal.proposer_pan}</strong></div>
                 <div><span className="text-gray-500">DOB:</span> {viewingProposal.proposer_dob}</div>
-                <div><span className="text-gray-500">Aadhaar:</span> {viewingProposal.proposer_aadhar ? `••••••••${viewingProposal.proposer_aadhar.slice(-4)}` : "Not provided"}</div>
+                <div>
+                  <span className="text-gray-500">Aadhaar:</span>{" "}
+                  {viewingProposal.proposer_aadhar ? (
+                    <strong className="font-mono bg-sky-50 text-sky-900 px-1.5 py-0.5 rounded border border-sky-200">
+                      {viewingProposal.proposer_aadhar.length === 12
+                        ? viewingProposal.proposer_aadhar.replace(/(\d{4})(\d{4})(\d{4})/, "$1 $2 $3")
+                        : viewingProposal.proposer_aadhar}
+                    </strong>
+                  ) : (
+                    <span className="text-gray-400 italic">Not provided</span>
+                  )}
+                </div>
                 <div><span className="text-gray-500">Employment:</span> {viewingProposal.employment_status}</div>
                 <div><span className="text-gray-500">Corporate Email:</span> {viewingProposal.corporate_email || "None"}</div>
                 <div className="col-span-2"><span className="text-gray-500">Address:</span> {viewingProposal.proposer_address}</div>
@@ -895,10 +906,10 @@ CREATE POLICY "Service role full access on health_insurance_proposals" ON public
                 <div><span className="text-gray-500">DOB:</span> {viewingProposal.nominee_dob}</div>
                 <div><span className="text-gray-500">Mobile:</span> +91 {viewingProposal.nominee_mobile}</div>
                 <div><span className="text-gray-500">Email:</span> {viewingProposal.nominee_email}</div>
-                <div><span className="text-gray-500">Bank Name:</span> <strong>{viewingProposal.nominee_bank_name}</strong></div>
-                <div><span className="text-gray-500">A/C Holder:</span> {viewingProposal.nominee_bank_account_name}</div>
-                <div><span className="text-gray-500">Account Number:</span> <span className="font-mono font-bold">{viewingProposal.nominee_bank_account_number}</span></div>
-                <div><span className="text-gray-500">IFSC Code:</span> <span className="font-mono font-bold uppercase">{viewingProposal.nominee_bank_ifsc}</span></div>
+                <div><span className="text-gray-500">Bank Name:</span> <strong>{viewingProposal.nominee_bank_name || <span className="text-gray-400 italic font-normal">Not provided (Optional)</span>}</strong></div>
+                <div><span className="text-gray-500">A/C Holder:</span> {viewingProposal.nominee_bank_account_name || <span className="text-gray-400 italic">Not provided</span>}</div>
+                <div><span className="text-gray-500">Account Number:</span> {viewingProposal.nominee_bank_account_number ? <span className="font-mono font-bold">{viewingProposal.nominee_bank_account_number}</span> : <span className="text-gray-400 italic">Not provided</span>}</div>
+                <div><span className="text-gray-500">IFSC Code:</span> {viewingProposal.nominee_bank_ifsc ? <span className="font-mono font-bold uppercase">{viewingProposal.nominee_bank_ifsc}</span> : <span className="text-gray-400 italic">Not provided</span>}</div>
                 <div className="col-span-2"><span className="text-gray-500">Nominee Address:</span> {viewingProposal.nominee_address}</div>
               </div>
             </div>
