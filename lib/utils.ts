@@ -15,6 +15,7 @@ export function isIsolatedRoute(pathname: string | null): boolean {
     pathname.startsWith("/participant-form") ||
     pathname.startsWith("/health-insurance-form") ||
     pathname.startsWith("/insurance-form") ||
+    pathname.startsWith("/mutual-funds-form") ||
     pathname.startsWith("/bse-star-mutual-fund-form") ||
     pathname.startsWith("/bse-star-form") ||
     pathname.startsWith("/life-insurance-form") ||

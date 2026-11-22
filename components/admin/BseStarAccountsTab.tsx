@@ -509,7 +509,7 @@ CREATE POLICY "Service role full access on bse_star_mf_accounts" ON public.bse_s
             <span className="p-2 rounded-xl bg-purple-50 text-purple-700">
               <TrendingUp className="w-5 h-5" />
             </span>
-            <h2 className="text-base font-black text-[#180D45]">BSE Star Mutual Fund Accounts</h2>
+            <h2 className="text-base font-black text-[#180D45]">Mutual Fund Accounts</h2>
             <span className="px-2.5 py-0.5 rounded-full text-xs font-black bg-purple-100 text-purple-800">
               {accounts.length} Total
             </span>
@@ -519,7 +519,7 @@ CREATE POLICY "Service role full access on bse_star_mf_accounts" ON public.bse_s
             </span>
           </div>
           <p className="text-xs text-gray-500 mt-1">
-            Manage applicant KYC, bank accounts, nominee shares, follow-up notes, and export BSE Star onboardings.
+            Manage applicant KYC, bank accounts, nominee shares, follow-up notes, and export Mutual Fund onboardings.
           </p>
         </div>
 
@@ -618,7 +618,7 @@ CREATE POLICY "Service role full access on bse_star_mf_accounts" ON public.bse_s
         {isLoading ? (
           <div className="p-12 text-center text-xs text-gray-500">
             <div className="w-6 h-6 border-2 border-[#180D45] border-t-transparent rounded-full animate-spin mx-auto mb-2" />
-            Loading BSE Star Mutual Fund applications...
+            Loading Mutual Fund applications...
           </div>
         ) : accounts.length === 0 ? (
           <div className="p-12 text-center text-xs text-gray-500">
@@ -1028,7 +1028,7 @@ CREATE POLICY "Service role full access on bse_star_mf_accounts" ON public.bse_s
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-fade-in">
           <div className="bg-white rounded-3xl max-w-xl w-full p-6 space-y-4 shadow-xl border border-gray-100">
             <div className="flex items-center justify-between border-b border-gray-100 pb-3">
-              <h4 className="text-base font-black text-[#180D45]">Import BSE Star MF Accounts</h4>
+              <h4 className="text-base font-black text-[#180D45]">Import Mutual Fund Accounts</h4>
               <button
                 type="button"
                 onClick={() => setIsImportModalOpen(false)}
@@ -1038,7 +1038,7 @@ CREATE POLICY "Service role full access on bse_star_mf_accounts" ON public.bse_s
               </button>
             </div>
             <p className="text-xs text-gray-500">
-              Paste JSON array of BSE Star MF account objects to bulk import them into the system.
+              Paste JSON array of Mutual Fund account objects to bulk import them into the system.
             </p>
             <textarea
               rows={8}

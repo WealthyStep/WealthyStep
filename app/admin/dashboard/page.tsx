@@ -1150,7 +1150,7 @@ export default function AdminDashboardPage() {
               }`}
             >
               <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0 text-purple-400" />
-              <span className="truncate">BSE Star MF</span>
+              <span className="truncate">Mutual Funds</span>
               {bseStarCount > 0 && (
                 <span
                   className={`px-1.5 sm:px-2 py-0.5 rounded-full text-[10px] font-black shrink-0 ${
