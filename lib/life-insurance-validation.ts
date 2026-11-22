@@ -269,8 +269,9 @@ export function validateLifeInsuranceProposal(
       errors.designation = "Your designation or role is required.";
     }
 
-    if (!sanitized.companyEmail || !EMAIL_REGEX.test(sanitized.companyEmail)) {
-      errors.companyEmail = "Valid official / company email ID is required for corporate discount.";
+    // Company email (Optional, but validate format if entered)
+    if (sanitized.companyEmail && !EMAIL_REGEX.test(sanitized.companyEmail)) {
+      errors.companyEmail = "Please enter a valid company/official email ID.";
     }
 
     if (!sanitized.industry || sanitized.industry.length < 2) {
@@ -319,20 +320,13 @@ export function validateLifeInsuranceProposal(
       errors.nomineeEmail = "Valid email ID is required for nominee.";
     }
 
-    if (!sanitized.nomineeBankName || sanitized.nomineeBankName.length < 2) {
-      errors.nomineeBankName = "Nominee bank name is required.";
-    }
-
-    if (!sanitized.nomineeBankAccountName || sanitized.nomineeBankAccountName.length < 2) {
-      errors.nomineeBankAccountName = "Name as per nominee bank account is required.";
-    }
-
-    if (!sanitized.nomineeBankIfsc || !IFSC_REGEX.test(sanitized.nomineeBankIfsc)) {
+    // Nominee Bank details (Optional at proposal stage; validate format if provided)
+    if (sanitized.nomineeBankIfsc && !IFSC_REGEX.test(sanitized.nomineeBankIfsc)) {
       errors.nomineeBankIfsc = "Valid 11-character IFSC code is required for nominee bank (e.g. HDFC0001234).";
     }
 
-    if (!sanitized.nomineeBankAccountNumber || sanitized.nomineeBankAccountNumber.length < 6) {
-      errors.nomineeBankAccountNumber = "Valid nominee bank account number is required.";
+    if (sanitized.nomineeBankAccountNumber && (sanitized.nomineeBankAccountNumber.length < 6 || sanitized.nomineeBankAccountNumber.length > 25)) {
+      errors.nomineeBankAccountNumber = "Valid nominee bank account number is required (6-25 digits).";
     }
   }
 
@@ -348,24 +342,13 @@ export function validateLifeInsuranceProposal(
       errors.panNumber = "Valid 10-character PAN is required (e.g. ABCDE1234F).";
     }
 
-    if (!sanitized.proposerBankName || sanitized.proposerBankName.length < 2) {
-      errors.proposerBankName = "Proposer bank name is required.";
-    }
-
-    if (!sanitized.proposerBankAccountNumber || sanitized.proposerBankAccountNumber.length < 6) {
-      errors.proposerBankAccountNumber = "Proposer bank account number is required.";
-    }
-
-    if (!sanitized.proposerBankIfsc || !IFSC_REGEX.test(sanitized.proposerBankIfsc)) {
+    // Proposer Bank details (Optional at proposal stage; validate format if provided)
+    if (sanitized.proposerBankIfsc && !IFSC_REGEX.test(sanitized.proposerBankIfsc)) {
       errors.proposerBankIfsc = "Valid 11-character IFSC code is required (e.g. SBIN0001234).";
     }
 
-    if (!sanitized.proposerBankBranch || sanitized.proposerBankBranch.length < 2) {
-      errors.proposerBankBranch = "Proposer bank branch name is required.";
-    }
-
-    if (!sanitized.proposerBankAccountName || sanitized.proposerBankAccountName.length < 2) {
-      errors.proposerBankAccountName = "Account holder name as per bank records is required.";
+    if (sanitized.proposerBankAccountNumber && (sanitized.proposerBankAccountNumber.length < 6 || sanitized.proposerBankAccountNumber.length > 25)) {
+      errors.proposerBankAccountNumber = "Proposer bank account number must be between 6 and 25 digits.";
     }
   }
 

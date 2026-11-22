@@ -249,7 +249,57 @@ export default function LifeInsuranceFormPage() {
     }
   };
 
-  // File Upload Helper (supports instant replacement for single files)
+  // Compress image client-side to stay well within serverless payload limits (< 200 KB per image)
+  const compressImageFile = (file: File): Promise<string> => {
+    return new Promise((resolve) => {
+      if (!file.type.startsWith("image/")) {
+        const reader = new FileReader();
+        reader.onload = (e) => resolve((e.target?.result as string) || "");
+        reader.onerror = () => resolve("");
+        reader.readAsDataURL(file);
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const img = document.createElement("img");
+        img.onload = () => {
+          let width = img.width;
+          let height = img.height;
+          const maxDim = 1200;
+
+          if (width > height) {
+            if (width > maxDim) {
+              height = Math.round((height * maxDim) / width);
+              width = maxDim;
+            }
+          } else {
+            if (height > maxDim) {
+              width = Math.round((width * maxDim) / height);
+              height = maxDim;
+            }
+          }
+
+          const canvas = document.createElement("canvas");
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext("2d");
+          if (ctx) {
+            ctx.drawImage(img, 0, 0, width, height);
+            resolve(canvas.toDataURL("image/jpeg", 0.8));
+          } else {
+            resolve((e.target?.result as string) || "");
+          }
+        };
+        img.onerror = () => resolve((e.target?.result as string) || "");
+        img.src = (e.target?.result as string) || "";
+      };
+      reader.onerror = () => resolve("");
+      reader.readAsDataURL(file);
+    });
+  };
+
+  // File Upload Helper (supports instant replacement for single files & automatic client-side compression)
   const handleFileUpload = (
     field: keyof LifeInsuranceProposalInput,
     files: FileList | null,
@@ -271,29 +321,27 @@ export default function LifeInsuranceFormPage() {
       filesToRead = Array.from(files).slice(0, availableSlots);
     }
 
-    filesToRead.forEach((file) => {
+    filesToRead.forEach(async (file) => {
       if (file.size > MAX_FILE_SIZE_BYTES) {
-        alert(`File "${file.name}" exceeds the 10 MB limit. Please compress or choose a smaller file.`);
+        alert(`File "${file.name}" exceeds the 10 MB limit. Please choose a smaller file.`);
         return;
       }
 
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        const base64 = e.target?.result as string;
-        const newFileMeta: LifeInsuranceFileMeta = {
-          id: `file-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,
-          fileName: file.name,
-          fileType: file.type || "application/octet-stream",
-          fileSize: file.size,
-          base64: base64,
-        };
+      const base64 = await compressImageFile(file);
+      if (!base64) return;
 
-        setFormData((prev) => ({
-          ...prev,
-          [field]: maxCount === 1 ? [newFileMeta] : [...((prev[field] as LifeInsuranceFileMeta[]) || []), newFileMeta],
-        }));
+      const newFileMeta: LifeInsuranceFileMeta = {
+        id: `file-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,
+        fileName: file.name,
+        fileType: file.type || "application/octet-stream",
+        fileSize: Math.round((base64.length * 3) / 4),
+        base64: base64,
       };
-      reader.readAsDataURL(file);
+
+      setFormData((prev) => ({
+        ...prev,
+        [field]: maxCount === 1 ? [newFileMeta] : [...((prev[field] as LifeInsuranceFileMeta[]) || []), newFileMeta],
+      }));
     });
   };
 
@@ -1000,7 +1048,7 @@ export default function LifeInsuranceFormPage() {
                     <div>
                       <div className="flex items-center justify-between mb-1">
                         <label className="text-xs font-bold text-gray-700">
-                          Company Mail ID <span className="text-rose-500">*</span>
+                          Company Mail ID <span className="text-gray-400 font-normal">(Optional)</span>
                         </label>
                         <span className="text-[10px] text-emerald-700 font-bold">For Salaried Discount</span>
                       </div>
@@ -1410,15 +1458,18 @@ export default function LifeInsuranceFormPage() {
 
                   {/* Nominee Bank Details */}
                   <div className="pt-3 border-t border-gray-100 space-y-4">
-                    <span className="text-xs font-extrabold text-[#180D45] uppercase tracking-wider block">
-                      Nominee Bank Details
-                    </span>
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-extrabold text-[#180D45] uppercase tracking-wider block">
+                        Nominee Bank Details
+                      </span>
+                      <span className="text-[11px] text-gray-500 font-semibold bg-gray-100 px-2 py-0.5 rounded-full">Optional at proposal stage</span>
+                    </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       {/* Nominee Bank Name */}
                       <div>
                         <label className="block text-xs font-bold text-gray-700 mb-1">
-                          Nominee Bank Name <span className="text-rose-500">*</span>
+                          Nominee Bank Name <span className="text-gray-400 font-normal">(Optional)</span>
                         </label>
                         <input
                           type="text"
@@ -1439,7 +1490,7 @@ export default function LifeInsuranceFormPage() {
                       {/* Nominee Name in Bank */}
                       <div>
                         <label className="block text-xs font-bold text-gray-700 mb-1">
-                          Nominee Name in Bank <span className="text-rose-500">*</span>
+                          Nominee Name in Bank <span className="text-gray-400 font-normal">(Optional)</span>
                         </label>
                         <input
                           type="text"
@@ -1461,7 +1512,7 @@ export default function LifeInsuranceFormPage() {
                       <div>
                         <div className="flex items-center justify-between mb-1">
                           <label className="text-xs font-bold text-gray-700">
-                            Nominee Bank IFSC Code <span className="text-rose-500">*</span>
+                            Nominee Bank IFSC Code <span className="text-gray-400 font-normal">(Optional)</span>
                           </label>
                           <span className="text-[10px] text-gray-400">11 Chars (HDFC0001234)</span>
                         </div>
@@ -1485,7 +1536,7 @@ export default function LifeInsuranceFormPage() {
                       {/* Nominee Account Number */}
                       <div>
                         <label className="block text-xs font-bold text-gray-700 mb-1">
-                          Nominee Account Number <span className="text-rose-500">*</span>
+                          Nominee Account Number <span className="text-gray-400 font-normal">(Optional)</span>
                         </label>
                         <input
                           type="text"
@@ -1506,7 +1557,7 @@ export default function LifeInsuranceFormPage() {
                       {/* Nominee Account Type */}
                       <div className="sm:col-span-2">
                         <label className="block text-xs font-bold text-gray-700 mb-1">
-                          Nominee Account Type <span className="text-rose-500">*</span>
+                          Nominee Account Type <span className="text-gray-400 font-normal">(Optional)</span>
                         </label>
                         <select
                           value={formData.nomineeBankAccountType}
@@ -1899,15 +1950,18 @@ export default function LifeInsuranceFormPage() {
 
                   {/* Proposer Bank Details */}
                   <div className="pt-3 border-t border-gray-100 space-y-4">
-                    <span className="text-xs font-extrabold text-[#180D45] uppercase tracking-wider block">
-                      Proposer Bank Account Details
-                    </span>
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-extrabold text-[#180D45] uppercase tracking-wider block">
+                        Proposer Bank Account Details
+                      </span>
+                      <span className="text-[11px] text-gray-500 font-semibold bg-gray-100 px-2 py-0.5 rounded-full">Optional at proposal stage</span>
+                    </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       {/* Bank Name */}
                       <div>
                         <label className="block text-xs font-bold text-gray-700 mb-1">
-                          Bank Name <span className="text-rose-500">*</span>
+                          Bank Name <span className="text-gray-400 font-normal">(Optional)</span>
                         </label>
                         <input
                           type="text"
@@ -1928,7 +1982,7 @@ export default function LifeInsuranceFormPage() {
                       {/* Bank Branch */}
                       <div>
                         <label className="block text-xs font-bold text-gray-700 mb-1">
-                          Bank Branch <span className="text-rose-500">*</span>
+                          Bank Branch <span className="text-gray-400 font-normal">(Optional)</span>
                         </label>
                         <input
                           type="text"
@@ -1949,7 +2003,7 @@ export default function LifeInsuranceFormPage() {
                       {/* Account Number */}
                       <div>
                         <label className="block text-xs font-bold text-gray-700 mb-1">
-                          Bank Account Number <span className="text-rose-500">*</span>
+                          Bank Account Number <span className="text-gray-400 font-normal">(Optional)</span>
                         </label>
                         <input
                           type="text"
@@ -1970,7 +2024,7 @@ export default function LifeInsuranceFormPage() {
                       {/* IFSC Code */}
                       <div>
                         <label className="block text-xs font-bold text-gray-700 mb-1">
-                          Bank Account IFSC Code <span className="text-rose-500">*</span>
+                          Bank Account IFSC Code <span className="text-gray-400 font-normal">(Optional)</span>
                         </label>
                         <input
                           type="text"
@@ -1992,11 +2046,11 @@ export default function LifeInsuranceFormPage() {
                       {/* Name as per Bank Account */}
                       <div className="sm:col-span-2">
                         <label className="block text-xs font-bold text-gray-700 mb-1">
-                          Name as per Bank Account <span className="text-rose-500">*</span>
+                          Name as per Bank Account <span className="text-gray-400 font-normal">(Optional)</span>
                         </label>
                         <input
                           type="text"
-                          placeholder="Exact name printed on passbook"
+                          placeholder="Account holder legal name"
                           value={formData.proposerBankAccountName}
                           onChange={(e) => handleInputChange("proposerBankAccountName", e.target.value)}
                           className={`w-full h-11 px-3.5 rounded-xl border text-sm transition-all focus:outline-none ${

@@ -175,7 +175,7 @@ export async function POST(request: Request) {
 
           company_name: sanitized.companyName,
           designation: sanitized.designation,
-          company_email: sanitized.companyEmail,
+          company_email: sanitized.companyEmail || "",
           industry: sanitized.industry,
           annual_income: sanitized.annualIncome,
 
@@ -194,19 +194,19 @@ export async function POST(request: Request) {
           nominee_address: sanitized.nomineeAddress,
           nominee_mobile: sanitized.nomineeMobile,
           nominee_email: sanitized.nomineeEmail,
-          nominee_bank_name: sanitized.nomineeBankName,
-          nominee_bank_account_name: sanitized.nomineeBankAccountName,
-          nominee_bank_ifsc: sanitized.nomineeBankIfsc,
-          nominee_bank_account_number: sanitized.nomineeBankAccountNumber,
-          nominee_bank_account_type: sanitized.nomineeBankAccountType,
+          nominee_bank_name: sanitized.nomineeBankName || "",
+          nominee_bank_account_name: sanitized.nomineeBankAccountName || "",
+          nominee_bank_ifsc: sanitized.nomineeBankIfsc || "",
+          nominee_bank_account_number: sanitized.nomineeBankAccountNumber || "",
+          nominee_bank_account_type: sanitized.nomineeBankAccountType || "Savings",
 
           aadhar_number: sanitized.aadharNumber,
           pan_number: sanitized.panNumber,
-          proposer_bank_name: sanitized.proposerBankName,
-          proposer_bank_account_number: sanitized.proposerBankAccountNumber,
-          proposer_bank_ifsc: sanitized.proposerBankIfsc,
-          proposer_bank_branch: sanitized.proposerBankBranch,
-          proposer_bank_account_name: sanitized.proposerBankAccountName,
+          proposer_bank_name: sanitized.proposerBankName || "",
+          proposer_bank_account_number: sanitized.proposerBankAccountNumber || "",
+          proposer_bank_ifsc: sanitized.proposerBankIfsc || "",
+          proposer_bank_branch: sanitized.proposerBankBranch || "",
+          proposer_bank_account_name: sanitized.proposerBankAccountName || "",
 
           aadhar_files: uploadedAadharFiles,
           pan_files: uploadedPanFiles,
@@ -262,14 +262,16 @@ export async function POST(request: Request) {
       console.warn("Audit log recording warning:", auditErr);
     }
 
-    // 7. Dispatch Notification & Acknowledgment Emails (Non-blocking background delivery for millisecond response)
-    sendLifeInsuranceNotificationEmails({
-      id: proposalId,
-      data: sanitized,
-      submittedAt: formattedDate,
-    }).catch((emailErr) => {
+    // 7. Dispatch Notification & Acknowledgment Emails
+    try {
+      await sendLifeInsuranceNotificationEmails({
+        id: proposalId,
+        data: sanitized,
+        submittedAt: formattedDate,
+      });
+    } catch (emailErr) {
       console.error("Email notification dispatch error:", emailErr);
-    });
+    }
 
     return NextResponse.json(
       {
