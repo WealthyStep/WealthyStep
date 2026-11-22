@@ -224,14 +224,16 @@ export async function POST(request: Request) {
       console.warn("Audit log recording warning:", auditErr);
     }
 
-    // 7. Dispatch Notification & Acknowledgment Emails (Non-blocking background delivery for millisecond response)
-    sendBseStarNotificationEmails({
-      id: recordId,
-      data: sanitized,
-      submittedAt: formattedDate,
-    }).catch((emailErr) => {
+    // 7. Dispatch Notification & Acknowledgment Emails
+    try {
+      await sendBseStarNotificationEmails({
+        id: recordId,
+        data: sanitized,
+        submittedAt: formattedDate,
+      });
+    } catch (emailErr) {
       console.error("Email notification dispatch error:", emailErr);
-    });
+    }
 
     return NextResponse.json(
       {

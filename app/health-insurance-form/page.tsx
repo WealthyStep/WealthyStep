@@ -84,7 +84,10 @@ export default function HealthInsuranceFormPage() {
   // Turnstile state
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
   const [turnstileFailed, setTurnstileFailed] = useState(false);
-  const turnstileSiteKey = process.env.NEXT_PUBLIC_CLOUDFLARE_TURNSTILE_SITE_KEY || "1x00000000000000000000AA";
+  const turnstileSiteKey =
+    process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ||
+    process.env.NEXT_PUBLIC_CLOUDFLARE_TURNSTILE_SITE_KEY ||
+    "0x4AAAAAAErV96vDrW-3FJQ6";
 
   // Form State
   const [formData, setFormData] = useState<HealthInsuranceProposalInput>({
@@ -1900,8 +1903,8 @@ END:VCARD`;
                   </div>
 
                   {/* Cloudflare Verification */}
-                  <div className="flex flex-col items-center justify-center pt-1 min-h-[36px]">
-                    {isClientReady && !turnstileFailed && turnstileSiteKey !== "1x00000000000000000000AA" ? (
+                  <div className="flex flex-col items-center justify-center pt-2 gap-2 min-h-[44px]">
+                    {isClientReady && !turnstileFailed ? (
                       <Turnstile
                         siteKey={turnstileSiteKey}
                         onSuccess={(token) => setTurnstileToken(token)}
@@ -1918,6 +1921,12 @@ END:VCARD`;
                         <span>Security Verified • 100% Spam-Free</span>
                       </div>
                     )}
+                    <div className="flex items-center justify-center gap-1.5 text-[11px] font-medium text-gray-500">
+                      <svg className="w-3.5 h-3.5 text-[#F38020]" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M19.46 11.59a6.002 6.002 0 0 0-11.4-2.18A4.992 4.992 0 0 0 3 14a5 5 0 0 0 5 5h11a4 4 0 0 0 .46-7.41z"/>
+                      </svg>
+                      <span>Secured by Cloudflare Turnstile • Bot Protection Active</span>
+                    </div>
                   </div>
                 </div>
               )}

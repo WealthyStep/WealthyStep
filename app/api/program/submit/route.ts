@@ -243,22 +243,26 @@ export async function POST(request: Request) {
       // Emergency Lead Preservation (Email):
       // Even if database table is pending initialization, ALWAYS send the email alert
       // so zero participant leads are ever lost!
-      sendParticipantNotificationEmail({
-        id: fallbackRecordId,
-        name,
-        email,
-        mobile,
-        age,
-        occupation,
-        interested_in,
-        sessionDate: session_date,
-        submittedAt: new Date().toLocaleTimeString("en-IN", {
-          timeZone: "Asia/Kolkata",
-          hour: "2-digit",
-          minute: "2-digit",
-        }),
-        source: (body.source || "Financial Freedom Awareness Program") + " [Email Backup]",
-      }).catch((eErr) => console.error("Email backup dispatch error:", eErr));
+      try {
+        await sendParticipantNotificationEmail({
+          id: fallbackRecordId,
+          name,
+          email,
+          mobile,
+          age,
+          occupation,
+          interested_in,
+          sessionDate: session_date,
+          submittedAt: new Date().toLocaleTimeString("en-IN", {
+            timeZone: "Asia/Kolkata",
+            hour: "2-digit",
+            minute: "2-digit",
+          }),
+          source: (body.source || "Financial Freedom Awareness Program") + " [Email Backup]",
+        });
+      } catch (eErr) {
+        console.error("Email backup dispatch error:", eErr);
+      }
 
       // Return a graceful success to the mobile attendee so they are never blocked
       return NextResponse.json(
@@ -278,26 +282,28 @@ export async function POST(request: Request) {
 
     const data = insertedRecord!;
 
-    // 6. Fast Concurrent Email Notification (Non-blocking)
+    // 6. Fast Guaranteed Email Notification
     // Dispatches the notification email to the desk/client
-    sendParticipantNotificationEmail({
-      id: data.id,
-      name,
-      email,
-      mobile,
-      age,
-      occupation,
-      interested_in,
-      sessionDate: session_date,
-      submittedAt: new Date().toLocaleTimeString("en-IN", {
-        timeZone: "Asia/Kolkata",
-        hour: "2-digit",
-        minute: "2-digit",
-      }),
-      source: body.source || "Financial Freedom Awareness Program",
-    }).catch((emailErr) => {
-      console.error("Non-blocking participant notification email error:", emailErr);
-    });
+    try {
+      await sendParticipantNotificationEmail({
+        id: data.id,
+        name,
+        email,
+        mobile,
+        age,
+        occupation,
+        interested_in,
+        sessionDate: session_date,
+        submittedAt: new Date().toLocaleTimeString("en-IN", {
+          timeZone: "Asia/Kolkata",
+          hour: "2-digit",
+          minute: "2-digit",
+        }),
+        source: body.source || "Financial Freedom Awareness Program",
+      });
+    } catch (emailErr) {
+      console.error("Participant notification email error:", emailErr);
+    }
 
     // 7. Audit Logging (Background, non-blocking)
     try {

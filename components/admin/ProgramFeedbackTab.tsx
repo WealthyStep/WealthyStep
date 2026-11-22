@@ -44,6 +44,7 @@ import {
   isValidMobile,
 } from "@/lib/feedback-validation";
 import { downloadBrandedQrCard, downloadCleanQrCode } from "@/lib/qr-card-generator";
+import { supabaseBrowser } from "@/lib/supabase-browser";
 
 export interface ProgramParticipant {
   id: string;
@@ -277,6 +278,33 @@ SELECT count(*) AS ready_participants FROM public.program_participants;`;
   useEffect(() => {
     fetchParticipants();
   }, [fetchParticipants]);
+
+  // Real-time Supabase subscription + fallback polling for live updates
+  useEffect(() => {
+    if (!authToken) return;
+
+    const channel = supabaseBrowser
+      .channel("realtime-program-participants")
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "program_participants" },
+        () => {
+          fetchParticipants();
+        }
+      )
+      .subscribe();
+
+    const interval = setInterval(() => {
+      if (typeof document !== "undefined" && document.visibilityState === "visible") {
+        fetchParticipants();
+      }
+    }, 15000);
+
+    return () => {
+      supabaseBrowser.removeChannel(channel);
+      clearInterval(interval);
+    };
+  }, [authToken, fetchParticipants]);
 
   // Copy Link Handler
   const handleCopyLink = () => {

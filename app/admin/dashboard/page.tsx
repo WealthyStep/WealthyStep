@@ -436,6 +436,11 @@ export default function AdminDashboardPage() {
         { event: "*", schema: "public", table: "bse_star_mf_accounts" },
         () => fetchBadgeCounts()
       )
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "program_participants" },
+        () => fetchBadgeCounts()
+      )
       .subscribe();
 
     const interval = setInterval(() => {
