@@ -161,7 +161,7 @@ export function BseStarAccountsTab({
 
       if (!res.ok) {
         const err = await res.json();
-        if (!isSilent) showFeedback("error", err.error || "Failed to load BSE Star accounts");
+        if (!isSilent) showFeedback("error", err.error || "Failed to load Mutual Fund accounts");
         if (!isSilent) setIsLoading(false);
         return;
       }
@@ -173,7 +173,7 @@ export function BseStarAccountsTab({
       }
     } catch (err: any) {
       console.error("fetchAccounts error:", err);
-      if (!isSilent) showFeedback("error", "Network error while loading BSE Star accounts");
+      if (!isSilent) showFeedback("error", "Network error while loading Mutual Fund accounts");
     } finally {
       if (!isSilent) setIsLoading(false);
     }
@@ -387,7 +387,7 @@ export function BseStarAccountsTab({
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement("a");
     link.setAttribute("href", encodedUri);
-    link.setAttribute("download", `bse-star-mf-accounts-${new Date().toISOString().slice(0, 10)}.csv`);
+    link.setAttribute("download", `mutual-fund-accounts-${new Date().toISOString().slice(0, 10)}.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -403,7 +403,7 @@ export function BseStarAccountsTab({
     const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(accounts, null, 2));
     const dlAnchor = document.createElement("a");
     dlAnchor.setAttribute("href", dataStr);
-    dlAnchor.setAttribute("download", `bse-star-mf-accounts-${new Date().toISOString().slice(0, 10)}.json`);
+    dlAnchor.setAttribute("download", `mutual-fund-accounts-${new Date().toISOString().slice(0, 10)}.json`);
     document.body.appendChild(dlAnchor);
     dlAnchor.click();
     dlAnchor.remove();
@@ -448,7 +448,7 @@ export function BseStarAccountsTab({
 
   // Copy Supabase SQL
   const handleCopySql = () => {
-    const sqlCode = `-- Supabase Table Creation Script for BSE Star Mutual Fund Accounts
+    const sqlCode = `-- Supabase Table Creation Script for Mutual Fund Accounts
 CREATE TABLE IF NOT EXISTS public.bse_star_mf_accounts (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     full_name TEXT NOT NULL,
@@ -485,7 +485,7 @@ CREATE TABLE IF NOT EXISTS public.bse_star_mf_accounts (
     priority TEXT NOT NULL DEFAULT 'Medium',
     admin_notes TEXT DEFAULT '',
     followup_notes JSONB NOT NULL DEFAULT '[]'::jsonb,
-    source TEXT DEFAULT 'BSE Star MF Form',
+    source TEXT DEFAULT 'Mutual Funds Form',
     ip_address TEXT,
     user_agent TEXT,
     created_at TIMESTAMPTZ NOT NULL DEFAULT timezone('utc'::text, now()),
@@ -734,7 +734,7 @@ CREATE POLICY "Service role full access on bse_star_mf_accounts" ON public.bse_s
 
                           <a
                             href={`https://wa.me/91${acc.mobile}?text=${encodeURIComponent(
-                              `Hello ${acc.full_name}, this is from Wealthy Step regarding your BSE Star MF account creation.`
+                              `Hello ${acc.full_name}, this is from Wealthy Step regarding your Mutual Fund account creation.`
                             )}`}
                             target="_blank"
                             rel="noopener noreferrer"
@@ -932,7 +932,7 @@ CREATE POLICY "Service role full access on bse_star_mf_accounts" ON public.bse_s
                 <div className="flex gap-2">
                   <input
                     type="text"
-                    placeholder="Add follow-up notes (e.g. BSE signature verified, PAN verified with KRA...)"
+                    placeholder="Add follow-up notes (e.g. KYC verified with KRA, bank proof verified...)"
                     value={newFollowupText}
                     onChange={(e) => setNewFollowupText(e.target.value)}
                     onKeyDown={(e) => e.key === "Enter" && handleAddFollowup()}

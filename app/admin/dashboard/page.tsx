@@ -1469,7 +1469,7 @@ export default function AdminDashboardPage() {
           />
         )}
 
-        {/* ======================= TAB: BSE STAR MUTUAL FUND ACCOUNTS ======================= */}
+        {/* ======================= TAB: MUTUAL FUND ACCOUNTS ======================= */}
         {activeTab === "bse-star" && (
           <BseStarAccountsTab
             authToken={authToken}

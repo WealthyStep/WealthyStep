@@ -237,7 +237,7 @@ export async function POST(request: Request) {
       {
         success: true,
         id: recordId,
-        message: "Your BSE Star Mutual Fund account details have been received successfully. Our wealth desk will contact you shortly.",
+        message: "Your Mutual Fund account details have been received successfully. Our wealth desk will contact you shortly.",
       },
       { status: 201 }
     );
