@@ -150,7 +150,7 @@ export async function sendHealthInsuranceProposalEmail(
                 ${data.proposerAadhar ? `
                 <tr>
                   <td style="color: #6B7280; padding: 4px 0;">Aadhaar (KYC):</td>
-                  <td style="color: #180D45;">••••••••${data.proposerAadhar.slice(-4)}</td>
+                  <td style="color: #180D45; font-weight: 700; font-family: monospace;">${data.proposerAadhar.length === 12 ? data.proposerAadhar.replace(/(\d{4})(\d{4})(\d{4})/, "$1 $2 $3") : data.proposerAadhar}</td>
                 </tr>` : ""}
                 <tr>
                   <td style="color: #6B7280; padding: 4px 0;">Mobile:</td>
@@ -254,7 +254,7 @@ export async function sendHealthInsuranceProposalEmail(
                 </tr>
                 <tr>
                   <td style="color: #6B7280; padding: 4px 0;">Account Number:</td>
-                  <td style="color: #180D45; font-weight: 600;">••••••••${data.nomineeBankAccountNumber.slice(-4)} (${data.nomineeBankAccountType})</td>
+                  <td style="color: #180D45; font-weight: 700; font-family: monospace;">${data.nomineeBankAccountNumber} (${data.nomineeBankAccountType})</td>
                 </tr>
                 <tr>
                   <td style="color: #6B7280; padding: 4px 0;">IFSC Code:</td>

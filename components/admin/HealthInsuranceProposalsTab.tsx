@@ -415,6 +415,7 @@ CREATE POLICY "Service role full access on health_insurance_proposals" ON public
       "ID",
       "Proposer Name",
       "PAN Number",
+      "Aadhaar Number",
       "DOB",
       "Mobile",
       "Email",
@@ -438,6 +439,7 @@ CREATE POLICY "Service role full access on health_insurance_proposals" ON public
       `"${p.id}"`,
       `"${p.proposer_name.replace(/"/g, '""')}"`,
       `"${p.proposer_pan}"`,
+      `"${p.proposer_aadhar || ""}"`,
       `"${p.proposer_dob}"`,
       `"${p.proposer_mobile}"`,
       `"${p.proposer_email}"`,
@@ -646,6 +648,11 @@ CREATE POLICY "Service role full access on health_insurance_proposals" ON public
                         <div className="font-bold text-[#180D45] text-sm">{item.proposer_name}</div>
                         <div className="font-mono text-[11px] text-gray-500 font-semibold mt-0.5">
                           PAN: {item.proposer_pan}
+                          {item.proposer_aadhar && (
+                            <span className="ml-1.5 text-sky-800 bg-sky-50 px-1 py-0.5 rounded border border-sky-200">
+                              Aadhaar: {item.proposer_aadhar}
+                            </span>
+                          )}
                         </div>
                         <div className="text-[10px] text-gray-400">DOB: {item.proposer_dob}</div>
                       </td>
@@ -820,8 +827,8 @@ CREATE POLICY "Service role full access on health_insurance_proposals" ON public
                   <span className="text-gray-500">Aadhaar:</span>{" "}
                   {viewingProposal.proposer_aadhar ? (
                     <strong className="font-mono bg-sky-50 text-sky-900 px-1.5 py-0.5 rounded border border-sky-200">
-                      {viewingProposal.proposer_aadhar.length === 12
-                        ? viewingProposal.proposer_aadhar.replace(/(\d{4})(\d{4})(\d{4})/, "$1 $2 $3")
+                      {viewingProposal.proposer_aadhar.replace(/\s+/g, "").length === 12
+                        ? viewingProposal.proposer_aadhar.replace(/\s+/g, "").replace(/(\d{4})(\d{4})(\d{4})/, "$1 $2 $3")
                         : viewingProposal.proposer_aadhar}
                     </strong>
                   ) : (
